@@ -45,7 +45,7 @@ It will be a long-term support and maintenance project, unless we encounter forc
 
 ## Submit bugs
 
-If you have any questions, you could contact me through the email "*temperslee001@gmail.com*".
+If you have any questions, you could contact me through the email "*yy@wch.cn*".
 Or you could [file an issue on GitHub](https://github.com/openwch/arduino_core_ch32/issues/new).
 
 
