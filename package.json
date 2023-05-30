@@ -1,0 +1,6 @@
+{
+    "name": "framework-arduino-ch32v",
+    "description": "Arduino Wiring-based Framework (CH32V Core)",
+    "version": "0.0.0",
+    "url": "https://github.com/sipeed/Maixduino"
+}

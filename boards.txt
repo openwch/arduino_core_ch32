@@ -1,0 +1,186 @@
+# See: https://arduino.github.io/arduino-cli/latest/platform-specification/
+
+menu.pnum=Board Select
+
+menu.xserial=U(S)ART support
+menu.usb=USB support (if available)
+menu.xusb=USB speed (if available)
+menu.virtio=Virtual serial support
+
+menu.opt=Optimize
+menu.dbg=Debug symbols and core logs
+menu.rtlib=C Runtime Library
+menu.upload_method=Upload method
+
+
+
+#############################################################################
+##CH32V00x EVT Board
+
+CH32V00x_EVT.name=CH32V00x
+CH32V00x_EVT.build.core=arduino
+CH32V00x_EVT.build.board=CH32V00x_EVT
+CH32V00x_EVT.upload.maximum_size=0
+CH32V00x_EVT.upload.maximum_data_size=0
+CH32V00x_EVT.build.variant_h=variant_{build.board}.h
+
+
+#CH32V003F4 EVT Board
+CH32V00x_EVT.menu.pnum.CH32V003F4=CH32V003F4 EVT
+CH32V00x_EVT.menu.pnum.CH32V003F4.node=NODE_V003F4
+CH32V00x_EVT.menu.pnum.CH32V003F4.upload.maximum_size=16384
+CH32V00x_EVT.menu.pnum.CH32V003F4.upload.maximum_data_size=2048
+CH32V00x_EVT.menu.pnum.CH32V003F4.build.mcu=QingKe-V2
+CH32V00x_EVT.menu.pnum.CH32V003F4.build.board=CH32V003F4
+CH32V00x_EVT.menu.pnum.CH32V003F4.build.series=CH32V00x
+CH32V00x_EVT.menu.pnum.CH32V003F4.build.variant=CH32V00x/CH32V003F4
+CH32V00x_EVT.menu.pnum.CH32V003F4.build.chip=CH32V003F4
+CH32V00x_EVT.menu.pnum.CH32V003F4.build.march=rv32ecxw
+CH32V00x_EVT.menu.pnum.CH32V003F4.build.mabi=ilp32e
+CH32V00x_EVT.menu.pnum.CH32V003F4.build.math_lib_gcc=-lm 
+CH32V00x_EVT.menu.pnum.CH32V003F4.build.IQ_math_RV32=
+CH32V00x_EVT.menu.pnum.CH32V003F4.build.ch_extra_lib=-lprintf
+
+
+# Upload menu
+CH32V00x_EVT.menu.upload_method.swdMethod=WCH-SWD
+CH32V00x_EVT.menu.upload_method.swdMethod.upload.protocol=
+CH32V00x_EVT.menu.upload_method.swdMethod.upload.options=
+CH32V00x_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+
+
+
+# Optimizations
+CH32V00x_EVT.menu.opt.osstd=Smallest (-Os default)
+CH32V00x_EVT.menu.opt.osstd.build.flags.optimize=-Os 
+CH32V00x_EVT.menu.opt.oslto=Smallest (-Os) with LTO
+CH32V00x_EVT.menu.opt.oslto.build.flags.optimize=-Os -flto
+CH32V00x_EVT.menu.opt.o1std=Fast (-O1)
+CH32V00x_EVT.menu.opt.o1std.build.flags.optimize=-O1
+CH32V00x_EVT.menu.opt.o1lto=Fast (-O1) with LTO
+CH32V00x_EVT.menu.opt.o1lto.build.flags.optimize=-O1 -flto
+CH32V00x_EVT.menu.opt.o2std=Faster (-O2)
+CH32V00x_EVT.menu.opt.o2std.build.flags.optimize=-O2
+CH32V00x_EVT.menu.opt.o2lto=Faster (-O2) with LTO
+CH32V00x_EVT.menu.opt.o2lto.build.flags.optimize=-O2 -flto
+CH32V00x_EVT.menu.opt.o3std=Fastest (-O3)
+CH32V00x_EVT.menu.opt.o3std.build.flags.optimize=-O3
+CH32V00x_EVT.menu.opt.o3lto=Fastest (-O3) with LTO
+CH32V00x_EVT.menu.opt.o3lto.build.flags.optimize=-O3 -flto
+CH32V00x_EVT.menu.opt.ogstd=Debug (-Og)
+CH32V00x_EVT.menu.opt.ogstd.build.flags.optimize=-Og
+CH32V00x_EVT.menu.opt.o0std=No Optimization (-O0)
+CH32V00x_EVT.menu.opt.o0std.build.flags.optimize=-O0
+
+
+# Debug information
+CH32V00x_EVT.menu.dbg.none=None
+CH32V00x_EVT.menu.dbg.none.build.flags.debug= 
+CH32V00x_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
+CH32V00x_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
+CH32V00x_EVT.menu.dbg.enable_log=Core logs Enabled
+CH32V00x_EVT.menu.dbg.enable_log.build.flags.debug=
+CH32V00x_EVT.menu.dbg.enable_all=Core Logs and Symbols Enabled (-g)
+CH32V00x_EVT.menu.dbg.enable_all.build.flags.debug=-g
+
+
+# C Runtime Library
+CH32V00x_EVT.menu.rtlib.nano=Newlib Nano (default)
+CH32V00x_EVT.menu.rtlib.nano.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs
+CH32V00x_EVT.menu.rtlib.nanofp=Newlib Nano + Float Printf
+CH32V00x_EVT.menu.rtlib.nanofp.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _printf_float
+CH32V00x_EVT.menu.rtlib.nanofs=Newlib Nano + Float Scanf
+CH32V00x_EVT.menu.rtlib.nanofs.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _scanf_float
+CH32V00x_EVT.menu.rtlib.nanofps=Newlib Nano + Float Printf/Scanf
+CH32V00x_EVT.menu.rtlib.nanofps.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
+CH32V00x_EVT.menu.rtlib.full=Newlib Standard
+CH32V00x_EVT.menu.rtlib.full.build.flags.ldspecs=
+
+
+
+#############################################################################
+##CH32V20x EVT Board
+
+CH32V20x_EVT.name=CH32V20x
+CH32V20x_EVT.build.core=arduino
+CH32V20x_EVT.build.board=CH32V20x_EVT
+CH32V20x_EVT.upload.maximum_size=0
+CH32V20x_EVT.upload.maximum_data_size=0
+CH32V20x_EVT.build.variant_h=variant_{build.board}.h
+
+
+#CH32V203G8 EVT Board
+CH32V20x_EVT.menu.pnum.CH32V203G8=CH32V203G8 EVT
+CH32V20x_EVT.menu.pnum.CH32V203G8.node=NODE_V203G8
+CH32V20x_EVT.menu.pnum.CH32V203G8.upload.maximum_size=65536
+CH32V20x_EVT.menu.pnum.CH32V203G8.upload.maximum_data_size=20480
+CH32V20x_EVT.menu.pnum.CH32V203G8.build.mcu=QingKe-V4C
+CH32V20x_EVT.menu.pnum.CH32V203G8.build.board=CH32V203G8
+CH32V20x_EVT.menu.pnum.CH32V203G8.build.series=CH32V20x
+CH32V20x_EVT.menu.pnum.CH32V203G8.build.variant=CH32V20x/CH32V203G8
+CH32V20x_EVT.menu.pnum.CH32V203G8.build.chip=CH32V203
+CH32V20x_EVT.menu.pnum.CH32V203G8.build.march=rv32imacxw
+CH32V20x_EVT.menu.pnum.CH32V203G8.build.mabi=ilp32
+CH32V20x_EVT.menu.pnum.CH32V203G8.build.math_lib_gcc=-lm 
+CH32V20x_EVT.menu.pnum.CH32V203G8.build.IQ_math_RV32=
+CH32V20x_EVT.menu.pnum.CH32V203G8.build.ch_extra_lib=-lprintf
+
+
+# Upload menu
+CH32V20x_EVT.menu.upload_method.swdMethod=WCH-SWD
+CH32V20x_EVT.menu.upload_method.swdMethod.upload.protocol=
+CH32V20x_EVT.menu.upload_method.swdMethod.upload.options=
+CH32V20x_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+
+
+
+# Optimizations
+CH32V20x_EVT.menu.opt.osstd=Smallest (-Os default)
+CH32V20x_EVT.menu.opt.osstd.build.flags.optimize=-Os 
+CH32V20x_EVT.menu.opt.oslto=Smallest (-Os) with LTO
+CH32V20x_EVT.menu.opt.oslto.build.flags.optimize=-Os -flto
+CH32V20x_EVT.menu.opt.o1std=Fast (-O1)
+CH32V20x_EVT.menu.opt.o1std.build.flags.optimize=-O1
+CH32V20x_EVT.menu.opt.o1lto=Fast (-O1) with LTO
+CH32V20x_EVT.menu.opt.o1lto.build.flags.optimize=-O1 -flto
+CH32V20x_EVT.menu.opt.o2std=Faster (-O2)
+CH32V20x_EVT.menu.opt.o2std.build.flags.optimize=-O2
+CH32V20x_EVT.menu.opt.o2lto=Faster (-O2) with LTO
+CH32V20x_EVT.menu.opt.o2lto.build.flags.optimize=-O2 -flto
+CH32V20x_EVT.menu.opt.o3std=Fastest (-O3)
+CH32V20x_EVT.menu.opt.o3std.build.flags.optimize=-O3
+CH32V20x_EVT.menu.opt.o3lto=Fastest (-O3) with LTO
+CH32V20x_EVT.menu.opt.o3lto.build.flags.optimize=-O3 -flto
+CH32V20x_EVT.menu.opt.ogstd=Debug (-Og)
+CH32V20x_EVT.menu.opt.ogstd.build.flags.optimize=-Og
+CH32V20x_EVT.menu.opt.o0std=No Optimization (-O0)
+CH32V20x_EVT.menu.opt.o0std.build.flags.optimize=-O0
+
+
+# Debug information
+CH32V20x_EVT.menu.dbg.none=None
+CH32V20x_EVT.menu.dbg.none.build.flags.debug= 
+CH32V20x_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
+CH32V20x_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
+CH32V20x_EVT.menu.dbg.enable_log=Core logs Enabled
+CH32V20x_EVT.menu.dbg.enable_log.build.flags.debug=
+CH32V20x_EVT.menu.dbg.enable_all=Core Logs and Symbols Enabled (-g)
+CH32V20x_EVT.menu.dbg.enable_all.build.flags.debug=-g
+
+
+# C Runtime Library
+CH32V20x_EVT.menu.rtlib.nano=Newlib Nano (default)
+CH32V20x_EVT.menu.rtlib.nano.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs
+CH32V20x_EVT.menu.rtlib.nanofp=Newlib Nano + Float Printf
+CH32V20x_EVT.menu.rtlib.nanofp.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _printf_float
+CH32V20x_EVT.menu.rtlib.nanofs=Newlib Nano + Float Scanf
+CH32V20x_EVT.menu.rtlib.nanofs.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _scanf_float
+CH32V20x_EVT.menu.rtlib.nanofps=Newlib Nano + Float Printf/Scanf
+CH32V20x_EVT.menu.rtlib.nanofps.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
+CH32V20x_EVT.menu.rtlib.full=Newlib Standard
+CH32V20x_EVT.menu.rtlib.full.build.flags.ldspecs=
+
+
+
+
+
