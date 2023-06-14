@@ -11,4 +11,8 @@
 #endif
 
 
+#if defined(CH32X035)
+#include "../../../variants/CH32X035/PinAF_CH32X035.h"
+#endif
+
 #endif /* _PINAF_CH32YYXX_H */

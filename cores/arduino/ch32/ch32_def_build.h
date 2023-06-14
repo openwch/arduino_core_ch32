@@ -2,8 +2,11 @@
 #define _CH32_DEF_BUILD_
 
 #if !defined(COM_STARTUP_FILE)
+
   #if defined(CH32V00x)
      #define  COM_STARTUP_FILE "startup_ch32v00x.S"
+  #elif defined(CH32X035)
+     #define  COM_STARTUP_FILE "startup_ch32x035.S"
   #elif defined(CH32V203)
     #define COM_STARTUP_FILE "startup_ch32v20x_D6.S"
     #define CH32V20x_D6

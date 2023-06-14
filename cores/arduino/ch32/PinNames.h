@@ -8,6 +8,7 @@
 extern "C" {
 #endif
 
+
 // Alternative possibilities which use other HW peripheral instances
 #define ALT0                        0x000
 #define ALT1                        0x100
@@ -32,6 +33,8 @@ extern "C" {
 // PinName mask
 #define PNAME_MASK                  0xFF
 
+#if !defined(CH32X035)
+
 typedef enum {
   // Not connected
   NC = 0xFFFFFFFF,
@@ -52,7 +55,7 @@ typedef enum {
   PA_12 = (PortA << 4) + 0x0C,
   PA_13 = (PortA << 4) + 0x0D,
   PA_14 = (PortA << 4) + 0x0E,
-  PA_15 = (PortA << 4) + 0x0F,
+  PA_15 = (PortA << 4) + 0x0F,  
 #if defined GPIOB_BASE
   PB_0  = (PortB << 4) + 0x00,
   PB_1  = (PortB << 4) + 0x01,
@@ -204,6 +207,122 @@ typedef enum {
 #endif
   P_END = NC
 } PinName;
+
+#else
+
+typedef enum {
+  // Not connected
+  NC = 0xFFFFFFFF,
+
+  // Pin name definition
+  PA_0  = (PortA << 5) + 0x00,
+  PA_1  = (PortA << 5) + 0x01,
+  PA_2  = (PortA << 5) + 0x02,
+  PA_3  = (PortA << 5) + 0x03,
+  PA_4  = (PortA << 5) + 0x04,
+  PA_5  = (PortA << 5) + 0x05,
+  PA_6  = (PortA << 5) + 0x06,
+  PA_7  = (PortA << 5) + 0x07,
+  PA_8  = (PortA << 5) + 0x08,
+  PA_9  = (PortA << 5) + 0x09,
+  PA_10 = (PortA << 5) + 0x0A,
+  PA_11 = (PortA << 5) + 0x0B,
+  PA_12 = (PortA << 5) + 0x0C,
+  PA_13 = (PortA << 5) + 0x0D,
+  PA_14 = (PortA << 5) + 0x0E,
+  PA_15 = (PortA << 5) + 0x0F,
+  PA_16 = (PortA << 5) + 0x10,
+  PA_17 = (PortA << 5) + 0x11,  
+  PA_18 = (PortA << 5) + 0x12,
+  PA_19 = (PortA << 5) + 0x13,
+  PA_20 = (PortA << 5) + 0x14,
+  PA_21 = (PortA << 5) + 0x15,
+  PA_22 = (PortA << 5) + 0x16,
+  PA_23 = (PortA << 5) + 0x17,
+
+  
+#if defined GPIOB_BASE
+  PB_0  = (PortB << 5) + 0x00,
+  PB_1  = (PortB << 5) + 0x01,
+  PB_2  = (PortB << 5) + 0x02,
+  PB_3  = (PortB << 5) + 0x03,
+  PB_4  = (PortB << 5) + 0x04,
+  PB_5  = (PortB << 5) + 0x05,
+  PB_6  = (PortB << 5) + 0x06,
+  PB_7  = (PortB << 5) + 0x07,
+  PB_8  = (PortB << 5) + 0x08,
+  PB_9  = (PortB << 5) + 0x09,
+  PB_10 = (PortB << 5) + 0x0A,
+  PB_11 = (PortB << 5) + 0x0B,
+  PB_12 = (PortB << 5) + 0x0C,
+  PB_13 = (PortB << 5) + 0x0D,
+  PB_14 = (PortB << 5) + 0x0E,
+  PB_15 = (PortB << 5) + 0x0F,
+  PB_16 = (PortB << 5) + 0x10,
+  PB_17 = (PortB << 5) + 0x11,  
+  PB_18 = (PortB << 5) + 0x12,
+  PB_19 = (PortB << 5) + 0x13,
+  PB_20 = (PortB << 5) + 0x14,
+  PB_21 = (PortB << 5) + 0x15,
+  PB_22 = (PortB << 5) + 0x16,
+  PB_23 = (PortB << 5) + 0x17,
+  
+#endif  
+#if defined GPIOC_BASE
+  PC_0  = (PortC << 5) + 0x00,
+  PC_1  = (PortC << 5) + 0x01,
+  PC_2  = (PortC << 5) + 0x02,
+  PC_3  = (PortC << 5) + 0x03,
+  PC_4  = (PortC << 5) + 0x04,
+  PC_5  = (PortC << 5) + 0x05,
+  PC_6  = (PortC << 5) + 0x06,
+  PC_7  = (PortC << 5) + 0x07,
+  PC_8  = (PortC << 5) + 0x08,
+  PC_9  = (PortC << 5) + 0x09,
+  PC_10 = (PortC << 5) + 0x0A,
+  PC_11 = (PortC << 5) + 0x0B,
+  PC_12 = (PortC << 5) + 0x0C,
+  PC_13 = (PortC << 5) + 0x0D,
+  PC_14 = (PortC << 5) + 0x0E,
+  PC_15 = (PortC << 5) + 0x0F,
+  PC_16 = (PortC << 5) + 0x10,
+  PC_17 = (PortC << 5) + 0x11,  
+  PC_18 = (PortC << 5) + 0x12,
+  PC_19 = (PortC << 5) + 0x13,
+  PC_20 = (PortC << 5) + 0x14,
+  PC_21 = (PortC << 5) + 0x15,
+  PC_22 = (PortC << 5) + 0x16,
+  PC_23 = (PortC << 5) + 0x17,
+#endif
+
+  // Specific pin name
+  PADC_BASE = PNAME_ANALOG_INTERNAL_BASE,
+#if defined(ADC_Channel_TempSensor) 
+  PADC_TEMP,
+#endif
+#ifdef ADC_Channel_Vrefint
+  PADC_VREF,
+#endif
+#ifdef ADC_Channel_Vbat
+  PADC_VBAT,
+#endif
+  ANA_START,
+#ifdef SYSCFG_PMCSETR_ANA0_SEL_Pos
+  ANA_0,
+#endif
+#ifdef SYSCFG_PMCSETR_ANA1_SEL_Pos
+  ANA_1,
+#endif
+  // Specific pin name define in the variant
+#if __has_include("PinNamesVar.h")
+#include "PinNamesVar.h"
+#endif
+  P_END = NC
+} PinName;
+
+
+#endif
+
 
 #ifdef __cplusplus
 }

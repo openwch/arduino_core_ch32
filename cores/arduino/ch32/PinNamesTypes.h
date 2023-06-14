@@ -200,6 +200,8 @@ typedef enum {
 #define PULLUP               (1)
 #define PILLDOWN             (2)
 
+
+#if !defined(CH32X035)
 // High nibble = port number (FirstPort <= PortName <= LastPort)
 // Low nibble  = pin number
 #define CH_PORT(X) (((uint32_t)(X) >> 4) & 0xF)
@@ -209,9 +211,25 @@ typedef enum {
 // As FirstPort is equal to 0 and CH_PORT cast as an unsigned
 // (CH_PORT(X) >= FirstPort)  is always true
 //#define CH_VALID_PINNAME(X) ((CH_PORT(X) >= FirstPort) && (CH_PORT(X) <= LastPort))
-#define CH_VALID_PINNAME(X) (CH_PORT(X) <= LastPort)
 
+#define CH_VALID_PINNAME(X) (CH_PORT(X) <= LastPort)
 #define CH_GPIO_PIN(X) ((uint16_t)(1<<CH_PIN(X)))
+
+#else
+
+// High nibble = port number (FirstPort <= PortName <= LastPort)
+// Low nibble  = pin number
+#define CH_PORT(X) (((uint32_t)(X) >> 5) & 0x7)
+#define CH_PIN(X)  ((uint32_t)(X) & 0x1F)
+
+// Check PinName is valid: FirstPort <= PortName <= LastPort
+// As FirstPort is equal to 0 and CH_PORT cast as an unsigned
+// (CH_PORT(X) >= FirstPort)  is always true
+//#define CH_VALID_PINNAME(X) ((CH_PORT(X) >= FirstPort) && (CH_PORT(X) <= LastPort))
+#define CH_VALID_PINNAME(X) (CH_PORT(X) <= LastPort)
+#define CH_GPIO_PIN(X) ((uint32_t)(1<<CH_PIN(X)))
+
+#endif
 
 #ifdef __cplusplus
 }

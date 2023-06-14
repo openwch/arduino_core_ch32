@@ -27,7 +27,14 @@
 extern "C" {
 #endif
 
+#if defined(CH32V10x) || defined(CH32V20x) || defined(CH32V30x) 
 extern const uint32_t pin_map[16];
+#elif defined(CH32V00x)
+extern const uint32_t pin_map[8];
+#elif defined(CH32X035)
+extern const uint32_t pin_map[24];
+#endif
+
 
 #ifndef GPIO_AF_NONE
 #define GPIO_AF_NONE 0

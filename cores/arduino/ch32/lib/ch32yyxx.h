@@ -35,4 +35,8 @@
 #include "ch32yyxx_it.h"
 
 
+
+
+#define UNUSED(x) x ## _UNUSED __attribute__((__unused__))
+
 #endif /* _CH32YYXX_H_ */

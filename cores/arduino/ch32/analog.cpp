@@ -31,7 +31,7 @@ static int calibration_value = 0;
 /* Private_Defines */
 #if defined(ADC_MODULE_ENABLED) && !defined(ADC_MODULE_ONLY)
 
-#if !defined(CH32V00x)
+#if (defined(CH32V20x) || defined(CH32V30x) || defined(CH32V10x) )
 
 /* Default to use maximum sampling period */
 #ifndef ADC_SAMPLINGTIME
@@ -91,7 +91,7 @@ static int calibration_value = 0;
 #endif
 #endif /* !ADC_CLOCK_DIV */
 
-#else
+#elif defined(CH32V00x)
 
 /* Default to use maximum sampling period */
 #ifndef ADC_SAMPLINGTIME
@@ -150,6 +150,72 @@ static int calibration_value = 0;
 #define ADC_CLOCK_DIV       RCC_PCLK2_Div2
 #endif
 #endif /* !ADC_CLOCK_DIV */
+
+
+#elif defined(CH32X035)
+
+
+
+/* Default to use maximum sampling period */
+#ifndef ADC_SAMPLINGTIME
+#if defined(ADC_SampleTime_11Cycles)
+#define ADC_SAMPLINGTIME        ADC_SampleTime_11Cycles;
+#elif defined(ADC_SampleTime_10Cycles)
+#define ADC_SAMPLINGTIME        ADC_SampleTime_10Cycles;
+#elif defined(ADC_SampleTime_9Cycles)
+#define ADC_SAMPLINGTIME        ADC_SampleTime_9Cycles;
+#elif defined(ADC_SampleTime_8Cycles)
+#define ADC_SAMPLINGTIME        ADC_SampleTime_8Cycles;
+#elif defined(ADC_SampleTime_7Cycles)
+#define ADC_SAMPLINGTIME        ADC_SampleTime_7Cycles;
+#elif defined(ADC_SampleTime_6Cycles)
+#define ADC_SAMPLINGTIME        ADC_SampleTime_6Cycles;
+#elif defined(ADC_SampleTime_5Cycles)
+#define ADC_SAMPLINGTIME        ADC_SampleTime_5Cycles;
+#elif defined(ADC_SampleTime_4Cycles)
+#define ADC_SAMPLINGTIME        ADC_SampleTime_4Cycles
+#endif
+#endif /* !ADC_SAMPLINGTIME */
+
+/*
+ * Default to use maximum sampling period 
+ */
+#ifndef ADC_SAMPLINGTIME_INTERNAL
+#if defined(ADC_SampleTime_11Cycles)
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_11Cycles
+#elif defined(ADC_SampleTime_10Cycles)
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_10Cycles
+#elif defined(ADC_SampleTime_9Cycles)
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_9Cycles
+#elif defined(ADC_SampleTime_8Cycles)
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_8Cycles
+#elif defined(ADC_SampleTime_7Cycles)
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_7Cycles
+#elif defined(ADC_SampleTime_6Cycles)
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_6Cycles
+#elif defined(ADC_SampleTime_5Cycles)
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_5Cycles
+#elif defined(ADC_SampleTime_4Cycles)
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_4Cycles
+#else
+#error "ADC sampling time could not be defined for internal channels!"
+#endif
+#endif /* !ADC_SAMPLINGTIME_INTERNAL */
+
+#ifndef ADC_CLOCK_DIV
+#ifdef ADC_CLK_Div8
+#define ADC_CLOCK_DIV       ADC_CLK_Div8
+#elif defined(ADC_CLK_Div6) 
+#define ADC_CLOCK_DIV       ADC_CLK_Div6
+#elif defined(ADC_CLK_Div5)
+#define ADC_CLOCK_DIV       ADC_CLK_Div5
+#elif defined(ADC_CLK_Div4)
+#define ADC_CLOCK_DIV       ADC_CLK_Div4
+#endif
+#endif /* !ADC_CLOCK_DIV */
+
+
+
 
 #endif /* !CH32V00x */
 
@@ -495,7 +561,11 @@ uint16_t adc_read_value(PinName pin, uint32_t resolution)
   ADC_Clock_EN(padc);  
 
 #ifdef ADC_CLOCK_DIV
+ #if !defined(CH32X035) 
   RCC_ADCCLKConfig(ADC_CLOCK_DIV);            /* (A)synchronous clock mode, input ADC clock divided */
+ #else
+  ADC_CLKConfig(padc, ADC_CLOCK_DIV);
+ #endif 
 #endif
 #ifdef ADC_RESOLUTION_12B
 #else

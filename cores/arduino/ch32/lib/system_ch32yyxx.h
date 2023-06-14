@@ -6,6 +6,10 @@
 #include "system_ch32v00x.h"    
 #endif
 
+#ifdef CH32X035
+#include "system_ch32x035.h"    
+#endif
+
 #ifdef CH32V20x
 #include "system_ch32v20x.h"    
 #endif

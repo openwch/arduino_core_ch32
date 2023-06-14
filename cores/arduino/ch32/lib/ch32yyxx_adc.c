@@ -1,6 +1,10 @@
 #ifdef CH32V00x
 #include "ch32v00x_adc.c"
 
+#elif CH32X035
+#include "ch32x035_adc.c"
+#include "ch32x035_awu.c"
+
 #elif CH32V10x
 #include "ch32v10x_adc.c"
 
@@ -10,4 +14,5 @@
 #elif CH32V30x
 #include "ch32v30x_adc.c"
 #endif
+
 

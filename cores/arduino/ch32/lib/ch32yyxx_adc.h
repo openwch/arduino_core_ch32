@@ -4,6 +4,10 @@
 #ifdef CH32V00x
 #include "ch32v00x_adc.h"
 
+#elif CH32X035
+#include "ch32x035_adc.h"
+#include "ch32x035_awu.h"
+
 #elif  CH32V10x
 #include "ch32v10x_adc.h"
 

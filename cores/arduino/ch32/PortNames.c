@@ -32,7 +32,7 @@
 
 GPIO_TypeDef *GPIOPort[MAX_NB_PORT] = {
     GPIOA
-#if defined PGIOB_BASE    
+#if defined GPIOB_BASE    
   , GPIOB
 #endif 
 #if defined GPIOC_BASE

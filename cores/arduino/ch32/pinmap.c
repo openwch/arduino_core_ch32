@@ -21,6 +21,7 @@ typedef struct {
 } PinAnalogSwitch;
 
 
+#if defined(CH32V10x) || defined(CH32V20x) || defined(CH32V30x) 
 const uint32_t pin_map[16] = {
   GPIO_Pin_0,
   GPIO_Pin_1,
@@ -30,7 +31,6 @@ const uint32_t pin_map[16] = {
   GPIO_Pin_5,
   GPIO_Pin_6,
   GPIO_Pin_7
-  #if !defined(CH32V00x)
   , GPIO_Pin_8
   , GPIO_Pin_9
   , GPIO_Pin_10
@@ -39,8 +39,49 @@ const uint32_t pin_map[16] = {
   , GPIO_Pin_13
   , GPIO_Pin_14
   , GPIO_Pin_15
-  #endif
+
 };
+#elif defined(CH32V00x)
+const uint32_t pin_map[8] = {
+  GPIO_Pin_0,
+  GPIO_Pin_1,
+  GPIO_Pin_2,
+  GPIO_Pin_3,
+  GPIO_Pin_4,
+  GPIO_Pin_5,
+  GPIO_Pin_6,
+  GPIO_Pin_7
+};
+
+#elif defined(CH32X035)
+const uint32_t pin_map[24] = {
+  GPIO_Pin_0,
+  GPIO_Pin_1,
+  GPIO_Pin_2,
+  GPIO_Pin_3,
+  GPIO_Pin_4,
+  GPIO_Pin_5,
+  GPIO_Pin_6,
+  GPIO_Pin_7,
+  GPIO_Pin_8,
+  GPIO_Pin_9,
+  GPIO_Pin_10,
+  GPIO_Pin_11,
+  GPIO_Pin_12,
+  GPIO_Pin_13,
+  GPIO_Pin_14,
+  GPIO_Pin_15,
+  GPIO_Pin_16,
+  GPIO_Pin_17,
+  GPIO_Pin_18,
+  GPIO_Pin_19,
+  GPIO_Pin_20,
+  GPIO_Pin_21,
+  GPIO_Pin_22,
+  GPIO_Pin_23
+};
+#endif
+
 
 
 

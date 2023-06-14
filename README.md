@@ -30,6 +30,7 @@ It will be a long-term support and maintenance project, unless we encounter forc
 
 - [CH32V00x EVT Boards](#CH32V00x-EVT-Boards)
 - [CH32V20x EVT Boards](#CH32V20x-EVT-Boards)
+- [CH32X035 EVT Boards](#CH32X035-EVT-Boards)
 
 ### CH32V00x EVT Boards
 
@@ -41,7 +42,13 @@ It will be a long-term support and maintenance project, unless we encounter forc
 
 | Status | Boards name | Peripherals | Release |
 | :----: |     ----    |     ----    | :-----: |
-| :heavy_check_mark: | CH32V203G8U | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.0 |  
+| :heavy_check_mark: | CH32V203G8U | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.0 |
+
+### CH32X035 EVT Boards
+
+| Status | Boards name | Peripherals | Release |
+| :----: |     ----    |     ----    | :-----: |
+| :heavy_check_mark: | CH32X035G8U | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.1 |  
 
 ## Submit bugs
 

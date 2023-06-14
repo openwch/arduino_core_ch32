@@ -32,7 +32,7 @@ WEAK uint64_t GetTick(void)
   return msTick;
 }
 
-#if defined(CH32V20x) || defined(CH32V30x) || defined(CH32V00x) 
+#if defined(CH32V20x) || defined(CH32V30x) || defined(CH32V00x) || defined(CH32X035)
 
 uint32_t getCurrentMicros(void)
 {
