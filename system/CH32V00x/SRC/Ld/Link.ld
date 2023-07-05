@@ -1,6 +1,6 @@
 ENTRY( _start )
 
-__stack_size = 256;
+__stack_size = 448;
 
 PROVIDE( _stack_size = __stack_size );
 

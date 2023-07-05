@@ -149,7 +149,7 @@ void USART_Printf_Init(uint32_t baudrate)
  */
 
 
-#if 0 
+#if 0
 //this is not necessary for arduino
 __attribute__((used))
 int _write(int fd, char *buf, int size)

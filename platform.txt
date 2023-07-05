@@ -130,7 +130,7 @@ recipe.S.o.pattern="{compiler.path}{compiler.S.cmd}" {compiler.S.flags} {build.i
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
 
 ## Combine gc-sections, archives, and objects
-recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.extra_flags} -T "{build.system.path}/{build.series}/SRC/Ld/{build.ldscript}" -nostartfiles -Xlinker --gc-sections   "-Wl,-Map,{build.path}/{build.project_name}.map" {compiler.c.elf.extra_flags} {build.flags.ldflags} -o "{build.path}/{build.project_name}.elf" "-L{build.path}" -Wl,--start-group {object_files} {build.ch_extra_lib} -Wl,--whole-archive "{archive_file_path}" -Wl,--no-whole-archive -lc -Wl,--end-group 
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.extra_flags} -T "{build.system.path}/{build.series}/SRC/Ld/{build.ldscript}" -nostartfiles -Xlinker --gc-sections "-Wl,-Map,{build.path}/{build.project_name}.map" {compiler.c.elf.extra_flags} {build.flags.ldflags} -o "{build.path}/{build.project_name}.elf" "-L{build.path}" -Wl,--start-group {object_files} {build.ch_extra_lib} -Wl,--whole-archive "{archive_file_path}" -Wl,--no-whole-archive -lc -Wl,--end-group 
 
 ## Create output (.bin file)
 recipe.objcopy.bin.pattern="{compiler.path}{compiler.objcopy.cmd}" {compiler.elf2bin.flags} {compiler.elf2bin.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.bin"
@@ -165,7 +165,7 @@ tools.WCH_linkE.cmd=openocd
 tools.WCH_linkE.upload.params.verbose=
 tools.WCH_linkE.upload.params.quiet=
 tools.WCH_linkE.upload.config={runtime.tools.openocd.path}/bin/wch-riscv.cfg
-tools.WCH_linkE.upload.pattern="{path}{cmd}" -f {upload.config} -c init -c halt -c "program {{build.path}/{build.project_name}.elf} verify; wlink_reset_resume; exit;"
+tools.WCH_linkE.upload.pattern="{path}{cmd}" -f "{upload.config}" -c init -c halt -c "program {{build.path}/{build.project_name}.elf} verify; wlink_reset_resume; exit;"
 
 
 #tools.WCH_linkE.upload.pattern="{path}{cmd}" -f {upload.config} -c init -c halt -c "program {{build.path}/{build.project_name}.elf}; verify_image {{build.path}/{build.project_name}.elf}; wlink_reset_resume;  exit;"

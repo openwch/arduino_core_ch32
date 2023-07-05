@@ -34,21 +34,21 @@ It will be a long-term support and maintenance project, unless we encounter forc
 
 ### CH32V00x EVT Boards
 
-| Status | Boards name | Peripherals | Release |
-| :----: |     ----    |     ----    | :-----: |
-| :heavy_check_mark: | CH32V003F4P | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.0 |  
+| Status | Boards name | Peripherals | Release | Notes |
+| :----: |     ----    |     ----    | :-----: | :---- |
+| :heavy_check_mark: | CH32V003F4P | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.0 | SPI,I2C since 1.0.2 |
 
 ### CH32V20x EVT Boards
 
-| Status | Boards name | Peripherals | Release |
-| :----: |     ----    |     ----    | :-----: |
-| :heavy_check_mark: | CH32V203G8U | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.0 |
+| Status | Boards name | Peripherals | Release | Notes |
+| :----: |     ----    |     ----    | :-----: | :---- |
+| :heavy_check_mark: | CH32V203G8U | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.0 | SPI,I2C since 1.0.2 |
 
 ### CH32X035 EVT Boards
 
-| Status | Boards name | Peripherals | Release |
-| :----: |     ----    |     ----    | :-----: |
-| :heavy_check_mark: | CH32X035G8U | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.1 |  
+| Status | Boards name | Peripherals | Release | Notes |
+| :----: |     ----    |     ----    | :-----: | :---- |
+| :heavy_check_mark: | CH32X035G8U | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.1 | SPI,I2C since 1.0.2 | 
 
 ## Submit bugs
 

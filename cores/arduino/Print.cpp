@@ -283,7 +283,6 @@ int Print::vprintf(const __FlashStringHelper *format, va_list ap)
 
 
 // Private Methods /////////////////////////////////////////////////////////////
-
 size_t Print::printNumber(unsigned long n, uint8_t base)
 {
   char buf[8 * sizeof(long) + 1]; // Assumes 8-bit chars plus zero byte.

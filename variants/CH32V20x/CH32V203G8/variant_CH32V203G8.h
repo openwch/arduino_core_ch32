@@ -15,7 +15,8 @@
 /* ENABLE Peripherals */
 #define                         ADC_MODULE_ENABLED
 #define                         UART_MODULE_ENABLED
-
+#define                         SPI_MODULE_ENABLED  
+#define                         I2C_MODULE_ENABLED
 
 /* CH32V203G8 Pins */
 #define PA0                     PIN_A0
@@ -109,6 +110,7 @@
 #ifndef PIN_SPI_SS3
   #define PIN_SPI_SS3           PNUM_NOT_DEFINED
 #endif
+
 #ifndef PIN_SPI_MOSI
   #define PIN_SPI_MOSI          PA7
 #endif
