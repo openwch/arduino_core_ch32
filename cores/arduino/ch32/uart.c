@@ -183,7 +183,7 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
     obj->irq = USART2_IRQn;
   }
 #endif
-#if defined(USART3_BASE)
+#if defined(USART3_BASE) 
   else if (obj->uart == USART3) 
   {
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
@@ -191,7 +191,7 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
     obj->irq = USART3_IRQn;
   }
 #endif
-#if defined(UART4_BASE)
+#if defined(UART4_BASE) && !defined(CH32V10x)
   else if (obj->uart == UART4) 
   {
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART4, ENABLE);
@@ -199,7 +199,7 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
     obj->irq = UART4_IRQn;
   }
 #endif
-#if defined(UART5_BASE)
+#if defined(UART5_BASE) && !defined(CH32V10x)
   else if (obj->uart == UART5) 
   {
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART5, ENABLE);
@@ -212,7 +212,7 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
   {
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART6, ENABLE);   
     obj->index = UART6_INDEX;
-    obj->irq = USART6_IRQn;
+    obj->irq = UART6_IRQn;
   }
 #endif
 #if defined(UART7_BASE)

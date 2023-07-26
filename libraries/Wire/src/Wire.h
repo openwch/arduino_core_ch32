@@ -45,9 +45,9 @@ extern "C" {
 #define WIRE_HAS_END 1
 
 class TwoWire : public Stream {
-  // public:
-    // typedef std::function<void(int)> cb_function_receive_t;
-    // typedef std::function<void(void)> cb_function_request_t;
+  public:
+    typedef std::function<void(int)> cb_function_receive_t;
+    typedef std::function<void(void)> cb_function_request_t;
 
   private:
     uint8_t *rxBuffer;           //Dynamic application and release 
@@ -65,11 +65,11 @@ class TwoWire : public Stream {
     uint8_t ownAddress;
     i2c_t _i2c;
 
-    // std::function<void(int)> user_onReceive;
-    // std::function<void(void)> user_onRequest;
+    std::function<void(int)> user_onReceive;
+    std::function<void(void)> user_onRequest;
 
-    // static void onRequestService(i2c_t *);
-    // static void onReceiveService(i2c_t *);
+    static void onRequestService(i2c_t *);
+    static void onReceiveService(i2c_t *);
 
     void allocateRxBuffer(size_t length);
     size_t allocateTxBuffer(size_t length);
@@ -121,8 +121,8 @@ class TwoWire : public Stream {
     virtual int peek(void);
     virtual void flush(void);
 
-    // void onReceive(cb_function_receive_t callback);
-    // void onRequest(cb_function_request_t callback);
+    void onReceive(cb_function_receive_t callback);
+    void onRequest(cb_function_request_t callback);
 
     inline size_t write(unsigned long n)
     {

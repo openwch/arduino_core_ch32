@@ -60,12 +60,12 @@ extern "C" {
 #endif
 
 
-// /* I2C Tx/Rx buffer size */
-// #if !defined(I2C_TXRX_BUFFER_SIZE)
-// #define I2C_TXRX_BUFFER_SIZE    32
-// #elif (I2C_TXRX_BUFFER_SIZE >= 256)
-// #error I2C buffer size cannot exceed 255
-// #endif
+/* I2C Tx/Rx buffer size */
+#if !defined(I2C_TXRX_BUFFER_SIZE)
+#define I2C_TXRX_BUFFER_SIZE    32
+#elif (I2C_TXRX_BUFFER_SIZE >= 256)
+#error I2C buffer size cannot exceed 255
+#endif
 
 
 //For compatibility
@@ -90,12 +90,14 @@ struct i2c_s {
   PinName scl;
   IRQn_Type irq;
   IRQn_Type irqER;
-  // volatile int slaveRxNbData; // Number of accumulated bytes received in Slave mode
-  // void (*i2c_onSlaveReceive)(i2c_t *);
-  // void (*i2c_onSlaveTransmit)(i2c_t *);
-  // volatile uint8_t i2cTxRxBuffer[I2C_TXRX_BUFFER_SIZE];
-  // volatile uint8_t i2cTxRxBufferSize;
-  // volatile uint8_t slaveMode;
+
+  volatile int slaveRxNbData; // Number of accumulated bytes received in Slave mode
+  void (*i2c_onSlaveReceive)(i2c_t *);
+  void (*i2c_onSlaveTransmit)(i2c_t *);
+  volatile uint8_t i2cTxRxBuffer[I2C_TXRX_BUFFER_SIZE];
+  volatile uint8_t i2cTxRxBufferSize;
+  volatile uint8_t slaveMode;
+  
   uint8_t isMaster;
   uint8_t generalCall;
   uint8_t NoStretchMode;
@@ -127,8 +129,8 @@ i2c_status_e i2c_slave_write(i2c_t *obj, uint8_t *data, uint16_t size);
 i2c_status_e i2c_slave_read(i2c_t *obj, uint8_t *data, uint16_t size);
 
 // i2c_status_e i2c_IsDeviceReady(i2c_t *obj, uint8_t devAddr, uint32_t trials);
-// void i2c_attachSlaveRxEvent(i2c_t *obj, void (*function)(i2c_t *));
-// void i2c_attachSlaveTxEvent(i2c_t *obj, void (*function)(i2c_t *));
+void i2c_attachSlaveRxEvent(i2c_t *obj, void (*function)(i2c_t *));
+void i2c_attachSlaveTxEvent(i2c_t *obj, void (*function)(i2c_t *));
 
 
 #ifdef __cplusplus

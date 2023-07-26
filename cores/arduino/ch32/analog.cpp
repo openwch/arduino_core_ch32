@@ -31,7 +31,7 @@ static int calibration_value = 0;
 /* Private_Defines */
 #if defined(ADC_MODULE_ENABLED) && !defined(ADC_MODULE_ONLY)
 
-#if (defined(CH32V20x) || defined(CH32V30x) || defined(CH32V10x) )
+#if (defined(CH32V20x) || defined(CH32V30x) || defined(CH32V30x_C) || defined(CH32V10x) )
 
 /* Default to use maximum sampling period */
 #ifndef ADC_SAMPLINGTIME
@@ -423,6 +423,8 @@ void dac_write_value(PinName pin, uint32_t value, uint8_t do_init)
 
   if (do_init == 1) 
   {
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE );
+	  RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE );
     /*##-1- Configure the DAC peripheral */
     g_current_pin = pin;
 
@@ -580,7 +582,7 @@ uint16_t adc_read_value(PinName pin, uint32_t resolution)
   ADC_InitStructure.ADC_ContinuousConvMode   = DISABLE;
   ADC_InitStructure.ADC_NbrOfChannel         = 1; 
   ADC_InitStructure.ADC_ExternalTrigConv     = ADC_ExternalTrigConv_None;
- #if !defined(CH32V00x) 
+ #if !defined(CH32V00x) && !defined(CH32V10x) 
   ADC_InitStructure.ADC_OutputBuffer         = ENABLE;
 #endif
   ADC_Init(padc, &ADC_InitStructure);

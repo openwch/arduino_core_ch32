@@ -371,6 +371,65 @@ void TwoWire::flush(void)
 }
 
 
+// behind the scenes function that is called when data is received
+void TwoWire::onReceiveService(i2c_t *obj)
+{
+  uint8_t *inBytes = (uint8_t *) obj->i2cTxRxBuffer;
+  int numBytes = obj->slaveRxNbData;
+
+  TwoWire *TW = (TwoWire *)(obj->__this);
+
+  // don't bother if user hasn't registered a callback
+  if (TW->user_onReceive) {
+    // don't bother if rx buffer is in use by a master requestFrom() op
+    // i know this drops data, but it allows for slight stupidity
+    // meaning, they may not have read all the master requestFrom() data yet
+    if (TW->rxBufferIndex >= TW->rxBufferLength) {
+      TW->allocateRxBuffer(numBytes);
+
+      // copy twi rx buffer into local read buffer
+      // this enables new reads to happen in parallel
+      memcpy(TW->rxBuffer, inBytes, numBytes);
+      // set rx iterator vars
+      TW->rxBufferIndex = 0;
+      TW->rxBufferLength = numBytes;
+      // alert user program
+      TW->user_onReceive(numBytes);
+    }
+  }
+}
+
+// behind the scenes function that is called when data is requested
+void TwoWire::onRequestService(i2c_t *obj)
+{
+  TwoWire *TW = (TwoWire *)(obj->__this);
+
+  // don't bother if user hasn't registered a callback
+  if (TW->user_onRequest) {
+    // reset tx data size
+    // !!! this will kill any pending pre-master sendTo() activity
+    TW->txDataSize = 0;
+    // alert user program
+    TW->user_onRequest();
+  }
+}
+
+// sets function called on slave write
+void TwoWire::onReceive(cb_function_receive_t function)
+{
+  user_onReceive = function;
+}
+
+// sets function called on slave read
+void TwoWire::onRequest(cb_function_request_t function)
+{
+  user_onRequest = function;
+}
+
+
+
+
+
 /**
   * @brief  Allocate the Rx/Tx buffer to the requested length if needed
   * @note   Minimum allocated size is BUFFER_LENGTH)

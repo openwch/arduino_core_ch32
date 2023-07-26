@@ -73,13 +73,17 @@ static gpio_irq_conf_str gpio_irq_conf[NB_EXTI] = {
   {.irqnb = EXTI9_5_IRQn,   .callback = NULL}, //GPIO_PIN_6
   {.irqnb = EXTI9_5_IRQn,   .callback = NULL}, //GPIO_PIN_7
   {.irqnb = EXTI9_5_IRQn,   .callback = NULL}, //GPIO_PIN_8
-  {.irqnb = EXTI9_5_IRQn,   .callback = NULL}, //GPIO_PIN_9
+  {.irqnb = EXTI9_5_IRQn,   .callback = NULL}
+
+  #ifndef CH32V10x  
+  , //GPIO_PIN_9
   {.irqnb = EXTI15_10_IRQn, .callback = NULL}, //GPIO_PIN_10
   {.irqnb = EXTI15_10_IRQn, .callback = NULL}, //GPIO_PIN_11
   {.irqnb = EXTI15_10_IRQn, .callback = NULL}, //GPIO_PIN_12
   {.irqnb = EXTI15_10_IRQn, .callback = NULL}, //GPIO_PIN_13
   {.irqnb = EXTI15_10_IRQn, .callback = NULL}, //GPIO_PIN_14
   {.irqnb = EXTI15_10_IRQn, .callback = NULL}  //GPIO_PIN_15
+  #endif
 #endif
 };
 
