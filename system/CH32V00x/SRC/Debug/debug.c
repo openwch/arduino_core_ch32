@@ -118,19 +118,20 @@ void USART_Printf_Init(uint32_t baudrate)
  *
  * @return  size - Data length
  */
-// __attribute__((used)) 
-// int _write(int fd, char *buf, int size)
-// {
-//     int i;
+#if 0
+__attribute__((used)) 
+int _write(int fd, char *buf, int size)
+{
+    int i;
 
-//     for(i = 0; i < size; i++){
-//         while(USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
-//         USART_SendData(USART1, *buf++);
-//     }
+    for(i = 0; i < size; i++){
+        while(USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
+        USART_SendData(USART1, *buf++);
+    }
 
-//     return size;
-// }
-
+    return size;
+}
+#endif
 /*********************************************************************
  * @fn      _sbrk
  *

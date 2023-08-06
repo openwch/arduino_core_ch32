@@ -184,10 +184,12 @@ uint32_t digitalPinToAnalogInput(uint32_t pin);
   #define ADC_RESOLUTION            12
 #endif
 
+#ifndef DACC_RESOLUTION             
 #define DACC_RESOLUTION             12
+#endif
 
 #ifndef PWM_RESOLUTION
-  #define PWM_RESOLUTION            8
+  #define PWM_RESOLUTION            12
 #endif
 
 _Static_assert((ADC_RESOLUTION > 0) &&(ADC_RESOLUTION <= 32),

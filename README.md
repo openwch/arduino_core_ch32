@@ -29,26 +29,40 @@ Then you can search for "**wch**" through the "**board manager**", find the inst
 It will be a long-term support and maintenance project, unless we encounter force majeure factors.The current version supports the following development boards:
 
 - [CH32V00x EVT Boards](#CH32V00x-EVT-Boards)
+- [CH32V10x EVT Boards](#CH32V10x-EVT-Boards)
 - [CH32V20x EVT Boards](#CH32V20x-EVT-Boards)
+- [CH32V30x EVT Boards](#CH32V30x-EVT-Boards)
 - [CH32X035 EVT Boards](#CH32X035-EVT-Boards)
 
 ### CH32V00x EVT Boards
 
-| Status | Boards name | Peripherals | Release |
-| :----: |     ----    |     ----    | :-----: |
-| :heavy_check_mark: | CH32V003F4P | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.0 |  
+| Status | Boards name | Peripherals | Release | Notes |
+| :----: |     ----    |     ----    | :-----: | :---- |
+| :heavy_check_mark: | CH32V003F4P | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.0 | SPI,I2C_Master since 1.0.2 |
 
 ### CH32V20x EVT Boards
 
-| Status | Boards name | Peripherals | Release |
-| :----: |     ----    |     ----    | :-----: |
-| :heavy_check_mark: | CH32V203G8U | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.0 |
+| Status | Boards name | Peripherals | Release | Notes |
+| :----: |     ----    |     ----    | :-----: | :---- |
+| :heavy_check_mark: | CH32V203G8U | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.0 | SPI,I2C_Master since 1.0.2 |
 
 ### CH32X035 EVT Boards
 
-| Status | Boards name | Peripherals | Release |
-| :----: |     ----    |     ----    | :-----: |
-| :heavy_check_mark: | CH32X035G8U | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.1 |  
+| Status | Boards name | Peripherals | Release | Notes |
+| :----: |     ----    |     ----    | :-----: | :---- |
+| :heavy_check_mark: | CH32X035G8U | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.1 | SPI,I2C_Master since 1.0.2 | 
+
+### CH32V10x EVT Boards
+
+| Status | Boards name | Peripherals | Release | Notes |
+| :----: |     ----    |     ----    | :-----: | :---- |
+| :heavy_check_mark: | CH32V103R8T6_BLACK | ADC,DAC,USART,GPIO,EXTI,SysTick,SPI,I2C_Master | 1.0.3 | - |
+
+### CH32V30x EVT Boards
+
+| Status | Boards name | Peripherals | Release | Notes |
+| :----: |     ----    |     ----    | :-----: | :---- |
+| :heavy_check_mark: | CH32V307VCT6_BLACK | ADC,DAC,USART,GPIO,EXTI,SysTick,SPI,I2C_Master | 1.0.3 | - |
 
 ## Submit bugs
 

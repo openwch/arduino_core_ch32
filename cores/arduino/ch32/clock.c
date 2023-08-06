@@ -24,15 +24,32 @@ extern "C" {
 // #define TICK_FREQ_10Hz    100L 
 
 
-
-
 __IO uint64_t msTick=0;
 WEAK uint64_t GetTick(void)
 {
   return msTick;
 }
 
-#if defined(CH32V20x) || defined(CH32V30x) || defined(CH32V00x) || defined(CH32X035)
+
+void osSystickHandler() __attribute__((weak, alias("noOsSystickHandler")));
+void noOsSystickHandler()
+{
+
+}
+
+/**
+  * @brief  Function called wto read the current millisecond
+  * @param  None
+  * @retval None
+  */
+uint32_t getCurrentMillis(void)
+{
+  return GetTick();
+}
+
+
+
+#if defined(CH32V20x) || defined(CH32V30x) || defined(CH32V30x_C) || defined(CH32V00x) || defined(CH32X035)
 
 uint32_t getCurrentMicros(void)
 {
@@ -48,23 +65,6 @@ uint32_t getCurrentMicros(void)
   } else {
     return (m0 * 1000 + ((tms - u0) * 1000) / tms);
   }
-}
-
-
-/**
-  * @brief  Function called wto read the current millisecond
-  * @param  None
-  * @retval None
-  */
-uint32_t getCurrentMillis(void)
-{
-  return GetTick();
-}
-
-void osSystickHandler() __attribute__((weak, alias("noOsSystickHandler")));
-void noOsSystickHandler()
-{
-
 }
 
 
@@ -91,6 +91,35 @@ void SysTick_Handler(void)
 
 // for 10x serils (Qingke V3A) 
 #if defined (CH32V10x)
+
+#define SYSTICK_CNTL    (0xE000F004)   
+#define SYSTICK_CNTH    (0xE000F008)
+#define SYSTICK_CMPL    (0xE000F00C)
+#define SYSTICK_CMPH    (0xE000F010)
+
+uint32_t getCurrentMicros(void)
+{
+  
+  uint64_t m0 = GetTick();
+  uint64_t u0 = *((__IO uint32_t *)SYSTICK_CNTH);  
+           u0 = (u0 << 32) + *((__IO uint32_t *)SYSTICK_CNTL);
+  
+  uint64_t m1 = GetTick();
+  uint64_t u1 = *((__IO uint32_t *)SYSTICK_CNTH); //may be a interruption
+           u1 = (u1 << 32) + *((__IO uint32_t *)SYSTICK_CNTL);
+
+  uint64_t tms = *((__IO uint32_t *)SYSTICK_CMPH);
+           tms = (tms << 32) + *((__IO uint32_t *)SYSTICK_CMPL) + 1;     
+
+  if (m1 != m0) {
+    return (m1 * 1000 + ((tms - u1) * 1000) / tms);
+  } else {
+    return (m0 * 1000 + ((tms - u0) * 1000) / tms);
+  }
+}
+
+
+
 /*********************************************************************
  * @fn      SysTick_Handler
  *
@@ -101,9 +130,14 @@ void SysTick_Handler(void)
 void SysTick_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void SysTick_Handler(void)
 {
+  SysTick->CTLR=0;
   msTick+=TICK_FREQ_1KHz;
-  //Further inprovement is needed 
+  SysTick->CNTL0=0;SysTick->CNTL1=0;SysTick->CNTL2=0;SysTick->CNTL3=0;
+  SysTick->CNTH0=0;SysTick->CNTH1=0;SysTick->CNTH2=0;SysTick->CNTH3=0;
+  SysTick->CTLR=0x1;
+  osSystickHandler();
 }
+
 #endif
 
 

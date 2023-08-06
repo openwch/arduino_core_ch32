@@ -15,7 +15,8 @@
 /* ENABLE Peripherals */
 #define                         ADC_MODULE_ENABLED
 #define                         UART_MODULE_ENABLED
-
+#define                         SPI_MODULE_ENABLED
+// #define                         I2C_MODULE_ENABLED
 
 /* CH32VX035G8 Pins */
 #define PA0                     PIN_A0
@@ -94,7 +95,12 @@
 #endif
 
 // I2C definitions
-
+#ifndef PIN_WIRE_SDA
+  #define PIN_WIRE_SDA          PC17
+#endif
+#ifndef PIN_WIRE_SCL
+  #define PIN_WIRE_SCL          PC16
+#endif
 
 // Timer Definitions
 #ifndef TIMER_TONE

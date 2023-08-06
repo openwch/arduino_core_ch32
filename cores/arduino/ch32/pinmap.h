@@ -27,7 +27,7 @@
 extern "C" {
 #endif
 
-#if defined(CH32V10x) || defined(CH32V20x) || defined(CH32V30x) 
+#if defined(CH32V10x) || defined(CH32V20x) || defined(CH32V30x) || defined(CH32V30x_C)
 extern const uint32_t pin_map[16];
 #elif defined(CH32V00x)
 extern const uint32_t pin_map[8];

@@ -13,12 +13,12 @@
 #pragma once
 
 /* ENABLE Peripherals */
-#define                         ADC_MODULE_ENABLED
+// #define                         ADC_MODULE_ENABLED
 #define                         UART_MODULE_ENABLED
-
+// #define                         SPI_MODULE_ENABLED
+#define                         I2C_MODULE_ENABLED
 
 /* CH32V003F4 Pins */
-
 #define PA1                     PIN_A1
 #define PA2                     PIN_A0
 #define PC0                     2
@@ -77,6 +77,29 @@
 #endif
 #ifndef PIN_SERIAL_TX
   #define PIN_SERIAL_TX         PD5
+#endif
+
+
+// SPI definitions
+#ifndef PIN_SPI_SS
+  #define PIN_SPI_SS            PC4
+#endif
+#ifndef PIN_SPI_MOSI
+  #define PIN_SPI_MOSI          PC6
+#endif
+#ifndef PIN_SPI_MISO
+  #define PIN_SPI_MISO          PC7
+#endif
+#ifndef PIN_SPI_SCK
+  #define PIN_SPI_SCK           PC5
+#endif
+
+// I2C definitions
+#ifndef PIN_WIRE_SDA
+  #define PIN_WIRE_SDA          PC1
+#endif
+#ifndef PIN_WIRE_SCL
+  #define PIN_WIRE_SCL          PC2
 #endif
 
 /*----------------------------------------------------------------------------

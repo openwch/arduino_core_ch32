@@ -88,19 +88,19 @@ GPIO_TypeDef *set_GPIO_Port_Clock(uint32_t port_idx)
       RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE, ENABLE);
       break;
 #endif
-#if defined GPIOF_BASE
+#if defined RCC_APB2Periph_GPIOF
     case PortF:
       gpioPort = GPIOF;
       RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF, ENABLE);
       break;
 #endif
-#if defined GPIOG_BASE
+#if defined RCC_APB2Periph_GPIOG
     case PortG:
       gpioPort = GPIOG;
       RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOG, ENABLE);
       break;
 #endif
-#if defined GPIOH_BASE
+#if defined RCC_APB2Periph_GPIOH
     case PortH:
       gpioPort = GPIOH;
       RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOH, ENABLE);
