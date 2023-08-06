@@ -48,14 +48,14 @@ WEAK const PinMap PinMap_ADC[] = {
 #ifdef I2C_MODULE_ENABLED
 WEAK const PinMap PinMap_I2C_SDA[] = {
   {PC_1, I2C1, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFOD, NOPULL, AFIO_NONE)},
-  {NC,   NP,   0, 0}
+  {NC,   NP,   0}
 };
 #endif
 
 #ifdef I2C_MODULE_ENABLED
 WEAK const PinMap PinMap_I2C_SCL[] = {
   {PC_2, I2C1, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFOD, NOPULL, AFIO_NONE)},
-  {NC,   NP,   0, 0}
+  {NC,   NP,   0}
 };
 #endif
 
@@ -82,28 +82,28 @@ WEAK const PinMap PinMap_TIM[] = {
 #ifdef UART_MODULE_ENABLED
 WEAK const PinMap PinMap_UART_TX[] = {
   {PD_5, USART1, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)}, 
-  {NC,   NP,     0, 0}
+  {NC,   NP,     0}
 };
 #endif
 
 #ifdef UART_MODULE_ENABLED
 WEAK const PinMap PinMap_UART_RX[] = {
   {PD_6, USART1, CH_PIN_DATA(CH_MODE_INPUT, CH_CNF_INPUT_PUPD, PULLUP, AFIO_NONE)},
-  {NC,    NP,     0, 0}
+  {NC,    NP,     0}
 };
 #endif
 
 #ifdef UART_MODULE_ENABLED
 WEAK const PinMap PinMap_UART_RTS[] = {
   {PC_2, USART1, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)}, 
-  {NC,    NP,     0, 0}
+  {NC,    NP,     0}
 };
 #endif
 
 #ifdef UART_MODULE_ENABLED
 WEAK const PinMap PinMap_UART_CTS[] = {
   {PD_3, USART1, CH_PIN_DATA(CH_MODE_INPUT, CH_CNF_INPUT_PUPD, PULLUP, AFIO_NONE)},   
-  {NC,    NP,     0, 0}
+  {NC,    NP,     0}
 };
 #endif
 
