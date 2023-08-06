@@ -23,8 +23,11 @@ http://arduino.cc/en/Reference/HomePage
 """
 
 from os.path import isdir, join
+import sys
 
 from SCons.Script import DefaultEnvironment
+
+IS_MAC = sys.platform.startswith("darwin")
 
 env = DefaultEnvironment()
 platform = env.PioPlatform()
@@ -145,7 +148,8 @@ if "build.variant" in board:
     )
 
 # Startup files and debug.c require this to be built using BuildSources or with -Wl,-whole-archive
-env.Prepend(_LIBFLAGS="-lprintf -Wl,--whole-archive ")
+pre_libs = "-lprintf" if not IS_MAC else ""
+env.Prepend(_LIBFLAGS="%s -Wl,--whole-archive " % pre_libs)
 env.Append(_LIBFLAGS=" -Wl,--no-whole-archive -lc")
 
 libs.append(env.BuildLibrary(
