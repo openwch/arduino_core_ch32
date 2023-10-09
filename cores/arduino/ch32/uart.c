@@ -89,6 +89,8 @@ static serial_t serial_debug =
   .index = UART_NUM,
 };
 
+extern uint64_t GetTick(void);
+
 /* Aim of the function is to get serial_s pointer using huart pointer */
 /* Highly inspired from magical linux kernel's "container_of" */
 serial_t *get_serial_obj(UART_HandleTypeDef *huart)
@@ -263,7 +265,7 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
 
   if (uart_rx == NP) 
   {
-      USART_HalfDuplexCmd(huart,ENABLE);
+      USART_HalfDuplexCmd(huart->Instance,ENABLE);
   }
 
   USART_Init(huart->Instance, &(huart->init));
