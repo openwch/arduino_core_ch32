@@ -75,7 +75,7 @@ CH32V00x_EVT.menu.opt.o0std.build.flags.optimize=-O0
 
 # Debug information
 CH32V00x_EVT.menu.dbg.none=None
-CH32V00x_EVT.menu.dbg.none.build.flags.debug= 
+CH32V00x_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG 
 CH32V00x_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
 CH32V00x_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
 CH32V00x_EVT.menu.dbg.enable_log=Core logs Enabled
@@ -88,13 +88,13 @@ CH32V00x_EVT.menu.dbg.enable_all.build.flags.debug=-g
 CH32V00x_EVT.menu.rtlib.nano=Newlib Nano (default)
 CH32V00x_EVT.menu.rtlib.nano.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs
 CH32V00x_EVT.menu.rtlib.nanofp=Newlib Nano + Float Printf
-CH32V00x_EVT.menu.rtlib.nanofp.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _printf_float
+CH32V00x_EVT.menu.rtlib.nanofp.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float
 CH32V00x_EVT.menu.rtlib.nanofs=Newlib Nano + Float Scanf
-CH32V00x_EVT.menu.rtlib.nanofs.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _scanf_float
+CH32V00x_EVT.menu.rtlib.nanofs.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _scanf_float
 CH32V00x_EVT.menu.rtlib.nanofps=Newlib Nano + Float Printf/Scanf
-CH32V00x_EVT.menu.rtlib.nanofps.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
+CH32V00x_EVT.menu.rtlib.nanofps.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
 CH32V00x_EVT.menu.rtlib.full=Newlib Standard
-CH32V00x_EVT.menu.rtlib.full.build.flags.ldspecs=
+CH32V00x_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
 
 
@@ -159,7 +159,7 @@ CH32X035_EVT.menu.opt.o0std.build.flags.optimize=-O0
 
 # Debug information
 CH32X035_EVT.menu.dbg.none=None
-CH32X035_EVT.menu.dbg.none.build.flags.debug= 
+CH32X035_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG 
 CH32X035_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
 CH32X035_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
 CH32X035_EVT.menu.dbg.enable_log=Core logs Enabled
@@ -172,13 +172,13 @@ CH32X035_EVT.menu.dbg.enable_all.build.flags.debug=-g
 CH32X035_EVT.menu.rtlib.nano=Newlib Nano (default)
 CH32X035_EVT.menu.rtlib.nano.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs
 CH32X035_EVT.menu.rtlib.nanofp=Newlib Nano + Float Printf
-CH32X035_EVT.menu.rtlib.nanofp.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _printf_float
+CH32X035_EVT.menu.rtlib.nanofp.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float
 CH32X035_EVT.menu.rtlib.nanofs=Newlib Nano + Float Scanf
-CH32X035_EVT.menu.rtlib.nanofs.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _scanf_float
+CH32X035_EVT.menu.rtlib.nanofs.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _scanf_float
 CH32X035_EVT.menu.rtlib.nanofps=Newlib Nano + Float Printf/Scanf
-CH32X035_EVT.menu.rtlib.nanofps.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
+CH32X035_EVT.menu.rtlib.nanofps.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
 CH32X035_EVT.menu.rtlib.full=Newlib Standard
-CH32X035_EVT.menu.rtlib.full.build.flags.ldspecs=
+CH32X035_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
 
 
@@ -243,7 +243,7 @@ CH32V10x_EVT.menu.opt.o0std.build.flags.optimize=-O0
 
 # Debug information
 CH32V10x_EVT.menu.dbg.none=None
-CH32V10x_EVT.menu.dbg.none.build.flags.debug= 
+CH32V10x_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG 
 CH32V10x_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
 CH32V10x_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
 CH32V10x_EVT.menu.dbg.enable_log=Core logs Enabled
@@ -256,13 +256,13 @@ CH32V10x_EVT.menu.dbg.enable_all.build.flags.debug=-g
 CH32V10x_EVT.menu.rtlib.nano=Newlib Nano (default)
 CH32V10x_EVT.menu.rtlib.nano.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs
 CH32V10x_EVT.menu.rtlib.nanofp=Newlib Nano + Float Printf
-CH32V10x_EVT.menu.rtlib.nanofp.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _printf_float
+CH32V10x_EVT.menu.rtlib.nanofp.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float
 CH32V10x_EVT.menu.rtlib.nanofs=Newlib Nano + Float Scanf
-CH32V10x_EVT.menu.rtlib.nanofs.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _scanf_float
+CH32V10x_EVT.menu.rtlib.nanofs.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _scanf_float
 CH32V10x_EVT.menu.rtlib.nanofps=Newlib Nano + Float Printf/Scanf
-CH32V10x_EVT.menu.rtlib.nanofps.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
+CH32V10x_EVT.menu.rtlib.nanofps.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
 CH32V10x_EVT.menu.rtlib.full=Newlib Standard
-CH32V10x_EVT.menu.rtlib.full.build.flags.ldspecs=
+CH32V10x_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
 
 
@@ -366,7 +366,7 @@ CH32V20x_EVT.menu.opt.o0std.build.flags.optimize=-O0
 
 # Debug information
 CH32V20x_EVT.menu.dbg.none=None
-CH32V20x_EVT.menu.dbg.none.build.flags.debug= 
+CH32V20x_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG 
 CH32V20x_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
 CH32V20x_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
 CH32V20x_EVT.menu.dbg.enable_log=Core logs Enabled
@@ -379,13 +379,13 @@ CH32V20x_EVT.menu.dbg.enable_all.build.flags.debug=-g
 CH32V20x_EVT.menu.rtlib.nano=Newlib Nano (default)
 CH32V20x_EVT.menu.rtlib.nano.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs
 CH32V20x_EVT.menu.rtlib.nanofp=Newlib Nano + Float Printf
-CH32V20x_EVT.menu.rtlib.nanofp.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _printf_float
+CH32V20x_EVT.menu.rtlib.nanofp.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float
 CH32V20x_EVT.menu.rtlib.nanofs=Newlib Nano + Float Scanf
-CH32V20x_EVT.menu.rtlib.nanofs.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _scanf_float
+CH32V20x_EVT.menu.rtlib.nanofs.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _scanf_float
 CH32V20x_EVT.menu.rtlib.nanofps=Newlib Nano + Float Printf/Scanf
-CH32V20x_EVT.menu.rtlib.nanofps.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
+CH32V20x_EVT.menu.rtlib.nanofps.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
 CH32V20x_EVT.menu.rtlib.full=Newlib Standard
-CH32V20x_EVT.menu.rtlib.full.build.flags.ldspecs=
+CH32V20x_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
 
 
@@ -451,7 +451,7 @@ CH32V30x_EVT.menu.opt.o0std.build.flags.optimize=-O0
 
 # Debug information
 CH32V30x_EVT.menu.dbg.none=None
-CH32V30x_EVT.menu.dbg.none.build.flags.debug= 
+CH32V30x_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG 
 CH32V30x_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
 CH32V30x_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
 CH32V30x_EVT.menu.dbg.enable_log=Core logs Enabled
@@ -464,12 +464,12 @@ CH32V30x_EVT.menu.dbg.enable_all.build.flags.debug=-g
 CH32V30x_EVT.menu.rtlib.nano=Newlib Nano (default)
 CH32V30x_EVT.menu.rtlib.nano.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs
 CH32V30x_EVT.menu.rtlib.nanofp=Newlib Nano + Float Printf
-CH32V30x_EVT.menu.rtlib.nanofp.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _printf_float
+CH32V30x_EVT.menu.rtlib.nanofp.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float
 CH32V30x_EVT.menu.rtlib.nanofs=Newlib Nano + Float Scanf
-CH32V30x_EVT.menu.rtlib.nanofs.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _scanf_float
+CH32V30x_EVT.menu.rtlib.nanofs.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _scanf_float
 CH32V30x_EVT.menu.rtlib.nanofps=Newlib Nano + Float Printf/Scanf
-CH32V30x_EVT.menu.rtlib.nanofps.build.flags.ldspecs=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
+CH32V30x_EVT.menu.rtlib.nanofps.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
 CH32V30x_EVT.menu.rtlib.full=Newlib Standard
-CH32V30x_EVT.menu.rtlib.full.build.flags.ldspecs=
+CH32V30x_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
 

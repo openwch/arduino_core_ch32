@@ -20,7 +20,7 @@ target_link_libraries(variant INTERFACE variant_usage)
 
 add_library(variant_bin STATIC EXCLUDE_FROM_ALL
   PeripheralPins.c
-  variant_CH32V203C8.cpp
+  variant_CH32V203C6.cpp
 )
 target_link_libraries(variant_bin PUBLIC variant_usage)
 
