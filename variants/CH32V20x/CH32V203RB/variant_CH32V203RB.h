@@ -79,7 +79,7 @@
 #define PB10_ALT1               (PB10 | ALT1)
 #define PB11_ALT1               (PB11 | ALT1)
 
-#define NUM_DIGITAL_PINS        24
+#define NUM_DIGITAL_PINS        37
 #define NUM_ANALOG_INPUTS       10
 // #define ADC_CTLR_ADCAL          
 #define ADC_RESOLUTION          12
