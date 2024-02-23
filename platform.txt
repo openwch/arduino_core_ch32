@@ -170,3 +170,17 @@ tools.WCH_linkE.upload.pattern="{path}{cmd}" -f "{upload.config}" -c init -c hal
 
 #tools.WCH_linkE.upload.pattern="{path}{cmd}" -f {upload.config} -c init -c halt -c "program {{build.path}/{build.project_name}.elf}; verify_image {{build.path}/{build.project_name}.elf}; wlink_reset_resume;  exit;"
 
+
+# Debugger configuration (general options)
+# ----------------------------------------
+# EXPERIMENTAL feature:
+#  - this is alpha and may be subject to change without notice
+debug.executable={build.path}/{build.project_name}.elf
+debug.toolchain=gcc
+debug.toolchain.prefix=riscv-none-embed
+debug.toolchain.path={compiler.path}
+
+debug.server=openocd
+debug.server.openocd.path={runtime.tools.openocd-1.0.0.path}/bin/openocd
+debug.server.openocd.scripts_dir={debug.toolchain.path}/scripts
+debug.server.openocd.script={runtime.tools.openocd.path}/bin/wch-riscv.cfg
