@@ -19,8 +19,8 @@
 
 //Do it in menu selection in Arduino
 //#define SYSCLK_FREQ_8MHz_HSI    8000000
-//#define SYSCLK_FREQ_24MHZ_HSI   HSI_VALUE
-//#define SYSCLK_FREQ_48MHZ_HSI   48000000
+//#define SYSCLK_FREQ_24MHz_HSI   HSI_VALUE
+//#define SYSCLK_FREQ_48MHz_HSI   48000000
 //#define SYSCLK_FREQ_8MHz_HSE    8000000
 //#define SYSCLK_FREQ_24MHz_HSE   HSE_VALUE
 //#define SYSCLK_FREQ_48MHz_HSE   48000000
@@ -28,10 +28,10 @@
 /* Clock Definitions */
 #ifdef SYSCLK_FREQ_8MHz_HSI
   uint32_t SystemCoreClock         = SYSCLK_FREQ_8MHz_HSI;          /* System Clock Frequency (Core Clock) */
-#elif defined SYSCLK_FREQ_24MHZ_HSI
-  uint32_t SystemCoreClock         = SYSCLK_FREQ_24MHZ_HSI;        /* System Clock Frequency (Core Clock) */
-#elif defined SYSCLK_FREQ_48MHZ_HSI
-  uint32_t SystemCoreClock         = SYSCLK_FREQ_48MHZ_HSI;        /* System Clock Frequency (Core Clock) */
+#elif defined SYSCLK_FREQ_24MHz_HSI
+  uint32_t SystemCoreClock         = SYSCLK_FREQ_24MHz_HSI;        /* System Clock Frequency (Core Clock) */
+#elif defined SYSCLK_FREQ_48MHz_HSI
+  uint32_t SystemCoreClock         = SYSCLK_FREQ_48MHz_HSI;        /* System Clock Frequency (Core Clock) */
 #elif defined SYSCLK_FREQ_8MHz_HSE
   uint32_t SystemCoreClock         = SYSCLK_FREQ_8MHz_HSE;         /* System Clock Frequency (Core Clock) */
 #elif defined SYSCLK_FREQ_24MHz_HSE
@@ -50,10 +50,10 @@ static void SetSysClock(void);
 
 #ifdef SYSCLK_FREQ_8MHz_HSI
   static void SetSysClockTo_8MHz_HSI(void);
-#elif defined SYSCLK_FREQ_24MHZ_HSI
-  static void SetSysClockTo_24MHZ_HSI(void);
-#elif defined SYSCLK_FREQ_48MHZ_HSI
-  static void SetSysClockTo_48MHZ_HSI(void);
+#elif defined SYSCLK_FREQ_24MHz_HSI
+  static void SetSysClockTo_24MHz_HSI(void);
+#elif defined SYSCLK_FREQ_48MHz_HSI
+  static void SetSysClockTo_48MHz_HSI(void);
 #elif defined SYSCLK_FREQ_8MHz_HSE
   static void SetSysClockTo_8MHz_HSE(void);
 #elif defined SYSCLK_FREQ_24MHz_HSE
@@ -145,10 +145,10 @@ static void SetSysClock(void)
 {
 #ifdef SYSCLK_FREQ_8MHz_HSI
     SetSysClockTo_8MHz_HSI();
-#elif defined SYSCLK_FREQ_24MHZ_HSI
-    SetSysClockTo_24MHZ_HSI();
-#elif defined SYSCLK_FREQ_48MHZ_HSI
-    SetSysClockTo_48MHZ_HSI();
+#elif defined SYSCLK_FREQ_24MHz_HSI
+    SetSysClockTo_24MHz_HSI();
+#elif defined SYSCLK_FREQ_48MHz_HSI
+    SetSysClockTo_48MHz_HSI();
 #elif defined SYSCLK_FREQ_8MHz_HSE
     SetSysClockTo_8MHz_HSE();
 #elif defined SYSCLK_FREQ_24MHz_HSE
@@ -182,16 +182,16 @@ static void SetSysClockTo_8MHz_HSI(void)
     RCC->CFGR0 |= (uint32_t)RCC_HPRE_DIV3;
 }
 
-#elif defined SYSCLK_FREQ_24MHZ_HSI
+#elif defined SYSCLK_FREQ_24MHz_HSI
 
 /*********************************************************************
- * @fn      SetSysClockTo_24MHZ_HSI
+ * @fn      SetSysClockTo_24MHz_HSI
  *
  * @brief   Sets System clock frequency to 24MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
  *
  * @return  none
  */
-static void SetSysClockTo_24MHZ_HSI(void)
+static void SetSysClockTo_24MHz_HSI(void)
 {
     /* Flash 0 wait state */
     FLASH->ACTLR &= (uint32_t)((uint32_t)~FLASH_ACTLR_LATENCY);
@@ -202,16 +202,16 @@ static void SetSysClockTo_24MHZ_HSI(void)
 }
 
 
-#elif defined SYSCLK_FREQ_48MHZ_HSI
+#elif defined SYSCLK_FREQ_48MHz_HSI
 
 /*********************************************************************
- * @fn      SetSysClockTo_48MHZ_HSI
+ * @fn      SetSysClockTo_48MHz_HSI
  *
  * @brief   Sets System clock frequency to 48MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
  *
  * @return  none
  */
-static void SetSysClockTo_48MHZ_HSI(void)
+static void SetSysClockTo_48MHz_HSI(void)
 {
     /* Flash 0 wait state */
     FLASH->ACTLR &= (uint32_t)((uint32_t)~FLASH_ACTLR_LATENCY);
