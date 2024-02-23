@@ -17,12 +17,13 @@
 * If none of the define below is enabled, the HSI is used as System clock source. 
 */
 
+//Do it in menu selection in Arduino
 //#define SYSCLK_FREQ_8MHz_HSI    8000000
 //#define SYSCLK_FREQ_24MHZ_HSI   HSI_VALUE
 //#define SYSCLK_FREQ_48MHZ_HSI   48000000
 //#define SYSCLK_FREQ_8MHz_HSE    8000000
 //#define SYSCLK_FREQ_24MHz_HSE   HSE_VALUE
-#define SYSCLK_FREQ_48MHz_HSE   48000000
+//#define SYSCLK_FREQ_48MHz_HSE   48000000
 
 /* Clock Definitions */
 #ifdef SYSCLK_FREQ_8MHz_HSI

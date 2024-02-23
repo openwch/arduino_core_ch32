@@ -2,6 +2,8 @@
 
 menu.pnum=Board Select
 
+menu.clock=Clock Select
+
 menu.xserial=U(S)ART support
 menu.usb=USB support (if available)
 menu.xusb=USB speed (if available)
@@ -48,6 +50,20 @@ CH32V00x_EVT.menu.upload_method.swdMethod.upload.protocol=
 CH32V00x_EVT.menu.upload_method.swdMethod.upload.options=
 CH32V00x_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
 
+
+# Clock Select
+CH32V00x_EVT.menu.clock.48MHz_HSI=48MHz Internal
+CH32V00x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000
+CH32V00x_EVT.menu.clock.24MHz_HSI=24MHz Internal
+CH32V00x_EVT.menu.clock.24MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSI=24000000
+CH32V00x_EVT.menu.clock.8MHz_HSI=8MHz Internal
+CH32V00x_EVT.menu.clock.8MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSI=8000000
+CH32V00x_EVT.menu.clock.48MHz_HSE=48MHz External
+CH32V00x_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000
+CH32V00x_EVT.menu.clock.24MHz_HSE=24MHz External
+CH32V00x_EVT.menu.clock.24MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSE=24000000
+CH32V00x_EVT.menu.clock.8MHz_HSE=8MHz External
+CH32V00x_EVT.menu.clock.8MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSE=8000000
 
 
 # Optimizations
