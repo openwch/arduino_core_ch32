@@ -17,6 +17,7 @@
 #define                         UART_MODULE_ENABLED
 #define                         SPI_MODULE_ENABLED  
 #define                         I2C_MODULE_ENABLED
+#define                         TIM_MODULE_ENABLED
 
 /* CH32V203G8 Pins */
 #define PA0                     PIN_A0

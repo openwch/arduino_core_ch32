@@ -88,7 +88,7 @@ extern "C" {
 #define CH_PIN_SPEED_MASK 0x03
 #define CH_PIN_SPEED_SHIFT 6
 #define CH_PIN_SPEED_BITS (CH_PIN_SPEED_MASK << CH_PIN_SPEED_SHIFT)
-
+*/
 #define CH_PIN_INV_MASK 0x01
 #define CH_PIN_INV_SHIFT 20
 #define CH_PIN_INV_BIT (CH_PIN_INV_MASK << CH_PIN_INV_SHIFT)
@@ -97,6 +97,7 @@ extern "C" {
 #define CH_PIN_AN_CTRL_SHIFT 21
 #define CH_PIN_ANALOG_CONTROL_BIT (CH_PIN_AN_CTRL_MASK << CH_PIN_AN_CTRL_SHIFT)
 
+/*
 #define CH_PIN_AN_CHAN_BANK_B_MASK 0x01
 #define CH_PIN_AN_CHAN_BANK_B_SHIFT 22
 #define CH_PIN_ANALOG_CHAN_BANK_B_BIT (CH_PIN_AN_CHAN_BANK_B_MASK << CH_PIN_AN_CHAN_BANK_B_SHIFT)
@@ -115,8 +116,10 @@ extern "C" {
 #define CH_PIN_SPEED(X)                  (((X) >> CH_PIN_SPEED_SHIFT) & CH_PIN_SPEED_MASK)
 #define CH_PIN_AFNUM(X)                  (((X) >> CH_PIN_AFNUM_SHIFT) & CH_PIN_AFNUM_MASK)
 #define CH_PIN_CHANNEL(X)                (((X) >> CH_PIN_CHAN_SHIFT) & CH_PIN_CHAN_MASK)
+*/
 #define CH_PIN_INVERTED(X)               (((X) >> CH_PIN_INV_SHIFT) & CH_PIN_INV_MASK)
 #define CH_PIN_ANALOG_CONTROL(X)         (((X) >> CH_PIN_AN_CTRL_SHIFT) & CH_PIN_AN_CTRL_MASK)
+/*
 #define CH_PIN_ANALOG_CHANNEL_BANK_B(X)  (((X) >> CH_PIN_AN_CHAN_BANK_B_SHIFT) & CH_PIN_AN_CHAN_BANK_B_MASK)
 #define CH_PIN_MODE(X)                   ((CH_PIN_OD((X)) << 4) | \
                                            (CH_PIN_FUNCTION((X)) & (~CH_PIN_OD_BITS)))

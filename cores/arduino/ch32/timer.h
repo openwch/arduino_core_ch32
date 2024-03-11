@@ -18,177 +18,27 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ch32_def.h"
 #include "PinNames.h"
+#include "variant.h"
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-#if defined(HAL_TIM_MODULE_ENABLED) && !defined(HAL_TIM_MODULE_ONLY)
+
+#if defined(TIM_MODULE_ENABLED) 
 
 /* Exported constants --------------------------------------------------------*/
 #ifndef TIM_IRQ_PRIO
-#if (__CORTEX_M == 0x00U)
-#define TIM_IRQ_PRIO       3
-#else
-#define TIM_IRQ_PRIO       14
-#endif /* __CORTEX_M */
+#define TIM_IRQ_PRIO       0x80
 #endif /* TIM_IRQ_PRIO */
+
+
 #ifndef TIM_IRQ_SUBPRIO
-#define TIM_IRQ_SUBPRIO    0
+#define TIM_IRQ_SUBPRIO    0x40
 #endif
 
-#if defined(TIM1_BASE) && !defined(TIM1_IRQn)
-#if defined(CH32F0xx) || defined(CH32G0xx)
-#define TIM1_IRQn TIM1_BRK_UP_TRG_COM_IRQn
-#define TIM1_IRQHandler TIM1_BRK_UP_TRG_COM_IRQHandler
-#elif defined(CH32F1xx) ||defined(CH32G4xx)
-#define TIM1_IRQn TIM1_UP_TIM16_IRQn
-#if !defined (TIM10_BASE)
-#define TIM1_IRQHandler TIM1_UP_TIM16_IRQHandler
-#elif defined (TIM10_BASE)
-#define TIM1_IRQHandler TIM1_UP_TIM10_IRQHandler
-#endif
-#elif defined(CH32F3xx) || defined(CH32L4xx) || defined(CH32WBxx)
-#define TIM1_IRQn TIM1_UP_TIM16_IRQn
-#define TIM1_IRQHandler TIM1_UP_TIM16_IRQHandler
-#elif defined(CH32F2xx) || defined(CH32F4xx) || defined(CH32F7xx)
-#if !defined (TIM10_BASE)
-#define TIM1_IRQn TIM1_UP_IRQn
-#define TIM1_IRQHandler TIM1_UP_IRQHandler
-#else
-#define TIM1_IRQn TIM1_UP_TIM10_IRQn
-#define TIM1_IRQHandler TIM1_UP_TIM10_IRQHandler
-#endif
-#elif defined(CH32H7xx) || defined(CH32L5xx) || defined(CH32MP1xx) ||\
-      defined(CH32U5xx) || defined(CH32WLxx)
-#define TIM1_IRQn TIM1_UP_IRQn
-#define TIM1_IRQHandler TIM1_UP_IRQHandler
-#endif
-#endif
 
-#if defined(TIM3_BASE) && !defined(TIM3_IRQn)
-#if defined(CH32G0xx) && defined(TIM4_BASE)
-#define TIM3_IRQn TIM3_TIM4_IRQn
-#define TIM3_IRQHandler TIM3_TIM4_IRQHandler
-#endif
-#endif
 
-#if defined(TIM4_BASE) && !defined(TIM4_IRQn)
-#if defined(CH32G0xx)
-#define TIM4_IRQn TIM3_TIM4_IRQn
-#endif
-#endif
-
-#if defined(TIM6_BASE) && !defined(TIM6_IRQn)
-#if defined(DAC_BASE) || defined(DAC1_BASE)
-#if defined(CH32G0xx)
-#define TIM6_IRQn TIM6_DAC_LPTIM1_IRQn
-#define TIM6_IRQHandler TIM6_DAC_LPTIM1_IRQHandler
-#elif !defined(CH32F1xx) && !defined(CH32L1xx) && !defined(CH32L5xx) &&\
-      !defined(CH32MP1xx) && !defined(CH32U5xx)
-#define TIM6_IRQn TIM6_DAC_IRQn
-#define TIM6_IRQHandler TIM6_DAC_IRQHandler
-#endif
-#endif
-#endif
-
-#if defined(TIM7_BASE) && !defined(TIM7_IRQn)
-#if defined(CH32G0xx) && defined(LPTIM2_BASE)
-#define TIM7_IRQn TIM7_LPTIM2_IRQn
-#define TIM7_IRQHandler TIM7_LPTIM2_IRQHandler
-#elif defined(CH32G4xx)
-#define TIM7_IRQn TIM7_DAC_IRQn
-#define TIM7_IRQHandler TIM7_DAC_IRQHandler
-#endif
-#endif
-
-#if defined(TIM8_BASE) && !defined(TIM8_IRQn)
-#if defined(CH32F1xx) || defined(CH32F2xx) ||defined(CH32F4xx) || defined(CH32F7xx)\
- || defined(CH32H7xx)
-#define TIM8_IRQn TIM8_UP_TIM13_IRQn
-#define TIM8_IRQHandler TIM8_UP_TIM13_IRQHandler
-#elif defined(CH32F3xx) || defined(CH32G4xx) || defined(CH32L4xx) ||\
-      defined(CH32L5xx) || defined(CH32MP1xx) || defined(CH32U5xx)
-#define TIM8_IRQn TIM8_UP_IRQn
-#define TIM8_IRQHandler TIM8_UP_IRQHandler
-#endif
-#endif
-
-#if defined(TIM9_BASE) && !defined(TIM9_IRQn)
-#if defined(CH32F1xx) || defined(CH32F2xx) ||defined(CH32F4xx) || defined(CH32F7xx)
-#define TIM9_IRQn TIM1_BRK_TIM9_IRQn
-#define TIM9_IRQHandler TIM1_BRK_TIM9_IRQHandler
-#endif
-#endif
-#if defined(TIM10_BASE) && !defined(TIM10_IRQn)
-#if defined(CH32F1xx) || defined(CH32F2xx) ||defined(CH32F4xx) || defined(CH32F7xx)
-#define TIM10_IRQn TIM1_UP_TIM10_IRQn
-//TIM10_IRQHandler is mapped on TIM1_IRQHandler  when TIM10_IRQn is not defined
-#endif
-#endif
-#if defined(TIM11_BASE) && !defined(TIM11_IRQn)
-#if defined(CH32F1xx) || defined(CH32F2xx) ||defined(CH32F4xx) || defined(CH32F7xx)
-#define TIM11_IRQn TIM1_TRG_COM_TIM11_IRQn
-#define TIM11_IRQHandler TIM1_TRG_COM_TIM11_IRQHandler
-#endif
-#endif
-#if defined(TIM12_BASE) && !defined(TIM12_IRQn)
-#if defined(CH32F1xx) || defined(CH32F2xx) ||defined(CH32F4xx) || defined(CH32F7xx)\
- || defined(CH32H7xx)
-#define TIM12_IRQn TIM8_BRK_TIM12_IRQn
-#define TIM12_IRQHandler TIM8_BRK_TIM12_IRQHandler
-#endif
-#endif
-#if defined(TIM13_BASE) && !defined(TIM13_IRQn)
-#if defined(CH32F1xx) || defined(CH32F2xx) ||defined(CH32F4xx) || defined(CH32F7xx)\
- || defined(CH32H7xx)
-#define TIM13_IRQn TIM8_UP_TIM13_IRQn
-#endif
-#endif
-#if defined(TIM14_BASE) && !defined(TIM14_IRQn)
-#if defined(CH32F1xx) || defined(CH32F2xx) ||defined(CH32F4xx) || defined(CH32F7xx)\
- || defined(CH32H7xx)
-#define TIM14_IRQn TIM8_TRG_COM_TIM14_IRQn
-#define TIM14_IRQHandler TIM8_TRG_COM_TIM14_IRQHandler
-#endif
-#endif
-#if defined(TIM15_BASE) && !defined(TIM15_IRQn)
-#if defined(CH32F1xx) || defined(CH32F3xx) || defined(CH32G4xx) || defined(CH32L4xx)
-#define TIM15_IRQn TIM1_BRK_TIM15_IRQn
-#define TIM15_IRQHandler TIM1_BRK_TIM15_IRQHandler
-#endif
-#endif
-#if defined(TIM16_BASE) && !defined(TIM16_IRQn)
-#if defined(CH32F1xx) || defined(CH32F3xx)  || defined(CH32G4xx) || defined(CH32L4xx) || \
-    defined(CH32WBxx)
-#define TIM16_IRQn TIM1_UP_TIM16_IRQn
-//TIM16_IRQHandler is mapped on TIM1_IRQHandler when TIM16_IRQn is not defined
-#elif defined(CH32G0xx) && defined(FDCAN1_BASE)
-#define TIM16_IRQn TIM16_FDCAN_IT0_IRQn
-#define TIM16_IRQHandler TIM16_FDCAN_IT0_IRQHandler
-#endif
-#endif
-#if defined(TIM17_BASE) && !defined(TIM17_IRQn)
-#if defined(CH32F1xx) || defined(CH32F3xx) || defined(CH32G4xx) || defined(CH32L4xx) || \
-    defined(CH32WBxx)
-#define TIM17_IRQn TIM1_TRG_COM_TIM17_IRQn
-#define TIM17_IRQHandler TIM1_TRG_COM_TIM17_IRQHandler
-#elif defined(CH32G0xx) && defined(FDCAN1_BASE)
-#define TIM17_IRQn TIM17_FDCAN_IT1_IRQn
-#define TIM17_IRQHandler TIM17_FDCAN_IT1_IRQHandler
-#endif
-#endif
-#if defined(TIM18_BASE) && !defined(TIM18_IRQn)
-#if defined(CH32F3xx)
-#define TIM18_IRQn TIM18_DAC2_IRQn
-#define TIM18_IRQHandler TIM18_DAC2_IRQHandler
-#endif
-#endif
-#if defined(TIM20_BASE) && !defined(TIM20_IRQn)
-#if defined(CH32F3xx) || defined(CH32G4xx)
-#define TIM20_IRQn TIM20_UP_IRQn
-#define TIM20_IRQHandler TIM20_UP_IRQHandler
-#endif
-#endif
 
 typedef enum {
 #if defined(TIM1_BASE)
@@ -221,45 +71,33 @@ typedef enum {
 #if defined(TIM10_BASE)
   TIMER10_INDEX,
 #endif
-#if defined(TIM11_BASE)
-  TIMER11_INDEX,
-#endif
-#if defined(TIM12_BASE)
-  TIMER12_INDEX,
-#endif
-#if defined(TIM13_BASE)
-  TIMER13_INDEX,
-#endif
-#if defined(TIM14_BASE)
-  TIMER14_INDEX,
-#endif
-#if defined(TIM15_BASE)
-  TIMER15_INDEX,
-#endif
-#if defined(TIM16_BASE)
-  TIMER16_INDEX,
-#endif
-#if defined(TIM17_BASE)
-  TIMER17_INDEX,
-#endif
-#if defined(TIM18_BASE)
-  TIMER18_INDEX,
-#endif
-#if defined(TIM19_BASE)
-  TIMER19_INDEX,
-#endif
-#if defined(TIM20_BASE)
-  TIMER20_INDEX,
-#endif
-#if defined(TIM21_BASE)
-  TIMER21_INDEX,
-#endif
-#if defined(TIM22_BASE)
-  TIMER22_INDEX,
-#endif
   TIMER_NUM,
   UNKNOWN_TIMER = 0XFFFF
 } timer_index_t;
+
+
+typedef enum
+{
+  HAL_TIM_ACTIVE_CHANNEL_1        = 0x01U,    /*!< The active channel is 1     */
+  HAL_TIM_ACTIVE_CHANNEL_2        = 0x02U,    /*!< The active channel is 2     */
+  HAL_TIM_ACTIVE_CHANNEL_3        = 0x04U,    /*!< The active channel is 3     */
+  HAL_TIM_ACTIVE_CHANNEL_4        = 0x08U,    /*!< The active channel is 4     */
+  HAL_TIM_ACTIVE_CHANNEL_5        = 0x10U,    /*!< The active channel is 5     */
+  HAL_TIM_ACTIVE_CHANNEL_6        = 0x20U,    /*!< The active channel is 6     */
+  HAL_TIM_ACTIVE_CHANNEL_CLEARED  = 0x00U     /*!< All active channels cleared */
+} TIM_ActiveChannel;
+
+
+typedef struct 
+{
+  TIM_TypeDef                          *Instance;         
+  TIM_TimeBaseInitTypeDef               Init;     
+  TIM_ActiveChannel                     Channel;   //ÊÇ·ñÐèÒª£¿
+  /*    //Not yet considered          
+  TIM_OCInitTypeDef                     OC_Init;
+  TIM_ICInitTypeDef                     IC_Init;
+  */
+}TIM_HandleTypeDef;
 
 
 // This structure is used to be able to get HardwareTimer instance (C++ class)
@@ -286,7 +124,7 @@ IRQn_Type getTimerCCIrq(TIM_TypeDef *tim);
 
 uint32_t getTimerChannel(PinName pin);
 
-#endif /* HAL_TIM_MODULE_ENABLED && !HAL_TIM_MODULE_ONLY */
+#endif /* TIM_MODULE_ENABLED && TIM_MODULE_ONLY */
 
 #ifdef __cplusplus
 }
