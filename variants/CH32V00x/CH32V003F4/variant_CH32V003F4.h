@@ -13,10 +13,11 @@
 #pragma once
 
 /* ENABLE Peripherals */
-// #define                         ADC_MODULE_ENABLED
+#define                         ADC_MODULE_ENABLED
 #define                         UART_MODULE_ENABLED
-// #define                         SPI_MODULE_ENABLED
+#define                         SPI_MODULE_ENABLED
 #define                         I2C_MODULE_ENABLED
+#define                         TIM_MODULE_ENABLED
 
 /* CH32V003F4 Pins */
 #define PA1                     PIN_A1

@@ -44,8 +44,7 @@
 #include "ch32_def.h"
 #include "PeripheralPins.h"
 #include "variant.h"
-
-// #include "HardwareTimer.h"
+#include "HardwareTimer.h"
 
 #ifdef __cplusplus
 extern "C" {

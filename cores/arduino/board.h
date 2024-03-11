@@ -11,7 +11,7 @@
 // #include "dwt.h"
 #include "hw_config.h"
 // #include "otp.h"
-// #include "timer.h"
+#include "timer.h"
 #include "uart.h"
 
 
