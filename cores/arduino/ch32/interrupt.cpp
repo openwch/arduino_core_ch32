@@ -227,8 +227,10 @@ void EXTI7_0_IRQHandler(void)
    uint32_t pin;
    for (pin = GPIO_Pin_0; pin <= GPIO_Pin_7; pin = pin << 1) 
    {
-      EXTI_ClearITPendingBit(pin);   //0x1 2 4 8 10 20 40 80
-      _gpio_exti_callback(pin);
+      if(EXTI_GetITStatus(pin)) {
+        EXTI_ClearITPendingBit(pin);   //0x1 2 4 8 10 20 40 80
+        _gpio_exti_callback(pin);
+      }
    }
 }
 #ifdef __cplusplus
@@ -252,8 +254,10 @@ void EXTI7_0_IRQHandler(void)
    uint32_t pin;
    for (pin = GPIO_Pin_0; pin <= GPIO_Pin_7; pin = pin << 1) 
    {
-      EXTI_ClearITPendingBit(pin);   //0x1 2 4 8 10 20 40 80
-      _gpio_exti_callback(pin);
+      if(EXTI_GetITStatus(pin)) {
+        EXTI_ClearITPendingBit(pin);   //0x1 2 4 8 10 20 40 80
+        _gpio_exti_callback(pin);
+      }
    }
 }
 
@@ -262,8 +266,10 @@ void EXTI15_8_IRQHandler(void)
    uint32_t pin;
    for (pin = GPIO_Pin_8; pin <= GPIO_Pin_15; pin = pin << 1) 
    {
-      EXTI_ClearITPendingBit(pin);   //0x1 2 4 8 10 20 40 80
-      _gpio_exti_callback(pin);
+      if(EXTI_GetITStatus(pin)) {
+        EXTI_ClearITPendingBit(pin);   //0x1 2 4 8 10 20 40 80
+        _gpio_exti_callback(pin);
+      }
    }
 }
 
@@ -272,8 +278,10 @@ void EXTI25_16_IRQHandler(void)
    uint32_t pin;
    for (pin = GPIO_Pin_16; pin <= GPIO_Pin_23; pin = pin << 1) 
    {
-      EXTI_ClearITPendingBit(pin);   //0x1 2 4 8 10 20 40 80
-      _gpio_exti_callback(pin);
+      if(EXTI_GetITStatus(pin)) {
+        EXTI_ClearITPendingBit(pin);   //0x1 2 4 8 10 20 40 80
+        _gpio_exti_callback(pin);
+      }
    }
 }
 
@@ -361,8 +369,10 @@ void EXTI9_5_IRQHandler(void)
 {
   uint32_t pin;
   for (pin = GPIO_Pin_5; pin <= GPIO_Pin_9; pin = pin << 1) {
-    EXTI_ClearITPendingBit(pin); 
-    _gpio_exti_callback(pin);
+    if(EXTI_GetITStatus(pin)) {
+      EXTI_ClearITPendingBit(pin); 
+      _gpio_exti_callback(pin);
+    }
   }
 }
 
@@ -375,8 +385,10 @@ void EXTI15_10_IRQHandler(void)
 {
   uint32_t pin;
   for (pin = GPIO_Pin_10; pin <= GPIO_Pin_15; pin = pin << 1) {
+    if(EXTI_GetITStatus(pin)) {
       EXTI_ClearITPendingBit(pin); 
-    _gpio_exti_callback(pin);
+      _gpio_exti_callback(pin);
+    }
   }
 }
 
