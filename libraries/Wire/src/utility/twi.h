@@ -50,6 +50,12 @@
 extern "C" {
 #endif
 
+// enabling callback attachment, set slave interrupts, process data transfers
+#ifndef OPT_I2C_SLAVE			// allow setting define using Arduino IDE menu choice
+#define OPT_I2C_SLAVE 1			// set to 0 to save about 1K FLASH space (812 bytes used with -Os)
+#endif
+
+
 /* Exported types ------------------------------------------------------------*/
 /* offsetof is a gcc built-in function, this is the manual implementation */
 #define OFFSETOF(type, member) ((uint32_t) (&(((type *)(0))->member)))
@@ -96,8 +102,9 @@ struct i2c_s {
   void (*i2c_onSlaveTransmit)(i2c_t *);
   volatile uint8_t i2cTxRxBuffer[I2C_TXRX_BUFFER_SIZE];
   volatile uint8_t i2cTxRxBufferSize;
+#if OPT_I2C_SLAVE
   volatile uint8_t slaveMode;
-  
+#endif // #if OPT_I2C_SLAVE  
   uint8_t isMaster;
   uint8_t generalCall;
   uint8_t NoStretchMode;
@@ -131,6 +138,12 @@ i2c_status_e i2c_slave_read(i2c_t *obj, uint8_t *data, uint16_t size);
 // i2c_status_e i2c_IsDeviceReady(i2c_t *obj, uint8_t devAddr, uint32_t trials);
 void i2c_attachSlaveRxEvent(i2c_t *obj, void (*function)(i2c_t *));
 void i2c_attachSlaveTxEvent(i2c_t *obj, void (*function)(i2c_t *));
+
+// MMOLE 240320: was this method private?
+i2c_t *get_i2c_obj(I2C_HandleTypeDef *);
+
+// MMOLE 240323: call this to process slave data transfers
+//void i2c_slave_process(i2c_t *obj);
 
 
 #ifdef __cplusplus
