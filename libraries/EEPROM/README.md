@@ -10,6 +10,13 @@ Includes code from Option Data example of CH32V003fun by CNLOHR.
 Arduino original copyright (c) 2006 David A. Mellis.  All right reserved. New version by Christopher Andrews 2015.
 ESP8266 version copyright (c) 2014 Ivan Grokhotkov. All rights reserved.
 
+## Table of contents
+- [CH32V003 emulated EEPROM](#ch32v003-emulated-eeprom)
+- [How to use it](#how-to-use-this-library)
+- [Library functions](#library-functions)
+- [Features & limitations](#features--limitations)
+- [Disclaimer](#disclaimer)
+
 ### CH32V003 emulated EEPROM 
 On the CH32V003 there are 2+24 bytes available. The first two bytes are Option bytes data0 and data1.
 All bytes are copied to a 26-byte long byte array in RAM. After changing a value the commit() method is used to write flash.
@@ -34,7 +41,7 @@ The first release of this library was made for the CH32V003 and only uses the us
 It was tested using Arduino IDE 2.3.2 and OpenWCH core 1.0.4. 
 Future releases of this library may support other CH32 processors and allow for larger memory sizes.
 
-### **How to use it**
+### **How to use this library**
 To use the library in your sketch you'll need to reference the library header file. You do this by adding an include directive to the top of your sketch. The library provides a global object variable named `EEPROM`. You use this object to access the library functions that are listed below.
 This EEPROM library requires you to call EEPROM.begin() to initialize the object.
 
@@ -70,7 +77,7 @@ This method erases the RAM memory of the EEPROM object. Erased bytes have a defa
 
 This method does not return any value.
 
-#### **`EEPROM.commit()`** `[[_example_]](examples/eeprom_counter/eeprom_counter.ino)
+#### **`EEPROM.commit()`** [[_example_]](examples/eeprom_counter/eeprom_counter.ino)
 
 The EEPROM object uses a RAM memory buffer to allow speedy access to its data. After writing data to memory, EEPROM.commit() needs to be called to save the data into permanent storage. 
 
@@ -130,7 +137,7 @@ if( val == EEPROM[ 0 ] ){
 }
 ```
 
-#### **`EEPROM.ReadOptionBytes() **`[[_example_]](examples/eeprom_counter/eeprom_counter.ino)
+#### **`EEPROM.ReadOptionBytes()`** [[_example_]](examples/eeprom_counter/eeprom_counter.ino)
 
 This method is made available to show how the CH32 stores data in the user select word storage area.
 The 8 words in the user option bytes information block are reloaded into their corresponding register after system reset.
@@ -141,3 +148,10 @@ The method returns a `uint32_t` value, containing the data0 and data1 bytes and 
 
 ---
 
+## Features & limitations
+- The first release of this library was made only for the CH32V003 and has been tested on that MCU only. Other memmbers of the CH32 may behave incorrectly or not work at all. 
+- The CH32V003 has only 26 bytes available. When addressing more things are likely to go wrong. A future release may allow using more pages from the flash memory.
+- Most CH32 EEPROM methods are the same as their equivalent on regular Arduino's. BEWARE: The begin() and end() methods fumction like their ESP8266/ESP, but are very different from the begin() and end() methods of EEPROM v2.0 by Christopher Andrews, who introduced them to support C++ iterators. This library follows the begin() convention introduced by the Serial and Wire classes, i.e. to initialize the object.
+
+## Disclaimer
+- All code on this GitHub account, including this library is provided to you on an as-is basis without guarantees and with all liability dismissed. It may be used at your own risk. Unfortunately I have no means to provide support.
