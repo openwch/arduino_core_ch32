@@ -1,18 +1,18 @@
 ## **EEPROM Library** for Arduino CH32
 
-### **What is the EEPROM library.**
+### **What is the EEPROM library**
 
 The EEPROM library provides an easy to use interface to interact with the internal non-volatile storage found in Arduino boards. 
-This CH32 version of the library uses the Option bytes area in flash memory to emulate EEPROM and provides a similar API.
+This CH32 version of the library provides a familiar API to emulated EEPROM using the Option bytes area in flash memory.
 
-Ported by Maxint R&D to CH32, based on multiple sources.
-Includes code from Option Data example of CH32V003fun by CNLOHR.
-Arduino original copyright (c) 2006 David A. Mellis.  All right reserved. New version by Christopher Andrews 2015.
-ESP8266 version copyright (c) 2014 Ivan Grokhotkov. All rights reserved.
+Ported to CH32 by Maxint R&D, based on multiple sources:
+- Code from the Option Data example of CH32V003fun by @CNLOHR.
+- Arduino original copyright (c) 2006 David A. Mellis.  All right reserved. New version by Christopher Andrews 2015.
+- ESP8266 version copyright (c) 2014 Ivan Grokhotkov. All rights reserved.
 
 ## Table of contents
 - [CH32V003 emulated EEPROM](#ch32v003-emulated-eeprom)
-- [How to use it](#how-to-use-this-library)
+- [How to use this library](#how-to-use-this-library)
 - [Library functions](#library-functions)
 - [Features & limitations](#features--limitations)
 - [Disclaimer](#disclaimer)
@@ -22,19 +22,21 @@ On the CH32V003 there are 2+24 bytes available. The first two bytes are Option b
 All bytes are copied to a 26-byte long byte array in RAM. After changing a value the commit() method is used to write flash.
 
 From the CH32V004 Data Sheet:
-  "Built-in 1920 bytes of system storage (System FLASH) for system bootloader storage (factory-cured
+>  "Built-in 1920 bytes of system storage (System FLASH) for system bootloader storage (factory-cured
   bootloader) 64 bytes are used for the system non-volatile configuration information storage area and 64 bytes
   are used for the user select word storage area."
+
 So next to 16kB of Code FLASH, the chip features 2kB Flash for boot, configuration and storage. That 64 bytes
 user select word storage area is the area we can use to emulate on chip EEPROM memory.
 
 From the CH32V003 Reference Manual:
-  "The user-option bytes is solidified in FLASH and will be reloaded into the corresponding register after system
+>  "The user-option bytes is solidified in FLASH and will be reloaded into the corresponding register after system
   reset, and can be erased and programmed by the user at will. The user option bytes information block has a
   total of 8 bytes (4 bytes for write protection, 1 byte for read protection, 1 byte for configuration options, and
   2 bytes for storing user data), and each bit has its inverse code bit for checksum during loading."
-These 8 bytes use 16 bytes of flash. The total storage area page is 64 bytes, leaving 48 bytes available, 
-(including required inverse values). This is 24 bytes that can be used plus the two data0 and data1 bytes. 
+
+These 8 bytes and their inverse use 16 bytes of flash. The total storage area page is 64 bytes, leaving 48 bytes available, 
+(including required inverse values). This gives 24 bytes that can be used plus the two data0 and data1 bytes. 
 Layout for uint8_t _data[26]: { ob[4], ob[6], ob[16...62] ].
 
 The first release of this library was made for the CH32V003 and only uses the user select word storage area. 
@@ -57,7 +59,6 @@ void loop(){
 }
 
 ```
-
 You can find complete examples [here](examples/).
 
 ---
@@ -149,7 +150,7 @@ The method returns a `uint32_t` value, containing the data0 and data1 bytes and 
 ---
 
 ## Features & limitations
-- The first release of this library was made only for the CH32V003 and has been tested on that MCU only. Other memmbers of the CH32 may behave incorrectly or not work at all. 
+- The first release of this library was made only for the CH32V003 and has been tested on that MCU only. Other members of the CH32 may behave incorrectly or not work at all. 
 - The CH32V003 has only 26 bytes available. When addressing more things are likely to go wrong. A future release may allow using more pages from the flash memory.
 - Most CH32 EEPROM methods are the same as their equivalent on regular Arduino's. BEWARE: The begin() and end() methods fumction like their ESP8266/ESP, but are very different from the begin() and end() methods of EEPROM v2.0 by Christopher Andrews, who introduced them to support C++ iterators. This library follows the begin() convention introduced by the Serial and Wire classes, i.e. to initialize the object.
 
