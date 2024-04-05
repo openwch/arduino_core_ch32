@@ -151,8 +151,8 @@ The method returns a `uint32_t` value, containing the data0 and data1 bytes and 
 
 ## Features & limitations
 - The first release of this library was made only for the CH32V003 and has been tested on that MCU only. Other members of the CH32 may behave incorrectly or not work at all. 
-- The CH32V003 has only 26 bytes available. When addressing more things are likely to go wrong. A future release may allow using more pages from the flash memory.
-- Most CH32 EEPROM methods are the same as their equivalent on regular Arduino's. BEWARE: The begin() and end() methods fumction like their ESP8266/ESP, but are very different from the begin() and end() methods of EEPROM v2.0 by Christopher Andrews, who introduced them to support C++ iterators. This library follows the begin() convention introduced by the Serial and Wire classes, i.e. to initialize the object.
+- This EEPROM implementation for the CH32V003 has only 26 bytes available. When addressing more, things are likely to go wrong. A future release may allow using more pages from the flash memory.
+- Most CH32 EEPROM methods are the same as their equivalent on regular Arduino's. BEWARE: The begin() and end() methods are like their counterparts for ESP8266/ESP32, but are very different from the begin() and end() methods of EEPROM v2.0 by Christopher Andrews, who introduced them to support C++ iterators. This library follows the begin() convention introduced by the Serial and Wire classes, i.e. to initialize the object.
 
 ## Disclaimer
 - All code on this GitHub account, including this library is provided to you on an as-is basis without guarantees and with all liability dismissed. It may be used at your own risk. Unfortunately I have no means to provide support.
