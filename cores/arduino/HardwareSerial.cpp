@@ -147,7 +147,7 @@ void HardwareSerial::end()
 
 int HardwareSerial::available(void)
 {
-  return -1;
+  return !serial_rx_active(&_serial);
 }
 
 int HardwareSerial::peek(void)
