@@ -70,7 +70,12 @@ HardwareTimer::HardwareTimer(TIM_TypeDef *instance)
 #endif
 
 #ifdef TIM2_BASE
-  NVIC_EnableIRQ(TIM2_IRQn);
+  #ifdef TIM2_IRQn
+    NVIC_EnableIRQ(TIM2_IRQn);
+  #else
+    NVIC_EnableIRQ(TIM2_UP_IRQn);
+    NVIC_EnableIRQ(TIM2_CC_IRQn);
+  #endif
 #endif
 
 #ifdef TIM3_BASE
