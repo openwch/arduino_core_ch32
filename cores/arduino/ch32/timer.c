@@ -259,7 +259,11 @@ IRQn_Type getTimerUpIrq(TIM_TypeDef *tim)
 #endif
 #if defined(TIM2_BASE)
       case (uint32_t)TIM2_BASE:
+#if defined(TIM2_IRQn)
         IRQn = TIM2_IRQn;
+#else
+        IRQn = TIM2_UP_IRQn;
+#endif
         break;
 #endif
 #if defined(TIM3_BASE)
@@ -329,7 +333,11 @@ IRQn_Type getTimerCCIrq(TIM_TypeDef *tim)
 #endif
 #if defined(TIM2_BASE)
       case (uint32_t)TIM2_BASE:
+#if defined(TIM2_IRQn)
         IRQn = TIM2_IRQn;
+#else
+        IRQn = TIM2_CC_IRQn;
+#endif
         break;
 #endif
 #if defined(TIM3_BASE)
