@@ -21,7 +21,7 @@ Ported to CH32 by Maxint R&D, based on multiple sources:
 On the CH32V003 there are 2+24 bytes available. The first two bytes are Option bytes data0 and data1.
 All bytes are copied to a 26-byte long byte array in RAM. After changing a value the commit() method is used to write flash.
 
-From the CH32V004 Data Sheet:
+From the CH32V003 Data Sheet:
 >  "Built-in 1920 bytes of system storage (System FLASH) for system bootloader storage (factory-cured
   bootloader) 64 bytes are used for the system non-volatile configuration information storage area and 64 bytes
   are used for the user select word storage area."
