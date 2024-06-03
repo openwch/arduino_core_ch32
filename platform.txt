@@ -36,11 +36,11 @@ compiler.libraries.ldflags=
 
 compiler.extra_flags=-march={build.march} -mabi={build.mabi} -msmall-data-limit=8 -msave-restore -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common 
 
-compiler.S.flags={compiler.extra_flags} -x assembler-with-cpp "-I{build.system.path}/{build.series}/SRC/Startup/" "-I{build.core.path}/ch32/"
+compiler.S.flags={compiler.extra_flags} -x assembler-with-cpp {build.flags.clock} "-I{build.system.path}/{build.series}/SRC/Startup/" "-I{build.core.path}/ch32/"
 
-compiler.c.flags={compiler.extra_flags} -c {build.flags.optimize} {build.flags.debug} {compiler.warning_flags} -std=gnu99 -MMD {compiler.ch.extra_include}
+compiler.c.flags={build.flags.clock} {compiler.extra_flags} -c {build.flags.optimize} {build.flags.debug} {compiler.warning_flags} -std=gnu99 -MMD {compiler.ch.extra_include}
 
-compiler.cpp.flags={compiler.extra_flags} -c {build.flags.optimize} {build.flags.debug} {compiler.warning_flags} -std={compiler.cpp.std}  -fno-threadsafe-statics  -fno-rtti -fno-exceptions -fno-use-cxa-atexit -MMD {compiler.ch.extra_include} -fpermissive
+compiler.cpp.flags={build.flags.clock} {compiler.extra_flags} -c {build.flags.optimize} {build.flags.debug} {compiler.warning_flags} -std={compiler.cpp.std}  -fno-threadsafe-statics  -fno-rtti -fno-exceptions -fno-use-cxa-atexit -MMD {compiler.ch.extra_include} -fpermissive 
 
 compiler.ar.flags=rcs
 
@@ -99,6 +99,7 @@ build.enable_virtio=
 build.peripheral_pins=
 build.startup_file=
 build.flags.fp=
+build.flags.clock=
 build.flags.optimize=
 build.flags.debug=
 build.flags.ldspecs=

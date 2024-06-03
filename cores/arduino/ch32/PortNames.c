@@ -62,48 +62,80 @@ GPIO_TypeDef *set_GPIO_Port_Clock(uint32_t port_idx)
   switch (port_idx) {
     case PortA:
       gpioPort = GPIOA;
+      #if defined(CH32L10x) || defined(CH32VM00X)
+      RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOA, ENABLE);
+      #else
       RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+      #endif
       break;
 #if defined GPIOB_BASE      
     case PortB:
       gpioPort = GPIOB;
+      #if defined(CH32L10x) || defined(CH32VM00X)
+      RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOB, ENABLE);      
+      #else
       RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+      #endif
       break;
 #endif       
 #if defined GPIOC_BASE
     case PortC:
       gpioPort = GPIOC;
+      #if defined(CH32L10x) || defined(CH32VM00X)
+      RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOC, ENABLE);
+      #else
       RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+      #endif
       break;
 #endif
 #if defined GPIOD_BASE
     case PortD:
       gpioPort = GPIOD;
+      #if defined(CH32L10x) || defined(CH32VM00X)
+      RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOD, ENABLE);          
+      #else
       RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+      #endif
       break;
 #endif
 #if defined GPIOE_BASE
     case PortE:
       gpioPort = GPIOE;
+      #if defined(CH32L10x) 
+      RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOE, ENABLE);
+      #else
       RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE, ENABLE);
+      #endif      
       break;
 #endif
 #if defined RCC_APB2Periph_GPIOF
     case PortF:
       gpioPort = GPIOF;
+      #if defined(CH32L10x) 
+      RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOF, ENABLE);      
+      #else 
       RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF, ENABLE);
+      #endif    
       break;
 #endif
 #if defined RCC_APB2Periph_GPIOG
     case PortG:
       gpioPort = GPIOG;
+      #if defined(CH32L10x)      
+      RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOG, ENABLE);
+      #else
       RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOG, ENABLE);
+      #endif
       break;
 #endif
 #if defined RCC_APB2Periph_GPIOH
     case PortH:
       gpioPort = GPIOH;
-      RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOH, ENABLE);
+      #if defined(CH32L10x)
+      RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOH, ENABLE);
+      #else
+      RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOH, ENABLE);      
+      #endif
       break;
 #endif
     default:

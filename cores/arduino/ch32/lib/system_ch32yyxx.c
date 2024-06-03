@@ -2,6 +2,10 @@
 #include "system_ch32v00x.c"    
 #endif
 
+#ifdef CH32VM00X
+#include "system_ch32v00X.c"
+#endif
+
 #ifdef CH32X035
 #include "system_ch32x035.c"    
 #endif
@@ -18,3 +22,6 @@
 #include "system_ch32v30x.c"
 #endif
 
+#if defined(CH32L10x)
+#include "system_ch32l103.c"
+#endif

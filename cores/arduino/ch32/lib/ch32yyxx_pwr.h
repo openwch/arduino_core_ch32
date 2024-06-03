@@ -5,6 +5,10 @@
 #include "ch32v00x_pwr.h"
 #endif
 
+#ifdef CH32VM00X
+#include "ch32v00X_pwr.h"
+#endif
+
 #ifdef CH32X035
 #include "ch32x035_pwr.h"
 #endif
@@ -20,5 +24,11 @@
 #if defined(CH32V30x) ||defined(CH32V30x_C)
 #include "ch32v30x_pwr.h"
 #endif
+
+#if defined(CH32L10x)
+#include "ch32l103_pwr.h"
+#endif
+
+
 
 #endif  /* __CH32YYXX_PWR_H_ */

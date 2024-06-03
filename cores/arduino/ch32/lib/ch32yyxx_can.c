@@ -5,3 +5,8 @@
 #if defined(CH32V30x) || defined(CH32V30x_C)
 #include "ch32v30x_can.c"
 #endif
+
+
+#if defined(CH32L10x)
+#include "ch32l103_can.c"
+#endif

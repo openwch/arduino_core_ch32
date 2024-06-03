@@ -1,0 +1,12 @@
+# This file help to add generic board entry.
+
+
+
+# CH32V008K8
+CH32VM00X_EVT.menu.pnum.CH32V006K8=CH32VM00X EVT
+CH32VM00X_EVT.menu.pnum.CH32V006K8.upload.maximum_size=63488
+CH32VM00X_EVT.menu.pnum.CH32V006K8.upload.maximum_data_size=8192
+CH32VM00X_EVT.menu.pnum.CH32V006K8.build.board=CH32V006K8
+CH32VM00X_EVT.menu.pnum.CH32V006K8.build.product_line=CH32VM00X
+CH32VM00X_EVT.menu.pnum.CH32V006K8.build.variant=CH32VM00X/CH32V006K8
+

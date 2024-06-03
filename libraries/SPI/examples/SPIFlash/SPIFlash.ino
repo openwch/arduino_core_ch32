@@ -129,7 +129,7 @@ uint16_t readFlashID(void)
   SPI.transfer(0x00);
   SPI.transfer(0x00);
   SPI.transfer(0x00);
-  id |= SPI.transfer(0xFF) << 8;
+  id  = SPI.transfer(0xFF) << 8;
   id |= SPI.transfer(0xFF);
   digitalWrite(chipSelectPin, HIGH);
   return id;

@@ -64,16 +64,16 @@ HardwareTimer::HardwareTimer(TIM_TypeDef *instance)
   _timerObj.handle.Instance = nullptr;
   setup(instance);
   
-#ifdef TIM1_BASE
+#if defined(TIM1_BASE) 
   NVIC_EnableIRQ(TIM1_UP_IRQn);
   NVIC_EnableIRQ(TIM1_CC_IRQn);
 #endif
 
-#ifdef TIM2_BASE
+#ifdef TIM2_BASE 
   NVIC_EnableIRQ(TIM2_IRQn);
 #endif
 
-#ifdef TIM3_BASE
+#if defined(TIM3_BASE) && defined(TIM3_IRQn)  //v006 has no interruption
   NVIC_EnableIRQ(TIM3_IRQn);  
 #endif
 
@@ -1503,7 +1503,7 @@ uint32_t HardwareTimer::getTimerClkFreq()
   /* Get clock configuration */
   RCC_GetClocksFreq(&RCC_ClocksStatus);
 
-#if !defined(CH32V00x) && !defined(CH32X035)  
+#if !defined(CH32V00x) && !defined(CH32X035) && !defined(CH32VM00X)
   switch (getTimerClkSrc(_timerObj.handle.Instance)) 
   {
     case 1:

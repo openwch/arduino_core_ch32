@@ -11,7 +11,7 @@ typedef struct {
 } gpio_irq_conf_str;
 
 /* Private_Defines */
-#ifdef CH32V00x
+#if defined(CH32V00x) || defined(CH32VM00X)
 #define NB_EXTI   (8) 
 
 #elif defined(CH32X035)
@@ -24,7 +24,7 @@ typedef struct {
 
 /* Private Variables */
 static gpio_irq_conf_str gpio_irq_conf[NB_EXTI] = {
-#if defined (CH32V00x)
+#if defined(CH32V00x) || defined(CH32VM00X)
   {.irqnb = EXTI7_0_IRQn,   .callback = NULL}, //GPIO_PIN_0
   {.irqnb = EXTI7_0_IRQn,   .callback = NULL}, //GPIO_PIN_1
   {.irqnb = EXTI7_0_IRQn,   .callback = NULL}, //GPIO_PIN_2
@@ -103,7 +103,7 @@ static const uint32_t exti_lines[NB_EXTI] = {
 static const uint32_t exti_lines[NB_EXTI] = {
   EXTI_Line0,  EXTI_Line1,  EXTI_Line2,  EXTI_Line3,
   EXTI_Line4,  EXTI_Line5,  EXTI_Line6,  EXTI_Line7, 
-  #if !defined(CH32V00x)
+  #if !defined(CH32V00x) && !defined(CH32VM00X)
   EXTI_Line8,  EXTI_Line9,  EXTI_Line10, EXTI_Line11,
   EXTI_Line12, EXTI_Line13, EXTI_Line14, EXTI_Line15
   #endif
@@ -138,7 +138,11 @@ void ch32_interrupt_enable(GPIO_TypeDef *port, GPIOMode_TypeDef io_mode,uint16_t
     uint8_t gpio_port_souce=0;
     GPIO_InitStruct.GPIO_Pin  = pin;
     GPIO_InitStruct.GPIO_Mode = io_mode;
-    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+    #if defined (CH32VM00X)
+    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_30MHz;      
+    #else
+    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;  
+    #endif
     GPIO_Init(port, &GPIO_InitStruct);
 
     #if defined(GPIOA_BASE)
@@ -215,7 +219,7 @@ void _gpio_exti_callback(uint16_t GPIO_Pin)
 
 
 
-#if defined(CH32V00x)
+#if defined(CH32V00x) || defined(CH32VM00X)
 
 #ifdef __cplusplus
 extern "C" {
@@ -227,8 +231,11 @@ void EXTI7_0_IRQHandler(void)
    uint32_t pin;
    for (pin = GPIO_Pin_0; pin <= GPIO_Pin_7; pin = pin << 1) 
    {
-      EXTI_ClearITPendingBit(pin);   //0x1 2 4 8 10 20 40 80
-      _gpio_exti_callback(pin);
+      if(EXTI_GetITStatus(pin))        
+      {
+        EXTI_ClearITPendingBit(pin);   //0x1 2 4 8 10 20 40 80
+        _gpio_exti_callback(pin);
+      }
    }
 }
 #ifdef __cplusplus
@@ -252,8 +259,11 @@ void EXTI7_0_IRQHandler(void)
    uint32_t pin;
    for (pin = GPIO_Pin_0; pin <= GPIO_Pin_7; pin = pin << 1) 
    {
-      EXTI_ClearITPendingBit(pin);   //0x1 2 4 8 10 20 40 80
-      _gpio_exti_callback(pin);
+      if(EXTI_GetITStatus(pin))
+      {
+        EXTI_ClearITPendingBit(pin);   //0x1 2 4 8 10 20 40 80
+        _gpio_exti_callback(pin);
+      }
    }
 }
 
@@ -262,8 +272,11 @@ void EXTI15_8_IRQHandler(void)
    uint32_t pin;
    for (pin = GPIO_Pin_8; pin <= GPIO_Pin_15; pin = pin << 1) 
    {
-      EXTI_ClearITPendingBit(pin);   //0x1 2 4 8 10 20 40 80
-      _gpio_exti_callback(pin);
+      if(EXTI_GetITStatus(pin))
+      {
+        EXTI_ClearITPendingBit(pin);   //0x1 2 4 8 10 20 40 80
+        _gpio_exti_callback(pin);
+      }
    }
 }
 
@@ -272,8 +285,11 @@ void EXTI25_16_IRQHandler(void)
    uint32_t pin;
    for (pin = GPIO_Pin_16; pin <= GPIO_Pin_23; pin = pin << 1) 
    {
-      EXTI_ClearITPendingBit(pin);   //0x1 2 4 8 10 20 40 80
-      _gpio_exti_callback(pin);
+      if(EXTI_GetITStatus(pin))
+      {
+        EXTI_ClearITPendingBit(pin);   //0x1 2 4 8 10 20 40 80
+        _gpio_exti_callback(pin);
+      }
    }
 }
 
@@ -361,8 +377,11 @@ void EXTI9_5_IRQHandler(void)
 {
   uint32_t pin;
   for (pin = GPIO_Pin_5; pin <= GPIO_Pin_9; pin = pin << 1) {
-    EXTI_ClearITPendingBit(pin); 
-    _gpio_exti_callback(pin);
+    if(EXTI_GetITStatus(pin))
+    {
+      EXTI_ClearITPendingBit(pin); 
+      _gpio_exti_callback(pin);
+    }
   }
 }
 
@@ -375,8 +394,11 @@ void EXTI15_10_IRQHandler(void)
 {
   uint32_t pin;
   for (pin = GPIO_Pin_10; pin <= GPIO_Pin_15; pin = pin << 1) {
-      EXTI_ClearITPendingBit(pin); 
-    _gpio_exti_callback(pin);
+      if(EXTI_GetITStatus(pin))
+      {
+        EXTI_ClearITPendingBit(pin); 
+        _gpio_exti_callback(pin);
+      }
   }
 }
 
