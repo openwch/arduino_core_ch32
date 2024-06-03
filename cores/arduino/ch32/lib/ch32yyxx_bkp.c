@@ -8,4 +8,7 @@
 
 #elif defined(CH32V30x) || defined(CH32V30x_C)
 #include "ch32v30x_bkp.c"
+
+#elif defined(CH32L10x)
+#include "ch32l103_bkp.c"
 #endif

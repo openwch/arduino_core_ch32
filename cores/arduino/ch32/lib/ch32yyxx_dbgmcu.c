@@ -2,6 +2,10 @@
 #include "ch32v00x_dbgmcu.c"
 #endif
 
+#ifdef CH32VM00X
+#include "ch32v00X_dbgmcu.c"
+#endif
+
 #ifdef CH32X035
 #include "ch32x035_dbgmcu.c"
 #endif
@@ -20,4 +24,8 @@
 
 #include "ch32v30x_dbgmcu.c"
 
+#endif
+
+#if defined(CH32L10x)
+#include "ch32l103_dbgmcu.c"
 #endif

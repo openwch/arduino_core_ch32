@@ -172,7 +172,11 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
 #if defined(USART1_BASE)
   else if (obj->uart == USART1) 
   {
+    #if defined(CH32L10x) || defined(CH32VM00X)
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_USART1, ENABLE);
+    #else
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
+    #endif
     obj->index = UART1_INDEX;
     obj->irq = USART1_IRQn;
   }
@@ -180,7 +184,13 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
 #if defined(USART2_BASE)
   else if (obj->uart == USART2) 
   {
+    #if defined(CH32L10x) 
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_USART2, ENABLE);
+    #elif defined(CH32VM00X)
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_USART2, ENABLE);
+    #else
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
+    #endif
     obj->index = UART2_INDEX;
     obj->irq = USART2_IRQn;
   }
@@ -188,12 +198,16 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
 #if defined(USART3_BASE) 
   else if (obj->uart == USART3) 
   {
+    #if defined(CH32L10x)
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_USART3, ENABLE);   
+    #else
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
+    #endif
     obj->index = UART3_INDEX;
     obj->irq = USART3_IRQn;
   }
 #endif
-#if defined(UART4_BASE) && !defined(CH32V10x)
+#if defined(UART4_BASE) && !defined(CH32V10x) && !defined(CH32L10x)
   else if (obj->uart == UART4) 
   {
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART4, ENABLE);
@@ -201,7 +215,7 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
     obj->irq = UART4_IRQn;
   }
 #endif
-#if defined(UART5_BASE) && !defined(CH32V10x)
+#if defined(UART5_BASE) && !defined(CH32V10x) && !defined(CH32L10x)
   else if (obj->uart == UART5) 
   {
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART5, ENABLE);
@@ -284,54 +298,97 @@ void uart_deinit(serial_t *obj)
   {
 #if defined(USART1_BASE)
     case UART1_INDEX:
+      #if defined(CH32L10x) || defined(CH32VM00X)
+      RCC_PB2PeriphResetCmd(RCC_PB2Periph_USART1, ENABLE);
+      RCC_PB2PeriphResetCmd(RCC_PB2Periph_USART1, DISABLE);
+      #else
       RCC_APB2PeriphResetCmd(RCC_APB2Periph_USART1, ENABLE);
       RCC_APB2PeriphResetCmd(RCC_APB2Periph_USART1, DISABLE);
+      #endif
       break;
 #endif
 #if defined(USART2_BASE)
     case UART2_INDEX:
+      #if defined(CH32L10x) 
+      RCC_PB1PeriphResetCmd(RCC_PB1Periph_USART2, ENABLE);
+      RCC_PB1PeriphResetCmd(RCC_PB1Periph_USART2, DISABLE);
+      #elif defined(CH32VM00X)
+      RCC_PB2PeriphResetCmd(RCC_PB2Periph_USART2, ENABLE);
+      RCC_PB2PeriphResetCmd(RCC_PB2Periph_USART2, DISABLE);
+      #else
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART2, ENABLE);
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART2, DISABLE);
+      #endif
       break;
 #endif
 #if defined(USART3_BASE)
     case UART3_INDEX:
+      #if defined(CH32L10x)
+      RCC_PB1PeriphResetCmd(RCC_PB1Periph_USART3, ENABLE);
+      RCC_PB1PeriphResetCmd(RCC_PB1Periph_USART3, DISABLE);    
+      #else
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART3, ENABLE);
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART3, DISABLE);    
+      #endif
       break;
 #endif
 #if defined(UART4_BASE)
     case UART4_INDEX:
+      #if defined(CH32L10x)
+      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART4, ENABLE);
+      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART4, DISABLE);
+      #else
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART4, ENABLE);
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART4, DISABLE);
+      #endif
       break;
 #endif
 
 #if defined(UART5_BASE)
     case UART5_INDEX:
+      #if defined(CH32L10x)
+      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART5, ENABLE);
+      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART5, DISABLE);
+      #else
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART5, ENABLE);
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART5, DISABLE);
+      #endif    
       break;
 #endif
 
 #if defined(UART6_BASE)
     case UART6_INDEX:
+      #if defined(CH32L10x)
+      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART6, ENABLE);
+      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART6, DISABLE);
+      #else
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART6, ENABLE);
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART6, DISABLE);
+      #endif
       break;
 #endif
 
 #if defined(UART7_BASE)
     case UART7_INDEX:
+      #if defined(CH32L10x)
+      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART7, ENABLE);
+      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART7, DISABLE);
+      #else
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART7, ENABLE);
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART7, DISABLE);
+      #endif
       break;
 #endif
 
 #if defined(UART8_BASE)
     case UART8_INDEX:
+      #if defined(CH32L10x)
+      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART8, ENABLE);
+      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART8, DISABLE);
+      #else
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART8, ENABLE);
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART8, DISABLE);
+      #endif
       break;
 #endif
   }

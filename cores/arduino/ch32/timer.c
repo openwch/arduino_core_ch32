@@ -129,52 +129,92 @@ void enableTimerClock(TIM_HandleTypeDef *htim)
   // Enable TIM clock
 #if defined(TIM1_BASE)
   if (htim->Instance == TIM1) {
+    #if defined(CH32L10x) || defined(CH32VM00X)
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_TIM1, ENABLE);
+    #else
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
+    #endif
   }
 #endif
 #if defined(TIM2_BASE)
   if (htim->Instance == TIM2) {
+    #if defined(CH32L10x) || defined(CH32VM00X)
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM2, ENABLE);
+    #else
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+    #endif
   }
 #endif
 #if defined(TIM3_BASE)
   if (htim->Instance == TIM3) {
+    #if defined(CH32L10x) || defined(CH32VM00X)
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM3, ENABLE);
+    #else
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+    #endif
   }
 #endif
 #if defined(TIM4_BASE)
   if (htim->Instance == TIM4) {
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
+    #if defined(CH32L10x)
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM4, ENABLE);    
+    #else
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);    
+    #endif
   }
 #endif
 #if defined(TIM5_BASE)
   if (htim->Instance == TIM5) {
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE);
+  #if defined(CH32L10x)
+  RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM5, ENABLE);  
+  #else
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE);  
+  #endif    
   }
 #endif
 #if defined(TIM6_BASE)
   if (htim->Instance == TIM6) {
+  #if defined(CH32L10x)
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM6, ENABLE);  
+  #else    
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM6, ENABLE);    
+  #endif
   }
 #endif
 #if defined(TIM7_BASE)
   if (htim->Instance == TIM7) {
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM7, ENABLE);    
+    #if defined(CH32L10x)
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM7, ENABLE);    
+    #else
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM7, ENABLE);       
+    #endif
   }
 #endif
 #if defined(TIM8_BASE)
   if (htim->Instance == TIM8) {
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM8, ENABLE);    
+    #if defined(CH32L10x)
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_TIM8, ENABLE);    
+    #else
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM8, ENABLE);     
+    #endif
   }
 #endif
 #if defined(TIM9_BASE)
   if (htim->Instance == TIM9) {
+    #if defined(CH32L10x)
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_TIM9, ENABLE);        
+    #else
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM9, ENABLE);    
+    #endif
   }
 #endif
 #if defined(TIM10_BASE)
   if (htim->Instance == TIM10) {
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM10, ENABLE);    
+    #if defined(CH32L10x)
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_TIM10, ENABLE);    
+    #else
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM10, ENABLE);        
+    #endif
   }
 #endif
 
@@ -190,52 +230,92 @@ void disableTimerClock(TIM_HandleTypeDef *htim)
   // Enable TIM clock
 #if defined(TIM1_BASE)
   if (htim->Instance == TIM1) {
+    #if defined(CH32L10x) || defined(CH32VM00X)
+     RCC_PB2PeriphClockCmd(RCC_PB2Periph_TIM1, DISABLE);
+    #else
      RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, DISABLE);
+    #endif
   }
 #endif
 #if defined(TIM2_BASE)
   if (htim->Instance == TIM2) {
+    #if defined(CH32L10x) || defined(CH32VM00X)
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM2, DISABLE);
+    #else
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, DISABLE);
+    #endif
   }
 #endif
 #if defined(TIM3_BASE)
   if (htim->Instance == TIM3) {
+    #if defined(CH32L10x) || defined(CH32VM00X)
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM3, DISABLE);
+    #else
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, DISABLE);
+    #endif
   }
 #endif
 #if defined(TIM4_BASE)
   if (htim->Instance == TIM4) {
+    #if defined(CH32L10x)
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM4, DISABLE);    
+    #else
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, DISABLE);
+    #endif
   }
 #endif
 #if defined(TIM5_BASE)
   if (htim->Instance == TIM5) {
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, DISABLE);
+    #if defined(CH32L10x)
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM5, DISABLE);
+    #else
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, DISABLE);    
+    #endif
   }
 #endif
 #if defined(TIM6_BASE)
   if (htim->Instance == TIM6) {
+    #if defined(CH32L10x)
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM6, DISABLE);
+    #else
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM6, DISABLE);
+    #endif
   }
 #endif
 #if defined(TIM7_BASE)
   if (htim->Instance == TIM7) {
+    #if defined(CH32L10x)
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM7, DISABLE);    
+    #else
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM7, DISABLE);
+    #endif
   }
 #endif
 #if defined(TIM8_BASE)
   if (htim->Instance == TIM8) {
+    #if defined(CH32L10x)
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_TIM8, DISABLE);
+    #else
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM8, DISABLE);
+    #endif
   }
 #endif
 #if defined(TIM9_BASE)
   if (htim->Instance == TIM9) {
+    #if defined(CH32L10x)
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_TIM9, DISABLE);    
+    #else
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM9, DISABLE);
+    #endif
   }
 #endif
 #if defined(TIM10_BASE)
   if (htim->Instance == TIM10) {
+    #if defined(CH32L10x)
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_TIM10, DISABLE);        
+    #else
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM10, DISABLE);
+    #endif
   }
 #endif
 }
@@ -262,7 +342,7 @@ IRQn_Type getTimerUpIrq(TIM_TypeDef *tim)
         IRQn = TIM2_IRQn;
         break;
 #endif
-#if defined(TIM3_BASE)
+#if defined(TIM3_BASE) && defined(TIM3_IRQn)
       case (uint32_t)TIM3_BASE:
         IRQn = TIM3_IRQn;
         break;
@@ -272,32 +352,32 @@ IRQn_Type getTimerUpIrq(TIM_TypeDef *tim)
         IRQn = TIM4_IRQn;
         break;
 #endif
-#if defined(TIM5_BASE) && !defined(CH32V10x) && !defined(CH32V20x)
+#if defined(TIM5_BASE) && !defined(CH32V10x) && !defined(CH32V20x) && !defined(CH32L10x)
       case (uint32_t)TIM5_BASE:
         IRQn = TIM5_IRQn;
         break;
 #endif
-#if defined(TIM6_BASE) && !defined(CH32V10x) && !defined(CH32V20x)
+#if defined(TIM6_BASE) && !defined(CH32V10x) && !defined(CH32V20x) && !defined(CH32L10x)
       case (uint32_t)TIM6_BASE:
         IRQn = TIM6_IRQn;
         break;
 #endif
-#if defined(TIM7_BASE) && !defined(CH32V10x) && !defined(CH32V20x)
+#if defined(TIM7_BASE) && !defined(CH32V10x) && !defined(CH32V20x) && !defined(CH32L10x)
       case (uint32_t)TIM7_BASE:
         IRQn = TIM7_IRQn;
         break;
 #endif
-#if defined(TIM8_BASE) && !defined(CH32V10x) && !defined(CH32V20x)
+#if defined(TIM8_BASE) && !defined(CH32V10x) && !defined(CH32V20x) && !defined(CH32L10x)
       case (uint32_t)TIM8_BASE:
         IRQn = TIM8_UP_IRQn;
         break;
 #endif
-#if defined(TIM9_BASE) && !defined(CH32V10x) && !defined(CH32V20x)
+#if defined(TIM9_BASE) && !defined(CH32V10x) && !defined(CH32V20x) && !defined(CH32L10x)
       case (uint32_t)TIM9_BASE:
         IRQn = TIM9_UP_IRQn;
         break;
 #endif
-#if defined(TIM10_BASE) && !defined(CH32V10x) && !defined(CH32V20x)
+#if defined(TIM10_BASE) && !defined(CH32V10x) && !defined(CH32V20x) && !defined(CH32L10x)
       case (uint32_t)TIM10_BASE:
         IRQn = TIM10_UP_IRQn;
         break;
@@ -332,7 +412,7 @@ IRQn_Type getTimerCCIrq(TIM_TypeDef *tim)
         IRQn = TIM2_IRQn;
         break;
 #endif
-#if defined(TIM3_BASE)
+#if defined(TIM3_BASE) && defined(TIM3_IRQn)
       case (uint32_t)TIM3_BASE:
         IRQn = TIM3_IRQn;
         break;
@@ -342,32 +422,32 @@ IRQn_Type getTimerCCIrq(TIM_TypeDef *tim)
         IRQn = TIM4_IRQn;
         break;
 #endif
-#if defined(TIM5_BASE) && !defined(CH32V20x) && !defined(CH32V10x)  
+#if defined(TIM5_BASE) && !defined(CH32V20x) && !defined(CH32V10x) && !defined(CH32L10x) 
       case (uint32_t)TIM5_BASE:
         IRQn = TIM5_IRQn;
         break;
 #endif
-#if defined(TIM6_BASE) && !defined(CH32V20x) && !defined(CH32V10x)  
+#if defined(TIM6_BASE) && !defined(CH32V20x) && !defined(CH32V10x)  && !defined(CH32L10x)
       case (uint32_t)TIM6_BASE:
         IRQn = TIM6_IRQn;
         break;
 #endif
-#if defined(TIM7_BASE) && !defined(CH32V20x) && !defined(CH32V10x)  
+#if defined(TIM7_BASE) && !defined(CH32V20x) && !defined(CH32V10x) && !defined(CH32L10x) 
       case (uint32_t)TIM7_BASE:
         IRQn = TIM7_IRQn;
         break;
 #endif
-#if defined(TIM8_BASE) && !defined(CH32V20x) && !defined(CH32V10x)  
+#if defined(TIM8_BASE) && !defined(CH32V20x) && !defined(CH32V10x)  && !defined(CH32L10x)
       case (uint32_t)TIM8_BASE:
         IRQn = TIM8_CC_IRQn;
         break;
 #endif
-#if defined(TIM9_BASE) && !defined(CH32V20x) && !defined(CH32V10x)  
+#if defined(TIM9_BASE) && !defined(CH32V20x) && !defined(CH32V10x)  && !defined(CH32L10x)
       case (uint32_t)TIM9_BASE:
         IRQn = TIM9_CC_IRQn;
         break;
 #endif
-#if defined(TIM10_BASE) && !defined(CH32V20x) && !defined(CH32V10x)  
+#if defined(TIM10_BASE) && !defined(CH32V20x) && !defined(CH32V10x)  && !defined(CH32L10x)
       case (uint32_t)TIM10_BASE:
         IRQn = TIM10_CC_IRQn;
         break;

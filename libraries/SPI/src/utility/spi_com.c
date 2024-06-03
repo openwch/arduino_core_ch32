@@ -239,27 +239,45 @@ void spi_init(spi_t *obj, uint32_t speed, spi_mode_e mode, uint8_t msb)
   // Enable SPI clock
   if (handle->Instance == SPI1) 
   {
+    #if defined(CH32L10x)
+    RCC_PB2PeriphResetCmd(RCC_PB2Periph_SPI1, ENABLE);
+    RCC_PB2PeriphResetCmd(RCC_PB2Periph_SPI1, DISABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_SPI1, ENABLE );
+    #else
     RCC_APB2PeriphResetCmd(RCC_APB2Periph_SPI1, ENABLE);
     RCC_APB2PeriphResetCmd(RCC_APB2Periph_SPI1, DISABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE );
+    #endif
   }
 #endif
 
 #if defined SPI2_BASE
   if (handle->Instance == SPI2) 
   {
+    #if defined(CH32L10x)
+    RCC_PB1PeriphResetCmd(RCC_PB1Periph_SPI2, ENABLE);
+    RCC_PB1PeriphResetCmd(RCC_PB1Periph_SPI2, DISABLE);
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_SPI2, ENABLE );
+    #else
     RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI2, ENABLE);
     RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI2, DISABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE );
+    #endif
   }
 #endif
 
 #if defined SPI3_BASE
   if (handle->Instance == SPI3) 
   {
+    #if defined(CH32L10x)
+    RCC_PB1PeriphResetCmd(RCC_PB1Periph_SPI3, ENABLE);
+    RCC_PB1PeriphResetCmd(RCC_PB1Periph_SPI3, DISABLE);
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_SPI3, ENABLE );
+    #else
     RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3, ENABLE);
     RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3, DISABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI3, ENABLE );
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI3, ENABLE );    
+    #endif
   }
 #endif
   SPI_Init( handle->Instance, &handle->Init );
@@ -288,26 +306,44 @@ void spi_deinit(spi_t *obj)
   // Reset SPI and disable clock
   if (handle->Instance == SPI1) 
   {
+    #if defined(CH32L10x)
+    RCC_PB2PeriphResetCmd(RCC_PB2Periph_SPI1, ENABLE);
+    RCC_PB2PeriphResetCmd(RCC_PB2Periph_SPI1, DISABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_SPI1, DISABLE);
+    #else
     RCC_APB2PeriphResetCmd(RCC_APB2Periph_SPI1, ENABLE);
     RCC_APB2PeriphResetCmd(RCC_APB2Periph_SPI1, DISABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, DISABLE);
+    #endif
   }
 #endif
 #if defined SPI2_BASE
   if (handle->Instance == SPI2) 
   {
+    #if defined(CH32L10x)
+    RCC_PB1PeriphResetCmd(RCC_PB1Periph_SPI2, ENABLE);
+    RCC_PB1PeriphResetCmd(RCC_PB1Periph_SPI2, DISABLE);
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_SPI2, DISABLE);
+    #else
     RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI2, ENABLE);
     RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI2, DISABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2, DISABLE);
+    #endif
   }
 #endif
 
 #if defined SPI3_BASE
   if (handle->Instance == SPI3) 
   {
+    #if defined(CH32L10x)
+    RCC_PB1PeriphResetCmd(RCC_PB1Periph_SPI3, ENABLE);
+    RCC_PB1PeriphResetCmd(RCC_PB1Periph_SPI3, DISABLE);
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_SPI3, DISABLE);
+    #else
     RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3, ENABLE);
     RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3, DISABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI3, DISABLE);
+    #endif
   }
 #endif
 }

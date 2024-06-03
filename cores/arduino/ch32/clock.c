@@ -49,7 +49,7 @@ uint32_t getCurrentMillis(void)
 
 
 
-#if defined(CH32V20x) || defined(CH32V30x) || defined(CH32V30x_C) || defined(CH32V00x) || defined(CH32X035)
+#if defined(CH32V20x) || defined(CH32V30x) || defined(CH32V30x_C) || defined(CH32V00x) || defined(CH32X035) || defined(CH32L10x) || defined(CH32VM00X)
 
 uint32_t getCurrentMicros(void)
 {

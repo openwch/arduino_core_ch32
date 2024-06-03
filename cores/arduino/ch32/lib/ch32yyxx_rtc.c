@@ -10,3 +10,6 @@
 #include "ch32v30x_rtc.c"
 #endif
 
+#if defined(CH32L10x)
+#include "ch32l103_rtc.c"
+#endif

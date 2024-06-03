@@ -5,6 +5,10 @@
 #include "ch32v00x_spi.h"
 #endif
 
+#ifdef CH32VM00X
+#include "ch32v00X_spi.h"
+#endif
+
 #ifdef CH32X035
 #include "ch32x035_spi.h"
 #endif
@@ -19,6 +23,10 @@
 
 #if defined(CH32V30x) || defined(CH32V30x_C)
 #include "ch32v30x_spi.h"
+#endif
+
+#if defined(CH32L10x)
+#include "ch32l103_spi.h"
 #endif
 
 #endif  /* __CH32YYXX_SPI_H_ */

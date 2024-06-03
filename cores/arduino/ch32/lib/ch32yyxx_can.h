@@ -9,4 +9,8 @@
 #include "ch32v30x_can.h"
 #endif
 
+#if defined(CH32L10x)
+#include "ch32l103_can.h"
+#endif
+
 #endif /*__CH32YYXX_CAN_H_*/
