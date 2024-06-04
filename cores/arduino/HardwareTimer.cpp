@@ -73,7 +73,7 @@ HardwareTimer::HardwareTimer(TIM_TypeDef *instance)
   NVIC_EnableIRQ(TIM2_IRQn);
 #endif
 
-#if defined(TIM3_BASE) && defined(TIM3_IRQn)  //v006 has no interruption
+#if defined(TIM3_BASE) && !defined(CH32VM00X)  //v006 has no interruption
   NVIC_EnableIRQ(TIM3_IRQn);  
 #endif
 

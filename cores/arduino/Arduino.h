@@ -49,13 +49,14 @@ void yield(void);
 } // extern "C"
 #endif // __cplusplus
 
-#ifdef __cplusplus
-#  include "WCharacter.h"
-#  include "WString.h"
-#  include "WMath.h"
-//#  include <Tone.h>
-#  include <HardwareSerial.h>
-#endif
+// Move the following content to the file wiring.h  //by TempersLee
+// #ifdef __cplusplus
+// #include "WCharacter.h"
+// #include "WString.h"
+// #include "WMath.h"
+// #  include <Tone.h>
+// #  include <HardwareSerial.h>
+// #endif
 
 // Include pins variant
 #include "pins_arduino.h"
