@@ -93,10 +93,13 @@ void TwoWire::begin(uint8_t address, bool generalCall, bool NoStretchMode)
 
   if (_i2c.isMaster == 0) 
   {
+#if OPT_I2C_SLAVE
+	// MMOLE: these four lines were all commented
     // i2c_attachSlaveTxEvent(&_i2c, reinterpret_cast<void(*)(i2c_t*)>(&TwoWire::onRequestService));
     // i2c_attachSlaveRxEvent(&_i2c, reinterpret_cast<void(*)(i2c_t*, uint8_t*, int)>(&TwoWire::onReceiveService));
-    // i2c_attachSlaveTxEvent(&_i2c, onRequestService);
-    // i2c_attachSlaveRxEvent(&_i2c, onReceiveService); 
+    i2c_attachSlaveTxEvent(&_i2c, onRequestService);
+    i2c_attachSlaveRxEvent(&_i2c, onReceiveService); 
+#endif
   }
 }
 
@@ -277,11 +280,13 @@ size_t TwoWire::write(uint8_t data)
       txDataSize++;
     }
   } else {
+#if OPT_I2C_SLAVE
     // in slave send mode
     // reply to master
     if (i2c_slave_write(&_i2c, &data, 1) != I2C_OK) {
       ret = 0;
     }
+#endif // #if OPT_I2C_SLAVE
   }
   return ret;
 }
@@ -309,11 +314,13 @@ size_t TwoWire::write(const uint8_t *data, size_t quantity)
       txDataSize += quantity;
     }
   } else {
+#if OPT_I2C_SLAVE
     // in slave send mode
     // reply to master
     if (i2c_slave_write(&_i2c, (uint8_t *)data, quantity) != I2C_OK) {
       ret = 0;
     }
+  #endif // #if OPT_I2C_SLAVE
   }
   return ret;
 }
@@ -372,6 +379,7 @@ void TwoWire::flush(void)
 
 
 // behind the scenes function that is called when data is received
+#if OPT_I2C_SLAVE
 void TwoWire::onReceiveService(i2c_t *obj)
 {
   uint8_t *inBytes = (uint8_t *) obj->i2cTxRxBuffer;
@@ -413,7 +421,9 @@ void TwoWire::onRequestService(i2c_t *obj)
     TW->user_onRequest();
   }
 }
+#endif // #if OPT_I2C_SLAVE
 
+#if OPT_I2C_SLAVE
 // sets function called on slave write
 void TwoWire::onReceive(cb_function_receive_t function)
 {
@@ -425,6 +435,7 @@ void TwoWire::onRequest(cb_function_request_t function)
 {
   user_onRequest = function;
 }
+#endif // #if OPT_I2C_SLAVE
 
 
 
