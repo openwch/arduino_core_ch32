@@ -272,7 +272,7 @@ void HardwareSerial::setHandler(void *handler)
   #endif
 
   #if defined(HAVE_HWSERIAL6)
-    HardwareSerial Serial6(USART6);
+    HardwareSerial Serial6(UART6);
   #endif
 
   #if defined(HAVE_HWSERIAL7)

@@ -40,7 +40,7 @@ static inline void resetBackupDomain(void)
 #ifdef PWR_MODULE_ENABLED
   PWR_BackupAccessCmd(ENABLE);
 #endif
-#ifndef CH32V00x
+#if !defined(CH32V00x) && !defined(CH32VM00X) && !(CH32X035)
   RCC_BackupResetCmd(ENABLE);
   RCC_BackupResetCmd(DISABLE);
 #endif
