@@ -70,7 +70,12 @@ HardwareTimer::HardwareTimer(TIM_TypeDef *instance)
 #endif
 
 #ifdef TIM2_BASE 
-  NVIC_EnableIRQ(TIM2_IRQn);
+  #if defined(CH32X035)
+    NVIC_EnableIRQ(TIM2_UP_IRQn);
+    NVIC_EnableIRQ(TIM2_CC_IRQn);
+  #else
+    NVIC_EnableIRQ(TIM2_IRQn);
+  #endif
 #endif
 
 #if defined(TIM3_BASE) && !defined(CH32VM00X)  //v006 has no interruption
@@ -1605,6 +1610,30 @@ extern "C" {
 #endif //TIM1_BASE
 
 #if defined(TIM2_BASE)
+
+  #if defined(CH32X035)
+     /**
+    * @brief  TIM1 IRQHandler 
+    * @param  None
+    * @retval None
+    */
+  void TIM2_UP_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+  void TIM2_UP_IRQHandler(void)
+  {
+    if (HardwareTimer_Handle[TIMER2_INDEX]) {
+      HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER2_INDEX]->handle);
+    }
+  }
+
+  void TIM2_CC_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+  void TIM2_CC_IRQHandler(void)
+  {
+    if (HardwareTimer_Handle[TIMER2_INDEX]) {
+      HardwareTimer::captureCompareCallback(&HardwareTimer_Handle[TIMER2_INDEX]->handle);
+    }
+  }
+
+  #else
   /**
     * @brief  TIM2 IRQHandler
     * @param  None
@@ -1615,11 +1644,12 @@ extern "C" {
   {
     if (HardwareTimer_Handle[TIMER2_INDEX]) 
     {
-      // HAL_TIM_IRQHandler(&HardwareTimer_Handle[TIMER2_INDEX]->handle);
       HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER2_INDEX]->handle);
       HardwareTimer::captureCompareCallback(&HardwareTimer_Handle[TIMER2_INDEX]->handle);
     }
   }
+  #endif
+
 #endif //TIM2_BASE
 
 #if defined(TIM3_BASE)
@@ -1632,7 +1662,6 @@ extern "C" {
   void TIM3_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER3_INDEX]) {
-      // HAL_TIM_IRQHandler(&HardwareTimer_Handle[TIMER3_INDEX]->handle);
       HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER3_INDEX]->handle);
       HardwareTimer::captureCompareCallback(&HardwareTimer_Handle[TIMER3_INDEX]->handle);
     }
@@ -1649,7 +1678,6 @@ extern "C" {
   void TIM4_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER4_INDEX]) {
-      // HAL_TIM_IRQHandler(&HardwareTimer_Handle[TIMER4_INDEX]->handle);
        HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER4_INDEX]->handle);
        HardwareTimer::captureCompareCallback(&HardwareTimer_Handle[TIMER4_INDEX]->handle);
     }
@@ -1666,7 +1694,6 @@ extern "C" {
   void TIM5_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER5_INDEX]) {
-      // HAL_TIM_IRQHandler(&HardwareTimer_Handle[TIMER5_INDEX]->handle);
        HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER5_INDEX]->handle);
        HardwareTimer::captureCompareCallback(&HardwareTimer_Handle[TIMER5_INDEX]->handle);
     }
@@ -1699,7 +1726,6 @@ extern "C" {
   void TIM7_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER7_INDEX]) {
-      // HAL_TIM_IRQHandler(&HardwareTimer_Handle[TIMER7_INDEX]->handle);
        HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER7_INDEX]->handle);
        HardwareTimer::captureCompareCallback(&HardwareTimer_Handle[TIMER7_INDEX]->handle);
     }
@@ -1716,7 +1742,6 @@ extern "C" {
   void TIM8_UP_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER8_INDEX]) {
-      // HAL_TIM_IRQHandler(&HardwareTimer_Handle[TIMER8_INDEX]->handle);
        HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER8_INDEX]->handle);
     }
   }
@@ -1724,7 +1749,6 @@ extern "C" {
   void TIM8_CC_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER8_INDEX]) {
-      // HAL_TIM_IRQHandler(&HardwareTimer_Handle[TIMER8_INDEX]->handle);
       HardwareTimer::captureCompareCallback(&HardwareTimer_Handle[TIMER8_INDEX]->handle);
     }
   }
@@ -1740,7 +1764,6 @@ extern "C" {
   void TIM9_UP_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER9_INDEX]) {
-      // HAL_TIM_IRQHandler(&HardwareTimer_Handle[TIMER9_INDEX]->handle);
        HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER9_INDEX]->handle);
     }
   }
@@ -1763,7 +1786,6 @@ extern "C" {
   void TIM10_UP_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER10_INDEX]) {
-      // HAL_TIM_IRQHandler(&HardwareTimer_Handle[TIMER10_INDEX]->handle);
        HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER10_INDEX]->handle);
     }
   }
