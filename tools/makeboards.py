@@ -11,11 +11,23 @@ mcu_list = {
     'QingKe-V4F': {'march': 'rv32imafcxw', 'mabi': 'ilp32f', 'ch_extra_lib': '-lprintfloat'},
 }
 
+usb_list = {
+    'tinyusb_usbd': {
+        'name': 'Adafruit TinyUSB with USBD',
+        'usb_flags': '-DUSBCON -DUSE_TINYUSB -DCFG_TUD_WCH_USBIP_FSDEV=1 "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"'
+    },
+    'tinyusb_usbfs': {
+        'name': 'Adafruit TinyUSB with USBFS',
+        'usb_flags': '-DUSBCON -DUSE_TINYUSB -DCFG_TUD_WCH_USBIP_USBFS=1 "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"'
+    },
+}
+
 # series: name, pnums
 board_list = {
     'CH32V00x': {
         'name': 'CH32V00x_EVT',
         'info': '',
+        'usb': [],
         'hsi': [48, 24, 8],
         'hse': [48, 24, 8],
         'pnums': {
@@ -25,6 +37,7 @@ board_list = {
     'CH32VM00X': {
         'name': 'CH32VM00X_EVT',
         'info': 'including V/M 002 004 005 006 007',
+        'usb': [],
         'hsi': [48, 24, 8],
         'hse': [48, 24, 8],
         'pnums': {
@@ -34,6 +47,7 @@ board_list = {
     'CH32X035': {
         'name': 'CH32X035_EVT',
         'info': '',
+        'usb': [],
         'hsi': [48, 24, 16, 12, 8],
         'hse': [],
         'pnums': {
@@ -43,6 +57,7 @@ board_list = {
     'CH32V10x': {
         'name': 'CH32V10x_EVT',
         'info': '-lprintf, CH32V10x_3V3: 3.3V power supply  CH32V10x_5V: 5V power supply',
+        'usb': [],
         'hsi': [72, 56, 48, 8],
         'hse': [72, 56, 48, 8],
         'pnums': {
@@ -52,6 +67,7 @@ board_list = {
     'CH32V20x': {
         'name': 'CH32V20x_EVT',
         'info': '',
+        'usb': ['tinyusb_usbd', 'tinyusb_usbfs'],
         'hsi': [144, 120, 96, 72, 56, 48, 0],
         'hse': [144, 120, 96, 72, 56, 48, 0],
         'pnums': {
@@ -64,6 +80,7 @@ board_list = {
     'CH32V30x': {
         'name': 'CH32V30x_EVT',
         'info': '-lprintfloat, CH32V30x_C: connected product_line  CH32V30x: normal product_line',
+        'usb': [],
         'hsi': [144, 120, 96, 72, 56, 48, 0],
         'hse': [144, 120, 96, 72, 56, 48, 0],
         'pnums': {
@@ -73,6 +90,7 @@ board_list = {
     'CH32L10x': {
         'name': 'CH32L10x_EVT',
         'info': '-lprintf',
+        'usb': [],
         'hsi': [96, 72, 56, 48, 0],
         'hse': [96, 72, 56, 48, 0],
         'pnums': {
@@ -137,6 +155,20 @@ def build_pnum(series, values):
         print(f'{menu}.build.IQ_math_RV32=')
         print(f'{menu}.build.ch_extra_lib={mcu_list[mcu]["ch_extra_lib"]}')
         print()
+
+
+def build_usb(series, values):
+    if len(values['usb']) == 0:
+        return
+    print()
+    print("# USB support")
+    name = values["name"]
+    menu = f'{name}.menu.usb'
+    print(f'{menu}.none=None')
+    print(f'{menu}.none.build.usb_flags=')
+    for usb in values['usb']:
+        print(f'{menu}.{usb}={usb_list[usb]["name"]}')
+        print(f'{menu}.{usb}.build.usb_flags={usb_list[usb]["usb_flags"]}')
 
 
 def build_upload(series, values):
@@ -243,6 +275,7 @@ def build_runtimelib(series, values):
 def make_board(series, values):
     build_header(series, values)
     build_pnum(series, values)
+    build_usb(series, values)
     build_upload(series, values)
     build_clock(series, values)
     build_optimization(series, values)

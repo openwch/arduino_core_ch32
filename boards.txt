@@ -493,6 +493,14 @@ CH32V20x_EVT.menu.pnum.CH32V203C6.build.IQ_math_RV32=
 CH32V20x_EVT.menu.pnum.CH32V203C6.build.ch_extra_lib=-lprintf
 
 
+# USB support
+CH32V20x_EVT.menu.usb.none=None
+CH32V20x_EVT.menu.usb.none.build.usb_flags=
+CH32V20x_EVT.menu.usb.tinyusb_usbd=Adafruit TinyUSB with USBD
+CH32V20x_EVT.menu.usb.tinyusb_usbd.build.usb_flags=-DUSBCON -DUSE_TINYUSB -DCFG_TUD_WCH_USBIP_FSDEV=1 "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"
+CH32V20x_EVT.menu.usb.tinyusb_usbfs=Adafruit TinyUSB with USBFS
+CH32V20x_EVT.menu.usb.tinyusb_usbfs.build.usb_flags=-DUSBCON -DUSE_TINYUSB -DCFG_TUD_WCH_USBIP_USBFS=1 "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"
+
 # Upload menu
 CH32V20x_EVT.menu.upload_method.swdMethod=WCH-SWD
 CH32V20x_EVT.menu.upload_method.swdMethod.upload.protocol=
