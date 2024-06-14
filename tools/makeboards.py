@@ -20,6 +20,10 @@ usb_list = {
         'name': 'Adafruit TinyUSB with USBFS',
         'usb_flags': '-DUSBCON -DUSE_TINYUSB -DCFG_TUD_WCH_USBIP_USBFS=1 "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"'
     },
+    'tinyusb_usbhs': {
+        'name': 'Adafruit TinyUSB with USBHS',
+        'usb_flags': '-DUSBCON -DUSE_TINYUSB -DCFG_TUD_WCH_USBIP_USBHS=1 "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"'
+    },
 }
 
 # series: name, pnums
@@ -80,7 +84,7 @@ board_list = {
     'CH32V30x': {
         'name': 'CH32V30x_EVT',
         'info': '-lprintfloat, CH32V30x_C: connected product_line  CH32V30x: normal product_line',
-        'usb': [],
+        'usb': ['tinyusb_usbhs', 'tinyusb_usbfs'],
         'hsi': [144, 120, 96, 72, 56, 48, 0],
         'hse': [144, 120, 96, 72, 56, 48, 0],
         'pnums': {
