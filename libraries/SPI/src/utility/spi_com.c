@@ -395,7 +395,7 @@ spi_status_e spi_transfer(spi_t *obj, uint8_t *tx_buffer, uint8_t *rx_buffer,
     SPI_I2S_SendData(_SPI, *tx_buffer++);
 
     if (!skipReceive) {
-      while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET)
+      while(SPI_I2S_GetFlagStatus(_SPI, SPI_I2S_FLAG_RXNE) == RESET)
       {
         if ((GetTick() - tickstart >= Timeout)) {
         ret = SPI_TIMEOUT;
