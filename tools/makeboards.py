@@ -95,7 +95,7 @@ board_list = {
         'name': 'CH32L10x_EVT',
         'info': '-lprintf',
         'usb': [],
-        'hsi': [96, 72, 56, 48, 0],
+        'hsi': [96, 72, 56, 48, 0, 'HSI_LP'],
         'hse': [96, 72, 56, 48, 0],
         'pnums': {
             'CH32L103C8T6': {'name': 'CH32L103C8T6 EVT', 'maximum_size': 65536, 'maximum_data_size': 20480, 'mcu': 'QingKe-V4C', 'chip': 'CH32L10x'},
@@ -229,6 +229,9 @@ def build_clock(series, values):
         if hsi == 0:
             print(f'{menu}.HSI=HSI Internal')
             print(f'{menu}.HSI.build.flags.clock=-DSYSCLK_FREQ_HSI=HSI_VALUE')
+        elif hsi == 'HSI_LP':
+            print(f'{menu}.HSI_LP=HSI_LP Internal')
+            print(f'{menu}.HSI_LP.build.flags.clock=-DSYSCLK_FREQ_HSI_LP=HSI_LP_VALUE')
         else:
             print(f'{menu}.{hsi}MHz_HSI={hsi}MHz Internal')
             print(f'{menu}.{hsi}MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_{hsi}MHz_HSI={hsi}000000')

@@ -759,6 +759,8 @@ CH32L10x_EVT.menu.clock.48MHz_HSI=48MHz Internal
 CH32L10x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000
 CH32L10x_EVT.menu.clock.HSI=HSI Internal
 CH32L10x_EVT.menu.clock.HSI.build.flags.clock=-DSYSCLK_FREQ_HSI=HSI_VALUE
+CH32L10x_EVT.menu.clock.HSI_LP=HSI_LP Internal
+CH32L10x_EVT.menu.clock.HSI_LP.build.flags.clock=-DSYSCLK_FREQ_HSI_LP=HSI_LP_VALUE
 CH32L10x_EVT.menu.clock.96MHz_HSE=96MHz External
 CH32L10x_EVT.menu.clock.96MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSE=96000000
 CH32L10x_EVT.menu.clock.72MHz_HSE=72MHz External
