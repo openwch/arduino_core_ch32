@@ -4,6 +4,10 @@
 #include "variant.h"
 #include "HardwareSerial.h"
 
+#if defined(USE_TINYUSB)
+#include "Adafruit_USBD_CDC.h"
+#define Serial SerialTinyUSB
+#endif
 
 #if defined(UART_MODULE_ENABLED) && !defined(UART_MODULE_ONLY)
 
