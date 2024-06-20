@@ -679,12 +679,12 @@ void I2C2_EV_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void I2C2_EV_IRQHandler(void)
 {
 #if OPT_I2C_SLAVE
-   //I2C_HandleTypeDef *handle = i2c_handles[I2C2_INDEX];  // MMOLE: was commented
+   I2C_HandleTypeDef *handle = i2c_handles[I2C2_INDEX];  // MMOLE: was commented
    // MMOLE: I2C2_EV_IRQHandler is the event handler, handle is an I2C_HandleTypeDef struct containing parameters and pointer to the registers
    static int _nCounterEV2=1;
    _nCounterEV2++;
    i2c_slave_process(get_i2c_obj(handle));		// process I2C transmissions, for now only events, not errors
-   // MMOLLE: tested only using I2C1
+   // MMOLE: tested only using I2C1
 #endif
 }
 
