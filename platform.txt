@@ -65,7 +65,7 @@ build.variant_h=
 
 # These can be overridden in platform.local.txt
 compiler.c.extra_flags=
-compiler.c.elf.extra_flags=
+compiler.c.elf.extra_flags=-Wl,--defsym=__FLASH_SIZE={upload.maximum_size} -Wl,--defsym=__RAM_SIZE={upload.maximum_data_size}
 compiler.cpp.extra_flags=
 compiler.cpp.std=gnu++14
 compiler.S.extra_flags=

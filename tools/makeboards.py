@@ -77,6 +77,7 @@ board_list = {
         'pnums': {
             'CH32V203RB': {'name': 'CH32V203RB EVT', 'maximum_size': 131072, 'maximum_data_size': 65536, 'mcu': 'QingKe-V4C', 'chip': 'CH32V203'},
             'CH32V203G8': {'name': 'CH32V203G8 EVT', 'maximum_size': 65536, 'maximum_data_size': 20480, 'mcu': 'QingKe-V4B', 'chip': 'CH32V203'},
+            'CH32V203G6': {'name': 'CH32V203G6 EVT', 'maximum_size': 32768, 'maximum_data_size': 10240, 'mcu': 'QingKe-V4B', 'chip': 'CH32V203'},
             'CH32V203C8': {'name': 'CH32V203C8', 'maximum_size': 65536, 'maximum_data_size': 20480, 'mcu': 'QingKe-V4B', 'chip': 'CH32V203'},
             'CH32V203C6': {'name': 'CH32V203C6', 'maximum_size': 32768, 'maximum_data_size': 20480, 'mcu': 'QingKe-V4B', 'chip': 'CH32V203'},
         }
