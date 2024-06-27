@@ -48,6 +48,10 @@ CH32V00x_EVT.menu.upload_method.swdMethod=WCH-SWD
 CH32V00x_EVT.menu.upload_method.swdMethod.upload.protocol=
 CH32V00x_EVT.menu.upload_method.swdMethod.upload.options=
 CH32V00x_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH32V00x_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH32V00x_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH32V00x_EVT.menu.upload_method.ispMethod.upload.options=
+CH32V00x_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
 
 # Clock Select
@@ -148,6 +152,10 @@ CH32VM00X_EVT.menu.upload_method.swdMethod=WCH-SWD
 CH32VM00X_EVT.menu.upload_method.swdMethod.upload.protocol=
 CH32VM00X_EVT.menu.upload_method.swdMethod.upload.options=
 CH32VM00X_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH32VM00X_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH32VM00X_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH32VM00X_EVT.menu.upload_method.ispMethod.upload.options=
+CH32VM00X_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
 
 # Clock Select
@@ -248,6 +256,10 @@ CH32X035_EVT.menu.upload_method.swdMethod=WCH-SWD
 CH32X035_EVT.menu.upload_method.swdMethod.upload.protocol=
 CH32X035_EVT.menu.upload_method.swdMethod.upload.options=
 CH32X035_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH32X035_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH32X035_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH32X035_EVT.menu.upload_method.ispMethod.upload.options=
+CH32X035_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
 
 # Clock Select
@@ -346,6 +358,10 @@ CH32V10x_EVT.menu.upload_method.swdMethod=WCH-SWD
 CH32V10x_EVT.menu.upload_method.swdMethod.upload.protocol=
 CH32V10x_EVT.menu.upload_method.swdMethod.upload.options=
 CH32V10x_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH32V10x_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH32V10x_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH32V10x_EVT.menu.upload_method.ispMethod.upload.options=
+CH32V10x_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
 
 # Clock Select
@@ -522,6 +538,10 @@ CH32V20x_EVT.menu.upload_method.swdMethod=WCH-SWD
 CH32V20x_EVT.menu.upload_method.swdMethod.upload.protocol=
 CH32V20x_EVT.menu.upload_method.swdMethod.upload.options=
 CH32V20x_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH32V20x_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH32V20x_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH32V20x_EVT.menu.upload_method.ispMethod.upload.options=
+CH32V20x_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
 
 # Clock Select
@@ -646,6 +666,10 @@ CH32V30x_EVT.menu.upload_method.swdMethod=WCH-SWD
 CH32V30x_EVT.menu.upload_method.swdMethod.upload.protocol=
 CH32V30x_EVT.menu.upload_method.swdMethod.upload.options=
 CH32V30x_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH32V30x_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH32V30x_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH32V30x_EVT.menu.upload_method.ispMethod.upload.options=
+CH32V30x_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
 
 # Clock Select
@@ -762,6 +786,10 @@ CH32L10x_EVT.menu.upload_method.swdMethod=WCH-SWD
 CH32L10x_EVT.menu.upload_method.swdMethod.upload.protocol=
 CH32L10x_EVT.menu.upload_method.swdMethod.upload.options=
 CH32L10x_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH32L10x_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH32L10x_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH32L10x_EVT.menu.upload_method.ispMethod.upload.options=
+CH32L10x_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
 
 # Clock Select

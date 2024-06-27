@@ -169,8 +169,15 @@ tools.WCH_linkE.upload.params.quiet=
 tools.WCH_linkE.upload.config={runtime.tools.openocd.path}/bin/wch-riscv.cfg
 tools.WCH_linkE.upload.pattern="{path}{cmd}" -f "{upload.config}" -c init -c halt -c "program {{build.path}/{build.project_name}.elf} verify; wlink_reset_resume; exit;"
 
-
 #tools.WCH_linkE.upload.pattern="{path}{cmd}" -f {upload.config} -c init -c halt -c "program {{build.path}/{build.project_name}.elf}; verify_image {{build.path}/{build.project_name}.elf}; wlink_reset_resume;  exit;"
+
+
+## WCH-ISP
+tools.wchisp.path={runtime.tools.wchisp.path}/
+tools.wchisp.cmd=wchisp
+tools.wchisp.upload.params.verbose=
+tools.wchisp.upload.params.quiet=
+tools.wchisp.upload.pattern="{path}{cmd}" {upload.verbose} flash "{build.path}/{build.project_name}.elf"
 
 
 # Debugger configuration (general options)

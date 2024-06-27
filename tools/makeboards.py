@@ -181,10 +181,19 @@ def build_upload(series, values):
     print("# Upload menu")
     name = values["name"]
     menu = f'{name}.menu.upload_method'
-    print(f'{menu}.swdMethod=WCH-SWD')
-    print(f'{menu}.swdMethod.upload.protocol=')
-    print(f'{menu}.swdMethod.upload.options=')
-    print(f'{menu}.swdMethod.upload.tool=WCH_linkE')
+
+    menu_swd = f'{menu}.swdMethod'
+    print(f'{menu_swd}=WCH-SWD')
+    print(f'{menu_swd}.upload.protocol=')
+    print(f'{menu_swd}.upload.options=')
+    print(f'{menu_swd}.upload.tool=WCH_linkE')
+
+    menu_isp = f'{menu}.ispMethod'
+    print(f'{menu_isp}=WCH-ISP')
+    print(f'{menu_isp}.upload.protocol=')
+    print(f'{menu_isp}.upload.options=')
+    print(f'{menu_isp}.upload.tool=wchisp')
+
     print()
 
 
