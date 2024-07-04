@@ -238,20 +238,20 @@ def build_clock(series, values):
     for hsi in values['hsi']:
         if hsi == 0:
             print(f'{menu}.HSI=HSI Internal')
-            print(f'{menu}.HSI.build.flags.clock=-DSYSCLK_FREQ_HSI=HSI_VALUE')
+            print(f'{menu}.HSI.build.flags.clock=-DSYSCLK_FREQ_HSI=HSI_VALUE -DF_CPU=HSI_VALUE')
         elif hsi == 'HSI_LP':
             print(f'{menu}.HSI_LP=HSI_LP Internal')
-            print(f'{menu}.HSI_LP.build.flags.clock=-DSYSCLK_FREQ_HSI_LP=HSI_LP_VALUE')
+            print(f'{menu}.HSI_LP.build.flags.clock=-DSYSCLK_FREQ_HSI_LP=HSI_LP_VALUE -DF_CPU=HSI_LP_VALUE')
         else:
             print(f'{menu}.{hsi}MHz_HSI={hsi}MHz Internal')
-            print(f'{menu}.{hsi}MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_{hsi}MHz_HSI={hsi}000000')
+            print(f'{menu}.{hsi}MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_{hsi}MHz_HSI={hsi}000000 -DF_CPU={hsi}000000')
     for hse in values['hse']:
         if hse == 0:
             print(f'{menu}.HSE=HSE External')
-            print(f'{menu}.HSE.build.flags.clock=-DSYSCLK_FREQ_HSE=HSE_VALUE')
+            print(f'{menu}.HSE.build.flags.clock=-DSYSCLK_FREQ_HSE=HSE_VALUE -DF_CPU=HSE_VALUE')
         else:
             print(f'{menu}.{hse}MHz_HSE={hse}MHz External')
-            print(f'{menu}.{hse}MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_{hse}MHz_HSE={hse}000000')
+            print(f'{menu}.{hse}MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_{hse}MHz_HSE={hse}000000 -DF_CPU={hse}000000')
     print()
 
 
