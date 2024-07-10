@@ -20,14 +20,14 @@
 #define                         TIM_MODULE_ENABLED
 
 /* CH32V203G6 Pins */
-#define PA0                     PIN_A3
-#define PA1                     PIN_A2
-#define PA2                     PNUM_NOT_DEFINED
-#define PA3                     PNUM_NOT_DEFINED
-#define PA4                     PNUM_NOT_DEFINED
-#define PA5                     PNUM_NOT_DEFINED
-#define PA6                     PNUM_NOT_DEFINED
-#define PA7                     PNUM_NOT_DEFINED
+#define PA0                     3
+#define PA1                     2
+#define PA2                     4
+#define PA3                     5
+#define PA4                     6
+#define PA5                     7
+#define PA6                     8
+#define PA7                     9
 #define PA8                     PNUM_NOT_DEFINED
 #define PA9                     PNUM_NOT_DEFINED
 #define PA10                    PNUM_NOT_DEFINED

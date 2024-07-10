@@ -12,6 +12,7 @@
  */
 
 #include "pins_arduino.h"
+#include "hw_config.h"
 
 // Digital PinName array
 const PinName digitalPin[] = {
@@ -38,5 +39,18 @@ const uint32_t analogInputPin[] = {
   3,  // A3,  PA0
 };
 
+extern "C" {
 
+void pre_init(void) {
+  // Enable Flash enhance read mode for full 224KB
+  FLASH->KEYR = 0x45670123; // FLASH_Unlock_Fast();
+  FLASH->KEYR = 0xCDEF89AB;
 
+  FLASH->CTLR |= (1 << 24); // Enhanced Read Mode
+
+  FLASH->CTLR |= (1 << 15); // FLASH_Lock_Fast();
+
+  hw_config_init();
+}
+
+}

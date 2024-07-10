@@ -80,7 +80,7 @@ board_list = {
             'CH32V203G6': {'name': 'CH32V203G6 EVT', 'maximum_size': 32768, 'maximum_data_size': 10240, 'mcu': 'QingKe-V4B', 'chip': 'CH32V203'},
             'CH32V203C8': {'name': 'CH32V203C8', 'maximum_size': 65536, 'maximum_data_size': 20480, 'mcu': 'QingKe-V4B', 'chip': 'CH32V203'},
             'CH32V203C6': {'name': 'CH32V203C6', 'maximum_size': 32768, 'maximum_data_size': 10240, 'mcu': 'QingKe-V4B', 'chip': 'CH32V203'},
-            'CH32V203G6_ADAFRUIT_QTPY': {'name': 'Adafruit QTPy CH32V203G6', 'maximum_size': 32768, 'maximum_data_size': 10240, 'mcu': 'QingKe-V4B', 'chip': 'CH32V203'},
+            'CH32V203G6_ADAFRUIT_QTPY': {'name': 'Adafruit QTPy CH32V203G6', 'maximum_size': 229376, 'maximum_data_size': 10240, 'mcu': 'QingKe-V4B', 'chip': 'CH32V203'},
         }
     },
     'CH32V30x': {
