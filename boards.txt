@@ -56,17 +56,17 @@ CH32V00x_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
 # Clock Select
 CH32V00x_EVT.menu.clock.48MHz_HSI=48MHz Internal
-CH32V00x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000
+CH32V00x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000 -DF_CPU=48000000
 CH32V00x_EVT.menu.clock.24MHz_HSI=24MHz Internal
-CH32V00x_EVT.menu.clock.24MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSI=24000000
+CH32V00x_EVT.menu.clock.24MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSI=24000000 -DF_CPU=24000000
 CH32V00x_EVT.menu.clock.8MHz_HSI=8MHz Internal
-CH32V00x_EVT.menu.clock.8MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSI=8000000
+CH32V00x_EVT.menu.clock.8MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSI=8000000 -DF_CPU=8000000
 CH32V00x_EVT.menu.clock.48MHz_HSE=48MHz External
-CH32V00x_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000
+CH32V00x_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000 -DF_CPU=48000000
 CH32V00x_EVT.menu.clock.24MHz_HSE=24MHz External
-CH32V00x_EVT.menu.clock.24MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSE=24000000
+CH32V00x_EVT.menu.clock.24MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSE=24000000 -DF_CPU=24000000
 CH32V00x_EVT.menu.clock.8MHz_HSE=8MHz External
-CH32V00x_EVT.menu.clock.8MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSE=8000000
+CH32V00x_EVT.menu.clock.8MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSE=8000000 -DF_CPU=8000000
 
 
 # Optimizations
@@ -160,17 +160,17 @@ CH32VM00X_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
 # Clock Select
 CH32VM00X_EVT.menu.clock.48MHz_HSI=48MHz Internal
-CH32VM00X_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000
+CH32VM00X_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000 -DF_CPU=48000000
 CH32VM00X_EVT.menu.clock.24MHz_HSI=24MHz Internal
-CH32VM00X_EVT.menu.clock.24MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSI=24000000
+CH32VM00X_EVT.menu.clock.24MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSI=24000000 -DF_CPU=24000000
 CH32VM00X_EVT.menu.clock.8MHz_HSI=8MHz Internal
-CH32VM00X_EVT.menu.clock.8MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSI=8000000
+CH32VM00X_EVT.menu.clock.8MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSI=8000000 -DF_CPU=8000000
 CH32VM00X_EVT.menu.clock.48MHz_HSE=48MHz External
-CH32VM00X_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000
+CH32VM00X_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000 -DF_CPU=48000000
 CH32VM00X_EVT.menu.clock.24MHz_HSE=24MHz External
-CH32VM00X_EVT.menu.clock.24MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSE=24000000
+CH32VM00X_EVT.menu.clock.24MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSE=24000000 -DF_CPU=24000000
 CH32VM00X_EVT.menu.clock.8MHz_HSE=8MHz External
-CH32VM00X_EVT.menu.clock.8MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSE=8000000
+CH32VM00X_EVT.menu.clock.8MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSE=8000000 -DF_CPU=8000000
 
 
 # Optimizations
@@ -264,15 +264,15 @@ CH32X035_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
 # Clock Select
 CH32X035_EVT.menu.clock.48MHz_HSI=48MHz Internal
-CH32X035_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000
+CH32X035_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000 -DF_CPU=48000000
 CH32X035_EVT.menu.clock.24MHz_HSI=24MHz Internal
-CH32X035_EVT.menu.clock.24MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSI=24000000
+CH32X035_EVT.menu.clock.24MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSI=24000000 -DF_CPU=24000000
 CH32X035_EVT.menu.clock.16MHz_HSI=16MHz Internal
-CH32X035_EVT.menu.clock.16MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_16MHz_HSI=16000000
+CH32X035_EVT.menu.clock.16MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_16MHz_HSI=16000000 -DF_CPU=16000000
 CH32X035_EVT.menu.clock.12MHz_HSI=12MHz Internal
-CH32X035_EVT.menu.clock.12MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_12MHz_HSI=12000000
+CH32X035_EVT.menu.clock.12MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_12MHz_HSI=12000000 -DF_CPU=12000000
 CH32X035_EVT.menu.clock.8MHz_HSI=8MHz Internal
-CH32X035_EVT.menu.clock.8MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSI=8000000
+CH32X035_EVT.menu.clock.8MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSI=8000000 -DF_CPU=8000000
 
 
 # Optimizations
@@ -366,21 +366,21 @@ CH32V10x_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
 # Clock Select
 CH32V10x_EVT.menu.clock.72MHz_HSI=72MHz Internal
-CH32V10x_EVT.menu.clock.72MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSI=72000000
+CH32V10x_EVT.menu.clock.72MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSI=72000000 -DF_CPU=72000000
 CH32V10x_EVT.menu.clock.56MHz_HSI=56MHz Internal
-CH32V10x_EVT.menu.clock.56MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSI=56000000
+CH32V10x_EVT.menu.clock.56MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSI=56000000 -DF_CPU=56000000
 CH32V10x_EVT.menu.clock.48MHz_HSI=48MHz Internal
-CH32V10x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000
+CH32V10x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000 -DF_CPU=48000000
 CH32V10x_EVT.menu.clock.8MHz_HSI=8MHz Internal
-CH32V10x_EVT.menu.clock.8MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSI=8000000
+CH32V10x_EVT.menu.clock.8MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSI=8000000 -DF_CPU=8000000
 CH32V10x_EVT.menu.clock.72MHz_HSE=72MHz External
-CH32V10x_EVT.menu.clock.72MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSE=72000000
+CH32V10x_EVT.menu.clock.72MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSE=72000000 -DF_CPU=72000000
 CH32V10x_EVT.menu.clock.56MHz_HSE=56MHz External
-CH32V10x_EVT.menu.clock.56MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSE=56000000
+CH32V10x_EVT.menu.clock.56MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSE=56000000 -DF_CPU=56000000
 CH32V10x_EVT.menu.clock.48MHz_HSE=48MHz External
-CH32V10x_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000
+CH32V10x_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000 -DF_CPU=48000000
 CH32V10x_EVT.menu.clock.8MHz_HSE=8MHz External
-CH32V10x_EVT.menu.clock.8MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSE=8000000
+CH32V10x_EVT.menu.clock.8MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSE=8000000 -DF_CPU=8000000
 
 
 # Optimizations
@@ -546,33 +546,33 @@ CH32V20x_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
 # Clock Select
 CH32V20x_EVT.menu.clock.144MHz_HSI=144MHz Internal
-CH32V20x_EVT.menu.clock.144MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_144MHz_HSI=144000000
+CH32V20x_EVT.menu.clock.144MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_144MHz_HSI=144000000 -DF_CPU=144000000
 CH32V20x_EVT.menu.clock.120MHz_HSI=120MHz Internal
-CH32V20x_EVT.menu.clock.120MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_120MHz_HSI=120000000
+CH32V20x_EVT.menu.clock.120MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_120MHz_HSI=120000000 -DF_CPU=120000000
 CH32V20x_EVT.menu.clock.96MHz_HSI=96MHz Internal
-CH32V20x_EVT.menu.clock.96MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSI=96000000
+CH32V20x_EVT.menu.clock.96MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSI=96000000 -DF_CPU=96000000
 CH32V20x_EVT.menu.clock.72MHz_HSI=72MHz Internal
-CH32V20x_EVT.menu.clock.72MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSI=72000000
+CH32V20x_EVT.menu.clock.72MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSI=72000000 -DF_CPU=72000000
 CH32V20x_EVT.menu.clock.56MHz_HSI=56MHz Internal
-CH32V20x_EVT.menu.clock.56MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSI=56000000
+CH32V20x_EVT.menu.clock.56MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSI=56000000 -DF_CPU=56000000
 CH32V20x_EVT.menu.clock.48MHz_HSI=48MHz Internal
-CH32V20x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000
+CH32V20x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000 -DF_CPU=48000000
 CH32V20x_EVT.menu.clock.HSI=HSI Internal
-CH32V20x_EVT.menu.clock.HSI.build.flags.clock=-DSYSCLK_FREQ_HSI=HSI_VALUE
+CH32V20x_EVT.menu.clock.HSI.build.flags.clock=-DSYSCLK_FREQ_HSI=HSI_VALUE -DF_CPU=HSI_VALUE
 CH32V20x_EVT.menu.clock.144MHz_HSE=144MHz External
-CH32V20x_EVT.menu.clock.144MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_144MHz_HSE=144000000
+CH32V20x_EVT.menu.clock.144MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_144MHz_HSE=144000000 -DF_CPU=144000000
 CH32V20x_EVT.menu.clock.120MHz_HSE=120MHz External
-CH32V20x_EVT.menu.clock.120MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_120MHz_HSE=120000000
+CH32V20x_EVT.menu.clock.120MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_120MHz_HSE=120000000 -DF_CPU=120000000
 CH32V20x_EVT.menu.clock.96MHz_HSE=96MHz External
-CH32V20x_EVT.menu.clock.96MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSE=96000000
+CH32V20x_EVT.menu.clock.96MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSE=96000000 -DF_CPU=96000000
 CH32V20x_EVT.menu.clock.72MHz_HSE=72MHz External
-CH32V20x_EVT.menu.clock.72MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSE=72000000
+CH32V20x_EVT.menu.clock.72MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSE=72000000 -DF_CPU=72000000
 CH32V20x_EVT.menu.clock.56MHz_HSE=56MHz External
-CH32V20x_EVT.menu.clock.56MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSE=56000000
+CH32V20x_EVT.menu.clock.56MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSE=56000000 -DF_CPU=56000000
 CH32V20x_EVT.menu.clock.48MHz_HSE=48MHz External
-CH32V20x_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000
+CH32V20x_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000 -DF_CPU=48000000
 CH32V20x_EVT.menu.clock.HSE=HSE External
-CH32V20x_EVT.menu.clock.HSE.build.flags.clock=-DSYSCLK_FREQ_HSE=HSE_VALUE
+CH32V20x_EVT.menu.clock.HSE.build.flags.clock=-DSYSCLK_FREQ_HSE=HSE_VALUE -DF_CPU=HSE_VALUE
 
 
 # Optimizations
@@ -674,33 +674,33 @@ CH32V30x_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
 # Clock Select
 CH32V30x_EVT.menu.clock.144MHz_HSI=144MHz Internal
-CH32V30x_EVT.menu.clock.144MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_144MHz_HSI=144000000
+CH32V30x_EVT.menu.clock.144MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_144MHz_HSI=144000000 -DF_CPU=144000000
 CH32V30x_EVT.menu.clock.120MHz_HSI=120MHz Internal
-CH32V30x_EVT.menu.clock.120MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_120MHz_HSI=120000000
+CH32V30x_EVT.menu.clock.120MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_120MHz_HSI=120000000 -DF_CPU=120000000
 CH32V30x_EVT.menu.clock.96MHz_HSI=96MHz Internal
-CH32V30x_EVT.menu.clock.96MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSI=96000000
+CH32V30x_EVT.menu.clock.96MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSI=96000000 -DF_CPU=96000000
 CH32V30x_EVT.menu.clock.72MHz_HSI=72MHz Internal
-CH32V30x_EVT.menu.clock.72MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSI=72000000
+CH32V30x_EVT.menu.clock.72MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSI=72000000 -DF_CPU=72000000
 CH32V30x_EVT.menu.clock.56MHz_HSI=56MHz Internal
-CH32V30x_EVT.menu.clock.56MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSI=56000000
+CH32V30x_EVT.menu.clock.56MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSI=56000000 -DF_CPU=56000000
 CH32V30x_EVT.menu.clock.48MHz_HSI=48MHz Internal
-CH32V30x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000
+CH32V30x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000 -DF_CPU=48000000
 CH32V30x_EVT.menu.clock.HSI=HSI Internal
-CH32V30x_EVT.menu.clock.HSI.build.flags.clock=-DSYSCLK_FREQ_HSI=HSI_VALUE
+CH32V30x_EVT.menu.clock.HSI.build.flags.clock=-DSYSCLK_FREQ_HSI=HSI_VALUE -DF_CPU=HSI_VALUE
 CH32V30x_EVT.menu.clock.144MHz_HSE=144MHz External
-CH32V30x_EVT.menu.clock.144MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_144MHz_HSE=144000000
+CH32V30x_EVT.menu.clock.144MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_144MHz_HSE=144000000 -DF_CPU=144000000
 CH32V30x_EVT.menu.clock.120MHz_HSE=120MHz External
-CH32V30x_EVT.menu.clock.120MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_120MHz_HSE=120000000
+CH32V30x_EVT.menu.clock.120MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_120MHz_HSE=120000000 -DF_CPU=120000000
 CH32V30x_EVT.menu.clock.96MHz_HSE=96MHz External
-CH32V30x_EVT.menu.clock.96MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSE=96000000
+CH32V30x_EVT.menu.clock.96MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSE=96000000 -DF_CPU=96000000
 CH32V30x_EVT.menu.clock.72MHz_HSE=72MHz External
-CH32V30x_EVT.menu.clock.72MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSE=72000000
+CH32V30x_EVT.menu.clock.72MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSE=72000000 -DF_CPU=72000000
 CH32V30x_EVT.menu.clock.56MHz_HSE=56MHz External
-CH32V30x_EVT.menu.clock.56MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSE=56000000
+CH32V30x_EVT.menu.clock.56MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSE=56000000 -DF_CPU=56000000
 CH32V30x_EVT.menu.clock.48MHz_HSE=48MHz External
-CH32V30x_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000
+CH32V30x_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000 -DF_CPU=48000000
 CH32V30x_EVT.menu.clock.HSE=HSE External
-CH32V30x_EVT.menu.clock.HSE.build.flags.clock=-DSYSCLK_FREQ_HSE=HSE_VALUE
+CH32V30x_EVT.menu.clock.HSE.build.flags.clock=-DSYSCLK_FREQ_HSE=HSE_VALUE -DF_CPU=HSE_VALUE
 
 
 # Optimizations
@@ -794,27 +794,27 @@ CH32L10x_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
 # Clock Select
 CH32L10x_EVT.menu.clock.96MHz_HSI=96MHz Internal
-CH32L10x_EVT.menu.clock.96MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSI=96000000
+CH32L10x_EVT.menu.clock.96MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSI=96000000 -DF_CPU=96000000
 CH32L10x_EVT.menu.clock.72MHz_HSI=72MHz Internal
-CH32L10x_EVT.menu.clock.72MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSI=72000000
+CH32L10x_EVT.menu.clock.72MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSI=72000000 -DF_CPU=72000000
 CH32L10x_EVT.menu.clock.56MHz_HSI=56MHz Internal
-CH32L10x_EVT.menu.clock.56MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSI=56000000
+CH32L10x_EVT.menu.clock.56MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSI=56000000 -DF_CPU=56000000
 CH32L10x_EVT.menu.clock.48MHz_HSI=48MHz Internal
-CH32L10x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000
+CH32L10x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000 -DF_CPU=48000000
 CH32L10x_EVT.menu.clock.HSI=HSI Internal
-CH32L10x_EVT.menu.clock.HSI.build.flags.clock=-DSYSCLK_FREQ_HSI=HSI_VALUE
+CH32L10x_EVT.menu.clock.HSI.build.flags.clock=-DSYSCLK_FREQ_HSI=HSI_VALUE -DF_CPU=HSI_VALUE
 CH32L10x_EVT.menu.clock.HSI_LP=HSI_LP Internal
-CH32L10x_EVT.menu.clock.HSI_LP.build.flags.clock=-DSYSCLK_FREQ_HSI_LP=HSI_LP_VALUE
+CH32L10x_EVT.menu.clock.HSI_LP.build.flags.clock=-DSYSCLK_FREQ_HSI_LP=HSI_LP_VALUE -DF_CPU=HSI_LP_VALUE
 CH32L10x_EVT.menu.clock.96MHz_HSE=96MHz External
-CH32L10x_EVT.menu.clock.96MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSE=96000000
+CH32L10x_EVT.menu.clock.96MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSE=96000000 -DF_CPU=96000000
 CH32L10x_EVT.menu.clock.72MHz_HSE=72MHz External
-CH32L10x_EVT.menu.clock.72MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSE=72000000
+CH32L10x_EVT.menu.clock.72MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSE=72000000 -DF_CPU=72000000
 CH32L10x_EVT.menu.clock.56MHz_HSE=56MHz External
-CH32L10x_EVT.menu.clock.56MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSE=56000000
+CH32L10x_EVT.menu.clock.56MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSE=56000000 -DF_CPU=56000000
 CH32L10x_EVT.menu.clock.48MHz_HSE=48MHz External
-CH32L10x_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000
+CH32L10x_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000 -DF_CPU=48000000
 CH32L10x_EVT.menu.clock.HSE=HSE External
-CH32L10x_EVT.menu.clock.HSE.build.flags.clock=-DSYSCLK_FREQ_HSE=HSE_VALUE
+CH32L10x_EVT.menu.clock.HSE.build.flags.clock=-DSYSCLK_FREQ_HSE=HSE_VALUE -DF_CPU=HSE_VALUE
 
 
 # Optimizations
