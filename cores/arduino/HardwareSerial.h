@@ -19,16 +19,15 @@
   Modified 28 September 2010 by Mark Sproul
   Modified 14 August 2012 by Alarus
   Modified 3 December 2013 by Matthijs Kooijman
-  Modified 1 may 2023 by TempersLee
-  Modified 13 October 2023 by Maxint R&D
+  Modified 1 May 2023 by TempersLee
+  Modified 28 July 2024 by Maxint R&D
 */
 
 #ifndef HardwareSerial_h
 #define HardwareSerial_h
 
-// MMOLE 240619: set OPT_USART1_INT to 1 if you want to use interrupts for receiving serial data instead of a clumsy polling implementation.
+// MMOLE 240619: set OPT_USART1_INT to 1 if you want to use interrupts for receiving serial data.
 #define OPT_USART1_INT 1
-
 
 #if 1
 
@@ -178,12 +177,6 @@ public:
     uint8_t _config;
     unsigned long _baud;
     void init(PinName _rx, PinName _tx, PinName _rts = NC, PinName _cts = NC);
-
-    // MMOLE: reintroduced RX buffer to properly implement read/available/peek methods
-    #if(OPT_USART1_INT==1)
-    #else
-    void fillRxBuffer(void);    // read all characters that can be read
-    #endif
 };
 
 #if defined(USART1)
@@ -201,7 +194,7 @@ public:
 #if defined(UART5) || defined(USART5)
   extern HardwareSerial Serial5;
 #endif
-#if defined(USART6)
+#if defined(USART6) || defined(USART6)
   extern HardwareSerial Serial6;
 #endif
 #if defined(UART7) || defined(USART7)
