@@ -57,6 +57,31 @@ void HardwareSerial::init(PinName _rx, PinName _tx, PinName _rts, PinName _cts)
 }
 
 
+// Interrupt handler for filling rx buffer /////////////////////////////////////
+#if(OPT_USART1_INT==1)
+
+#if defined(USART1)
+  #ifdef __cplusplus
+  extern "C" {
+  #endif
+    void USART1_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+    void USART1_IRQHandler(void) {
+      USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+      // Use the proper serial object to fill the RX buffer. Perhaps we should use uart_handlers[] as defined in uart.c
+      // Serial is most often Serial1, initialized below as HardwareSerial Serial1(USART1); DEBUG_UART may give issues.
+      // TODO? get_serial_obj(uart_handlers[UART1_INDEX]);
+      HardwareSerial *obj=&Serial1; 
+      obj->_rx_buffer[obj->_rx_buffer_head] = USART_ReceiveData(USART1);    // maybe we should use uart_getc()?
+      obj->_rx_buffer_head++;
+      obj->_rx_buffer_head %= SERIAL_RX_BUFFER_SIZE;
+    }
+  #ifdef __cplusplus
+  }
+  #endif
+#endif
+
+#endif
+
 
 // Public Methods //////////////////////////////////////////////////////////////
 void HardwareSerial::begin(unsigned long baud, byte config)
@@ -138,31 +163,132 @@ void HardwareSerial::begin(unsigned long baud, byte config)
       break;
   }
   uart_init(&_serial, (uint32_t)baud, databits, parity, stopbits);
+
+#if(OPT_USART1_INT==1)
+  // MMOLE 240619: Enable interrupt handler for filling rx buffer
+  #if defined(USART1)
+    USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+    NVIC_SetPriority(USART1_IRQn, UART_IRQ_PRIO);
+    NVIC_EnableIRQ(USART1_IRQn);
+  #endif
+  // MMOLE TODO: I only have CH32V003; only tested USART1, how about others?
+#endif
 }
+
+
+#if(OPT_USART1_INT==1)
+#else
+// MMOLE: reintroduced RX buffer to properly implement read/available/peek methods
+void HardwareSerial::fillRxBuffer(void)    // private method: read all characters that can be read
+{
+  // Fill RX buffer during read/available calls
+  // Newly received characters are added to the buffer
+  // _rx_buffer_head is the location of the new character
+  // _rx_buffer_tail is the location of the oldest character that is not read yet
+  unsigned char c;
+/*
+  while(uart_getc(&_serial, &c) == 0)
+  {
+    _rx_buffer[_rx_buffer_head]=c;
+    _rx_buffer_head = (rx_buffer_index_t)(_rx_buffer_head + 1) % SERIAL_RX_BUFFER_SIZE;
+  }
+*/
+  // To avoid buffer underruns, we try to read during at least a few millis.
+  // Perhaps there is a better way, but for now it works.
+  // Maybe we should also do something to handle disruption of interrupts
+/*
+  #define SERIAL_WAIT_FOR_RX 5000L
+  uint32_t uStart=micros();
+  while((micros()-uStart)<SERIAL_WAIT_FOR_RX)
+*/
+  #define SERIAL_WAIT_FOR_RX 3
+  uint32_t uStart=millis();
+  while((millis()-uStart)<SERIAL_WAIT_FOR_RX)
+  {
+    if(uart_getc(&_serial, &c) == 0)
+    {
+/*
+      _rx_buffer[_rx_buffer_head]=c;
+      _rx_buffer_head = (rx_buffer_index_t)(_rx_buffer_head + 1) % SERIAL_RX_BUFFER_SIZE;
+/**/
+      rx_buffer_index_t i = (unsigned int)(_rx_buffer_head + 1) % SERIAL_RX_BUFFER_SIZE;
+  
+      // if we should be storing the received character into the location
+      // just before the tail (meaning that the head would advance to the
+      // current location of the tail), we're about to overflow the buffer
+      // and so we don't write the character or advance the head.
+      if (i != _rx_buffer_tail) {
+        _rx_buffer[_rx_buffer_head] = c;
+        _rx_buffer_head = i;
+      }
+/**/
+    }
+  }
+}
+#endif
+
 
 void HardwareSerial::end()
 {
+  // MMOLE: reintroduced RX buffer to properly implement read/available/peek methods
+  // clear any received data
+  _rx_buffer_head = _rx_buffer_tail;
+
   uart_deinit(&_serial);
+
+#if(OPT_USART1_INT==1)
+  // MMOLE TODO: disable interrupt handler
+#endif
 }
 
 int HardwareSerial::available(void)
 {
-  return -1;
+  // MMOLE: reintroduced RX buffer to properly implement read/available/peek methods
+  //return -1;
+#if(OPT_USART1_INT==0)
+  fillRxBuffer();   // use polling to fill the RX buffer
+#endif
+  return ((unsigned int)(SERIAL_RX_BUFFER_SIZE + _rx_buffer_head - _rx_buffer_tail)) % SERIAL_RX_BUFFER_SIZE;
 }
 
 int HardwareSerial::peek(void)
 {
-   return -1;
+  // MMOLE: reintroduced RX buffer to properly implement read/available/peek methods
+  // MMOLE 240316: Serial.parseInt() uses peek() with timeout to see if more data is available
+   //return -1;
+#if(OPT_USART1_INT==0)
+  fillRxBuffer();   // use polling to fill the RX buffer
+#endif
+  if (_rx_buffer_head == _rx_buffer_tail) {
+    return -1;
+  } else {
+    return _rx_buffer[_rx_buffer_tail];
+  }
 }
 
 int HardwareSerial::read(void)
 {
-
   unsigned char c;
+  // MMOLE: reintroduced RX buffer to properly implement read/available/peek methods
+/*
   if(uart_getc(&_serial, &c) == 0){
     return c;
   }else{
     return -1;
+  }
+*/
+#if(OPT_USART1_INT==0)
+  // Fill RX buffer during read/available calls
+  fillRxBuffer();   // use polling to fill the RX buffer
+#endif
+
+  // if the head isn't ahead of the tail, we don't have any characters
+  if (_rx_buffer_head == _rx_buffer_tail) {
+    return -1;
+  } else {
+    unsigned char c = _rx_buffer[_rx_buffer_tail];
+    _rx_buffer_tail = (rx_buffer_index_t)(_rx_buffer_tail + 1) % SERIAL_RX_BUFFER_SIZE;
+    return c;
   }
 }
 
@@ -272,7 +398,7 @@ void HardwareSerial::setHandler(void *handler)
   #endif
 
   #if defined(HAVE_HWSERIAL6)
-    HardwareSerial Serial6(UART6);
+    HardwareSerial Serial6(USART6);
   #endif
 
   #if defined(HAVE_HWSERIAL7)

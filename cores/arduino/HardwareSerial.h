@@ -20,10 +20,15 @@
   Modified 14 August 2012 by Alarus
   Modified 3 December 2013 by Matthijs Kooijman
   Modified 1 may 2023 by TempersLee
+  Modified 13 October 2023 by Maxint R&D
 */
 
 #ifndef HardwareSerial_h
 #define HardwareSerial_h
+
+// MMOLE 240619: set OPT_USART1_INT to 1 if you want to use interrupts for receiving serial data instead of a clumsy polling implementation.
+#define OPT_USART1_INT 1
+
 
 #if 1
 
@@ -101,6 +106,9 @@ typedef enum {
 
 class HardwareSerial : public Stream {
 
+#if(OPT_USART1_INT==1)
+public:
+#endif
   serial_t _serial;  
 public:
     HardwareSerial(void *peripheral); 
@@ -109,6 +117,17 @@ public:
     {
       begin(baud, SERIAL_8N1);     //SERIAL_9E1_5  SERIAL_8N1
     }
+    // MMOLE: reintroduced RX buffer to properly implement read/available/peek methods
+    volatile rx_buffer_index_t _rx_buffer_head;
+    volatile rx_buffer_index_t _rx_buffer_tail;
+    //volatile tx_buffer_index_t _tx_buffer_head;
+    //volatile tx_buffer_index_t _tx_buffer_tail;
+
+    // Don't put any members after these buffers, since only the first
+    // 32 bytes of this struct can be accessed quickly using the ldd
+    // instruction.
+    unsigned char _rx_buffer[SERIAL_RX_BUFFER_SIZE];
+    //unsigned char _tx_buffer[SERIAL_TX_BUFFER_SIZE];
     void begin(unsigned long, uint8_t);
     void end();
 
@@ -159,6 +178,12 @@ public:
     uint8_t _config;
     unsigned long _baud;
     void init(PinName _rx, PinName _tx, PinName _rts = NC, PinName _cts = NC);
+
+    // MMOLE: reintroduced RX buffer to properly implement read/available/peek methods
+    #if(OPT_USART1_INT==1)
+    #else
+    void fillRxBuffer(void);    // read all characters that can be read
+    #endif
 };
 
 #if defined(USART1)
@@ -173,16 +198,16 @@ public:
 #if defined(UART4) || defined(USART4)
   extern HardwareSerial Serial4;
 #endif
-#if defined(UART5) 
+#if defined(UART5) || defined(USART5)
   extern HardwareSerial Serial5;
 #endif
-#if defined(UART6) 
+#if defined(USART6)
   extern HardwareSerial Serial6;
 #endif
-#if defined(UART7) 
+#if defined(UART7) || defined(USART7)
   extern HardwareSerial Serial7;
 #endif
-#if defined(UART8) 
+#if defined(UART8) || defined(USART8)
   extern HardwareSerial Serial8;
 #endif
 
