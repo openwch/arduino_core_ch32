@@ -51,7 +51,7 @@ board_list = {
     'CH32X035': {
         'name': 'CH32X035_EVT',
         'info': '',
-        'usb': [],
+        'usb': ['tinyusb_usbfs'],
         'hsi': [48, 24, 16, 12, 8],
         'hse': [],
         'pnums': {
@@ -95,7 +95,7 @@ board_list = {
     'CH32L10x': {
         'name': 'CH32L10x_EVT',
         'info': '-lprintf',
-        'usb': ['tinyusb_usbd'],
+        'usb': ['tinyusb_usbfs'],
         'hsi': [96, 72, 56, 48, 0, 'HSI_LP'],
         'hse': [96, 72, 56, 48, 0],
         'pnums': {
