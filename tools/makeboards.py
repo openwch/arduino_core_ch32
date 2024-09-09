@@ -95,7 +95,7 @@ board_list = {
     'CH32L10x': {
         'name': 'CH32L10x_EVT',
         'info': '-lprintf',
-        'usb': [],
+        'usb': ['tinyusb_usbd'],
         'hsi': [96, 72, 56, 48, 0, 'HSI_LP'],
         'hse': [96, 72, 56, 48, 0],
         'pnums': {
