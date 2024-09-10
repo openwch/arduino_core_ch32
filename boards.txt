@@ -251,12 +251,6 @@ CH32X035_EVT.menu.pnum.CH32X035G8U.build.IQ_math_RV32=
 CH32X035_EVT.menu.pnum.CH32X035G8U.build.ch_extra_lib=-lprintf
 
 
-# USB support
-CH32X035_EVT.menu.usb.none=None
-CH32X035_EVT.menu.usb.none.build.usb_flags=
-CH32X035_EVT.menu.usb.tinyusb_usbfs=Adafruit TinyUSB with USBFS
-CH32X035_EVT.menu.usb.tinyusb_usbfs.build.usb_flags=-DUSBCON -DUSE_TINYUSB -DCFG_TUD_WCH_USBIP_USBFS=1 "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"
-
 # Upload menu
 CH32X035_EVT.menu.upload_method.swdMethod=WCH-SWD
 CH32X035_EVT.menu.upload_method.swdMethod.upload.protocol=
