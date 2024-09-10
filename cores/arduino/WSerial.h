@@ -6,7 +6,6 @@
 
 #if defined(USE_TINYUSB)
 #include "Adafruit_USBD_CDC.h"
-#include "Adafruit_TinyUSB.h"
 #define Serial SerialTinyUSB
 #endif
 
