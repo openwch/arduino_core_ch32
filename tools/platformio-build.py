@@ -147,9 +147,9 @@ def configure_usb_flags(cpp_defines):
     # in any case, add standard flags
     # preferably use USB information from arduino.openwch section,
     # but fallback to sensible values derived from other parts otherwise.
-    usb_pid = board.get("build.arduino.earlephilhower.usb_pid",
+    usb_pid = board.get("build.arduino.openwch.usb_pid",
                         board.get("build.hwids", [[0, 0]])[0][1])
-    usb_vid = board.get("build.arduino.earlephilhower.usb_vid",
+    usb_vid = board.get("build.arduino.openwch.usb_vid",
                         board.get("build.hwids", [[0, 0]])[0][0])
     usb_manufacturer = board.get(
         "build.arduino.openwch.usb_manufacturer", board.get("vendor", "WCH"))
