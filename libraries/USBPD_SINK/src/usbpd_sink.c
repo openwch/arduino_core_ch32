@@ -77,7 +77,7 @@ void usbpd_sink_set_request_fixed_voltage(Request_voltage_t requestVoltage)
         }
     }
     pdControl_g.cc_SetPDONum = (pdControl_g.cc_SourcePDONum - pdControl_g.cc_SourcePPSNum);
-
+    
 }
 
 void timer3_init(uint16_t arr, uint16_t psc)
