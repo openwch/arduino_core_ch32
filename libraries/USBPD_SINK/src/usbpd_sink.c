@@ -38,7 +38,7 @@ void usbpd_sink_clear_ready(void)
     pdControl_g.cc_USBPD_READY = 0;
 }
 
-bool usbpd_sink_set_request_fixed_voltage(Request_voltage_t requestVoltage)
+void usbpd_sink_set_request_fixed_voltage(Request_voltage_t requestVoltage)
 {
     uint16_t targetVoltage;
     switch (requestVoltage)
@@ -73,12 +73,11 @@ bool usbpd_sink_set_request_fixed_voltage(Request_voltage_t requestVoltage)
         if(pdControl_g.cc_FixedSourceCap[i].Voltage == targetVoltage)
         { 
             pdControl_g.cc_SetPDONum = i+1;
-            return true;
+            return;
         }
     }
-    
-    // unsupported voltage
-    return false;
+    pdControl_g.cc_SetPDONum = (pdControl_g.cc_SourcePDONum - pdControl_g.cc_SourcePPSNum);
+
 }
 
 void timer3_init(uint16_t arr, uint16_t psc)

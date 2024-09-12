@@ -20,10 +20,7 @@ void loop() {
 
     if(usbpd_sink_get_ready())
     {
-        if(usbpd_sink_set_request_fixed_voltage(setVoltage) == false)
-        {
-            Serial.printf("unsupported voltage\r\n");
-        }
+        usbpd_sink_set_request_fixed_voltage(setVoltage);
     }
 
 // button, myIndex++

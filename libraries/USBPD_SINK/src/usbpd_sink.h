@@ -5,7 +5,6 @@
 extern "C" {
 #endif /* end of __cplusplus */
 
-#include <stdbool.h>
 #include "usbpd_def.h"
 
 // Register Bit Definition
@@ -202,7 +201,7 @@ void usbpd_sink_process(void);
 uint8_t usbpd_sink_get_ready(void);
 void usbpd_sink_clear_ready(void);
 
-bool usbpd_sink_set_request_fixed_voltage(Request_voltage_t requestVoltage);
+void usbpd_sink_set_request_fixed_voltage(Request_voltage_t requestVoltage);
 
 
 #ifdef __cplusplus
