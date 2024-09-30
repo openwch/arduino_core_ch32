@@ -33,7 +33,10 @@ env = DefaultEnvironment()
 platform = env.PioPlatform()
 board = env.BoardConfig()
 mcu = env.BoardConfig().get("build.mcu")
-chip_series: str = board.get("build.series", "")[0:-1].upper() + "x"
+if mcu.startswith("ch32x03"):
+    chip_series: str = board.get("build.series", "").upper()
+else:
+    chip_series: str = board.get("build.series", "")[0:-1].upper() + "x"
 variant_h = board.get("build.arduino.openwch.variant_h")
 
 FRAMEWORK_DIR = platform.get_package_dir("framework-arduino-openwch-ch32")
@@ -93,8 +96,11 @@ env.Append(
 
     CPPDEFINES= [
         ("ARDUINO", 10808),
+        ("ARDUINO_ARCH_CH32V"),
+        ("ARDUINO_ARCH_CH32"),
         ("VARIANT_H", env.StringifyMacro(variant_h)),
-        chip_series
+        chip_series,
+        "NDEBUG"
     ],
 
     # LIBS is handled in _LIBFLAGS below
@@ -123,18 +129,75 @@ env.Replace(
     SIZEDATAREGEXP=r"^(?:\.data|\.bss|\.noinit)\s+(\d+).*",
 )
 
+def configure_usb_flags(cpp_defines):
+    if any([x in cpp_defines for x in ("PIO_FRAMEWORK_ARDUINO_USBD", "PIO_FRAMEWORK_ARDUINO_USBFS", "PIO_FRAMEWORK_ARDUINO_USBHS")]):
+        env.Append(CPPPATH=[join(
+            FRAMEWORK_DIR, "libraries", "Adafruit_TinyUSB_Arduino", "src", "arduino")])
+        # automatically build with lib_archive = no to make weak linking work, needed for TinyUSB
+        env_section = "env:" + env["PIOENV"]
+        platform.config.set(env_section, "lib_archive", False)
+    else:
+        return  # nothing to do, bye
+    if "PIO_FRAMEWORK_ARDUINO_USBD" in cpp_defines:
+        env.Append(CPPDEFINES=[("CFG_TUD_WCH_USBIP_FSDEV", 1)])
+    elif "PIO_FRAMEWORK_ARDUINO_USBFS" in cpp_defines:
+        env.Append(CPPDEFINES=[("CFG_TUD_WCH_USBIP_USBFS", 1)])
+    elif "PIO_FRAMEWORK_ARDUINO_USBHS" in cpp_defines:
+        env.Append(CPPDEFINES=[("CFG_TUD_WCH_USBIP_USBHS", 1)])
+    # in any case, add standard flags
+    # preferably use USB information from arduino.openwch section,
+    # but fallback to sensible values derived from other parts otherwise.
+    usb_pid = board.get("build.arduino.openwch.usb_pid",
+                        board.get("build.hwids", [[0, 0]])[0][1])
+    usb_vid = board.get("build.arduino.openwch.usb_vid",
+                        board.get("build.hwids", [[0, 0]])[0][0])
+    usb_manufacturer = board.get(
+        "build.arduino.openwch.usb_manufacturer", board.get("vendor", "WCH"))
+    usb_product = board.get(
+        "build.arduino.openwch.usb_product", board.get("name", "CH32V"))
+
+    env.Append(CPPDEFINES=[
+        "USBCON",
+        "USE_TINYUSB",
+        ("USB_VID", usb_vid),
+        ("USB_PID", usb_pid),
+        ("USB_MANUFACTURER", '\\"%s\\"' % usb_manufacturer),
+        ("USB_PRODUCT", '\\"%s\\"' % usb_product),
+    ])
+
+#
+# Process configuration flags
+#
+cpp_defines = env.Flatten(env.get("CPPDEFINES", []))
+# Ignore TinyUSB automatically if not active without requiring ldf_mode = chain+
+if not any([x in cpp_defines for x in ("PIO_FRAMEWORK_ARDUINO_USBD", "PIO_FRAMEWORK_ARDUINO_USBFS", "PIO_FRAMEWORK_ARDUINO_USBHS")]):
+    env_section = "env:" + env["PIOENV"]
+    ignored_libs = platform.config.get(env_section, "lib_ignore", [])
+    if not "Adafruit TinyUSB Library" in ignored_libs:
+        ignored_libs.append("Adafruit TinyUSB Library")
+    platform.config.set(env_section, "lib_ignore", ignored_libs)
+else:
+    # one of those macros was activated. explicitly add it to library dependencies.
+    env_section = "env:" + env["PIOENV"]
+    set_libs = platform.config.get(env_section, "lib_deps", [])
+    if not "Adafruit TinyUSB Library" in set_libs:
+        set_libs.append("Adafruit TinyUSB Library")
+    platform.config.set(env_section, "lib_deps", set_libs)
+
+# configure USB stuff
+configure_usb_flags(cpp_defines)
+
 #
 # Target: Build Core Library
 #
 
 libs = []
 
-if "build.variant" in board:
+variant = board.get("build.arduino.openwch.variant", board.get("build.variant", ""))
+if variant != "":
     variants_dir = join(
         "$PROJECT_DIR", board.get("build.variants_dir")) if board.get(
             "build.variants_dir", "") else join(FRAMEWORK_DIR, "variants")
-
-    variant = board.get("build.arduino.openwch.variant", board.get("build.variant"))
     env.Append(
         CPPPATH=[
             join(variants_dir, variant)
