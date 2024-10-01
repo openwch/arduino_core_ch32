@@ -23,7 +23,7 @@ Add the following link in the "*Additional Boards Managers URLs*" field:
 
 https://github.com/openwch/board_manager_files/raw/main/package_ch32v_index.json
 
-Then you can search for "**wch**" through the "**board manager**", find the installation package, and install it.
+Then you can search for "**CH32**" through the "**Boards Manager**", find the "**CH32 MCU EVT Boards**" core, and install it.
 
 ## Supported boards
 
