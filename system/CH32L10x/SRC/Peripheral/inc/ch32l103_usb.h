@@ -17,10 +17,6 @@
 extern "C" {
 #endif
 
-#ifdef __cplusplus
- extern "C" {
-#endif
-
 /*******************************************************************************/
 /* Header File */
 #include "stdint.h"

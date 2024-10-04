@@ -3957,7 +3957,7 @@ typedef struct
 #define RCC_PLLMULL16                           ((uint32_t)0x00380000) /* PLL input clock*16 */
 #define RCC_PLLMULL18                           ((uint32_t)0x003C0000) /* PLL input clock*18 */
 
-#define RCC_CFGR0_USBPRE                        ((uint32_t)0x00C00000) /* USBPRE[1:0] bits*/
+#define RCC_CFGR0_USBPRE                        ((uint32_t)0x00C00000) /* USBPRE[1:0] bits */
 #define RCC_USBPRE_0                            ((uint32_t)0x00400000) /* Bit 0 */
 #define RCC_USBPRE_1                            ((uint32_t)0x00800000) /* Bit 1 */
 
