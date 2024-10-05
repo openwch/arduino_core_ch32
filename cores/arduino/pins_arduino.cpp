@@ -39,6 +39,13 @@ WEAK uint32_t pinNametoDigitalPin(PinName p)
 PinName analogInputToPinName(uint32_t pin)
 {
   PinName pn = digitalPinToPinName(analogInputToDigitalPin(pin));
+  // MMOLE 240330: Don't know what's going on, but PADC_VREF maps to PA_1 instead of just PADC_VREF
+  // --->>>
+#ifdef ADC_MODULE_ENABLED
+  if(pin==PADC_VREF)
+    return(PADC_VREF);
+#endif
+  // <<<---
   if (pn == NC) {
     switch (pin) {
 #if defined(ADC_CHANNEL_TEMPSENSOR) || defined(ADC_CHANNEL_TEMPSENSOR_ADC1)
