@@ -36,11 +36,11 @@ compiler.libraries.ldflags=
 
 compiler.extra_flags=-march={build.march} -mabi={build.mabi} -msmall-data-limit=8 -msave-restore -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-common 
 
-compiler.S.flags={compiler.extra_flags} -x assembler-with-cpp "-I{build.system.path}/{build.series}/SRC/Startup/" "-I{build.core.path}/ch32/"
+compiler.S.flags={compiler.extra_flags} -x assembler-with-cpp {build.flags.clock} "-I{build.system.path}/{build.series}/SRC/Startup/" "-I{build.core.path}/ch32/"
 
-compiler.c.flags={compiler.extra_flags} -c {build.flags.optimize} {build.flags.debug} {compiler.warning_flags} -std=gnu99 -MMD {compiler.ch.extra_include}
+compiler.c.flags={build.flags.clock} {compiler.extra_flags} -c {build.flags.optimize} {build.flags.debug} {compiler.warning_flags} -std=gnu99 -MMD {compiler.ch.extra_include}
 
-compiler.cpp.flags={compiler.extra_flags} -c {build.flags.optimize} {build.flags.debug} {compiler.warning_flags} -std={compiler.cpp.std}  -fno-threadsafe-statics  -fno-rtti -fno-exceptions -fno-use-cxa-atexit -MMD {compiler.ch.extra_include} -fpermissive
+compiler.cpp.flags={build.flags.clock} {compiler.extra_flags} -c {build.flags.optimize} {build.flags.debug} {compiler.warning_flags} -std={compiler.cpp.std}  -fno-threadsafe-statics  -fno-rtti -fno-exceptions -fno-use-cxa-atexit -MMD {compiler.ch.extra_include} -fpermissive 
 
 compiler.ar.flags=rcs
 
@@ -65,7 +65,7 @@ build.variant_h=
 
 # These can be overridden in platform.local.txt
 compiler.c.extra_flags=
-compiler.c.elf.extra_flags=
+compiler.c.elf.extra_flags=-Wl,--defsym=__FLASH_SIZE={upload.maximum_size} -Wl,--defsym=__RAM_SIZE={upload.maximum_data_size}
 compiler.cpp.extra_flags=
 compiler.cpp.std=gnu++14
 compiler.S.extra_flags=
@@ -79,7 +79,8 @@ compiler.elf2lst.extra_flags=
 
 # USB Flags
 # ---------
-build.usb_flags=-DUSBCON {build.usb_speed} -DUSBD_VID={build.vid} -DUSBD_PID={build.pid} -DHAL_PCD_MODULE_ENABLED
+#build.usb_flags=-DUSBCON {build.usb_speed} -DUSBD_VID={build.vid} -DUSBD_PID={build.pid} -DHAL_PCD_MODULE_ENABLED
+build.usb_flags=
 
 # Specify defaults for vid/pid, since an empty value is impossible to
 # detect in the preprocessor, but a 0 can be checked for.
@@ -89,7 +90,7 @@ build.pid=0
 
 # Build information's     
 #####################-D{build.board} -DARDUINO_ARCH_{build.arch} -DBOARD_NAME="{build.board}" -DVARIANT_H="{build.variant_h}"
-build.info.flags=-D{build.series} -DARDUINO={runtime.ide.version} -D{build.chip} -DVARIANT_H="{build.variant_h}"
+build.info.flags=-DARDUINO_ARCH_CH32 -D{build.series} -DARDUINO={runtime.ide.version} -D{build.chip} -DVARIANT_H="{build.variant_h}" {build.usb_flags}
 
 # Defaults config
 build.xSerial=
@@ -99,6 +100,7 @@ build.enable_virtio=
 build.peripheral_pins=
 build.startup_file=
 build.flags.fp=
+build.flags.clock=
 build.flags.optimize=
 build.flags.debug=
 build.flags.ldspecs=
@@ -167,8 +169,15 @@ tools.WCH_linkE.upload.params.quiet=
 tools.WCH_linkE.upload.config={runtime.tools.openocd.path}/bin/wch-riscv.cfg
 tools.WCH_linkE.upload.pattern="{path}{cmd}" -f "{upload.config}" -c init -c halt -c "program {{build.path}/{build.project_name}.elf} verify; wlink_reset_resume; exit;"
 
-
 #tools.WCH_linkE.upload.pattern="{path}{cmd}" -f {upload.config} -c init -c halt -c "program {{build.path}/{build.project_name}.elf}; verify_image {{build.path}/{build.project_name}.elf}; wlink_reset_resume;  exit;"
+
+
+## WCH-ISP
+tools.wchisp.path={runtime.tools.wchisp.path}/
+tools.wchisp.cmd=wchisp
+tools.wchisp.upload.params.verbose=
+tools.wchisp.upload.params.quiet=
+tools.wchisp.upload.pattern="{path}{cmd}" {upload.verbose} flash "{build.path}/{build.project_name}.elf"
 
 
 # Debugger configuration (general options)

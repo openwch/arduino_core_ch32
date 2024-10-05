@@ -31,32 +31,86 @@ static int calibration_value = 0;
 /* Private_Defines */
 #if defined(ADC_MODULE_ENABLED) && !defined(ADC_MODULE_ONLY)
 
-#if (defined(CH32V20x) || defined(CH32V30x) || defined(CH32V30x_C) || defined(CH32V10x) )
+#if (defined(CH32V20x) || defined(CH32V30x) || defined(CH32V30x_C) || defined(CH32V10x) || defined(CH32L10x) || defined(CH32VM00X) )
 
 /* Default to use maximum sampling period */
+#if defined(CH32L10x) || defined(CH32VM00X)
+
 #ifndef ADC_SAMPLINGTIME
-#if defined(ADC_SampleTime_239Cycles5)
-#define ADC_SAMPLINGTIME        ADC_SampleTime_239Cycles5;
+#if defined(ADC_SampleTime_CyclesMode7) 
+#define ADC_SAMPLINGTIME        ADC_SampleTime_CyclesMode7
+#elif defined(ADC_SampleTime_CyclesMode6)
+#define ADC_SAMPLINGTIME        ADC_SampleTime_CyclesMode6
+#elif defined(ADC_SampleTime_CyclesMode5)
+#define ADC_SAMPLINGTIME        ADC_SampleTime_CyclesMode5
+#elif defined(ADC_SampleTime_CyclesMode4)
+#define ADC_SAMPLINGTIME        ADC_SampleTime_CyclesMode4
+#elif defined(ADC_SampleTime_CyclesMode3)
+#define ADC_SAMPLINGTIME        ADC_SampleTime_CyclesMode3
+#elif defined(ADC_SampleTime_CyclesMode2)
+#define ADC_SAMPLINGTIME        ADC_SampleTime_CyclesMode2
+#elif defined(ADC_SampleTime_CyclesMode1)
+#define ADC_SAMPLINGTIME        ADC_SampleTime_CyclesMode1
+#elif defined(ADC_SampleTime_CyclesMode0)
+#define ADC_SAMPLINGTIME        ADC_SampleTime_CyclesMode0
+#endif
+#endif /* !ADC_SAMPLINGTIME */
+
+#else
+
+#ifndef ADC_SAMPLINGTIME
+#if defined(ADC_SampleTime_239Cycles5) 
+#define ADC_SAMPLINGTIME        ADC_SampleTime_239Cycles5
 #elif defined(ADC_SampleTime_71Cycles5)
-#define ADC_SAMPLINGTIME        ADC_SampleTime_71Cycles5;
+#define ADC_SAMPLINGTIME        ADC_SampleTime_71Cycles5
 #elif defined(ADC_SampleTime_55Cycles5)
-#define ADC_SAMPLINGTIME        ADC_SampleTime_55Cycles5;
+#define ADC_SAMPLINGTIME        ADC_SampleTime_55Cycles5
 #elif defined(ADC_SampleTime_41Cycles5)
-#define ADC_SAMPLINGTIME        ADC_SampleTime_41Cycles5;
+#define ADC_SAMPLINGTIME        ADC_SampleTime_41Cycles5
 #elif defined(ADC_SampleTime_28Cycles5)
-#define ADC_SAMPLINGTIME        ADC_SampleTime_28Cycles5;
+#define ADC_SAMPLINGTIME        ADC_SampleTime_28Cycles5
 #elif defined(ADC_SampleTime_13Cycles5)
-#define ADC_SAMPLINGTIME        ADC_SampleTime_13Cycles5;
+#define ADC_SAMPLINGTIME        ADC_SampleTime_13Cycles5
 #elif defined(ADC_SampleTime_7Cycles5)
-#define ADC_SAMPLINGTIME        ADC_SampleTime_7Cycles5;
+#define ADC_SAMPLINGTIME        ADC_SampleTime_7Cycles5
 #elif defined(ADC_SampleTime_1Cycles5)
 #define ADC_SAMPLINGTIME        ADC_SampleTime_1Cycles5
 #endif
 #endif /* !ADC_SAMPLINGTIME */
 
+#endif /* CH32L10x */
+
+
 /*
  * Default to use maximum sampling period 
  */
+
+#if defined(CH32L10x) || defined(CH32VM00X)
+
+#ifndef ADC_SAMPLINGTIME_INTERNAL
+#if defined(ADC_SampleTime_CyclesMode7)
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_CyclesMode7
+#elif defined(ADC_SampleTime_CyclesMode6)
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_CyclesMode6
+#elif defined(ADC_SampleTime_CyclesMode5)
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_CyclesMode5
+#elif defined(ADC_SampleTime_CyclesMode4)
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_CyclesMode4
+#elif defined(ADC_SampleTime_CyclesMode3)
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_CyclesMode3
+#elif defined(ADC_SampleTime_CyclesMode2)
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_CyclesMode2
+#elif defined(ADC_SampleTime_CyclesMode1)
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_CyclesMode1
+#elif defined(ADC_SampleTime_CyclesMode0)
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_CyclesMode0
+#else
+#error "ADC sampling time could not be defined for internal channels!"
+#endif
+#endif /* !ADC_SAMPLINGTIME_INTERNAL */
+
+#else
+
 #ifndef ADC_SAMPLINGTIME_INTERNAL
 #if defined(ADC_SampleTime_239Cycles5)
 #define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_239Cycles5
@@ -78,6 +132,11 @@ static int calibration_value = 0;
 #error "ADC sampling time could not be defined for internal channels!"
 #endif
 #endif /* !ADC_SAMPLINGTIME_INTERNAL */
+
+
+#endif
+
+
 
 #ifndef ADC_CLOCK_DIV
 #ifdef RCC_PCLK2_Div8
@@ -264,13 +323,17 @@ uint32_t get_adc_channel(PinName pin)
     case 8:
       channel = ADC_Channel_8;
       break;
+#ifdef ADC_Channel_9  
     case 9:
       channel = ADC_Channel_9;
       break;
+#endif
 #ifdef ADC_Channel_10      
     case 10:
       channel = ADC_Channel_10;
       break;   
+#endif
+#ifdef ADC_Channel_11      
     case 11:
       channel = ADC_Channel_11;
       break;
@@ -423,8 +486,13 @@ void dac_write_value(PinName pin, uint32_t value, uint8_t do_init)
 
   if (do_init == 1) 
   {
+   #if defined(CH32L10x)
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOA, ENABLE );
+	  RCC_PB1PeriphClockCmd(RCC_PB1Periph_DAC, ENABLE );   
+   #else
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE );
 	  RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE );
+   #endif
     /*##-1- Configure the DAC peripheral */
     g_current_pin = pin;
 
@@ -503,13 +571,21 @@ void ADC_Clock_EN(ADC_TypeDef *padc)
      #ifdef RCC_APB2Periph_ADC1
       	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1	, ENABLE );	  //ENABLE ADC1 Clock
      #endif 
+
+     #ifdef RCC_PB2Periph_ADC1
+     RCC_PB2PeriphClockCmd(RCC_PB2Periph_ADC1	, ENABLE );	  //ENABLE ADC1 Clock for CH32L10x
+     #endif
   }
 #ifdef ADC2
   else if(padc == ADC2) 
   {
       #ifdef RCC_APB2Periph_ADC2
-        RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC2  , ENABLE );   //ENABLE ADC2 Clock 
+      RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC2  , ENABLE );   //ENABLE ADC2 Clock 
       #endif 
+
+      #ifdef RCC_PB2Periph_ADC2
+      RCC_PB2PeriphClockCmd(RCC_PB2Periph_ADC2  , ENABLE );   //ENABLE ADC2 Clock for CH32L10x      
+      #endif
   }
 #endif
   /* Configure ADC GPIO pin */
@@ -582,7 +658,7 @@ uint16_t adc_read_value(PinName pin, uint32_t resolution)
   ADC_InitStructure.ADC_ContinuousConvMode   = DISABLE;
   ADC_InitStructure.ADC_NbrOfChannel         = 1; 
   ADC_InitStructure.ADC_ExternalTrigConv     = ADC_ExternalTrigConv_None;
- #if !defined(CH32V00x) && !defined(CH32V10x) 
+ #if !defined(CH32V00x) && !defined(CH32V10x)  && !defined(CH32VM00X)
   ADC_InitStructure.ADC_OutputBuffer         = ENABLE;
 #endif
   ADC_Init(padc, &ADC_InitStructure);

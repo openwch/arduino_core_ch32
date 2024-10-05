@@ -173,16 +173,16 @@ public:
 #if defined(UART4) || defined(USART4)
   extern HardwareSerial Serial4;
 #endif
-#if defined(UART5) || defined(USART5)
+#if defined(UART5) 
   extern HardwareSerial Serial5;
 #endif
-#if defined(USART6)
+#if defined(UART6) 
   extern HardwareSerial Serial6;
 #endif
-#if defined(UART7) || defined(USART7)
+#if defined(UART7) 
   extern HardwareSerial Serial7;
 #endif
-#if defined(UART8) || defined(USART8)
+#if defined(UART8) 
   extern HardwareSerial Serial8;
 #endif
 

@@ -1,7 +1,7 @@
 # See: https://arduino.github.io/arduino-cli/latest/platform-specification/
 
 menu.pnum=Board Select
-
+menu.clock=Clock Select
 menu.xserial=U(S)ART support
 menu.usb=USB support (if available)
 menu.xusb=USB speed (if available)
@@ -14,8 +14,8 @@ menu.upload_method=Upload method
 
 
 
-#############################################################################
-##CH32V00x EVT Board
+##############################################################################
+##CH32V00x_EVT Board   
 
 CH32V00x_EVT.name=CH32V00x
 CH32V00x_EVT.build.core=arduino
@@ -31,14 +31,14 @@ CH32V00x_EVT.menu.pnum.CH32V003F4=CH32V003F4 EVT
 CH32V00x_EVT.menu.pnum.CH32V003F4.node=NODE_V003F4
 CH32V00x_EVT.menu.pnum.CH32V003F4.upload.maximum_size=16384
 CH32V00x_EVT.menu.pnum.CH32V003F4.upload.maximum_data_size=2048
-CH32V00x_EVT.menu.pnum.CH32V003F4.build.mcu=QingKe-V2
+CH32V00x_EVT.menu.pnum.CH32V003F4.build.mcu=QingKe-V2A
 CH32V00x_EVT.menu.pnum.CH32V003F4.build.board=CH32V003F4
 CH32V00x_EVT.menu.pnum.CH32V003F4.build.series=CH32V00x
 CH32V00x_EVT.menu.pnum.CH32V003F4.build.variant=CH32V00x/CH32V003F4
 CH32V00x_EVT.menu.pnum.CH32V003F4.build.chip=CH32V003F4
 CH32V00x_EVT.menu.pnum.CH32V003F4.build.march=rv32ecxw
 CH32V00x_EVT.menu.pnum.CH32V003F4.build.mabi=ilp32e
-CH32V00x_EVT.menu.pnum.CH32V003F4.build.math_lib_gcc=-lm 
+CH32V00x_EVT.menu.pnum.CH32V003F4.build.math_lib_gcc=-lm
 CH32V00x_EVT.menu.pnum.CH32V003F4.build.IQ_math_RV32=
 CH32V00x_EVT.menu.pnum.CH32V003F4.build.ch_extra_lib=-lprintf
 
@@ -48,12 +48,30 @@ CH32V00x_EVT.menu.upload_method.swdMethod=WCH-SWD
 CH32V00x_EVT.menu.upload_method.swdMethod.upload.protocol=
 CH32V00x_EVT.menu.upload_method.swdMethod.upload.options=
 CH32V00x_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH32V00x_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH32V00x_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH32V00x_EVT.menu.upload_method.ispMethod.upload.options=
+CH32V00x_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
+
+# Clock Select
+CH32V00x_EVT.menu.clock.48MHz_HSI=48MHz Internal
+CH32V00x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000 -DF_CPU=48000000
+CH32V00x_EVT.menu.clock.24MHz_HSI=24MHz Internal
+CH32V00x_EVT.menu.clock.24MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSI=24000000 -DF_CPU=24000000
+CH32V00x_EVT.menu.clock.8MHz_HSI=8MHz Internal
+CH32V00x_EVT.menu.clock.8MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSI=8000000 -DF_CPU=8000000
+CH32V00x_EVT.menu.clock.48MHz_HSE=48MHz External
+CH32V00x_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000 -DF_CPU=48000000
+CH32V00x_EVT.menu.clock.24MHz_HSE=24MHz External
+CH32V00x_EVT.menu.clock.24MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSE=24000000 -DF_CPU=24000000
+CH32V00x_EVT.menu.clock.8MHz_HSE=8MHz External
+CH32V00x_EVT.menu.clock.8MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSE=8000000 -DF_CPU=8000000
 
 
 # Optimizations
 CH32V00x_EVT.menu.opt.osstd=Smallest (-Os default)
-CH32V00x_EVT.menu.opt.osstd.build.flags.optimize=-Os 
+CH32V00x_EVT.menu.opt.osstd.build.flags.optimize=-Os
 CH32V00x_EVT.menu.opt.oslto=Smallest (-Os) with LTO
 CH32V00x_EVT.menu.opt.oslto.build.flags.optimize=-Os -flto
 CH32V00x_EVT.menu.opt.o1std=Fast (-O1)
@@ -76,7 +94,7 @@ CH32V00x_EVT.menu.opt.o0std.build.flags.optimize=-O0
 
 # Debug information
 CH32V00x_EVT.menu.dbg.none=None
-CH32V00x_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG 
+CH32V00x_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG
 CH32V00x_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
 CH32V00x_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
 CH32V00x_EVT.menu.dbg.enable_log=Core logs Enabled
@@ -99,8 +117,113 @@ CH32V00x_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
 
 
-#############################################################################
-##CH32X035 EVT Board
+
+##############################################################################
+##CH32VM00X_EVT Board   including V/M 002 004 005 006 007
+
+CH32VM00X_EVT.name=CH32VM00X
+CH32VM00X_EVT.build.core=arduino
+CH32VM00X_EVT.build.board=CH32VM00X_EVT
+CH32VM00X_EVT.upload.maximum_size=0
+CH32VM00X_EVT.upload.maximum_data_size=0
+CH32VM00X_EVT.build.variant_h=variant_{build.board}.h
+CH32VM00X_EVT.debug.tool=gdb-WCH_LinkE
+
+
+#CH32V006K8 EVT Board
+CH32VM00X_EVT.menu.pnum.CH32V006K8=CH32V006K8 EVT
+CH32VM00X_EVT.menu.pnum.CH32V006K8.node=NODE_V006K8
+CH32VM00X_EVT.menu.pnum.CH32V006K8.upload.maximum_size=63488
+CH32VM00X_EVT.menu.pnum.CH32V006K8.upload.maximum_data_size=8192
+CH32VM00X_EVT.menu.pnum.CH32V006K8.build.mcu=QingKe-V2C
+CH32VM00X_EVT.menu.pnum.CH32V006K8.build.board=CH32V006K8
+CH32VM00X_EVT.menu.pnum.CH32V006K8.build.series=CH32VM00X
+CH32VM00X_EVT.menu.pnum.CH32V006K8.build.variant=CH32VM00X/CH32V006K8
+CH32VM00X_EVT.menu.pnum.CH32V006K8.build.chip=CH32V006K8
+CH32VM00X_EVT.menu.pnum.CH32V006K8.build.march=rv32ecxw
+CH32VM00X_EVT.menu.pnum.CH32V006K8.build.mabi=ilp32e
+CH32VM00X_EVT.menu.pnum.CH32V006K8.build.math_lib_gcc=-lm
+CH32VM00X_EVT.menu.pnum.CH32V006K8.build.IQ_math_RV32=
+CH32VM00X_EVT.menu.pnum.CH32V006K8.build.ch_extra_lib=-lprintf
+
+
+# Upload menu
+CH32VM00X_EVT.menu.upload_method.swdMethod=WCH-SWD
+CH32VM00X_EVT.menu.upload_method.swdMethod.upload.protocol=
+CH32VM00X_EVT.menu.upload_method.swdMethod.upload.options=
+CH32VM00X_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH32VM00X_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH32VM00X_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH32VM00X_EVT.menu.upload_method.ispMethod.upload.options=
+CH32VM00X_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
+
+
+# Clock Select
+CH32VM00X_EVT.menu.clock.48MHz_HSI=48MHz Internal
+CH32VM00X_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000 -DF_CPU=48000000
+CH32VM00X_EVT.menu.clock.24MHz_HSI=24MHz Internal
+CH32VM00X_EVT.menu.clock.24MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSI=24000000 -DF_CPU=24000000
+CH32VM00X_EVT.menu.clock.8MHz_HSI=8MHz Internal
+CH32VM00X_EVT.menu.clock.8MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSI=8000000 -DF_CPU=8000000
+CH32VM00X_EVT.menu.clock.48MHz_HSE=48MHz External
+CH32VM00X_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000 -DF_CPU=48000000
+CH32VM00X_EVT.menu.clock.24MHz_HSE=24MHz External
+CH32VM00X_EVT.menu.clock.24MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSE=24000000 -DF_CPU=24000000
+CH32VM00X_EVT.menu.clock.8MHz_HSE=8MHz External
+CH32VM00X_EVT.menu.clock.8MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSE=8000000 -DF_CPU=8000000
+
+
+# Optimizations
+CH32VM00X_EVT.menu.opt.osstd=Smallest (-Os default)
+CH32VM00X_EVT.menu.opt.osstd.build.flags.optimize=-Os
+CH32VM00X_EVT.menu.opt.oslto=Smallest (-Os) with LTO
+CH32VM00X_EVT.menu.opt.oslto.build.flags.optimize=-Os -flto
+CH32VM00X_EVT.menu.opt.o1std=Fast (-O1)
+CH32VM00X_EVT.menu.opt.o1std.build.flags.optimize=-O1
+CH32VM00X_EVT.menu.opt.o1lto=Fast (-O1) with LTO
+CH32VM00X_EVT.menu.opt.o1lto.build.flags.optimize=-O1 -flto
+CH32VM00X_EVT.menu.opt.o2std=Faster (-O2)
+CH32VM00X_EVT.menu.opt.o2std.build.flags.optimize=-O2
+CH32VM00X_EVT.menu.opt.o2lto=Faster (-O2) with LTO
+CH32VM00X_EVT.menu.opt.o2lto.build.flags.optimize=-O2 -flto
+CH32VM00X_EVT.menu.opt.o3std=Fastest (-O3)
+CH32VM00X_EVT.menu.opt.o3std.build.flags.optimize=-O3
+CH32VM00X_EVT.menu.opt.o3lto=Fastest (-O3) with LTO
+CH32VM00X_EVT.menu.opt.o3lto.build.flags.optimize=-O3 -flto
+CH32VM00X_EVT.menu.opt.ogstd=Debug (-Og)
+CH32VM00X_EVT.menu.opt.ogstd.build.flags.optimize=-Og
+CH32VM00X_EVT.menu.opt.o0std=No Optimization (-O0)
+CH32VM00X_EVT.menu.opt.o0std.build.flags.optimize=-O0
+
+
+# Debug information
+CH32VM00X_EVT.menu.dbg.none=None
+CH32VM00X_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG
+CH32VM00X_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
+CH32VM00X_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
+CH32VM00X_EVT.menu.dbg.enable_log=Core logs Enabled
+CH32VM00X_EVT.menu.dbg.enable_log.build.flags.debug=
+CH32VM00X_EVT.menu.dbg.enable_all=Core Logs and Symbols Enabled (-g)
+CH32VM00X_EVT.menu.dbg.enable_all.build.flags.debug=-g
+
+
+# C Runtime Library
+CH32VM00X_EVT.menu.rtlib.nano=Newlib Nano (default)
+CH32VM00X_EVT.menu.rtlib.nano.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs
+CH32VM00X_EVT.menu.rtlib.nanofp=Newlib Nano + Float Printf
+CH32VM00X_EVT.menu.rtlib.nanofp.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float
+CH32VM00X_EVT.menu.rtlib.nanofs=Newlib Nano + Float Scanf
+CH32VM00X_EVT.menu.rtlib.nanofs.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _scanf_float
+CH32VM00X_EVT.menu.rtlib.nanofps=Newlib Nano + Float Printf/Scanf
+CH32VM00X_EVT.menu.rtlib.nanofps.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
+CH32VM00X_EVT.menu.rtlib.full=Newlib Standard
+CH32VM00X_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
+
+
+
+
+##############################################################################
+##CH32X035_EVT Board   
 
 CH32X035_EVT.name=CH32X035
 CH32X035_EVT.build.core=arduino
@@ -108,11 +231,12 @@ CH32X035_EVT.build.board=CH32X035_EVT
 CH32X035_EVT.upload.maximum_size=0
 CH32X035_EVT.upload.maximum_data_size=0
 CH32X035_EVT.build.variant_h=variant_{build.board}.h
+CH32X035_EVT.debug.tool=gdb-WCH_LinkE
 
 
-#CH32X035 EVT Board
+#CH32X035G8U EVT Board
 CH32X035_EVT.menu.pnum.CH32X035G8U=CH32X035G8U EVT
-CH32X035_EVT.menu.pnum.CH32X035G8U.node=NODE_X035G8
+CH32X035_EVT.menu.pnum.CH32X035G8U.node=NODE_X035G8U
 CH32X035_EVT.menu.pnum.CH32X035G8U.upload.maximum_size=63488
 CH32X035_EVT.menu.pnum.CH32X035G8U.upload.maximum_data_size=20480
 CH32X035_EVT.menu.pnum.CH32X035G8U.build.mcu=QingKe-V4C
@@ -122,7 +246,7 @@ CH32X035_EVT.menu.pnum.CH32X035G8U.build.variant=CH32X035/CH32X035G8U
 CH32X035_EVT.menu.pnum.CH32X035G8U.build.chip=CH32X035G8U
 CH32X035_EVT.menu.pnum.CH32X035G8U.build.march=rv32imacxw
 CH32X035_EVT.menu.pnum.CH32X035G8U.build.mabi=ilp32
-CH32X035_EVT.menu.pnum.CH32X035G8U.build.math_lib_gcc=-lm 
+CH32X035_EVT.menu.pnum.CH32X035G8U.build.math_lib_gcc=-lm
 CH32X035_EVT.menu.pnum.CH32X035G8U.build.IQ_math_RV32=
 CH32X035_EVT.menu.pnum.CH32X035G8U.build.ch_extra_lib=-lprintf
 
@@ -132,12 +256,28 @@ CH32X035_EVT.menu.upload_method.swdMethod=WCH-SWD
 CH32X035_EVT.menu.upload_method.swdMethod.upload.protocol=
 CH32X035_EVT.menu.upload_method.swdMethod.upload.options=
 CH32X035_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH32X035_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH32X035_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH32X035_EVT.menu.upload_method.ispMethod.upload.options=
+CH32X035_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
+
+# Clock Select
+CH32X035_EVT.menu.clock.48MHz_HSI=48MHz Internal
+CH32X035_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000 -DF_CPU=48000000
+CH32X035_EVT.menu.clock.24MHz_HSI=24MHz Internal
+CH32X035_EVT.menu.clock.24MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSI=24000000 -DF_CPU=24000000
+CH32X035_EVT.menu.clock.16MHz_HSI=16MHz Internal
+CH32X035_EVT.menu.clock.16MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_16MHz_HSI=16000000 -DF_CPU=16000000
+CH32X035_EVT.menu.clock.12MHz_HSI=12MHz Internal
+CH32X035_EVT.menu.clock.12MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_12MHz_HSI=12000000 -DF_CPU=12000000
+CH32X035_EVT.menu.clock.8MHz_HSI=8MHz Internal
+CH32X035_EVT.menu.clock.8MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSI=8000000 -DF_CPU=8000000
 
 
 # Optimizations
 CH32X035_EVT.menu.opt.osstd=Smallest (-Os default)
-CH32X035_EVT.menu.opt.osstd.build.flags.optimize=-Os 
+CH32X035_EVT.menu.opt.osstd.build.flags.optimize=-Os
 CH32X035_EVT.menu.opt.oslto=Smallest (-Os) with LTO
 CH32X035_EVT.menu.opt.oslto.build.flags.optimize=-Os -flto
 CH32X035_EVT.menu.opt.o1std=Fast (-O1)
@@ -160,7 +300,7 @@ CH32X035_EVT.menu.opt.o0std.build.flags.optimize=-O0
 
 # Debug information
 CH32X035_EVT.menu.dbg.none=None
-CH32X035_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG 
+CH32X035_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG
 CH32X035_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
 CH32X035_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
 CH32X035_EVT.menu.dbg.enable_log=Core logs Enabled
@@ -183,8 +323,9 @@ CH32X035_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
 
 
-#############################################################################
-##CH32V10x EVT Board   -lprintf
+
+##############################################################################
+##CH32V10x_EVT Board   -lprintf, CH32V10x_3V3: 3.3V power supply  CH32V10x_5V: 5V power supply
 
 CH32V10x_EVT.name=CH32V10x
 CH32V10x_EVT.build.core=arduino
@@ -192,9 +333,10 @@ CH32V10x_EVT.build.board=CH32V10x_EVT
 CH32V10x_EVT.upload.maximum_size=0
 CH32V10x_EVT.upload.maximum_data_size=0
 CH32V10x_EVT.build.variant_h=variant_{build.board}.h
+CH32V10x_EVT.debug.tool=gdb-WCH_LinkE
 
 
-#CH32V103R8T6 EVT Board    CH32V10x_3V3: 3.3V power supply  CH32V10x_5V: 5V power supply
+#CH32V103R8T6 EVT Board
 CH32V10x_EVT.menu.pnum.CH32V103R8T6=CH32V103R8T6 EVT
 CH32V10x_EVT.menu.pnum.CH32V103R8T6.node=NODE_V103R8T6
 CH32V10x_EVT.menu.pnum.CH32V103R8T6.upload.maximum_size=65536
@@ -206,9 +348,9 @@ CH32V10x_EVT.menu.pnum.CH32V103R8T6.build.variant=CH32V10x/CH32V103R8T6
 CH32V10x_EVT.menu.pnum.CH32V103R8T6.build.chip=CH32V10x_3V3
 CH32V10x_EVT.menu.pnum.CH32V103R8T6.build.march=rv32imac
 CH32V10x_EVT.menu.pnum.CH32V103R8T6.build.mabi=ilp32
-CH32V10x_EVT.menu.pnum.CH32V103R8T6.build.math_lib_gcc=-lm 
+CH32V10x_EVT.menu.pnum.CH32V103R8T6.build.math_lib_gcc=-lm
 CH32V10x_EVT.menu.pnum.CH32V103R8T6.build.IQ_math_RV32=
-CH32V10x_EVT.menu.pnum.CH32V103R8T6.build.ch_extra_lib=-lprintf                           
+CH32V10x_EVT.menu.pnum.CH32V103R8T6.build.ch_extra_lib=-lprintf
 
 
 # Upload menu
@@ -216,12 +358,34 @@ CH32V10x_EVT.menu.upload_method.swdMethod=WCH-SWD
 CH32V10x_EVT.menu.upload_method.swdMethod.upload.protocol=
 CH32V10x_EVT.menu.upload_method.swdMethod.upload.options=
 CH32V10x_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH32V10x_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH32V10x_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH32V10x_EVT.menu.upload_method.ispMethod.upload.options=
+CH32V10x_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
+
+# Clock Select
+CH32V10x_EVT.menu.clock.72MHz_HSI=72MHz Internal
+CH32V10x_EVT.menu.clock.72MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSI=72000000 -DF_CPU=72000000
+CH32V10x_EVT.menu.clock.56MHz_HSI=56MHz Internal
+CH32V10x_EVT.menu.clock.56MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSI=56000000 -DF_CPU=56000000
+CH32V10x_EVT.menu.clock.48MHz_HSI=48MHz Internal
+CH32V10x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000 -DF_CPU=48000000
+CH32V10x_EVT.menu.clock.8MHz_HSI=8MHz Internal
+CH32V10x_EVT.menu.clock.8MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSI=8000000 -DF_CPU=8000000
+CH32V10x_EVT.menu.clock.72MHz_HSE=72MHz External
+CH32V10x_EVT.menu.clock.72MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSE=72000000 -DF_CPU=72000000
+CH32V10x_EVT.menu.clock.56MHz_HSE=56MHz External
+CH32V10x_EVT.menu.clock.56MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSE=56000000 -DF_CPU=56000000
+CH32V10x_EVT.menu.clock.48MHz_HSE=48MHz External
+CH32V10x_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000 -DF_CPU=48000000
+CH32V10x_EVT.menu.clock.8MHz_HSE=8MHz External
+CH32V10x_EVT.menu.clock.8MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSE=8000000 -DF_CPU=8000000
 
 
 # Optimizations
 CH32V10x_EVT.menu.opt.osstd=Smallest (-Os default)
-CH32V10x_EVT.menu.opt.osstd.build.flags.optimize=-Os 
+CH32V10x_EVT.menu.opt.osstd.build.flags.optimize=-Os
 CH32V10x_EVT.menu.opt.oslto=Smallest (-Os) with LTO
 CH32V10x_EVT.menu.opt.oslto.build.flags.optimize=-Os -flto
 CH32V10x_EVT.menu.opt.o1std=Fast (-O1)
@@ -244,7 +408,7 @@ CH32V10x_EVT.menu.opt.o0std.build.flags.optimize=-O0
 
 # Debug information
 CH32V10x_EVT.menu.dbg.none=None
-CH32V10x_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG 
+CH32V10x_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG
 CH32V10x_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
 CH32V10x_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
 CH32V10x_EVT.menu.dbg.enable_log=Core logs Enabled
@@ -268,10 +432,8 @@ CH32V10x_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
 
 
-
-
-#############################################################################
-##CH32V20x EVT Board
+##############################################################################
+##CH32V20x_EVT Board   
 
 CH32V20x_EVT.name=CH32V20x
 CH32V20x_EVT.build.core=arduino
@@ -279,6 +441,7 @@ CH32V20x_EVT.build.board=CH32V20x_EVT
 CH32V20x_EVT.upload.maximum_size=0
 CH32V20x_EVT.upload.maximum_data_size=0
 CH32V20x_EVT.build.variant_h=variant_{build.board}.h
+CH32V20x_EVT.debug.tool=gdb-WCH_LinkE
 
 
 #CH32V203RB EVT Board
@@ -286,7 +449,7 @@ CH32V20x_EVT.menu.pnum.CH32V203RB=CH32V203RB EVT
 CH32V20x_EVT.menu.pnum.CH32V203RB.node=NODE_V203RB
 CH32V20x_EVT.menu.pnum.CH32V203RB.upload.maximum_size=131072
 CH32V20x_EVT.menu.pnum.CH32V203RB.upload.maximum_data_size=65536
-CH32V20x_EVT.menu.pnum.CH32V203RB.build.mcu=QingKe-V4B
+CH32V20x_EVT.menu.pnum.CH32V203RB.build.mcu=QingKe-V4C
 CH32V20x_EVT.menu.pnum.CH32V203RB.build.board=CH32V203RB
 CH32V20x_EVT.menu.pnum.CH32V203RB.build.series=CH32V20x
 CH32V20x_EVT.menu.pnum.CH32V203RB.build.variant=CH32V20x/CH32V203RB
@@ -296,8 +459,6 @@ CH32V20x_EVT.menu.pnum.CH32V203RB.build.mabi=ilp32
 CH32V20x_EVT.menu.pnum.CH32V203RB.build.math_lib_gcc=-lm
 CH32V20x_EVT.menu.pnum.CH32V203RB.build.IQ_math_RV32=
 CH32V20x_EVT.menu.pnum.CH32V203RB.build.ch_extra_lib=-lprintf
-
-
 
 #CH32V203G8 EVT Board
 CH32V20x_EVT.menu.pnum.CH32V203G8=CH32V203G8 EVT
@@ -311,13 +472,27 @@ CH32V20x_EVT.menu.pnum.CH32V203G8.build.variant=CH32V20x/CH32V203G8
 CH32V20x_EVT.menu.pnum.CH32V203G8.build.chip=CH32V203
 CH32V20x_EVT.menu.pnum.CH32V203G8.build.march=rv32imacxw
 CH32V20x_EVT.menu.pnum.CH32V203G8.build.mabi=ilp32
-CH32V20x_EVT.menu.pnum.CH32V203G8.build.math_lib_gcc=-lm 
+CH32V20x_EVT.menu.pnum.CH32V203G8.build.math_lib_gcc=-lm
 CH32V20x_EVT.menu.pnum.CH32V203G8.build.IQ_math_RV32=
 CH32V20x_EVT.menu.pnum.CH32V203G8.build.ch_extra_lib=-lprintf
 
+#CH32V203G6 EVT Board
+CH32V20x_EVT.menu.pnum.CH32V203G6=CH32V203G6 EVT
+CH32V20x_EVT.menu.pnum.CH32V203G6.node=NODE_V203G6
+CH32V20x_EVT.menu.pnum.CH32V203G6.upload.maximum_size=32768
+CH32V20x_EVT.menu.pnum.CH32V203G6.upload.maximum_data_size=10240
+CH32V20x_EVT.menu.pnum.CH32V203G6.build.mcu=QingKe-V4B
+CH32V20x_EVT.menu.pnum.CH32V203G6.build.board=CH32V203G6
+CH32V20x_EVT.menu.pnum.CH32V203G6.build.series=CH32V20x
+CH32V20x_EVT.menu.pnum.CH32V203G6.build.variant=CH32V20x/CH32V203G6
+CH32V20x_EVT.menu.pnum.CH32V203G6.build.chip=CH32V203
+CH32V20x_EVT.menu.pnum.CH32V203G6.build.march=rv32imacxw
+CH32V20x_EVT.menu.pnum.CH32V203G6.build.mabi=ilp32
+CH32V20x_EVT.menu.pnum.CH32V203G6.build.math_lib_gcc=-lm
+CH32V20x_EVT.menu.pnum.CH32V203G6.build.IQ_math_RV32=
+CH32V20x_EVT.menu.pnum.CH32V203G6.build.ch_extra_lib=-lprintf
 
-
-#Generic CH32V203C8 Board
+#CH32V203C8 Board
 CH32V20x_EVT.menu.pnum.CH32V203C8=CH32V203C8
 CH32V20x_EVT.menu.pnum.CH32V203C8.node=NODE_V203C8
 CH32V20x_EVT.menu.pnum.CH32V203C8.upload.maximum_size=65536
@@ -329,16 +504,15 @@ CH32V20x_EVT.menu.pnum.CH32V203C8.build.variant=CH32V20x/CH32V203C8
 CH32V20x_EVT.menu.pnum.CH32V203C8.build.chip=CH32V203
 CH32V20x_EVT.menu.pnum.CH32V203C8.build.march=rv32imacxw
 CH32V20x_EVT.menu.pnum.CH32V203C8.build.mabi=ilp32
-CH32V20x_EVT.menu.pnum.CH32V203C8.build.math_lib_gcc=-lm 
+CH32V20x_EVT.menu.pnum.CH32V203C8.build.math_lib_gcc=-lm
 CH32V20x_EVT.menu.pnum.CH32V203C8.build.IQ_math_RV32=
 CH32V20x_EVT.menu.pnum.CH32V203C8.build.ch_extra_lib=-lprintf
 
-
-#Generic CH32V203C6 Board
+#CH32V203C6 Board
 CH32V20x_EVT.menu.pnum.CH32V203C6=CH32V203C6
 CH32V20x_EVT.menu.pnum.CH32V203C6.node=NODE_V203C6
 CH32V20x_EVT.menu.pnum.CH32V203C6.upload.maximum_size=32768
-CH32V20x_EVT.menu.pnum.CH32V203C6.upload.maximum_data_size=20480
+CH32V20x_EVT.menu.pnum.CH32V203C6.upload.maximum_data_size=10240
 CH32V20x_EVT.menu.pnum.CH32V203C6.build.mcu=QingKe-V4B
 CH32V20x_EVT.menu.pnum.CH32V203C6.build.board=CH32V203C6
 CH32V20x_EVT.menu.pnum.CH32V203C6.build.series=CH32V20x
@@ -346,23 +520,80 @@ CH32V20x_EVT.menu.pnum.CH32V203C6.build.variant=CH32V20x/CH32V203C6
 CH32V20x_EVT.menu.pnum.CH32V203C6.build.chip=CH32V203
 CH32V20x_EVT.menu.pnum.CH32V203C6.build.march=rv32imacxw
 CH32V20x_EVT.menu.pnum.CH32V203C6.build.mabi=ilp32
-CH32V20x_EVT.menu.pnum.CH32V203C6.build.math_lib_gcc=-lm 
+CH32V20x_EVT.menu.pnum.CH32V203C6.build.math_lib_gcc=-lm
 CH32V20x_EVT.menu.pnum.CH32V203C6.build.IQ_math_RV32=
 CH32V20x_EVT.menu.pnum.CH32V203C6.build.ch_extra_lib=-lprintf
 
+#Adafruit QTPy CH32V203G6 Board
+CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY=Adafruit QTPy CH32V203G6
+CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY.node=NODE_V203G6_ADAFRUIT_QTPY
+CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY.upload.maximum_size=229376
+CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY.upload.maximum_data_size=10240
+CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY.build.mcu=QingKe-V4B
+CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY.build.board=CH32V203G6_ADAFRUIT_QTPY
+CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY.build.series=CH32V20x
+CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY.build.variant=CH32V20x/CH32V203G6_ADAFRUIT_QTPY
+CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY.build.chip=CH32V203
+CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY.build.march=rv32imacxw
+CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY.build.mabi=ilp32
+CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY.build.math_lib_gcc=-lm
+CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY.build.IQ_math_RV32=
+CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY.build.ch_extra_lib=-lprintf
 
+
+# USB support
+CH32V20x_EVT.menu.usb.none=None
+CH32V20x_EVT.menu.usb.none.build.usb_flags=
+CH32V20x_EVT.menu.usb.tinyusb_usbd=Adafruit TinyUSB with USBD
+CH32V20x_EVT.menu.usb.tinyusb_usbd.build.usb_flags=-DUSBCON -DUSE_TINYUSB -DCFG_TUD_WCH_USBIP_FSDEV=1 "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"
+CH32V20x_EVT.menu.usb.tinyusb_usbfs=Adafruit TinyUSB with USBFS
+CH32V20x_EVT.menu.usb.tinyusb_usbfs.build.usb_flags=-DUSBCON -DUSE_TINYUSB -DCFG_TUD_WCH_USBIP_USBFS=1 "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"
 
 # Upload menu
 CH32V20x_EVT.menu.upload_method.swdMethod=WCH-SWD
 CH32V20x_EVT.menu.upload_method.swdMethod.upload.protocol=
 CH32V20x_EVT.menu.upload_method.swdMethod.upload.options=
 CH32V20x_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH32V20x_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH32V20x_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH32V20x_EVT.menu.upload_method.ispMethod.upload.options=
+CH32V20x_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
+
+# Clock Select
+CH32V20x_EVT.menu.clock.144MHz_HSI=144MHz Internal
+CH32V20x_EVT.menu.clock.144MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_144MHz_HSI=144000000 -DF_CPU=144000000
+CH32V20x_EVT.menu.clock.120MHz_HSI=120MHz Internal
+CH32V20x_EVT.menu.clock.120MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_120MHz_HSI=120000000 -DF_CPU=120000000
+CH32V20x_EVT.menu.clock.96MHz_HSI=96MHz Internal
+CH32V20x_EVT.menu.clock.96MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSI=96000000 -DF_CPU=96000000
+CH32V20x_EVT.menu.clock.72MHz_HSI=72MHz Internal
+CH32V20x_EVT.menu.clock.72MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSI=72000000 -DF_CPU=72000000
+CH32V20x_EVT.menu.clock.56MHz_HSI=56MHz Internal
+CH32V20x_EVT.menu.clock.56MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSI=56000000 -DF_CPU=56000000
+CH32V20x_EVT.menu.clock.48MHz_HSI=48MHz Internal
+CH32V20x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000 -DF_CPU=48000000
+CH32V20x_EVT.menu.clock.HSI=HSI Internal
+CH32V20x_EVT.menu.clock.HSI.build.flags.clock=-DSYSCLK_FREQ_HSI=HSI_VALUE -DF_CPU=HSI_VALUE
+CH32V20x_EVT.menu.clock.144MHz_HSE=144MHz External
+CH32V20x_EVT.menu.clock.144MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_144MHz_HSE=144000000 -DF_CPU=144000000
+CH32V20x_EVT.menu.clock.120MHz_HSE=120MHz External
+CH32V20x_EVT.menu.clock.120MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_120MHz_HSE=120000000 -DF_CPU=120000000
+CH32V20x_EVT.menu.clock.96MHz_HSE=96MHz External
+CH32V20x_EVT.menu.clock.96MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSE=96000000 -DF_CPU=96000000
+CH32V20x_EVT.menu.clock.72MHz_HSE=72MHz External
+CH32V20x_EVT.menu.clock.72MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSE=72000000 -DF_CPU=72000000
+CH32V20x_EVT.menu.clock.56MHz_HSE=56MHz External
+CH32V20x_EVT.menu.clock.56MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSE=56000000 -DF_CPU=56000000
+CH32V20x_EVT.menu.clock.48MHz_HSE=48MHz External
+CH32V20x_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000 -DF_CPU=48000000
+CH32V20x_EVT.menu.clock.HSE=HSE External
+CH32V20x_EVT.menu.clock.HSE.build.flags.clock=-DSYSCLK_FREQ_HSE=HSE_VALUE -DF_CPU=HSE_VALUE
 
 
 # Optimizations
 CH32V20x_EVT.menu.opt.osstd=Smallest (-Os default)
-CH32V20x_EVT.menu.opt.osstd.build.flags.optimize=-Os 
+CH32V20x_EVT.menu.opt.osstd.build.flags.optimize=-Os
 CH32V20x_EVT.menu.opt.oslto=Smallest (-Os) with LTO
 CH32V20x_EVT.menu.opt.oslto.build.flags.optimize=-Os -flto
 CH32V20x_EVT.menu.opt.o1std=Fast (-O1)
@@ -385,7 +616,7 @@ CH32V20x_EVT.menu.opt.o0std.build.flags.optimize=-O0
 
 # Debug information
 CH32V20x_EVT.menu.dbg.none=None
-CH32V20x_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG 
+CH32V20x_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG
 CH32V20x_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
 CH32V20x_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
 CH32V20x_EVT.menu.dbg.enable_log=Core logs Enabled
@@ -409,8 +640,8 @@ CH32V20x_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
 
 
-#############################################################################
-##CH32V30x EVT Board   -lprintfloat
+##############################################################################
+##CH32V30x_EVT Board   -lprintfloat, CH32V30x_C: connected product_line  CH32V30x: normal product_line
 
 CH32V30x_EVT.name=CH32V30x
 CH32V30x_EVT.build.core=arduino
@@ -418,9 +649,10 @@ CH32V30x_EVT.build.board=CH32V30x_EVT
 CH32V30x_EVT.upload.maximum_size=0
 CH32V30x_EVT.upload.maximum_data_size=0
 CH32V30x_EVT.build.variant_h=variant_{build.board}.h
+CH32V30x_EVT.debug.tool=gdb-WCH_LinkE
 
 
-#CH32V307VCT6 EVT Board    CH32V30x_C: connected product_line  CH32V30x: normal product_line
+#CH32V307VCT6 EVT Board
 CH32V30x_EVT.menu.pnum.CH32V307VCT6=CH32V307VCT6 EVT
 CH32V30x_EVT.menu.pnum.CH32V307VCT6.node=NODE_V307VCT6
 CH32V30x_EVT.menu.pnum.CH32V307VCT6.upload.maximum_size=262144
@@ -432,22 +664,64 @@ CH32V30x_EVT.menu.pnum.CH32V307VCT6.build.variant=CH32V30x/CH32V307VCT6
 CH32V30x_EVT.menu.pnum.CH32V307VCT6.build.chip=CH32V30x_C
 CH32V30x_EVT.menu.pnum.CH32V307VCT6.build.march=rv32imafcxw
 CH32V30x_EVT.menu.pnum.CH32V307VCT6.build.mabi=ilp32f
-CH32V30x_EVT.menu.pnum.CH32V307VCT6.build.math_lib_gcc=-lm 
+CH32V30x_EVT.menu.pnum.CH32V307VCT6.build.math_lib_gcc=-lm
 CH32V30x_EVT.menu.pnum.CH32V307VCT6.build.IQ_math_RV32=
-CH32V30x_EVT.menu.pnum.CH32V307VCT6.build.ch_extra_lib=-lprintfloat                           
+CH32V30x_EVT.menu.pnum.CH32V307VCT6.build.ch_extra_lib=-lprintfloat
 
+
+# USB support
+CH32V30x_EVT.menu.usb.none=None
+CH32V30x_EVT.menu.usb.none.build.usb_flags=
+CH32V30x_EVT.menu.usb.tinyusb_usbhs=Adafruit TinyUSB with USBHS
+CH32V30x_EVT.menu.usb.tinyusb_usbhs.build.usb_flags=-DUSBCON -DUSE_TINYUSB -DCFG_TUD_WCH_USBIP_USBHS=1 "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"
+CH32V30x_EVT.menu.usb.tinyusb_usbfs=Adafruit TinyUSB with USBFS
+CH32V30x_EVT.menu.usb.tinyusb_usbfs.build.usb_flags=-DUSBCON -DUSE_TINYUSB -DCFG_TUD_WCH_USBIP_USBFS=1 "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"
 
 # Upload menu
 CH32V30x_EVT.menu.upload_method.swdMethod=WCH-SWD
 CH32V30x_EVT.menu.upload_method.swdMethod.upload.protocol=
 CH32V30x_EVT.menu.upload_method.swdMethod.upload.options=
 CH32V30x_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH32V30x_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH32V30x_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH32V30x_EVT.menu.upload_method.ispMethod.upload.options=
+CH32V30x_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
+
+# Clock Select
+CH32V30x_EVT.menu.clock.144MHz_HSI=144MHz Internal
+CH32V30x_EVT.menu.clock.144MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_144MHz_HSI=144000000 -DF_CPU=144000000
+CH32V30x_EVT.menu.clock.120MHz_HSI=120MHz Internal
+CH32V30x_EVT.menu.clock.120MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_120MHz_HSI=120000000 -DF_CPU=120000000
+CH32V30x_EVT.menu.clock.96MHz_HSI=96MHz Internal
+CH32V30x_EVT.menu.clock.96MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSI=96000000 -DF_CPU=96000000
+CH32V30x_EVT.menu.clock.72MHz_HSI=72MHz Internal
+CH32V30x_EVT.menu.clock.72MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSI=72000000 -DF_CPU=72000000
+CH32V30x_EVT.menu.clock.56MHz_HSI=56MHz Internal
+CH32V30x_EVT.menu.clock.56MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSI=56000000 -DF_CPU=56000000
+CH32V30x_EVT.menu.clock.48MHz_HSI=48MHz Internal
+CH32V30x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000 -DF_CPU=48000000
+CH32V30x_EVT.menu.clock.HSI=HSI Internal
+CH32V30x_EVT.menu.clock.HSI.build.flags.clock=-DSYSCLK_FREQ_HSI=HSI_VALUE -DF_CPU=HSI_VALUE
+CH32V30x_EVT.menu.clock.144MHz_HSE=144MHz External
+CH32V30x_EVT.menu.clock.144MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_144MHz_HSE=144000000 -DF_CPU=144000000
+CH32V30x_EVT.menu.clock.120MHz_HSE=120MHz External
+CH32V30x_EVT.menu.clock.120MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_120MHz_HSE=120000000 -DF_CPU=120000000
+CH32V30x_EVT.menu.clock.96MHz_HSE=96MHz External
+CH32V30x_EVT.menu.clock.96MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSE=96000000 -DF_CPU=96000000
+CH32V30x_EVT.menu.clock.72MHz_HSE=72MHz External
+CH32V30x_EVT.menu.clock.72MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSE=72000000 -DF_CPU=72000000
+CH32V30x_EVT.menu.clock.56MHz_HSE=56MHz External
+CH32V30x_EVT.menu.clock.56MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSE=56000000 -DF_CPU=56000000
+CH32V30x_EVT.menu.clock.48MHz_HSE=48MHz External
+CH32V30x_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000 -DF_CPU=48000000
+CH32V30x_EVT.menu.clock.HSE=HSE External
+CH32V30x_EVT.menu.clock.HSE.build.flags.clock=-DSYSCLK_FREQ_HSE=HSE_VALUE -DF_CPU=HSE_VALUE
 
 
 # Optimizations
 CH32V30x_EVT.menu.opt.osstd=Smallest (-Os default)
-CH32V30x_EVT.menu.opt.osstd.build.flags.optimize=-Os 
+CH32V30x_EVT.menu.opt.osstd.build.flags.optimize=-Os
 CH32V30x_EVT.menu.opt.oslto=Smallest (-Os) with LTO
 CH32V30x_EVT.menu.opt.oslto.build.flags.optimize=-Os -flto
 CH32V30x_EVT.menu.opt.o1std=Fast (-O1)
@@ -470,7 +744,7 @@ CH32V30x_EVT.menu.opt.o0std.build.flags.optimize=-O0
 
 # Debug information
 CH32V30x_EVT.menu.dbg.none=None
-CH32V30x_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG 
+CH32V30x_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG
 CH32V30x_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
 CH32V30x_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
 CH32V30x_EVT.menu.dbg.enable_log=Core logs Enabled
@@ -491,4 +765,117 @@ CH32V30x_EVT.menu.rtlib.nanofps.build.flags.ldflags=--specs=nano.specs --specs=n
 CH32V30x_EVT.menu.rtlib.full=Newlib Standard
 CH32V30x_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
+
+
+
+##############################################################################
+##CH32L10x_EVT Board   -lprintf
+
+CH32L10x_EVT.name=CH32L10x
+CH32L10x_EVT.build.core=arduino
+CH32L10x_EVT.build.board=CH32L10x_EVT
+CH32L10x_EVT.upload.maximum_size=0
+CH32L10x_EVT.upload.maximum_data_size=0
+CH32L10x_EVT.build.variant_h=variant_{build.board}.h
+CH32L10x_EVT.debug.tool=gdb-WCH_LinkE
+
+
+#CH32L103C8T6 EVT Board
+CH32L10x_EVT.menu.pnum.CH32L103C8T6=CH32L103C8T6 EVT
+CH32L10x_EVT.menu.pnum.CH32L103C8T6.node=NODE_L103C8T6
+CH32L10x_EVT.menu.pnum.CH32L103C8T6.upload.maximum_size=65536
+CH32L10x_EVT.menu.pnum.CH32L103C8T6.upload.maximum_data_size=20480
+CH32L10x_EVT.menu.pnum.CH32L103C8T6.build.mcu=QingKe-V4C
+CH32L10x_EVT.menu.pnum.CH32L103C8T6.build.board=CH32L103C8T6
+CH32L10x_EVT.menu.pnum.CH32L103C8T6.build.series=CH32L10x
+CH32L10x_EVT.menu.pnum.CH32L103C8T6.build.variant=CH32L10x/CH32L103C8T6
+CH32L10x_EVT.menu.pnum.CH32L103C8T6.build.chip=CH32L10x
+CH32L10x_EVT.menu.pnum.CH32L103C8T6.build.march=rv32imacxw
+CH32L10x_EVT.menu.pnum.CH32L103C8T6.build.mabi=ilp32
+CH32L10x_EVT.menu.pnum.CH32L103C8T6.build.math_lib_gcc=-lm
+CH32L10x_EVT.menu.pnum.CH32L103C8T6.build.IQ_math_RV32=
+CH32L10x_EVT.menu.pnum.CH32L103C8T6.build.ch_extra_lib=-lprintf
+
+
+# Upload menu
+CH32L10x_EVT.menu.upload_method.swdMethod=WCH-SWD
+CH32L10x_EVT.menu.upload_method.swdMethod.upload.protocol=
+CH32L10x_EVT.menu.upload_method.swdMethod.upload.options=
+CH32L10x_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH32L10x_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH32L10x_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH32L10x_EVT.menu.upload_method.ispMethod.upload.options=
+CH32L10x_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
+
+
+# Clock Select
+CH32L10x_EVT.menu.clock.96MHz_HSI=96MHz Internal
+CH32L10x_EVT.menu.clock.96MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSI=96000000 -DF_CPU=96000000
+CH32L10x_EVT.menu.clock.72MHz_HSI=72MHz Internal
+CH32L10x_EVT.menu.clock.72MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSI=72000000 -DF_CPU=72000000
+CH32L10x_EVT.menu.clock.56MHz_HSI=56MHz Internal
+CH32L10x_EVT.menu.clock.56MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSI=56000000 -DF_CPU=56000000
+CH32L10x_EVT.menu.clock.48MHz_HSI=48MHz Internal
+CH32L10x_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000 -DF_CPU=48000000
+CH32L10x_EVT.menu.clock.HSI=HSI Internal
+CH32L10x_EVT.menu.clock.HSI.build.flags.clock=-DSYSCLK_FREQ_HSI=HSI_VALUE -DF_CPU=HSI_VALUE
+CH32L10x_EVT.menu.clock.HSI_LP=HSI_LP Internal
+CH32L10x_EVT.menu.clock.HSI_LP.build.flags.clock=-DSYSCLK_FREQ_HSI_LP=HSI_LP_VALUE -DF_CPU=HSI_LP_VALUE
+CH32L10x_EVT.menu.clock.96MHz_HSE=96MHz External
+CH32L10x_EVT.menu.clock.96MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_96MHz_HSE=96000000 -DF_CPU=96000000
+CH32L10x_EVT.menu.clock.72MHz_HSE=72MHz External
+CH32L10x_EVT.menu.clock.72MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_72MHz_HSE=72000000 -DF_CPU=72000000
+CH32L10x_EVT.menu.clock.56MHz_HSE=56MHz External
+CH32L10x_EVT.menu.clock.56MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_56MHz_HSE=56000000 -DF_CPU=56000000
+CH32L10x_EVT.menu.clock.48MHz_HSE=48MHz External
+CH32L10x_EVT.menu.clock.48MHz_HSE.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSE=48000000 -DF_CPU=48000000
+CH32L10x_EVT.menu.clock.HSE=HSE External
+CH32L10x_EVT.menu.clock.HSE.build.flags.clock=-DSYSCLK_FREQ_HSE=HSE_VALUE -DF_CPU=HSE_VALUE
+
+
+# Optimizations
+CH32L10x_EVT.menu.opt.osstd=Smallest (-Os default)
+CH32L10x_EVT.menu.opt.osstd.build.flags.optimize=-Os
+CH32L10x_EVT.menu.opt.oslto=Smallest (-Os) with LTO
+CH32L10x_EVT.menu.opt.oslto.build.flags.optimize=-Os -flto
+CH32L10x_EVT.menu.opt.o1std=Fast (-O1)
+CH32L10x_EVT.menu.opt.o1std.build.flags.optimize=-O1
+CH32L10x_EVT.menu.opt.o1lto=Fast (-O1) with LTO
+CH32L10x_EVT.menu.opt.o1lto.build.flags.optimize=-O1 -flto
+CH32L10x_EVT.menu.opt.o2std=Faster (-O2)
+CH32L10x_EVT.menu.opt.o2std.build.flags.optimize=-O2
+CH32L10x_EVT.menu.opt.o2lto=Faster (-O2) with LTO
+CH32L10x_EVT.menu.opt.o2lto.build.flags.optimize=-O2 -flto
+CH32L10x_EVT.menu.opt.o3std=Fastest (-O3)
+CH32L10x_EVT.menu.opt.o3std.build.flags.optimize=-O3
+CH32L10x_EVT.menu.opt.o3lto=Fastest (-O3) with LTO
+CH32L10x_EVT.menu.opt.o3lto.build.flags.optimize=-O3 -flto
+CH32L10x_EVT.menu.opt.ogstd=Debug (-Og)
+CH32L10x_EVT.menu.opt.ogstd.build.flags.optimize=-Og
+CH32L10x_EVT.menu.opt.o0std=No Optimization (-O0)
+CH32L10x_EVT.menu.opt.o0std.build.flags.optimize=-O0
+
+
+# Debug information
+CH32L10x_EVT.menu.dbg.none=None
+CH32L10x_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG
+CH32L10x_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
+CH32L10x_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
+CH32L10x_EVT.menu.dbg.enable_log=Core logs Enabled
+CH32L10x_EVT.menu.dbg.enable_log.build.flags.debug=
+CH32L10x_EVT.menu.dbg.enable_all=Core Logs and Symbols Enabled (-g)
+CH32L10x_EVT.menu.dbg.enable_all.build.flags.debug=-g
+
+
+# C Runtime Library
+CH32L10x_EVT.menu.rtlib.nano=Newlib Nano (default)
+CH32L10x_EVT.menu.rtlib.nano.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs
+CH32L10x_EVT.menu.rtlib.nanofp=Newlib Nano + Float Printf
+CH32L10x_EVT.menu.rtlib.nanofp.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float
+CH32L10x_EVT.menu.rtlib.nanofs=Newlib Nano + Float Scanf
+CH32L10x_EVT.menu.rtlib.nanofs.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _scanf_float
+CH32L10x_EVT.menu.rtlib.nanofps=Newlib Nano + Float Printf/Scanf
+CH32L10x_EVT.menu.rtlib.nanofps.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
+CH32L10x_EVT.menu.rtlib.full=Newlib Standard
+CH32L10x_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 

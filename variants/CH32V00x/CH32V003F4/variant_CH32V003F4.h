@@ -103,6 +103,15 @@
   #define PIN_WIRE_SCL          PC2
 #endif
 
+// Timer Definitions
+#ifndef TIMER_TONE
+  #define TIMER_TONE            TIM2
+#endif
+#ifndef TIMER_SERVO
+  #define TIMER_SERVO           TIM1
+#endif
+
+
 /*----------------------------------------------------------------------------
  *        Arduino objects - C++ only
  *----------------------------------------------------------------------------*/

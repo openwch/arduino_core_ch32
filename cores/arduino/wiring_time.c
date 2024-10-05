@@ -39,7 +39,7 @@ void delay(uint32_t ms)
   if (ms != 0) {
     uint32_t start = getCurrentMillis();
     do {
-      // yield();
+      yield();
     } while (getCurrentMillis() - start < ms);
   }
 }

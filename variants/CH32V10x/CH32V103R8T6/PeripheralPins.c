@@ -40,7 +40,7 @@ WEAK const PinMap PinMap_ADC[] = {
   {PA_4_ALT1, ADC2, CH_PIN_DATA_EXT(CH_MODE_INPUT, CH_CNF_INPUT_ANALOG, 0, AFIO_NONE, 4)}, // ADC2_IN4
   {PA_5,      ADC1, CH_PIN_DATA_EXT(CH_MODE_INPUT, CH_CNF_INPUT_ANALOG, 0, AFIO_NONE, 5)}, // ADC1_IN5
   {PA_5_ALT1, ADC2, CH_PIN_DATA_EXT(CH_MODE_INPUT, CH_CNF_INPUT_ANALOG, 0, AFIO_NONE, 5)}, // ADC2_IN5
-  {NC,        NP,   0, 0, 0}
+  {NC,        NP,   0}
 };
 #endif
 
@@ -51,14 +51,14 @@ WEAK const PinMap PinMap_ADC[] = {
 #ifdef I2C_MODULE_ENABLED
 WEAK const PinMap PinMap_I2C_SDA[] = {
   {PB_11, I2C2, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFOD, NOPULL, AFIO_NONE)},
-  {NC,   NP,   0, 0}
+  {NC,   NP,   0}
 };
 #endif
 
 #ifdef I2C_MODULE_ENABLED
 WEAK const PinMap PinMap_I2C_SCL[] = {
   {PB_10, I2C2, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFOD, NOPULL, AFIO_NONE)},
-  {NC,   NP,   0, 0}
+  {NC,   NP,   0}
 };
 #endif
 
@@ -89,7 +89,7 @@ WEAK const PinMap PinMap_TIM[] = {
   {PB_13,      TIM1, CH_PIN_DATA_EXT(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, NOPULL, AFIO_Remap_TIM1_DISABLE, 1)}, // TIM1_CH1N
   {PB_14,      TIM1, CH_PIN_DATA_EXT(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, NOPULL, AFIO_Remap_TIM1_DISABLE, 2)}, // TIM1_CH2N
   {PA_15,      TIM1, CH_PIN_DATA_EXT(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, NOPULL, AFIO_Remap_TIM1_DISABLE, 3)}, // TIM1_CH3N
-  {NC,         NP,   0, 0, 0}
+  {NC,         NP,   0}
 };
 #endif
 
@@ -97,28 +97,28 @@ WEAK const PinMap PinMap_TIM[] = {
 #ifdef UART_MODULE_ENABLED
 WEAK const PinMap PinMap_UART_TX[] = {
   {PA_9, USART1, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)},
-  {NC,   NP,     0, 0}
+  {NC,   NP,     0}
 };
 #endif
 
 #ifdef UART_MODULE_ENABLED
 WEAK const PinMap PinMap_UART_RX[] = {
   {PA_10, USART1, CH_PIN_DATA(CH_MODE_INPUT, CH_CNF_INPUT_PUPD, PULLUP, AFIO_NONE)},
-  {NC,    NP,     0, 0}
+  {NC,    NP,     0}
 };
 #endif
 
 #ifdef UART_MODULE_ENABLED
 WEAK const PinMap PinMap_UART_RTS[] = {
   {NC, USART1, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)},
-  {NC,    NP,     0, 0}
+  {NC,    NP,     0}
 };
 #endif
 
 #ifdef UART_MODULE_ENABLED
 WEAK const PinMap PinMap_UART_CTS[] = {
   {NC, USART1, CH_PIN_DATA(CH_MODE_INPUT, CH_CNF_INPUT_PUPD, PULLUP, AFIO_NONE)},  
-  {NC,    NP,     0, 0}
+  {NC,    NP,     0}
 };
 #endif
 
@@ -127,28 +127,28 @@ WEAK const PinMap PinMap_UART_CTS[] = {
 #ifdef SPI_MODULE_ENABLED
 WEAK const PinMap PinMap_SPI_MOSI[] = {
   {PB_15, SPI2, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)},
-  {NC,    NP,   0, 0}
+  {NC,    NP,   0}
 };
 #endif
 
 #ifdef SPI_MODULE_ENABLED
 WEAK const PinMap PinMap_SPI_MISO[] = {
   {PB_14, SPI2, CH_PIN_DATA(CH_MODE_INPUT, CH_CNF_INPUT_FLOAT, 0, AFIO_NONE)},
-  {NC,    NP,   0, 0}
+  {NC,    NP,   0}
 };
 #endif
 
 #ifdef SPI_MODULE_ENABLED
 WEAK const PinMap PinMap_SPI_SCLK[] = {
   {PB_13, SPI2, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)},
-  {NC,    NP,   0, 0}
+  {NC,    NP,   0}
 };
 #endif
 
 #ifdef SPI_MODULE_ENABLED
 WEAK const PinMap PinMap_SPI_SSEL[] = {
   {PB_12, SPI1, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)},
-  {NC,    NP,   0, 0}
+  {NC,    NP,   0}
 };
 #endif
 

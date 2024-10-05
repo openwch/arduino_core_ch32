@@ -13,4 +13,8 @@
 #include "ch32v30x_rtc.h"
 #endif
 
+#if defined(CH32L10x)
+#include "ch32l103_rtc.h"
+#endif
+
 #endif  /* __CH32YYXX_CTC_H_ */ 

@@ -40,7 +40,7 @@ static inline void resetBackupDomain(void)
 #ifdef PWR_MODULE_ENABLED
   PWR_BackupAccessCmd(ENABLE);
 #endif
-#ifndef CH32V00x
+#if !defined(CH32V00x) && !defined(CH32VM00X) && !(CH32X035)
   RCC_BackupResetCmd(ENABLE);
   RCC_BackupResetCmd(DISABLE);
 #endif
@@ -49,13 +49,21 @@ static inline void resetBackupDomain(void)
 static inline void enableBackupDomain(void)
 {
 #ifdef PWR_MODULE_ENABLED
+#if defined(CH32L10x)
+  RCC_PB1PeriphClockCmd(RCC_PB1Periph_PWR,ENABLE);
+#else
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR,ENABLE);
+#endif
   /* Allow access to Backup domain */
   PWR_BackupAccessCmd(ENABLE);
 #endif
 #ifdef RCC_APB1Periph_BKP
   /* Enable BKP CLK for backup registers */
+  #if defined(CH32L10x)
+  RCC_PB1PeriphClockCmd(RCC_PB1Periph_BKP, ENABLE);  
+  #else
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_BKP, ENABLE);
+  #endif
 #endif
 }
 
@@ -64,11 +72,19 @@ static inline void disableBackupDomain(void)
 #ifdef PWR_MODULE_ENABLED
   /* Forbid access to Backup domain */
   PWR_BackupAccessCmd(DISABLE);
+  #if defined(CH32L10x)  
+  RCC_PB1PeriphClockCmd(RCC_PB1Periph_PWR, DISABLE);
+  #else
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, DISABLE);
+  #endif
 #endif
 #ifdef RCC_APB1Periph_BKP
   /* Disable BKP CLK for backup registers */
+  #if defined(CH32L10x)
+  RCC_PB1PeriphClockCmd(RCC_PB1Periph_BKP, DISABLE);
+  #else
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_BKP, DISABLE);
+  #endif
 #endif
 }
 
