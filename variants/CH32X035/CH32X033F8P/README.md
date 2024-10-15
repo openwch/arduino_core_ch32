@@ -11,7 +11,7 @@
 
 
 ### TSSOP20 Pinout ###
-- See [datasheet](https://www.wch.cn/downloads/CH32X035DS0_PDF.html) for more details.
+- See [datasheet](https://www.wch.cn/downloads/CH32X035DS0_PDF.html) for complete pin function list.
 ```
                   +------v------+
     MISO/A6 D6~ 1-+PA6       PA5+-20  D5 SCK/A5
