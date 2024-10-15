@@ -35,11 +35,11 @@ MOSI/A8/TX4 D7  2-+PA7=PB0   PA4+-19  D4~ CS/A4
 - analogRead() - very stable 12-bit resolution
 - Serial.print() - Tested 115200 bps on PA2/PA3 (as set in variant_CH32X033F8P6.h)
 - EEPROM library - may need improvement (first test showed corrupted data written).
+- Pin PB7 (Arduino pin 9) can be configured as hardware reset /RST using WCH Link Utility. (See issue #123)
 
 ### Known issues/limitations ###
 - Pins PA7/PB0, PC16/PC11 and PC17/PC10 cannot be used for output.
 - Any signal on A0 seems to show on other ADC pins when disconnected.
-- Pin 9/PB7 can be configured as hardware reset /RST using WCH Link Utility.
 - A3 and I2C don't work on CH32X033F8P6 0-series (lot number with the penultimate bit 5 being 0).
 
 ### References ###
