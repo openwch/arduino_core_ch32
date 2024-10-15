@@ -17,7 +17,7 @@
     MISO/A6 D6~ 1-+PA6       PA5+-20  D5 SCK/A5
 MOSI/A8/TX4 D7  2-+PA7=PB0   PA4+-19  D4~ CS/A4
      A9/RX4 D8  3-+PB1      PC19+-18  D17 SWCLK
-        RST D9  4-+PB7       PA3+-17  D3~ RX2/A3*
+       /RST D9  4-+PB7       PA3+-17  D3~ RX2/A3*
      USBDM D10  5-+PC16=PC11 PA2+-16  D2~ TX2/A2
      USBDP D11  6-+PC17=PC10 PA1+-15  D1~ A1
            GND  7-+VSS       PA0+-14  D0~ A0
@@ -39,6 +39,7 @@ MOSI/A8/TX4 D7  2-+PA7=PB0   PA4+-19  D4~ CS/A4
 ### Known issues/limitations ###
 - Pins PA7/PB0, PC16/PC11 and PC17/PC10 cannot be used for output.
 - Any signal on A0 seems to show on other ADC pins when disconnected.
+- Pin 9/PB7 can be configured as hardware reset /RST using WCH Link Utility.
 - A3 and I2C don't work on CH32X033F8P6 0-series (lot number with the penultimate bit 5 being 0).
 
 ### References ###
