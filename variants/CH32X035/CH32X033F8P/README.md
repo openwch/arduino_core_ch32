@@ -33,6 +33,7 @@ MOSI/A8/TX4 D7  2-+PA7=PB0   PA4+-19  D4~ CS/A4
 - digitalWrite()/digitalRead()
 - analogWrite() - 12-bit resolution, marked with ~ in pinout above.
 - analogRead() - very stable 12-bit resolution
+- Serial.print() - Tested 115200 bps on PA2/PA3 (as set in variant_CH32X033F8P6.h)
 - EEPROM library - may need improvement (first test showed corrupted data written)
 
 ### Known issues/limitations ###
