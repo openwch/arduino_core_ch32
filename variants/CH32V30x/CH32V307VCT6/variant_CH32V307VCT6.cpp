@@ -31,8 +31,8 @@ const PinName digitalPin[] = {
   PA_7,   //D9      SPI_MOSI    TIM8_CH1N  TIM3_CH2  
   PA_6,   //D10     SPI1_MISO  
   PB_5,   //D11                 TIM3_CH2_2 TIM10_CH3_1  
-  PB_8,   //D12                 TIM4_CH3 TIM10_CH1 TIM8_CH3_1
-  PB_9,   //D13                  
+  PB_8,   //D12                 TIM4_CH3 TIM10_CH1 TIM8_CH3_1 SDIO_D4
+  PB_9,   //D13                 SDIO_D5
   PB_1,   //D14                 TIM3_CH4 TIM8_CH3N TIM1_CH3N_1    TIM3_CH4_2 TIM9_CH2N_1 
   PB_0,   //D15                 TIM3_CH3 TIM8_CH2N TIM1_CH2N_1    TIM3_CH3_2 TIM9_CH1N_1 
   PB_12,  //D16    SPI2_NSS
@@ -40,7 +40,19 @@ const PinName digitalPin[] = {
   PB_14,  //D18    SPI2_MISO 
   PB_13,  //D19    SPI2_SCK 
   PB_11,  //D20    I2C2_SDA
-  PB_10   //D21    I2C2_SCL
+  PB_10,  //D21    I2C2_SCL
+  PA_15,  //D22    SPI3_NSS
+  PB_5,   //D23    SPI3_MOSI
+  PB_4,   //D24    SPI3_MISO
+  PB_3,   //D25    SPI3_SCK
+  PC_8,   //D26    SDIO_D0
+  PC_9,   //D27    SDIO_D1
+  PC_10,  //D28    SDIO_D2
+  PC_11,  //D29    SDIO_D3
+  PC_6,   //D30    SDIO_D6
+  PC_7,   //D31    SDIO_D7
+  PC_12,  //D32    SDIO_CK
+  PD_2    //D33    SDIO_CMD
 };
 
 // Analog (Ax) pin number array

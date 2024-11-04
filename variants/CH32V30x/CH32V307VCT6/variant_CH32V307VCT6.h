@@ -43,7 +43,19 @@
 #define PB14                    18
 #define PB13                    19
 #define PB11                    20
-#define PB10                    21 
+#define PB10                    21
+#define PA15                    22
+#define PB5                     23
+#define PB4                     24
+#define PB3                     25
+#define PC8                     26
+#define PC9                     27
+#define PC10                    28
+#define PC11                    29
+#define PC6                     30
+#define PC7                     31
+#define PC12                    32
+#define PD2                     33
 
 
 // Alternate pins number
@@ -60,7 +72,7 @@
 
 
 
-#define NUM_DIGITAL_PINS        22
+#define NUM_DIGITAL_PINS        34
 #define NUM_ANALOG_INPUTS       6
 // #define ADC_CTLR_ADCAL          
 #define ADC_RESOLUTION          12
