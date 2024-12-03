@@ -20,31 +20,33 @@
 #define                         TIM_MODULE_ENABLED
 
 /* CH32V203G6 Pins */
-#define PA0                     3
-#define PA1                     2
-#define PA2                     4
-#define PA3                     5
-#define PA4                     6
-#define PA5                     7
-#define PA6                     8
-#define PA7                     9
+#define PA0                     0
+#define PA1                     1
+#define PA2                     2
+#define PA3                     3
+#define PA4                     4
+#define PA5                     5
+#define PA6                     6
+#define PA7                     7
 #define PA8                     PNUM_NOT_DEFINED
-#define PA9                     PNUM_NOT_DEFINED
+#define PA9                     8
 #define PA10                    PNUM_NOT_DEFINED
 #define PA11                    PNUM_NOT_DEFINED
 #define PA12                    PNUM_NOT_DEFINED
-#define PA13                    PNUM_NOT_DEFINED
-#define PA14                    PNUM_NOT_DEFINED
-#define PA15                    PNUM_NOT_DEFINED
-#define PB0                     PIN_A1
-#define PB1                     PIN_A0
+#define PA13                    9
+#define PA14                    10
+#define PA15                    11
+#define PB0                     12
+#define PB1                     13
 #define PB2                     PNUM_NOT_DEFINED
-#define PB3                     PNUM_NOT_DEFINED
-#define PB4                     PNUM_NOT_DEFINED
-#define PB5                     PNUM_NOT_DEFINED
-#define PB6                     10
-#define PB7                     11
-#define PB8                     12
+#define PB3                     14
+#define PB4                     15
+#define PB5                     16
+#define PB6                     17
+#define PB7                     18
+#define PB8                     19
+#define PD0                     20
+#define PD1                     21
 
 // Alternate pins number
 #define PA0_ALT1                (PA0  | ALT1)
@@ -68,8 +70,8 @@
 #define PB10_ALT1               (PB10 | ALT1)
 #define PB11_ALT1               (PB11 | ALT1)
 
-#define NUM_DIGITAL_PINS        13
-#define NUM_ANALOG_INPUTS       4
+#define NUM_DIGITAL_PINS        22
+#define NUM_ANALOG_INPUTS       10
 // #define ADC_CTLR_ADCAL          
 #define ADC_RESOLUTION          12
 
@@ -77,6 +79,11 @@
 // On-board LED pin number
 #ifndef LED_BUILTIN
   #define LED_BUILTIN           PNUM_NOT_DEFINED
+#endif
+
+// On-board NEOPIXEL pin number
+#ifndef PIN_NEOPIXEL
+  #define PIN_NEOPIXEL          PD0
 #endif
 
 // On-board user button
