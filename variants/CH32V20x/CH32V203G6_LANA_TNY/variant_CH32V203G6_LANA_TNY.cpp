@@ -59,22 +59,14 @@ const uint32_t analogInputPin[] = {
 extern "C" {
 
 void pre_init(void) {
-  // Enable Flash enhance read mode for full 224KB
-  FLASH->KEYR = 0x45670123; // FLASH_Unlock_Fast();
-  FLASH->KEYR = 0xCDEF89AB;
-
-  FLASH->CTLR |= (1 << 24); // Enhanced Read Mode
-
-  FLASH->CTLR |= (1 << 15); // FLASH_Lock_Fast();
-
   hw_config_init();
 
-  // Enable PD0 and PD1
+  // Enable PD0 and PD1 as GPIO
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
   GPIO_PinRemapConfig(GPIO_Remap_PD01, ENABLE);
 
-  // Enable PA13 and PA14
+  // Enable PA13 and PA14 as GPIO
   GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable, ENABLE);
 }
 
