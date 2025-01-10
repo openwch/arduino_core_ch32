@@ -1002,7 +1002,7 @@ void RCC_ADCCLKDutyCycleConfig(uint32_t RCC_DutyCycle)
  * @fn      RCC_HSE_LP_Cmd
  *
  * @brief   Enables or disables  low power mode of the External High Speed
- *        oscillator (HSI).
+ *        oscillator (HSE).
  *
  * @param   NewState - ENABLE or DISABLE.
  *

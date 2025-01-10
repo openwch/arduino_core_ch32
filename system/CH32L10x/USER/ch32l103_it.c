@@ -2,7 +2,7 @@
  * File Name          : ch32l103_it.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/07/08
+ * Date               : 2024/10/30
  * Description        : Main Interrupt Service Routines.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -38,6 +38,7 @@ void NMI_Handler(void)
  */
 void HardFault_Handler(void)
 {
+    NVIC_SystemReset();
     while (1)
     {
     }

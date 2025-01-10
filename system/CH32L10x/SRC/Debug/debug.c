@@ -149,8 +149,6 @@ void USART_Printf_Init(uint32_t baudrate)
  *
  * @return  size: Data length
  */
-
-#if 0
 __attribute__((used))
 int _write(int fd, char *buf, int size)
 {
@@ -171,7 +169,6 @@ int _write(int fd, char *buf, int size)
 
     return size;
 }
-#endif
 
 /*********************************************************************
  * @fn      _sbrk

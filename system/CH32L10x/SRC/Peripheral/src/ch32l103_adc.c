@@ -2,7 +2,7 @@
  * File Name          : ch32l103_adc.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/01/19
+ * Date               : 2024/05/06
  * Description        : This file provides all the ADC firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -1123,48 +1123,6 @@ void ADC_BufferCmd(ADC_TypeDef *ADCx, FunctionalState NewState)
 }
 
 /*********************************************************************
- * @fn      ADC_TKey_WakeUpCmd
- *
- * @brief   Enables or disables TKey wake up of the selected ADC channel
- *      and Configures IO mode.
- *
- * @param   ADCx - where x can be 1 to select the ADC peripheral.
- *          ADC_Channel - the ADC channel to configure.
- *            ADC_Channel_0 - ADC Channel0 selected.
- *            ADC_Channel_1 - ADC Channel1 selected.
- *            ADC_Channel_2 - ADC Channel2 selected.
- *            ADC_Channel_3 - ADC Channel3 selected.
- *            ADC_Channel_4 - ADC Channel4 selected.
- *            ADC_Channel_5 - ADC Channel5 selected.
- *            ADC_Channel_6 - ADC Channel6 selected.
- *            ADC_Channel_7 - ADC Channel7 selected.
- *            ADC_Channel_8 - ADC Channel8 selected.
- *            ADC_Channel_9 - ADC Channel9 selected.
- *          IO_Mode - IO state before wake up
- *            ADC_TKey_WakeUp_Mode0
- *            ADC_TKey_WakeUp_Mode1
- *            ADC_TKey_WakeUp_Mode2
- *            ADC_TKey_WakeUp_Mode3
- *          NewState - ENABLE or DISABLE.
- *
- * @return  none
- */
-void ADC_TKey_WakeUpCmd(ADC_TypeDef *ADCx, uint8_t ADC_Channel, uint32_t IO_Mode, FunctionalState NewState)
-{
-    ADCx->CFG &= ~ADC_TKey_WakeUp_Mode3;
-    ADCx->CFG |= IO_Mode;
-
-    if(NewState != DISABLE)
-    {
-        ADCx->CFG |= ((1<<21) << ADC_Channel);
-    }
-    else
-    {
-        ADCx->CFG &= ~((1<<21) << ADC_Channel);
-    }
-}
-
-/*********************************************************************
  * @fn      ADC_TKey_ChannelxMulShieldCmd
  *
  * @brief   Enables or disables TKey Multiplex shielding of the selected ADC channel.
@@ -1253,6 +1211,16 @@ void ADC_DutyDelayCmd(ADC_TypeDef *ADCx, FunctionalState NewState)
  */
 void ADC_FIFO_Cmd(ADC_TypeDef *ADCx, FunctionalState NewState)
 {
+    FLASH->KEYR = CFG_KEY1;
+    FLASH->KEYR = CFG_KEY2;
+    FLASH->MODEKEYR = CFG_KEY1;
+    FLASH->OBKEYR = CFG_KEY2;
+    while((*(vu32*)0x40022034) & (1<<29));  // wait unlock
+
+    *(vu32*)0x4002202C |= (1<<9);     //offset calibration
+    (*(vu32*)0x40022034) |= (1<<29);  //lock
+    while((*(vu32*)0x40022034) & (1<<29) == 0); //wait lock
+
     if(NewState != DISABLE)
     {
         ADCx->CFG |= (1 << 6);
@@ -1335,15 +1303,7 @@ int16_t Get_CalibrationValue(ADC_TypeDef *ADCx)
     __IO uint8_t  i, j;
     uint16_t      buf[10];
     __IO uint16_t t;
-    FLASH->KEYR = CFG_KEY1;
-    FLASH->KEYR = CFG_KEY2;
-    FLASH->MODEKEYR = CFG_KEY1;
-    FLASH->OBKEYR = CFG_KEY2;
-    while((*(vu32*)0x40022034) & (1<<29));  // wait unlock
 
-    *(vu32*)0x4002202C |= (1<<9);
-    (*(vu32*)0x40022034) |= (1<<29);  //lock
-    while((*(vu32*)0x40022034) & (1<<29) == 0); //wait lock
     ADC1->CTLR2|=(7<<17);
     ADC_Cmd(ADC1, ENABLE);
     ADC_FIFO_Cmd(ADC1, ENABLE);

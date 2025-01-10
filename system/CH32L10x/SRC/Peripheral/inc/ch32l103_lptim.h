@@ -2,7 +2,7 @@
  * File Name          : ch32l103_lptim.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/07/08
+ * Date               : 2024/07/15
  * Description        : This file contains all the functions prototypes for the
  *                      TIM firmware library.
 *********************************************************************************
@@ -53,11 +53,11 @@ typedef struct
     FunctionalState LPTIM_OnePulseMode; /* Specifies whether the PWM out one pulse.
                                          This parameter can be set to ENABLE or DISABLE */
 
-    uint32_t LPYIM_OutputPolarity; /* Configures output polarity.
-                                    This parameter can be a value of @ref LPYIM_OutputPolarity */
+    uint32_t LPTIM_OutputPolarity; /* Configures output polarity.
+                                    This parameter can be a value of @ref LPTIM_OutputPolarity */
 
-    uint32_t LPYIM_UpdateMode; /* Configures update mode.
-                                This parameter can be a value of @ref LPYIM_UpdateMode */
+    uint32_t LPTIM_UpdateMode; /* Configures update mode.
+                                This parameter can be a value of @ref LPTIM_UpdateMode */
 
     uint32_t LPTIM_CountSource; /* Configures Counter Source.
                                  This parameter can be a value of @ref LPTIM_CountSource */
@@ -133,13 +133,13 @@ typedef struct
 #define LPTIM_ExTriggerPolarity_Falling           ((uint32_t)0x00040000)
 #define LPTIM_ExTriggerPolarity_Rising_Falling    ((uint32_t)0x00060000)
 
-/* LPYIM_OutputPolarity */
-#define LPYIM_OutputPolarity_High                 ((uint32_t)0x00000000)
-#define LPYIM_OutputPolarity_Low                  ((uint32_t)0x00200000)
+/* LPTIM_OutputPolarity */
+#define LPTIM_OutputPolarity_High                 ((uint32_t)0x00000000)
+#define LPTIM_OutputPolarity_Low                  ((uint32_t)0x00200000)
 
-/* LPYIM_UpdateMode */
-#define LPYIM_UpdateMode0                         ((uint32_t)0x00000000)
-#define LPYIM_UpdateMode1                         ((uint32_t)0x00400000)
+/* LPTIM_UpdateMode */
+#define LPTIM_UpdateMode0                         ((uint32_t)0x00000000)
+#define LPTIM_UpdateMode1                         ((uint32_t)0x00400000)
 
 /* LPTIM_CountSource */
 #define LPTIM_CountSource_Internal                ((uint32_t)0x00000000)
@@ -169,6 +169,12 @@ typedef struct
 #define LPTIM_IT_EXTTRIG                          ((uint32_t)0x00000004)
 #define LPTIM_IT_ARRM                             ((uint32_t)0x00000002)
 #define LPTIM_IT_CMPM                             ((uint32_t)0x00000001)
+
+
+#define LPYIM_OutputPolarity_High                 LPTIM_OutputPolarity_High
+#define LPYIM_OutputPolarity_Low                  LPTIM_OutputPolarity_Low 
+#define LPYIM_UpdateMode0                         LPTIM_UpdateMode0 
+#define LPYIM_UpdateMode1                         LPTIM_UpdateMode1
 
 
 void LPTIM_DeInit(void);

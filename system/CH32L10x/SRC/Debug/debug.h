@@ -2,7 +2,7 @@
  * File Name          : debug.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/07/08
+ * Date               : 2023/11/06
  * Description        : This file contains all the functions prototypes for UART
  *                      Printf , Delay functions.
  *********************************************************************************
@@ -34,6 +34,7 @@ extern uint32_t OPA_Trim;
 extern uint16_t ADC_Trim;
 extern uint32_t TS_Val;
 extern uint32_t CHIPID;
+extern uint16_t USBPD_CFG;
 
 void Delay_Init(void);
 void Delay_Us(uint32_t n);

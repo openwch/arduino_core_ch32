@@ -2,7 +2,7 @@
  * File Name          : ch32l103_flash.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/07/08
+ * Date               : 2024/04/26
  * Description        : This file provides all the FLASH firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -56,7 +56,7 @@
 
 /* Flash Program Valid Address */
 #define ValidAddrStart             (FLASH_BASE)
-#define ValidAddrEnd               (FLASH_BASE + 0xF800)
+#define ValidAddrEnd               (FLASH_BASE + 0x10000)
 
 /* FLASH Size */
 #define Size_256B                  0x100
