@@ -2,7 +2,7 @@
  * File Name          : ch32v00x_rcc.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/03/18
  * Description        : This file provides all the RCC firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -26,7 +26,7 @@
 #define CTLR_HSEON_Set             ((uint32_t)0x00010000)
 #define CTLR_HSITRIM_Mask          ((uint32_t)0xFFFFFF07)
 
-#define CFGR0_PLL_Mask             ((uint32_t)0xFFC0FFFF)
+#define CFGR0_PLL_Mask             ((uint32_t)0xFFFEFFFF)
 #define CFGR0_PLLMull_Mask         ((uint32_t)0x003C0000)
 #define CFGR0_PLLSRC_Mask          ((uint32_t)0x00010000)
 #define CFGR0_PLLXTPRE_Mask        ((uint32_t)0x00020000)
@@ -72,11 +72,13 @@ static __I uint8_t ADCPrescTable[20] = {2, 4, 6, 8, 4, 8, 12, 16, 8, 16, 24, 32,
 void RCC_DeInit(void)
 {
     RCC->CTLR |= (uint32_t)0x00000001;
-    RCC->CFGR0 &= (uint32_t)0xFCFF0000;
+    RCC->CFGR0 &= (uint32_t)0xF8FF0000;
     RCC->CTLR &= (uint32_t)0xFEF6FFFF;
     RCC->CTLR &= (uint32_t)0xFFFBFFFF;
     RCC->CFGR0 &= (uint32_t)0xFFFEFFFF;
     RCC->INTR = 0x009F0000;
+
+    RCC_AdjustHSICalibrationValue(0x10);
 }
 
 /*********************************************************************
@@ -247,6 +249,21 @@ void RCC_PLLCmd(FunctionalState NewState)
 void RCC_SYSCLKConfig(uint32_t RCC_SYSCLKSource)
 {
     uint32_t tmpreg = 0;
+    uint8_t tmp = 0;
+
+    tmp = *( uint8_t * )CFG0_PLL_TRIM;
+
+    if(tmp != 0xFF)
+    {
+        if((RCC_SYSCLKSource == RCC_SYSCLKSource_PLLCLK) && ((RCC->CFGR0 & (1<<16)) == RCC_PLLSource_HSI_MUL2))
+        {
+            RCC_AdjustHSICalibrationValue((tmp & 0x1F));
+        }
+        else
+        {
+            RCC_AdjustHSICalibrationValue(0x10);
+        }
+    }
 
     tmpreg = RCC->CFGR0;
     tmpreg &= CFGR0_SW_Mask;
@@ -449,6 +466,10 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef *RCC_Clocks)
     if((tmp & 0x13) >= 4)
     {
         tmp -= 12;
+    }
+    else
+    {
+        tmp &= 0x3;
     }
 
     presc = ADCPrescTable[tmp];

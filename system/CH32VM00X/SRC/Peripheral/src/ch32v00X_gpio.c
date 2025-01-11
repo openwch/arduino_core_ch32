@@ -2,7 +2,7 @@
  * File Name          : ch32v00X_gpio.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/01/01
+ * Date               : 2024/11/07
  * Description        : This file provides all the GPIO firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -518,19 +518,8 @@ void GPIO_IPD_Unused(void)
             break;
         }
 
-        case 0x00720600:     //CH32V007F8U6
+        case 0x00720600:     //CH32V007K8U6
         {
-            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
-            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
-            GPIO_Init(GPIOA, &GPIO_InitStructure);
-            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_4\
-                                         |GPIO_Pin_5|GPIO_Pin_6;
-            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
-            GPIO_Init(GPIOB, &GPIO_InitStructure);
-            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2\
-                                         |GPIO_Pin_6|GPIO_Pin_7;
-            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
-            GPIO_Init(GPIOC, &GPIO_InitStructure);
             break;
         }
         case 0x00710600:     //CH32V007E8R6

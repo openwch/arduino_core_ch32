@@ -2,7 +2,7 @@
  * File Name          : ch32v00X_rcc.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/01/01
+ * Date               : 2024/11/04
  * Description        : This file provides all the RCC firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -64,8 +64,8 @@ void RCC_DeInit(void)
     RCC->CFGR0 &= (uint32_t)0x68FF0000;
 
     tmp = RCC->CTLR;
-    tmp &= (uint32_t)0xFE16FFFB;
-    tmp |= (uint32_t)(1<<22)|(1<<20);
+    tmp &= (uint32_t)0xFED6FFFB;
+    tmp |= (uint32_t)(1<<20);
     RCC->CTLR = tmp;
 
     RCC->CTLR &= (uint32_t)0xFFFBFFFF;

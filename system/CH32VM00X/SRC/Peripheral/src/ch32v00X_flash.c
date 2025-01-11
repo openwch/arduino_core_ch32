@@ -2,7 +2,7 @@
  * File Name          : ch32v00X_flash.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/01/01
+ * Date               : 2024/07/26
  * Description        : This file provides all the FLASH firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -680,7 +680,7 @@ void FLASH_BufReset(void)
  */
 void FLASH_BufLoad(uint32_t Address, uint32_t Data0)
 {
-    if(((Address >= ValidAddrStart) && (Address < ValidAddrEnd)) || (Address == OB_BASE))
+    if(((Address >= ValidAddrStart) && (Address < ValidAddrEnd)) || ((Address >= OB_BASE) && (Address < OB_BASE+0x100)))
     {
         FLASH->CTLR &= (CR_OPTER_Reset & CR_PAGE_ER_Reset);
 
@@ -723,6 +723,8 @@ void FLASH_ErasePage_Fast(uint32_t Page_Address)
  * @brief   Erases a specified FLASH Block (1Block = 32KByte).
  *
  * @param   Block_Address - The block address to be erased.
+ *          This function is only capable of erasing addresses
+ *          in the range of 0x08000000~0x08008000.
  *
  * @return  none
  */

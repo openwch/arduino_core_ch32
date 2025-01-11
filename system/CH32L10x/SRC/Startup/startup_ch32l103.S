@@ -2,7 +2,7 @@
 ;* File Name          : startup_ch32l103.s
 ;* Author             : WCH
 ;* Version            : V1.0.0
-;* Date               : 2023/11/11
+;* Date               : 2024/05/06
 ;* Description        : CH32L103 vector table for eclipse toolchain.
 ;*********************************************************************************
 ;* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -87,7 +87,7 @@ _vector_base:
     .word   LPTIM_IRQHandler           /* LPTIM */
     .word   OPA_IRQHandler             /* OPA */
     .word   USBPD_IRQHandler           /* USBPD */
-    .word   TKeyWakeUp_IRQHandler      /* TKey Wake Up */
+    .word   0
     .word   USBPDWakeUp_IRQHandler     /* USBPD Wake Up */
     .word   CMPWakeUp_IRQHandler       /* CMP Wake Up */
 
@@ -150,7 +150,6 @@ _vector_base:
     .weak   LPTIM_IRQHandler           /* LPTIM */
     .weak   OPA_IRQHandler             /* OPA */
     .weak   USBPD_IRQHandler           /* USBPD */
-    .weak   TKeyWakeUp_IRQHandler      /* TKey Wake Up */
     .weak   USBPDWakeUp_IRQHandler     /* USBPD Wake Up */
     .weak   CMPWakeUp_IRQHandler       /* CMP Wake Up */
 
@@ -211,7 +210,6 @@ DMA1_Channel8_IRQHandler:
 LPTIM_IRQHandler:
 OPA_IRQHandler:
 USBPD_IRQHandler:
-TKeyWakeUp_IRQHandler:
 USBPDWakeUp_IRQHandler:
 CMPWakeUp_IRQHandler:
 1:

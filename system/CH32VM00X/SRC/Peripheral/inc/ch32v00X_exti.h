@@ -2,7 +2,7 @@
  * File Name          : ch32v00X_exti.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/01/01
+ * Date               : 2024/08/02
  * Description        : This file contains all the functions prototypes for the
  *                      EXTI firmware library.
  *********************************************************************************

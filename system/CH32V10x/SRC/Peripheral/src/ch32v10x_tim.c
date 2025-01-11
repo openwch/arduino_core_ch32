@@ -2,7 +2,7 @@
  * File Name          : ch32v10x_tim.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2020/04/30
+ * Date               : 2024/01/06
  * Description        : This file provides all the TIM firmware functions.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -492,7 +492,7 @@ void TIM_Cmd(TIM_TypeDef *TIMx, FunctionalState NewState)
  *
  * @brief   Enables or disables the TIM peripheral Main Outputs.
  *
- * @param   TIMx - where x can be 1 to 4 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to select the TIM peripheral.
  *          NewState - ENABLE or DISABLE.
  *
  * @return  none
@@ -2346,7 +2346,7 @@ static void TI4_Config(TIM_TypeDef *TIMx, uint16_t TIM_ICPolarity, uint16_t TIM_
     }
     else
     {
-        tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC3P | TIM_CC4NP));
+        tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC3P));
         tmpccer |= (uint16_t)(TIM_ICPolarity | (uint16_t)TIM_CC4E);
     }
 

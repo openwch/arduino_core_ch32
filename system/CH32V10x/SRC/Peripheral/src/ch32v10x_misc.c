@@ -2,7 +2,7 @@
  * File Name          : ch32v10x_misc.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2020/04/30
+ * Date               : 2024/01/05
  * Description        : This file provides all the miscellaneous firmware functions .
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -23,17 +23,17 @@ __IO uint32_t NVIC_Priority_Group = 0;
  *                                   4 bits for subpriority
  *            NVIC_PriorityGroup_1 - 1 bits for pre-emption priority
  *                                   3 bits for subpriority
- *            NVIC_PriorityGroup_2 - 2 bits for pre-emption priority
- *                                   2 bits for subpriority
- *            NVIC_PriorityGroup_3 - 3 bits for pre-emption priority
- *                                   1 bits for subpriority
- *            NVIC_PriorityGroup_4 - 4 bits for pre-emption priority
- *                                   0 bits for subpriority
  *
  * @return  none
  */
 void NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup)
 {
+#if (INTSYSCR_INEST == INTSYSCR_INEST_NoEN)
+    NVIC_INTNestCfg(DISABLE);
+#else
+    NVIC_INTNestCfg(ENABLE);
+#endif
+
     NVIC_Priority_Group = NVIC_PriorityGroup;
 }
 
@@ -45,58 +45,36 @@ void NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup)
  *
  * @param   NVIC_InitStruct - pointer to a NVIC_InitTypeDef structure that contains the
  *        configuration information for the specified NVIC peripheral.
+ *            interrupt nesting enable(PFIC->CFGR bit1 = 0)
+ *              NVIC_IRQChannelPreemptionPriority - range from 0 to 1.
+ *              NVIC_IRQChannelSubPriority - range from 0 to 7.
+ *
+ *            interrupt nesting disable(PFIC->CFGR bit1 = 1)
+ *              NVIC_IRQChannelPreemptionPriority - range is 0.
+ *              NVIC_IRQChannelSubPriority - range from 0 to 0xF.
  *
  * @return  none
  */
 void NVIC_Init(NVIC_InitTypeDef *NVIC_InitStruct)
 {
-    uint8_t tmppre = 0;
-
+#if (INTSYSCR_INEST == INTSYSCR_INEST_NoEN)
     if(NVIC_Priority_Group == NVIC_PriorityGroup_0)
     {
         NVIC_SetPriority(NVIC_InitStruct->NVIC_IRQChannel, NVIC_InitStruct->NVIC_IRQChannelSubPriority << 4);
     }
-    else if(NVIC_Priority_Group == NVIC_PriorityGroup_1)
+#else
+    if(NVIC_Priority_Group == NVIC_PriorityGroup_1)
     {
         if(NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority == 1)
         {
             NVIC_SetPriority(NVIC_InitStruct->NVIC_IRQChannel, (1 << 7) | (NVIC_InitStruct->NVIC_IRQChannelSubPriority << 4));
         }
-        else
+        else if(NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority == 0)
         {
             NVIC_SetPriority(NVIC_InitStruct->NVIC_IRQChannel, (0 << 7) | (NVIC_InitStruct->NVIC_IRQChannelSubPriority << 4));
         }
     }
-    else if(NVIC_Priority_Group == NVIC_PriorityGroup_2)
-    {
-        if(NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority <= 1)
-        {
-            tmppre = NVIC_InitStruct->NVIC_IRQChannelSubPriority + (4 * NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority);
-            NVIC_SetPriority(NVIC_InitStruct->NVIC_IRQChannel, (0 << 7) | (tmppre << 4));
-        }
-        else
-        {
-            tmppre = NVIC_InitStruct->NVIC_IRQChannelSubPriority + (4 * (NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority - 2));
-            NVIC_SetPriority(NVIC_InitStruct->NVIC_IRQChannel, (1 << 7) | (tmppre << 4));
-        }
-    }
-    else if(NVIC_Priority_Group == NVIC_PriorityGroup_3)
-    {
-        if(NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority <= 3)
-        {
-            tmppre = NVIC_InitStruct->NVIC_IRQChannelSubPriority + (2 * NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority);
-            NVIC_SetPriority(NVIC_InitStruct->NVIC_IRQChannel, (0 << 7) | (tmppre << 4));
-        }
-        else
-        {
-            tmppre = NVIC_InitStruct->NVIC_IRQChannelSubPriority + (2 * (NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority - 4));
-            NVIC_SetPriority(NVIC_InitStruct->NVIC_IRQChannel, (1 << 7) | (tmppre << 4));
-        }
-    }
-    else if(NVIC_Priority_Group == NVIC_PriorityGroup_4)
-    {
-        NVIC_SetPriority(NVIC_InitStruct->NVIC_IRQChannel, NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority << 4);
-    }
+#endif
 
     if(NVIC_InitStruct->NVIC_IRQChannelCmd != DISABLE)
     {

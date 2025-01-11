@@ -341,6 +341,7 @@ int _write(int fd, char *buf, int size)
     return writeSize;
 }
 #endif
+
 /*********************************************************************
  * @fn      _sbrk
  *

@@ -2,7 +2,7 @@
  * File Name          : ch32v00x_flash.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2023/12/25
  * Description        : This file contains all the functions prototypes for the FLASH
  *                      firmware library.
  *********************************************************************************
@@ -26,7 +26,10 @@ typedef enum
     FLASH_ERROR_PG,
     FLASH_ERROR_WRP,
     FLASH_COMPLETE,
-    FLASH_TIMEOUT
+    FLASH_TIMEOUT,
+    FLASH_OP_RANGE_ERROR = 0xFD,
+    FLASH_ALIGN_ERROR = 0xFE,
+    FLASH_ADR_RANGE_ERROR = 0xFF,
 } FLASH_Status;
 
 /* Flash_Latency */
@@ -70,7 +73,11 @@ typedef enum
 #define OB_RST_NoEN                      ((uint16_t)0x0018) /* Reset IO disable (PD7)*/
 #define OB_RST_EN_DT12ms                 ((uint16_t)0x0010) /* Reset IO enable (PD7) and  Ignore delay time 12ms */
 #define OB_RST_EN_DT1ms                  ((uint16_t)0x0008) /* Reset IO enable (PD7) and  Ignore delay time 1ms */
-#define OB_RST_EN_DT128ms                ((uint16_t)0x0000) /* Reset IO enable (PD7) and  Ignore delay time 128ms */
+#define OB_RST_EN_DT128us                ((uint16_t)0x0000) /* Reset IO enable (PD7) and  Ignore delay time 128us */
+
+/* Option_Bytes_Power_ON_Start_Mode */
+#define OB_PowerON_Start_Mode_BOOT       ((uint16_t)0x0020) /* from Boot after power on */
+#define OB_PowerON_Start_Mode_USER       ((uint16_t)0x0000) /* from User after power on */
 
 /* FLASH_Interrupts */
 #define FLASH_IT_ERROR                   ((uint32_t)0x00000400) /* FPEC error interrupt source */
@@ -105,7 +112,7 @@ FLASH_Status FLASH_ProgramHalfWord(uint32_t Address, uint16_t Data);
 FLASH_Status FLASH_ProgramOptionByteData(uint32_t Address, uint8_t Data);
 FLASH_Status FLASH_EnableWriteProtection(uint32_t FLASH_Pages);
 FLASH_Status FLASH_ReadOutProtection(FunctionalState NewState);
-FLASH_Status FLASH_UserOptionByteConfig(uint16_t OB_IWDG, uint16_t OB_STOP, uint16_t OB_STDBY, uint16_t OB_RST);
+FLASH_Status FLASH_UserOptionByteConfig(uint16_t OB_IWDG, uint16_t OB_STDBY, uint16_t OB_RST, uint16_t OB_PowerON_Start_Mode);
 uint32_t     FLASH_GetUserOptionByte(void);
 uint32_t     FLASH_GetWriteProtectionOptionByte(void);
 FlagStatus   FLASH_GetReadOutProtectionStatus(void);
@@ -121,6 +128,8 @@ void         FLASH_BufLoad(uint32_t Address, uint32_t Data0);
 void         FLASH_ErasePage_Fast(uint32_t Page_Address);
 void         FLASH_ProgramPage_Fast(uint32_t Page_Address);
 void         SystemReset_StartMode(uint32_t Mode);
+FLASH_Status FLASH_ROM_ERASE(uint32_t StartAddr, uint32_t Length);
+FLASH_Status FLASH_ROM_WRITE(uint32_t StartAddr, uint32_t *pbuf, uint32_t Length);
 
 #ifdef __cplusplus
 }

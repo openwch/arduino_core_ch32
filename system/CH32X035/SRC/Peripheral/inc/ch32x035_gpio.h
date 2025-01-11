@@ -2,7 +2,7 @@
  * File Name          : ch32x035_gpio.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/04/06
+ * Date               : 2023/12/26
  * Description        : This file contains all the functions prototypes for the
  *                      GPIO firmware library.
 *********************************************************************************
@@ -32,9 +32,7 @@ typedef enum
     GPIO_Mode_IN_FLOATING = 0x04,
     GPIO_Mode_IPD = 0x28,   /* Only PA0--PA15 and PC16--PC17 support input pull-down */
     GPIO_Mode_IPU = 0x48,
-    GPIO_Mode_Out_OD = 0x14,
     GPIO_Mode_Out_PP = 0x10,
-    GPIO_Mode_AF_OD = 0x1C,
     GPIO_Mode_AF_PP = 0x18
 } GPIOMode_TypeDef;
 
@@ -90,39 +88,39 @@ typedef enum
 #define GPIO_PartialRemap1_SPI1         ((uint32_t)0x00100001) /* SPI1 Partial1 Alternate Function mapping */
 #define GPIO_PartialRemap2_SPI1         ((uint32_t)0x00100002) /* SPI1 Partial2 Alternate Function mapping */
 #define GPIO_FullRemap_SPI1             ((uint32_t)0x00100003) /* SPI1 Full Alternate Function mapping */
-#define GPIO_PartialRemap1_I2C1         ((uint32_t)0x08000004) /* I2C1 Partial1 Alternate Function mapping */
-#define GPIO_PartialRemap2_I2C1         ((uint32_t)0x08000008) /* I2C1 Partial2 Alternate Function mapping */
-#define GPIO_PartialRemap3_I2C1         ((uint32_t)0x0800000C) /* I2C1 Partial3 Alternate Function mapping */
-#define GPIO_PartialRemap4_I2C1         ((uint32_t)0x08000010) /* I2C1 Partial4 Alternate Function mapping */
-#define GPIO_FullRemap_I2C1             ((uint32_t)0x08000014) /* I2C1 Full Alternate Function mapping */
+#define GPIO_PartialRemap1_I2C1         ((uint32_t)0x08020004) /* I2C1 Partial1 Alternate Function mapping */
+#define GPIO_PartialRemap2_I2C1         ((uint32_t)0x08020008) /* I2C1 Partial2 Alternate Function mapping */
+#define GPIO_PartialRemap3_I2C1         ((uint32_t)0x0802000C) /* I2C1 Partial3 Alternate Function mapping */
+#define GPIO_PartialRemap4_I2C1         ((uint32_t)0x08020010) /* I2C1 Partial4 Alternate Function mapping */
+#define GPIO_FullRemap_I2C1             ((uint32_t)0x08020014) /* I2C1 Full Alternate Function mapping */
 #define GPIO_PartialRemap1_USART1       ((uint32_t)0x00150020) /* USART1 Partial1 Alternate Function mapping */
 #define GPIO_PartialRemap2_USART1       ((uint32_t)0x00150040) /* USART1 Partial2 Alternate Function mapping */
 #define GPIO_FullRemap_USART1           ((uint32_t)0x00150060) /* USART1 Full Alternate Function mapping */
-#define GPIO_PartialRemap1_USART2       ((uint32_t)0x08000080) /* USART2 Partial1 Alternate Function mapping */
-#define GPIO_PartialRemap2_USART2       ((uint32_t)0x08000100) /* USART2 Partial2 Alternate Function mapping */
-#define GPIO_PartialRemap3_USART2       ((uint32_t)0x08000180) /* USART2 Partial3 Alternate Function mapping */
-#define GPIO_FullRemap_USART2           ((uint32_t)0x08000200) /* USART2 Full Alternate Function mapping */
-#define GPIO_PartialRemap1_USART3       ((uint32_t)0x00100400) /* USART3 Partial1 Alternate Function mapping */
-#define GPIO_PartialRemap2_USART3       ((uint32_t)0x00100800) /* USART3 Partial2 Alternate Function mapping */
-#define GPIO_FullRemap_USART3           ((uint32_t)0x00100C00) /* USART3 Full Alternate Function mapping */
-#define GPIO_PartialRemap1_USART4       ((uint32_t)0x08001000) /* USART4 Partial1 Alternate Function mapping */
-#define GPIO_PartialRemap2_USART4       ((uint32_t)0x08002000) /* USART4 Partial2 Alternate Function mapping */
-#define GPIO_PartialRemap3_USART4       ((uint32_t)0x08003000) /* USART4 Partial3 Alternate Function mapping */
-#define GPIO_PartialRemap4_USART4       ((uint32_t)0x08004000) /* USART4 Partial4 Alternate Function mapping */
-#define GPIO_FullRemap_USART4           ((uint32_t)0x08007000) /* USART4 Full Alternate Function mapping */
-#define GPIO_PartialRemap1_TIM1         ((uint32_t)0x08400001) /* TIM1 Partial1 Alternate Function mapping */
-#define GPIO_PartialRemap2_TIM1         ((uint32_t)0x08400002) /* TIM1 Partial2 Alternate Function mapping */
-#define GPIO_PartialRemap3_TIM1         ((uint32_t)0x08400003) /* TIM1 Partial3 Alternate Function mapping */
-#define GPIO_FullRemap_TIM1             ((uint32_t)0x08400004) /* TIM1 Full Alternate Function mapping */
-#define GPIO_PartialRemap1_TIM2         ((uint32_t)0x08200004) /* TIM2 Partial1 Alternate Function mapping */
-#define GPIO_PartialRemap2_TIM2         ((uint32_t)0x08200008) /* TIM2 Partial2 Alternate Function mapping */
-#define GPIO_PartialRemap3_TIM2         ((uint32_t)0x0820000C) /* TIM2 Partial3 Alternate Function mapping */
-#define GPIO_PartialRemap4_TIM2         ((uint32_t)0x08200010) /* TIM2 Partial4 Alternate Function mapping */
-#define GPIO_PartialRemap5_TIM2         ((uint32_t)0x08200014) /* TIM2 Partial5 Alternate Function mapping */
-#define GPIO_FullRemap_TIM2             ((uint32_t)0x08200018) /* TIM2 Full Alternate Function mapping */
-#define GPIO_PartialRemap1_TIM3         ((uint32_t)0x00300020) /* TIM3 Partial1 Alternate Function mapping */
-#define GPIO_PartialRemap2_TIM3         ((uint32_t)0x00300040) /* TIM3 Partial2 Alternate Function mapping */
-#define GPIO_FullRemap_TIM3             ((uint32_t)0x00300060) /* TIM3 Full Alternate Function mapping */
+#define GPIO_PartialRemap1_USART2       ((uint32_t)0x08070080) /* USART2 Partial1 Alternate Function mapping */
+#define GPIO_PartialRemap2_USART2       ((uint32_t)0x08070100) /* USART2 Partial2 Alternate Function mapping */
+#define GPIO_PartialRemap3_USART2       ((uint32_t)0x08070180) /* USART2 Partial3 Alternate Function mapping */
+#define GPIO_FullRemap_USART2           ((uint32_t)0x08070200) /* USART2 Full Alternate Function mapping */
+#define GPIO_PartialRemap1_USART3       ((uint32_t)0x001A0400) /* USART3 Partial1 Alternate Function mapping */
+#define GPIO_PartialRemap2_USART3       ((uint32_t)0x001A0800) /* USART3 Partial2 Alternate Function mapping */
+#define GPIO_FullRemap_USART3           ((uint32_t)0x001A0C00) /* USART3 Full Alternate Function mapping */
+#define GPIO_PartialRemap1_USART4       ((uint32_t)0x080C1000) /* USART4 Partial1 Alternate Function mapping */
+#define GPIO_PartialRemap2_USART4       ((uint32_t)0x080C2000) /* USART4 Partial2 Alternate Function mapping */
+#define GPIO_PartialRemap3_USART4       ((uint32_t)0x080C3000) /* USART4 Partial3 Alternate Function mapping */
+#define GPIO_PartialRemap4_USART4       ((uint32_t)0x080C4000) /* USART4 Partial4 Alternate Function mapping */
+#define GPIO_FullRemap_USART4           ((uint32_t)0x080C7000) /* USART4 Full Alternate Function mapping */
+#define GPIO_PartialRemap1_TIM1         ((uint32_t)0x084F0001) /* TIM1 Partial1 Alternate Function mapping */
+#define GPIO_PartialRemap2_TIM1         ((uint32_t)0x084F0002) /* TIM1 Partial2 Alternate Function mapping */
+#define GPIO_PartialRemap3_TIM1         ((uint32_t)0x084F0003) /* TIM1 Partial3 Alternate Function mapping */
+#define GPIO_FullRemap_TIM1             ((uint32_t)0x084F0004) /* TIM1 Full Alternate Function mapping */
+#define GPIO_PartialRemap1_TIM2         ((uint32_t)0x08220004) /* TIM2 Partial1 Alternate Function mapping */
+#define GPIO_PartialRemap2_TIM2         ((uint32_t)0x08220008) /* TIM2 Partial2 Alternate Function mapping */
+#define GPIO_PartialRemap3_TIM2         ((uint32_t)0x0822000C) /* TIM2 Partial3 Alternate Function mapping */
+#define GPIO_PartialRemap4_TIM2         ((uint32_t)0x08220010) /* TIM2 Partial4 Alternate Function mapping */
+#define GPIO_PartialRemap5_TIM2         ((uint32_t)0x08220014) /* TIM2 Partial5 Alternate Function mapping */
+#define GPIO_FullRemap_TIM2             ((uint32_t)0x08220018) /* TIM2 Full Alternate Function mapping */
+#define GPIO_PartialRemap1_TIM3         ((uint32_t)0x00350020) /* TIM3 Partial1 Alternate Function mapping */
+#define GPIO_PartialRemap2_TIM3         ((uint32_t)0x00350040) /* TIM3 Partial2 Alternate Function mapping */
+#define GPIO_FullRemap_TIM3             ((uint32_t)0x00350060) /* TIM3 Full Alternate Function mapping */
 #define GPIO_Remap_PIOC                 ((uint32_t)0x00200080) /* PIOC Alternate Function mapping */
 #define GPIO_Remap_SWJ_Disable          ((uint32_t)0x08300400) /* SDI Disabled (SDI) */
 

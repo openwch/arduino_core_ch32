@@ -1,8 +1,8 @@
 ;/********************************** (C) COPYRIGHT *******************************
 ;* File Name          : startup_ch32x035.s
 ;* Author             : WCH
-;* Version            : V1.0.0
-;* Date               : 2023/04/06
+;* Version            : V1.0.1
+;* Date               : 2023/12/06
 ;* Description        : vector table for eclipse toolchain.
 ;*********************************************************************************
 ;* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -15,6 +15,7 @@
 	.align	1
 _start:
 	j	handle_reset
+
     .section    .vector,"ax",@progbits
     .align  1
 _vector_base:
@@ -77,7 +78,6 @@ _vector_base:
     .word   TIM3_IRQHandler            /* TIM3 */
 
     .option rvc;
-
     .section    .text.vector_handler, "ax", @progbits
     .weak   NMI_Handler                /* NMI */
     .weak   HardFault_Handler          /* Hard Fault */
@@ -125,51 +125,53 @@ _vector_base:
     .weak   TIM2_BRK_IRQHandler        /* TIM2 Break */
     .weak   TIM3_IRQHandler            /* TIM3 */
 
-NMI_Handler:  1:  j 1b
-HardFault_Handler:  1:  j 1b
-Ecall_M_Mode_Handler:  1:  j 1b
-Ecall_U_Mode_Handler:  1:  j 1b
-Break_Point_Handler:  1:  j 1b
-SysTick_Handler:  1:  j 1b
-SW_Handler:  1:  j 1b
-WWDG_IRQHandler:  1:  j 1b
-PVD_IRQHandler:  1:  j 1b
-FLASH_IRQHandler:  1:  j 1b
-EXTI7_0_IRQHandler:  1:  j 1b
-AWU_IRQHandler:  1:  j 1b
-DMA1_Channel1_IRQHandler:  1:  j 1b
-DMA1_Channel2_IRQHandler:  1:  j 1b
-DMA1_Channel3_IRQHandler:  1:  j 1b
-DMA1_Channel4_IRQHandler:  1:  j 1b
-DMA1_Channel5_IRQHandler:  1:  j 1b
-DMA1_Channel6_IRQHandler:  1:  j 1b
-DMA1_Channel7_IRQHandler:  1:  j 1b
-ADC1_IRQHandler:  1:  j 1b
-I2C1_EV_IRQHandler:  1:  j 1b
-I2C1_ER_IRQHandler:  1:  j 1b
-USART1_IRQHandler:  1:  j 1b
-SPI1_IRQHandler:  1:  j 1b
-TIM1_BRK_IRQHandler:  1:  j 1b
-TIM1_UP_IRQHandler:  1:  j 1b
-TIM1_TRG_COM_IRQHandler:  1:  j 1b
-TIM1_CC_IRQHandler:  1:  j 1b
-TIM2_UP_IRQHandler:  1:  j 1b
-USART2_IRQHandler:  1:  j 1b
-EXTI15_8_IRQHandler:  1:  j 1b
-EXTI25_16_IRQHandler:  1:  j 1b
-USART3_IRQHandler:  1:  j 1b
-USART4_IRQHandler:  1:  j 1b
-DMA1_Channel8_IRQHandler:  1:  j 1b
-USBFS_IRQHandler:  1:  j 1b
-USBFSWakeUp_IRQHandler:  1:  j 1b
-PIOC_IRQHandler:  1:  j 1b
-OPA_IRQHandler:  1:  j 1b
-USBPD_IRQHandler:  1:  j 1b
-USBPDWakeUp_IRQHandler:  1:  j 1b
-TIM2_CC_IRQHandler:  1:  j 1b
-TIM2_TRG_COM_IRQHandler:  1:  j 1b
-TIM2_BRK_IRQHandler:  1:  j 1b
-TIM3_IRQHandler:  1:  j 1b
+NMI_Handler:
+HardFault_Handler:
+Ecall_M_Mode_Handler:
+Ecall_U_Mode_Handler:
+Break_Point_Handler:
+SysTick_Handler:
+SW_Handler:
+WWDG_IRQHandler:
+PVD_IRQHandler:
+FLASH_IRQHandler:
+EXTI7_0_IRQHandler:
+AWU_IRQHandler:
+DMA1_Channel1_IRQHandler:
+DMA1_Channel2_IRQHandler:
+DMA1_Channel3_IRQHandler:
+DMA1_Channel4_IRQHandler:
+DMA1_Channel5_IRQHandler:
+DMA1_Channel6_IRQHandler:
+DMA1_Channel7_IRQHandler:
+ADC1_IRQHandler:
+I2C1_EV_IRQHandler:
+I2C1_ER_IRQHandler:
+USART1_IRQHandler:
+SPI1_IRQHandler:
+TIM1_BRK_IRQHandler:
+TIM1_UP_IRQHandler:
+TIM1_TRG_COM_IRQHandler:
+TIM1_CC_IRQHandler:
+TIM2_UP_IRQHandler:
+USART2_IRQHandler:
+EXTI15_8_IRQHandler:
+EXTI25_16_IRQHandler:
+USART3_IRQHandler:
+USART4_IRQHandler:
+DMA1_Channel8_IRQHandler:
+USBFS_IRQHandler:
+USBFSWakeUp_IRQHandler:
+PIOC_IRQHandler:
+OPA_IRQHandler:
+USBPD_IRQHandler:
+USBPDWakeUp_IRQHandler:
+TIM2_CC_IRQHandler:
+TIM2_TRG_COM_IRQHandler:
+TIM2_BRK_IRQHandler:
+TIM3_IRQHandler:
+1:
+	j 1b
 
 	.section	.text.handle_reset,"ax",@progbits
 	.weak	handle_reset
@@ -182,7 +184,7 @@ handle_reset:
 1:
 	la sp, _eusrstack 
 2:
-	/* Load data section from flash to RAM */
+/* Load data section from flash to RAM */
 	la a0, _data_lma
 	la a1, _data_vma
 	la a2, _edata
@@ -194,7 +196,7 @@ handle_reset:
 	addi a1, a1, 4
 	bltu a1, a2, 1b
 2:
-	/* Clear bss section */
+/* Clear bss section */
 	la a0, _sbss
 	la a1, _ebss
 	bgeu a0, a1, 2f
@@ -203,24 +205,19 @@ handle_reset:
 	addi a0, a0, 4
 	bltu a0, a1, 1b
 2:
+/* Configure pipelining and instruction prediction */
     li t0, 0x1f
     csrw 0xbc0, t0
-
-    /* Enable nested and hardware stack */
+/* Enable interrupt nesting and hardware stack */
 	li t0, 0x3
 	csrw 0x804, t0
-
-    /* Enable interrupt */
+/* Enable global interrupt and configure privileged mode */
    	li t0, 0x88           
-   	csrs mstatus, t0
-
+   	csrw mstatus, t0
+/* Configure the interrupt vector table recognition mode and entry address mode */
  	la t0, _vector_base
     ori t0, t0, 3           
 	csrw mtvec, t0
-
-    la a0, __libc_fini_array
-    call atexit
-    call __libc_init_array
 
     jal  SystemInit
 	la t0, main

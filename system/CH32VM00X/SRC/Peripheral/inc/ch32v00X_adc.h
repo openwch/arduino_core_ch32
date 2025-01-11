@@ -2,7 +2,7 @@
  * File Name          : ch32v00X_adc.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/01/01
+ * Date               : 2024/11/06
  * Description        : This file contains all the functions prototypes for the
  *                      ADC firmware library.
  *********************************************************************************
@@ -160,10 +160,6 @@ void       ADC_StructInit(ADC_InitTypeDef *ADC_InitStruct);
 void       ADC_Cmd(ADC_TypeDef *ADCx, FunctionalState NewState);
 void       ADC_DMACmd(ADC_TypeDef *ADCx, FunctionalState NewState);
 void       ADC_ITConfig(ADC_TypeDef *ADCx, uint16_t ADC_IT, FunctionalState NewState);
-void       ADC_ResetCalibration(ADC_TypeDef *ADCx);
-FlagStatus ADC_GetResetCalibrationStatus(ADC_TypeDef *ADCx);
-void       ADC_StartCalibration(ADC_TypeDef *ADCx);
-FlagStatus ADC_GetCalibrationStatus(ADC_TypeDef *ADCx);
 void       ADC_SoftwareStartConvCmd(ADC_TypeDef *ADCx, FunctionalState NewState);
 FlagStatus ADC_GetSoftwareStartConvStatus(ADC_TypeDef *ADCx);
 void       ADC_DiscModeChannelCountConfig(ADC_TypeDef *ADCx, uint8_t Number);

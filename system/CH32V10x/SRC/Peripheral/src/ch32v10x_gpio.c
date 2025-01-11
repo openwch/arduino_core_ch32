@@ -439,9 +439,7 @@ void GPIO_EventOutputCmd(FunctionalState NewState)
  *            GPIO_Remap_ETH - Ethernet remapping
  *            GPIO_Remap_CAN2 - CAN2 remapping
  *            GPIO_Remap_MII_RMII_SEL - MII or RMII selection
- *            GPIO_Remap_SWJ_NoJTRST - Full SWJ Enabled (JTAG-DP + SW-DP) but without JTRST
- *            GPIO_Remap_SWJ_JTAGDisable - JTAG-DP Disabled and SW-DP Enabled
- *            GPIO_Remap_SWJ_Disable - Full SWJ Disabled (JTAG-DP + SW-DP)
+ *            GPIO_Remap_SWJ_Disable - Full SWJ Disabled
  *            GPIO_Remap_TIM2ITR1_PTP_SOF - Ethernet PTP output or USB OTG SOF (Start of Frame) connected
  *        to TIM2 Internal Trigger 1 for calibration
  *            GPIO_Remap_TIM2ITR1_PTP_SOF - Ethernet PTP output or USB OTG SOF (Start of Frame)
@@ -550,7 +548,7 @@ void GPIO_IPD_Unused(void)
     GPIO_InitTypeDef GPIO_InitStructure = {0};
     uint32_t chip = 0;
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD, ENABLE);
-    chip =  *( uint32_t * )0x1FFFF884 ;
+    chip =  *( uint32_t * )0x1FFFF884 & (~0x000000F0);
     switch(chip)
     {
         case 0x25004102:     //CH32V103C8T6

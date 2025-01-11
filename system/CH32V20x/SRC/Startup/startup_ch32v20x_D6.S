@@ -1,32 +1,22 @@
 ;/********************************** (C) COPYRIGHT *******************************
 ;* File Name          : startup_ch32v20x_D6.s
 ;* Author             : WCH
-;* Version            : V1.0.0
-;* Date               : 2021/06/06
-;* Description        :  CH32V203F6-CH32V203F8-CH32V203G6-CH32V203G8-CH32V203K6-CH32V203K8-CH32V203C6-CH32V203C8
+;* Version            : V1.0.1
+;* Date               : 2024/01/31
+;* Description        :  CH32V203F6-CH32V203F8-CH32V203G6-CH32V203G8-CH32V203K8-CH32V203C6-CH32V203C8-CH32V203G8
 ;*                    vector table for eclipse toolchain.
+;*********************************************************************************
 ;* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-;* SPDX-License-Identifier: Apache-2.0
-;*******************************************************************************/
+;* Attention: This software (modified or not) and binary are used for 
+;* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
+
 	.section	.init,"ax",@progbits
 	.global	_start
 	.align	1
 _start:
-	 
 	j	handle_reset
-	.word 0x00000013
-	.word 0x00000013
-	.word 0x00000013
-	.word 0x00000013
-	.word 0x00000013
-	.word 0x00000013
-	.word 0x00000013
-	.word 0x00000013
-	.word 0x00000013
-	.word 0x00000013
-	.word 0x00000013
-	.word 0x00000013
-	.word 0x00100073
+
     .section    .vector,"ax",@progbits
     .align  1
 _vector_base:
@@ -91,13 +81,12 @@ _vector_base:
     .word   EXTI15_10_IRQHandler       /* EXTI Line 15..10 */
     .word   RTCAlarm_IRQHandler        /* RTC Alarm through EXTI Line */
     .word   USBWakeUp_IRQHandler       /* USB Wake up from suspend */
-    .word   USBHD_IRQHandler           /* USBHD Break */
-    .word   USBHDWakeUp_IRQHandler     /* USBHD Wake up from suspend */
+    .word   USBFS_IRQHandler           /* USBFS Break */
+    .word   USBFSWakeUp_IRQHandler     /* USBFS Wake up from suspend */
     .word   UART4_IRQHandler           /* UART4 */
     .word   DMA1_Channel8_IRQHandler   /* DMA1 Channel8 */
 
     .option rvc;
-
     .section    .text.vector_handler, "ax", @progbits
     .weak   NMI_Handler                /* NMI */
     .weak   HardFault_Handler          /* Hard Fault */
@@ -149,65 +138,67 @@ _vector_base:
     .weak   EXTI15_10_IRQHandler       /* EXTI Line 15..10 */
     .weak   RTCAlarm_IRQHandler        /* RTC Alarm through EXTI Line */
     .weak   USBWakeUp_IRQHandler       /* USB Wakeup from suspend */
-    .weak   USBHD_IRQHandler           /* USBHD */
-    .weak   USBHDWakeUp_IRQHandler     /* USBHD Wake Up */
+    .weak   USBFS_IRQHandler           /* USBFS */
+    .weak   USBFSWakeUp_IRQHandler     /* USBFS Wake Up */
     .weak   UART4_IRQHandler           /* UART4 */
     .weak   DMA1_Channel8_IRQHandler   /* DMA1 Channel8 */
 
-NMI_Handler:  1:  j 1b
-HardFault_Handler:  1:  j 1b
-Ecall_M_Mode_Handler:  1:  j 1b
-Ecall_U_Mode_Handler:  1:  j 1b
-Break_Point_Handler:  1:  j 1b
-SysTick_Handler:  1:  j 1b
-SW_Handler:  1:  j 1b
-WWDG_IRQHandler:  1:  j 1b
-PVD_IRQHandler:  1:  j 1b
-TAMPER_IRQHandler:  1:  j 1b
-RTC_IRQHandler:  1:  j 1b
-FLASH_IRQHandler:  1:  j 1b
-RCC_IRQHandler:  1:  j 1b
-EXTI0_IRQHandler:  1:  j 1b
-EXTI1_IRQHandler:  1:  j 1b
-EXTI2_IRQHandler:  1:  j 1b
-EXTI3_IRQHandler:  1:  j 1b
-EXTI4_IRQHandler:  1:  j 1b
-DMA1_Channel1_IRQHandler:  1:  j 1b
-DMA1_Channel2_IRQHandler:  1:  j 1b
-DMA1_Channel3_IRQHandler:  1:  j 1b
-DMA1_Channel4_IRQHandler:  1:  j 1b
-DMA1_Channel5_IRQHandler:  1:  j 1b
-DMA1_Channel6_IRQHandler:  1:  j 1b
-DMA1_Channel7_IRQHandler:  1:  j 1b
-ADC1_2_IRQHandler:  1:  j 1b
-USB_HP_CAN1_TX_IRQHandler:  1:  j 1b
-USB_LP_CAN1_RX0_IRQHandler:  1:  j 1b
-CAN1_RX1_IRQHandler:  1:  j 1b
-CAN1_SCE_IRQHandler:  1:  j 1b
-EXTI9_5_IRQHandler:  1:  j 1b
-TIM1_BRK_IRQHandler:  1:  j 1b
-TIM1_UP_IRQHandler:  1:  j 1b
-TIM1_TRG_COM_IRQHandler:  1:  j 1b
-TIM1_CC_IRQHandler:  1:  j 1b
-TIM2_IRQHandler:  1:  j 1b
-TIM3_IRQHandler:  1:  j 1b
-TIM4_IRQHandler:  1:  j 1b
-I2C1_EV_IRQHandler:  1:  j 1b
-I2C1_ER_IRQHandler:  1:  j 1b
-I2C2_EV_IRQHandler:  1:  j 1b
-I2C2_ER_IRQHandler:  1:  j 1b
-SPI1_IRQHandler:  1:  j 1b
-SPI2_IRQHandler:  1:  j 1b
-USART1_IRQHandler:  1:  j 1b
-USART2_IRQHandler:  1:  j 1b
-USART3_IRQHandler:  1:  j 1b
-EXTI15_10_IRQHandler:  1:  j 1b
-RTCAlarm_IRQHandler:  1:  j 1b
-USBWakeUp_IRQHandler:  1:  j 1b
-USBHD_IRQHandler:  1:  j 1b
-USBHDWakeUp_IRQHandler:  1:  j 1b
-UART4_IRQHandler:  1:  j 1b
-DMA1_Channel8_IRQHandler:  1:  j 1b
+NMI_Handler:
+HardFault_Handler:
+Ecall_M_Mode_Handler:
+Ecall_U_Mode_Handler:
+Break_Point_Handler:
+SysTick_Handler:
+SW_Handler:
+WWDG_IRQHandler:
+PVD_IRQHandler:
+TAMPER_IRQHandler:
+RTC_IRQHandler:
+FLASH_IRQHandler:
+RCC_IRQHandler:
+EXTI0_IRQHandler:
+EXTI1_IRQHandler:
+EXTI2_IRQHandler:
+EXTI3_IRQHandler:
+EXTI4_IRQHandler:
+DMA1_Channel1_IRQHandler:
+DMA1_Channel2_IRQHandler:
+DMA1_Channel3_IRQHandler:
+DMA1_Channel4_IRQHandler:
+DMA1_Channel5_IRQHandler:
+DMA1_Channel6_IRQHandler:
+DMA1_Channel7_IRQHandler:
+ADC1_2_IRQHandler:
+USB_HP_CAN1_TX_IRQHandler:
+USB_LP_CAN1_RX0_IRQHandler:
+CAN1_RX1_IRQHandler:
+CAN1_SCE_IRQHandler:
+EXTI9_5_IRQHandler:
+TIM1_BRK_IRQHandler:
+TIM1_UP_IRQHandler:
+TIM1_TRG_COM_IRQHandler:
+TIM1_CC_IRQHandler:
+TIM2_IRQHandler:
+TIM3_IRQHandler:
+TIM4_IRQHandler:
+I2C1_EV_IRQHandler:
+I2C1_ER_IRQHandler:
+I2C2_EV_IRQHandler:
+I2C2_ER_IRQHandler:
+SPI1_IRQHandler:
+SPI2_IRQHandler:
+USART1_IRQHandler:
+USART2_IRQHandler:
+USART3_IRQHandler:
+EXTI15_10_IRQHandler:
+RTCAlarm_IRQHandler:
+USBWakeUp_IRQHandler:
+USBFS_IRQHandler:
+USBFSWakeUp_IRQHandler:
+UART4_IRQHandler:
+DMA1_Channel8_IRQHandler:
+1:
+	j 1b
 
 	.section	.text.handle_reset,"ax",@progbits
 	.weak	handle_reset
@@ -220,7 +211,7 @@ handle_reset:
 1:
 	la sp, _eusrstack 
 2:
-	/* Load data section from flash to RAM */
+/* Load data section from flash to RAM */
 	la a0, _data_lma
 	la a1, _data_vma
 	la a2, _edata
@@ -232,7 +223,7 @@ handle_reset:
 	addi a1, a1, 4
 	bltu a1, a2, 1b
 2:
-	/* Clear bss section */
+/* Clear bss section */
 	la a0, _sbss
 	la a1, _ebss
 	bgeu a0, a1, 2f
@@ -241,24 +232,19 @@ handle_reset:
 	addi a0, a0, 4
 	bltu a0, a1, 1b
 2:
+/* Configure pipelining and instruction prediction */
     li t0, 0x1f
     csrw 0xbc0, t0
-
-    /* Enable nested and hardware stack */
+/* Enable interrupt nesting and hardware stack */
 	li t0, 0x3
 	csrw 0x804, t0
-
-    /* Enable interrupt */
+/* Enable global interrupt and configure privileged mode */
    	li t0, 0x88           
-   	csrs mstatus, t0
-
+   	csrw mstatus, t0
+/* Configure the interrupt vector table recognition mode and entry address mode */
  	la t0, _vector_base
     ori t0, t0, 3           
 	csrw mtvec, t0
-
-    la a0, __libc_fini_array
-    call atexit
-    call __libc_init_array
 
     jal  SystemInit
 	la t0, main

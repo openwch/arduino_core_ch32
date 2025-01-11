@@ -2,11 +2,13 @@
  * File Name          : ch32v20x_rcc.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Date               : 2024/01/30
  * Description        : This file provides all the RCC firmware functions.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/ 
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/ 
 #include "ch32v20x_rcc.h"
 
 /* RCC registers bit address in the alias region */
@@ -73,16 +75,17 @@ static __I uint8_t ADCPrescTable[4] = {2, 4, 6, 8};
  * @fn      RCC_DeInit
  *
  * @brief   Resets the RCC clock configuration to the default reset state.
- *
+ *          Note-
+ *          HSE can not be stopped if it is used directly or through the PLL as system clock.
  * @return  none
  */
 void RCC_DeInit(void)
 {
   RCC->CTLR |= (uint32_t)0x00000001;
-  RCC->CFGR0 &= (uint32_t)0xF8FF0000;  
+  RCC->CFGR0 &= (uint32_t)0xF0FF0000;  
   RCC->CTLR &= (uint32_t)0xFEF6FFFF;
   RCC->CTLR &= (uint32_t)0xFFFBFFFF;
-  RCC->CFGR0 &= (uint32_t)0xFF80FFFF;
+  RCC->CFGR0 &= (uint32_t)0xFF00FFFF;
   RCC->INTR = 0x009F0000;
 }
 
@@ -95,7 +98,8 @@ void RCC_DeInit(void)
  *            RCC_HSE_OFF - HSE oscillator OFF.
  *            RCC_HSE_ON - HSE oscillator ON.
  *            RCC_HSE_Bypass - HSE oscillator bypassed with external clock.
- *
+ *            Note-
+ *            HSE can not be stopped if it is used directly or through the PLL as system clock.
  * @return  none
  */
 void RCC_HSEConfig(uint32_t RCC_HSE)
@@ -123,8 +127,8 @@ void RCC_HSEConfig(uint32_t RCC_HSE)
  *
  * @brief   Waits for HSE start-up.
  *
- * @return  SUCCESS - HSE oscillator is stable and ready to use.
- *                  ERROR - HSE oscillator not yet ready.
+ * @return  READY - HSE oscillator is stable and ready to use.
+ *          NoREADY - HSE oscillator not yet ready.
  */
 ErrorStatus RCC_WaitForHSEStartUp(void)
 {
@@ -237,6 +241,8 @@ void RCC_PLLConfig(uint32_t RCC_PLLSource, uint32_t RCC_PLLMul)
  * @fn      RCC_PLLCmd
  *
  * @brief   Enables or disables the PLL.
+ *          Note-The PLL can not be disabled if it is used as system clock.
+ *          
  *
  * @param   NewState - ENABLE or DISABLE.
  *
@@ -350,11 +356,11 @@ void RCC_PCLK1Config(uint32_t RCC_HCLK)
  *
  * @param   RCC_HCLK - defines the APB2 clock divider. This clock is derived from
  *        the AHB clock (HCLK).
- *            RCC_PCLK2_Div2 - APB2 clock = HCLK.
- *            RCC_PCLK2_Div4 - APB2 clock = HCLK/2.
- *            RCC_PCLK2_Div6 - APB2 clock = HCLK/4.
- *            RCC_PCLK2_Div8 - APB2 clock = HCLK/8.
- *
+ *            RCC_HCLK_Div1 - APB2 clock = HCLK.
+ *            RCC_HCLK_Div2 - APB2 clock = HCLK/2.
+ *            RCC_HCLK_Div4 - APB2 clock = HCLK/4.
+ *            RCC_HCLK_Div8 - APB2 clock = HCLK/8.
+ *            RCC_HCLK_Div16 - APB2 clock = HCLK/16.
  * @return  none
  */
 void RCC_PCLK2Config(uint32_t RCC_HCLK)
@@ -474,6 +480,8 @@ void RCC_LSEConfig(uint8_t RCC_LSE)
  * @fn      RCC_LSICmd
  *
  * @brief   Enables or disables the Internal Low Speed oscillator (LSI).
+ *          Note-
+ *          LSI can not be disabled if the IWDG is running.
  *
  * @param   NewState - ENABLE or DISABLE.
  *
@@ -498,8 +506,10 @@ void RCC_LSICmd(FunctionalState NewState)
  * @param   RCC_RTCCLKSource - specifies the RTC clock source.
  *            RCC_RTCCLKSource_LSE - LSE selected as RTC clock.
  *            RCC_RTCCLKSource_LSI - LSI selected as RTC clock.
- *            RCC_RTCCLKSource_HSE_Div128 - HSE clock divided by 128 selected as RTC clock.
- *
+ *            RCC_RTCCLKSource_HSE_Div128 - HSE clock divided by 128 selected as RTC clock(CH32V20x_D6)
+ *            RCC_RTCCLKSource_HSE_Div512 - HSE clock divided by 512 selected as RTC clock(CH32V20x_D8,CH32V20x_D8W)
+ *         Note-   
+ *           Once the RTC clock is selected it can't be changed unless the Backup domain is reset.
  * @return  none
  */
 void RCC_RTCCLKConfig(uint32_t RCC_RTCCLKSource)
@@ -575,8 +585,8 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef* RCC_Clocks)
         }
         else
         {
-#if defined (CH32V20x_D8W)
-          if((RCC->CFGR0 & (3<<22)) == (3<<22))
+#if defined (CH32V20x_D8W) || defined (CH32V20x_D8)
+          if(((RCC->CFGR0 & (3<<22)) == (3<<22)) && (RCC_USB5PRE_JUDGE()== SET))
           {
               RCC_Clocks->SYSCLK_Frequency = ((HSE_VALUE>>1)) * pllmull;
           }
@@ -636,7 +646,9 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef* RCC_Clocks)
  *            RCC_AHBPeriph_DMA2.
  *            RCC_AHBPeriph_SRAM.
  *            RCC_AHBPeriph_CRC.
- *            RCC_AHBPeriph_OTG_FS
+ *            RCC_AHBPeriph_USBFS
+ *          Note-
+ *          SRAM  clock can be disabled only during sleep mode.
  *          NewState: ENABLE or DISABLE.
  *
  * @return  none
@@ -912,7 +924,9 @@ FlagStatus RCC_GetFlagStatus(uint8_t RCC_FLAG)
  * @fn      RCC_ClearFlag
  *
  * @brief   Clears the RCC reset flags.
- *
+ *          Note-   
+ *          The reset flags are: RCC_FLAG_PINRST, RCC_FLAG_PORRST, RCC_FLAG_SFTRST,
+ *          RCC_FLAG_IWDGRST, RCC_FLAG_WWDGRST, RCC_FLAG_LPWRRST
  * @return  none
  */
 void RCC_ClearFlag(void)
@@ -1014,5 +1028,34 @@ void RCC_ETHDIVConfig(uint32_t RCC_ETHPRE_Div)
     RCC->CFGR0 |= RCC_ETHPRE_Div<<28;
 }
 
+/*********************************************************************
+ * @fn      RCC_USB5PRE_JUDGE()
+ *
+ * @brief   Judge MCU supports PLLCLK/5 for USB.
+ *
+ * @param   FlagStatus - SET or RESET.
+ *                      SET - support
+ *                      RESET - not support
+ * @return  none
+ */
+FlagStatus RCC_USB5PRE_JUDGE()
+{
+
+#if defined (CH32V20x_D8W)
+    return SET;
+#elif defined (CH32V20x_D8)
+    RCC->AHBPCENR |= (1<<17);
+    *(vu32*)0x400250A0 = 0x55aaaa55;
+    if(*(vu32*)0x400250A0 == 0x55aaaa55)
+    {
+    return SET;
+    }
+    else
+    {
+    return RESET;
+    }
+#endif
+    return RESET;
+}
 
 

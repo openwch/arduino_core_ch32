@@ -2,7 +2,7 @@
  * File Name          : ch32l103_opa.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/07/08
+ * Date               : 2024/11/05
  * Description        : This file provides all the OPA firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -15,7 +15,11 @@
 #define OPCM_KEY1                 ((uint32_t)0x45670123)
 #define OPCM_KEY2                 ((uint32_t)0xCDEF89AB)
 
+/* mask definition*/
+#define POLL_CNT_MASK             ((uint16_t)0x7000)
+
 volatile uint32_t CTLR2_tmp = 0;
+
 
 /********************************************************************************
  * @fn      OPCM_Unlock
@@ -172,19 +176,19 @@ void OPA_CMP_Init(CMP_InitTypeDef *CMP_InitStruct)
     {
         tmp1 &= 0xFFFFFFC1;
         tmp1 |= (CMP_InitStruct->Mode << 1) | (CMP_InitStruct->NSEL << 3)
-                | (CMP_InitStruct->PSEL << 4);
+                | (CMP_InitStruct->PSEL << 4) | (CMP_InitStruct->HYEN <<5);
     }
     else if(CMP_InitStruct->CMP_NUM == CMP2)
     {
         tmp1 &= 0xFFFFC1FF;
         tmp1 |= (CMP_InitStruct->Mode << 9) | (CMP_InitStruct->NSEL << 11)
-                | (CMP_InitStruct->PSEL << 12);
+                | (CMP_InitStruct->PSEL << 12) | (CMP_InitStruct->HYEN <<13);
     }
     else if(CMP_InitStruct->CMP_NUM == CMP3)
     {
         tmp1 &= 0xFFC1FFFF;
         tmp1 |= (CMP_InitStruct->Mode << 17) | (CMP_InitStruct->NSEL << 19)
-                | (CMP_InitStruct->PSEL << 20);
+                | (CMP_InitStruct->PSEL << 20) | (CMP_InitStruct->HYEN <<21);
     }
 
     CTLR2_tmp = tmp1;
@@ -205,7 +209,7 @@ void OPA_CMP_StructInit(CMP_InitTypeDef *CMP_InitStruct)
     CMP_InitStruct->CMP_NUM = CMP1;
     CMP_InitStruct->Mode = OUT_IO0;
     CMP_InitStruct->NSEL = CMP_CHN0;
-    CMP_InitStruct->PSEL = CMP_CHP1;
+    CMP_InitStruct->PSEL = CMP_CHP_0;
 }
 
 /*********************************************************************
@@ -320,4 +324,20 @@ void OPA_ClearFlag(uint16_t OPA_FLAG)
     OPA->CFGR1 &= (uint16_t)~OPA_FLAG;
 }
 
-
+/*********************************************************************
+ * @fn      OPA_POLL_CNT
+ *
+ * @brief   Displays the current channel being polled by the OPA
+ *
+ * @param   none
+ *
+ * @return  OPA_POLL_NUM_TypeDef - Current channel for OPA polling
+ */
+OPA_POLL_NUM_TypeDef OPA_POLL_CNT(void)
+{
+    uint16_t tmp1 = 0;
+    tmp1 = OPA->CFGR2;
+    tmp1 &= POLL_CNT_MASK;
+    tmp1 = tmp1 >> 12;
+    return tmp1;
+}

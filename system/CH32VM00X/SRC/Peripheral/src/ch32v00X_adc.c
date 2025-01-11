@@ -2,7 +2,7 @@
  * File Name          : ch32v00X_adc.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/01/01
+ * Date               : 2024/11/06
  * Description        : This file provides all the ADC firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -43,12 +43,6 @@
 /* ADC DMA mask */
 #define CTLR2_DMA_Set                    ((uint32_t)0x00000100)
 #define CTLR2_DMA_Reset                  ((uint32_t)0xFFFFFEFF)
-
-/* ADC RSTCAL mask */
-#define CTLR2_RSTCAL_Set                 ((uint32_t)0x00000008)
-
-/* ADC CAL mask */
-#define CTLR2_CAL_Set                    ((uint32_t)0x00000004)
 
 /* ADC SWSTART mask */
 #define CTLR2_SWSTART_Set                ((uint32_t)0x00400000)
@@ -245,84 +239,6 @@ void ADC_ITConfig(ADC_TypeDef *ADCx, uint16_t ADC_IT, FunctionalState NewState)
     {
         ADCx->CTLR1 &= (~(uint32_t)itmask);
     }
-}
-
-/*********************************************************************
- * @fn      ADC_ResetCalibration
- *
- * @brief   Resets the selected ADC calibration registers.
- *
- * @param   ADCx - where x can be 1 to select the ADC peripheral.
- *
- * @return  none
- */
-void ADC_ResetCalibration(ADC_TypeDef *ADCx)
-{
-    ADCx->CTLR2 |= CTLR2_RSTCAL_Set;
-}
-
-/*********************************************************************
- * @fn      ADC_GetResetCalibrationStatus
- *
- * @brief   Gets the selected ADC reset calibration registers status.
- *
- * @param   ADCx - where x can be 1 to select the ADC peripheral.
- *
- * @return  FlagStatus: SET or RESET.
- */
-FlagStatus ADC_GetResetCalibrationStatus(ADC_TypeDef *ADCx)
-{
-    FlagStatus bitstatus = RESET;
-
-    if((ADCx->CTLR2 & CTLR2_RSTCAL_Set) != (uint32_t)RESET)
-    {
-        bitstatus = SET;
-    }
-    else
-    {
-        bitstatus = RESET;
-    }
-
-    return bitstatus;
-}
-
-/*********************************************************************
- * @fn      ADC_StartCalibration
- *
- * @brief   Starts the selected ADC calibration process.
- *
- * @param   ADCx - where x can be 1 to select the ADC peripheral.
- *
- * @return  None
- */
-void ADC_StartCalibration(ADC_TypeDef *ADCx)
-{
-    ADCx->CTLR2 |= CTLR2_CAL_Set;
-}
-
-/*********************************************************************
- * @fn      ADC_GetCalibrationStatus
- *
- * @brief   Gets the selected ADC calibration status.
- *
- * @param   ADCx - where x can be 1 to select the ADC peripheral.
- *
- * @return  FlagStatus: SET or RESET.
- */
-FlagStatus ADC_GetCalibrationStatus(ADC_TypeDef *ADCx)
-{
-    FlagStatus bitstatus = RESET;
-
-    if((ADCx->CTLR2 & CTLR2_CAL_Set) != (uint32_t)RESET)
-    {
-        bitstatus = SET;
-    }
-    else
-    {
-        bitstatus = RESET;
-    }
-
-    return bitstatus;
 }
 
 /*********************************************************************

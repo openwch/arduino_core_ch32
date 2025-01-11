@@ -5,9 +5,11 @@
  * Date               : 2021/06/06
  * Description        : This file contains all the functions prototypes for the
  *                      IWDG firmware library.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 #ifndef __CH32V20x_IWDG_H
 #define __CH32V20x_IWDG_H
 

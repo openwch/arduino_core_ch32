@@ -2,7 +2,7 @@
  * File Name          : ch32l103_lptim.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/07/08
+ * Date               : 2024/08/29
  * Description        : This file provides all the TIM firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -58,9 +58,8 @@ void LPTIM_TimeBaseInit(LPTIM_TimeBaseInitTypeDef *LPTIM_TimeBaseInitStruct)
     temp1 |= LPTIM_TimeBaseInitStruct->LPTIM_ClockSource | LPTIM_TimeBaseInitStruct->LPTIM_ClockSampleTime  \
              | LPTIM_TimeBaseInitStruct->LPTIM_TriggerSampleTime | LPTIM_TimeBaseInitStruct->LPTIM_ClockPrescaler  \
              | LPTIM_TimeBaseInitStruct->LPTIM_TriggerSource | LPTIM_TimeBaseInitStruct->LPTIM_ExTriggerPolarity  \
-             | LPTIM_TimeBaseInitStruct->LPYIM_OutputPolarity | LPTIM_TimeBaseInitStruct->LPYIM_UpdateMode  \
-             | LPTIM_TimeBaseInitStruct->LPYIM_UpdateMode | LPTIM_TimeBaseInitStruct->LPTIM_CountSource  \
-             | LPTIM_TimeBaseInitStruct->LPTIM_InClockSource | LPTIM_TimeBaseInitStruct->LPTIM_CountSource  \
+             | LPTIM_TimeBaseInitStruct->LPTIM_OutputPolarity | LPTIM_TimeBaseInitStruct->LPTIM_UpdateMode  \
+             | LPTIM_TimeBaseInitStruct->LPTIM_CountSource | LPTIM_TimeBaseInitStruct->LPTIM_InClockSource \
              | (LPTIM_TimeBaseInitStruct->LPTIM_TimeOut << 19) | (LPTIM_TimeBaseInitStruct->LPTIM_OnePulseMode << 20)  \
              | (LPTIM_TimeBaseInitStruct->LPTIM_Encoder << 24) | (LPTIM_TimeBaseInitStruct->LPTIM_ForceOutHigh << 27);
 
@@ -93,8 +92,8 @@ void LPTIM_TimeBaseStructInit(LPTIM_TimeBaseInitTypeDef *LPTIM_TimeBaseInitStruc
     LPTIM_TimeBaseInitStruct->LPTIM_ExTriggerPolarity = LPTIM_ExTriggerPolarity_Disable;
     LPTIM_TimeBaseInitStruct->LPTIM_TimeOut = DISABLE;
     LPTIM_TimeBaseInitStruct->LPTIM_OnePulseMode = DISABLE;
-    LPTIM_TimeBaseInitStruct->LPYIM_OutputPolarity = LPYIM_OutputPolarity_High;
-    LPTIM_TimeBaseInitStruct->LPYIM_UpdateMode = LPYIM_UpdateMode0;
+    LPTIM_TimeBaseInitStruct->LPTIM_OutputPolarity = LPTIM_OutputPolarity_High;
+    LPTIM_TimeBaseInitStruct->LPTIM_UpdateMode = LPTIM_UpdateMode0;
     LPTIM_TimeBaseInitStruct->LPTIM_CountSource = LPTIM_CountSource_Internal;
     LPTIM_TimeBaseInitStruct->LPTIM_Encoder = DISABLE;
     LPTIM_TimeBaseInitStruct->LPTIM_InClockSource = LPTIM_InClockSource_PCLK1;

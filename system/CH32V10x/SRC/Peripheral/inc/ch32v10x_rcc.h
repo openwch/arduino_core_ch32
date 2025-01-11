@@ -2,7 +2,7 @@
  * File Name          : ch32v10x_rcc.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2020/04/30
+ * Date               : 2024/01/30
  * Description        : This file provides all the RCC firmware functions.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -114,7 +114,8 @@ typedef struct
 #define RCC_AHBPeriph_CRC                ((uint32_t)0x00000040)
 #define RCC_AHBPeriph_FSMC               ((uint32_t)0x00000100)
 #define RCC_AHBPeriph_SDIO               ((uint32_t)0x00000400)
-#define RCC_AHBPeriph_USBHD              ((uint32_t)0x00001000)
+#define RCC_AHBPeriph_USBFS              ((uint32_t)0x00001000)
+#define RCC_AHBPeriph_USBHD              RCC_AHBPeriph_USBFS
 
 /* APB2_peripheral */
 #define RCC_APB2Periph_AFIO              ((uint32_t)0x00000001)
