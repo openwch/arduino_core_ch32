@@ -2,7 +2,7 @@
  * File Name          : ch32x035_i2c.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/04/06
+ * Date               : 2024/03/19
  * Description        : This file provides all the I2C firmware functions.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -870,7 +870,7 @@ FlagStatus I2C_GetFlagStatus(I2C_TypeDef *I2Cx, uint32_t I2C_FLAG)
  *             read/write to I2C_DATAR register (I2C_SendData()).
  *           - ADDR (Address sent) is cleared by software sequence: a read operation to 
  *             I2C_SATR1 register (I2C_GetFlagStatus()) followed by a read operation to 
- *             I2C_SATR2 register ((void)(I2Cx->SR2)).
+ *             I2C_SATR2 register ((void)(I2Cx->STAR2)).
  *           - SB (Start Bit) is cleared software sequence: a read operation to I2C_STAR1
  *             register (I2C_GetFlagStatus()) followed by a write operation to I2C_DATAR
  *             register  (I2C_SendData()). 
@@ -951,7 +951,7 @@ ITStatus I2C_GetITStatus(I2C_TypeDef *I2Cx, uint32_t I2C_IT)
  *             read/write to I2C_DATAR register (I2C_SendData()).
  *           - ADDR (Address sent) is cleared by software sequence: a read operation to 
  *             I2C_STAR1 register (I2C_GetITStatus()) followed by a read operation to 
- *             I2C_STAR2 register ((void)(I2Cx->SR2)).
+ *             I2C_STAR2 register ((void)(I2Cx->STAR2)).
  *           - SB (Start Bit) is cleared by software sequence: a read operation to 
  *             I2C_STAR1 register (I2C_GetITStatus()) followed by a write operation to 
  *             I2C_DATAR register (I2C_SendData()).

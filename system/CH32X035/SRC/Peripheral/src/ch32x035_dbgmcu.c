@@ -112,6 +112,7 @@ void DBGMCU_Config(uint32_t DBGMCU_Periph, FunctionalState NewState)
  *  CH32X035G8U6-0x035606x1
  *  CH32X035G8R6-0x035B06x1
  *  CH32X035F7P6-0x035706x1
+ *  CH32X033F8P6-0x035A06x1
  */
 uint32_t DBGMCU_GetCHIPID( void )
 {

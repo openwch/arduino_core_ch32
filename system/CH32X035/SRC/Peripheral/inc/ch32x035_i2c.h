@@ -98,14 +98,14 @@ typedef struct
 #define I2C_IT_ADDR                                          ((uint32_t)0x02000002)
 #define I2C_IT_SB                                            ((uint32_t)0x02000001)
 
-/* SR2 register flags  */
+/* STAR2 register flags  */
 #define I2C_FLAG_DUALF                                       ((uint32_t)0x00800000)
 #define I2C_FLAG_GENCALL                                     ((uint32_t)0x00100000)
 #define I2C_FLAG_TRA                                         ((uint32_t)0x00040000)
 #define I2C_FLAG_BUSY                                        ((uint32_t)0x00020000)
 #define I2C_FLAG_MSL                                         ((uint32_t)0x00010000)
 
-/* SR1 register flags */
+/* STAR1 register flags */
 #define I2C_FLAG_PECERR                                      ((uint32_t)0x10001000)
 #define I2C_FLAG_OVR                                         ((uint32_t)0x10000800)
 #define I2C_FLAG_AF                                          ((uint32_t)0x10000400)

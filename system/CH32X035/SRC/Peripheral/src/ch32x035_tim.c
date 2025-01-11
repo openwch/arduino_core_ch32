@@ -2,7 +2,7 @@
  * File Name          : ch32x035_tim.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/04/06
+ * Date               : 2023/12/26
  * Description        : This file provides all the TIM firmware functions.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -862,7 +862,7 @@ void TIM_SelectInputTrigger(TIM_TypeDef *TIMx, uint16_t TIM_InputTriggerSource)
  *
  * @brief   Configures the TIMx Encoder Interface.
  *
- * @param   TIMx - where x can be 1 to 3 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *          TIM_EncoderMode - specifies the TIMx Encoder Mode.
  *            TIM_EncoderMode_TI1 - Counter counts on TI1FP1 edge depending
  *        on TI2FP2 level.
@@ -2336,7 +2336,7 @@ static void TI4_Config(TIM_TypeDef *TIMx, uint16_t TIM_ICPolarity, uint16_t TIM_
     }
     else
     {
-        tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC3P | TIM_CC4NP));
+        tmpccer &= (uint16_t) ~((uint16_t)TIM_CC3P);
         tmpccer |= (uint16_t)(TIM_ICPolarity | (uint16_t)TIM_CC4E);
     }
 

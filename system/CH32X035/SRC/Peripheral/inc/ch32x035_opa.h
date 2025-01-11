@@ -159,8 +159,8 @@ typedef enum
 /* CMP_out_channel_enumeration */
 typedef enum
 {
-    OUT_IO_TIM2_CH1 = 0,
-    OUT_IO_PA1
+    OUT_IO_TIM2 = 0,
+    OUT_IO0
 } CMP_Mode_TypeDef;
 
 /* CMP_NSEL_enumeration */

@@ -39,7 +39,7 @@ typedef struct
                                       can be a value of @ref ADC_external_trigger_sources_for_regular_channels_conversion */
 
     uint32_t ADC_DataAlign; /* Specifies whether the ADC data alignment is left or right.
-                               This parameter can be a value of @ref ADC_data_align */
+                               This parameter can be a value of @ref ADC_data_align, Note:ADC_DataAlign_Left only applies to regular channels */
 
     uint8_t ADC_NbrOfChannel; /* Specifies the number of ADC channels that will be converted
                                    using the sequencer for regular channel group.
