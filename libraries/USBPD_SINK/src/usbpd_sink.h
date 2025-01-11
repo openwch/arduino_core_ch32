@@ -202,6 +202,14 @@ void usbpd_sink_process(void);
 uint8_t usbpd_sink_get_ready(void);
 void usbpd_sink_clear_ready(void);
 
+uint8_t usbpd_sink_get_pdo_num(void);
+uint8_t usbpd_sink_get_pps_num(void);
+uint16_t usbpd_sink_get_pdo_voltage(int index);
+uint16_t usbpd_sink_get_pdo_current(int index);
+uint16_t usbpd_sink_get_pps_min_voltage(int index);
+uint16_t usbpd_sink_get_pps_max_voltage(int index);
+uint16_t usbpd_sink_get_pps_current(int index);
+
 bool usbpd_sink_set_request_fixed_voltage(Request_voltage_t requestVoltage);
 
 

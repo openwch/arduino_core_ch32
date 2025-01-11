@@ -38,6 +38,41 @@ void usbpd_sink_clear_ready(void)
     pdControl_g.cc_USBPD_READY = 0;
 }
 
+uint8_t usbpd_sink_get_pdo_num(void)
+{
+    return pdControl_g.cc_SourcePDONum;
+}
+
+uint8_t usbpd_sink_get_pps_num(void)
+{
+    return pdControl_g.cc_SourcePPSNum;
+}
+
+uint16_t usbpd_sink_get_pdo_voltage(int index)
+{
+    return pdControl_g.cc_FixedSourceCap[index].Voltage;
+}
+
+uint16_t usbpd_sink_get_pdo_current(int index)
+{
+    return pdControl_g.cc_FixedSourceCap[index].Current;
+}
+
+uint16_t usbpd_sink_get_pps_min_voltage(int index)
+{
+    return pdControl_g.cc_PPSSourceCap[index].MinVoltage;
+}
+
+uint16_t usbpd_sink_get_pps_max_voltage(int index)
+{
+    return pdControl_g.cc_PPSSourceCap[index].MaxVoltage;
+}
+
+uint16_t usbpd_sink_get_pps_current(int index)
+{
+    return pdControl_g.cc_PPSSourceCap[index].Current;
+}
+
 bool usbpd_sink_set_request_fixed_voltage(Request_voltage_t requestVoltage)
 {
     uint16_t targetVoltage;
