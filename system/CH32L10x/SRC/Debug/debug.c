@@ -190,3 +190,6 @@ void *_sbrk(ptrdiff_t incr)
     curbrk += incr;
     return curbrk - incr;
 }
+
+void _fini() {}
+void _init() {}

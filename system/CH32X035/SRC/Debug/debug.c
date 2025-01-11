@@ -181,8 +181,8 @@ int _write(int fd, char *buf, int size)
     {
 
         /**
-         * data0  data1 ¹²8¸ö×Ö½Ú
-         * data0×îµÍÎ»µÄ×Ö½Ú´æ·Å³¤¶È£¬×î´óÎª 7
+         * data0  data1 ï¿½ï¿½8ï¿½ï¿½ï¿½Ö½ï¿½
+         * data0ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½Ö½Ú´ï¿½Å³ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½Îª 7
          *
          */
 
@@ -247,3 +247,6 @@ void *_sbrk(ptrdiff_t incr)
     curbrk += incr;
     return curbrk - incr;
 }
+
+void _fini() {}
+void _init() {}
