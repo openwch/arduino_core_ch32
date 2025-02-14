@@ -170,14 +170,17 @@ int HardwareSerial::read(void)
 size_t HardwareSerial::write(const uint8_t *buffer, size_t size)
 {
 
-    return  uart_debug_write((uint8_t *)buffer, size);
+    for (size_t i = 0; i < size; i++) {
+      write(buffer[i]);
+    }
+
+    return len;
 }
 
 
 size_t HardwareSerial::write(uint8_t c)
 {
-  uint8_t buff = c;
-  return write(&buff, 1);
+  return uart_putc(&_serial, c);
 }
 
 void HardwareSerial::setRx(uint32_t _rx)
