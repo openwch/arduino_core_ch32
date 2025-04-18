@@ -174,7 +174,7 @@ size_t HardwareSerial::write(const uint8_t *buffer, size_t size)
       write(buffer[i]);
     }
 
-    return len;
+    return size;
 }
 
 
