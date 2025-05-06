@@ -20,14 +20,15 @@
   Modified 14 August 2012 by Alarus
   Modified 3 December 2013 by Matthijs Kooijman
   Modified 1 May 2023 by TempersLee
-  Modified 28 July 2024 by Maxint R&D
+  Modified 13 October 2023 by Maxint R&D, latest update 6 May 2025
 */
 
 #ifndef HardwareSerial_h
 #define HardwareSerial_h
 
-// MMOLE 240619: set OPT_USART1_INT to 1 if you want to use interrupts for receiving serial data.
-#define OPT_USART1_INT 1
+// MMOLE 240619: set OPT_USART_INT to 1 if you want to use interrupts for receiving serial data.
+#define OPT_USART_INT 1
+#define OPT_PR180 1  // PR180: HardwareSerial: use correct UART HW for TX
 
 #if 1
 
@@ -105,7 +106,7 @@ typedef enum {
 
 class HardwareSerial : public Stream {
 
-#if(OPT_USART1_INT==1)
+#if(OPT_USART_INT==1)
 public:
 #endif
   serial_t _serial;  
@@ -191,22 +192,22 @@ public:
 #if defined(UART4) || defined(USART4)
   extern HardwareSerial Serial4;
 #endif
-#if defined(UART5)
+#if defined(UART5) || defined(USART5)
   extern HardwareSerial Serial5;
 #endif
-#if defined(UART6)
+#if defined(UART6) || defined(USART6)
   extern HardwareSerial Serial6;
 #endif
-#if defined(UART7)
+#if defined(UART7) || defined(USART7)
   extern HardwareSerial Serial7;
 #endif
-#if defined(UART8)
+#if defined(UART8) || defined(USART8)
   extern HardwareSerial Serial8;
 #endif
 
 
 
-#else
+#else  // #if 1
 
 
 
@@ -214,7 +215,7 @@ public:
 
 
 
-#endif
+#endif  // #if 1
 
 
 

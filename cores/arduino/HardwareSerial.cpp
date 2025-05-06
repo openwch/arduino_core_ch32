@@ -21,9 +21,8 @@
   Modified 14 August 2012 by Alarus
   Modified 3  December 2013 by Matthijs Kooijman
   Modified 1 may 2023 by TempersLee
-  Modified 28 July 2024 by Maxint R&D
+  Modified 13 October 2023 by Maxint R&D, latest update 6 May 2025
 */
-
 
 #include <stdio.h>
 #include "Arduino.h"
@@ -36,10 +35,22 @@ HardwareSerial::HardwareSerial(void *peripheral)
 {
   setHandler(peripheral);
 
+#if defined(PIN_SERIAL_RX) && defined(PIN_SERIAL_TX)
+  // if SERIAL_UART_INSTANCES is defined and has value 1, then PIN_SERIAL_RX and PIN_SERIAL_TX are rx/tx pins of the selected SERIAL_UART_INSTANCE
   setRx(PIN_SERIAL_RX);
-  
   setTx(PIN_SERIAL_TX);
-  
+#endif
+
+#if defined(USART2) && defined(PIN_SERIAL_RX2) && defined(PIN_SERIAL_TX2)
+  // if SERIAL_UART_INSTANCES is defined and is 2 or higher, multiple instances can be used simultaneously
+  // TODO: get pin number from pinmap PinMap_UART_TX and PinMap_UART_RX
+  if(peripheral==USART2)
+  {
+    setRx(PIN_SERIAL_RX2);
+    setTx(PIN_SERIAL_TX2);
+  }
+#endif
+
   init(_serial.pin_rx, _serial.pin_tx);
 }
 
@@ -60,12 +71,13 @@ void HardwareSerial::init(PinName _rx, PinName _tx, PinName _rts, PinName _cts)
 
 
 // Interrupt handler for filling rx buffer /////////////////////////////////////
-#if(OPT_USART1_INT==1)
-
-#if defined(USART1)
+#if(OPT_USART_INT==1)
   #ifdef __cplusplus
   extern "C" {
   #endif
+
+#if defined(USART1)
+  #if defined(HAVE_HWSERIAL1)
     void USART1_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
     void USART1_IRQHandler(void) {
       USART_ClearITPendingBit(USART1, USART_IT_RXNE);
@@ -77,13 +89,29 @@ void HardwareSerial::init(PinName _rx, PinName _tx, PinName _rts, PinName _cts)
       obj->_rx_buffer_head++;
       obj->_rx_buffer_head %= SERIAL_RX_BUFFER_SIZE;
     }
-  #ifdef __cplusplus
-  }
+  #endif 
+#endif
+
+#if defined(USART2)
+  #if defined(HAVE_HWSERIAL2)
+    void USART2_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+    void USART2_IRQHandler(void) {
+      USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+      // Use the proper serial object to fill the RX buffer. Perhaps we should use uart_handlers[] as defined in uart.c
+      // Second Serial is most often Serial2, initialized below as HardwareSerial Serial2(USART2); DEBUG_UART may give issues.
+      // TODO? get_serial_obj(uart_handlers[UART2_INDEX]);
+      HardwareSerial *obj=&Serial2; 
+      obj->_rx_buffer[obj->_rx_buffer_head] = USART_ReceiveData(USART2);    // maybe we should use uart_getc()?
+      obj->_rx_buffer_head++;
+      obj->_rx_buffer_head %= SERIAL_RX_BUFFER_SIZE;
+    }
   #endif
 #endif
 
-#endif
-
+  #ifdef __cplusplus
+  }
+  #endif
+#endif //if(OPT_USART_INT==1)
 
 // Public Methods //////////////////////////////////////////////////////////////
 void HardwareSerial::begin(unsigned long baud, byte config)
@@ -166,14 +194,19 @@ void HardwareSerial::begin(unsigned long baud, byte config)
   }
   uart_init(&_serial, (uint32_t)baud, databits, parity, stopbits);
 
-#if(OPT_USART1_INT==1)
+#if(OPT_USART_INT==1)
   // MMOLE 240619: Enable interrupt handler for filling rx buffer
   #if defined(USART1)
     USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
     NVIC_SetPriority(USART1_IRQn, UART_IRQ_PRIO);
     NVIC_EnableIRQ(USART1_IRQn);
   #endif
-  // MMOLE TODO: I only have CH32V003; only tested USART1, how about others?
+  // MMOLE TODO: I only have CH32V003/CH32X033; only tested USART1 and USART2, how about others?
+  #if defined(USART2)
+    USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
+    NVIC_SetPriority(USART2_IRQn, UART_IRQ_PRIO);
+    NVIC_EnableIRQ(USART2_IRQn);
+  #endif
 #endif
 }
 
@@ -185,8 +218,8 @@ void HardwareSerial::end()
 
   uart_deinit(&_serial);
 
-#if(OPT_USART1_INT==1)
-  // MMOLE TODO: disable interrupt handler
+#if(OPT_USART_INT==1)
+  // MMOLE TODO: disable interrupt handlers
 #endif
 }
 
@@ -234,15 +267,25 @@ int HardwareSerial::read(void)
 
 size_t HardwareSerial::write(const uint8_t *buffer, size_t size)
 {
-
+#if OPT_PR180 // PR180: HardwareSerial: use correct UART HW for TX
+    for (size_t i = 0; i < size; i++) {
+      write(buffer[i]);
+    }
+    return size;
+#else
     return  uart_debug_write((uint8_t *)buffer, size);
+#endif
 }
 
 
 size_t HardwareSerial::write(uint8_t c)
 {
+#if OPT_PR180 // PR180: HardwareSerial: use correct UART HW for TX
+  return uart_putc(&_serial, c);
+#else
   uint8_t buff = c;
   return write(&buff, 1);
+#endif
 }
 
 void HardwareSerial::setRx(uint32_t _rx)
