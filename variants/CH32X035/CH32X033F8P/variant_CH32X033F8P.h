@@ -13,13 +13,11 @@
 #pragma once
 
 /* ENABLE Peripherals */
-#ifndef IDE_MENU_PERIPHERALS   // defined when peripherals are enabled/disabled via the IDE menu
-#define                         ADC_MODULE_ENABLED
-#define                         UART_MODULE_ENABLED
-#define                         SPI_MODULE_ENABLED
-#define                         I2C_MODULE_ENABLED
-#define                         TIM_MODULE_ENABLED
-#endif
+//#define                         ADC_MODULE_ENABLED
+//#define                         UART_MODULE_ENABLED
+//#define                         SPI_MODULE_ENABLED
+//#define                         I2C_MODULE_ENABLED
+//#define                         TIM_MODULE_ENABLED
 
 /* CH32VX033F8P6 Pins */
 #define PA0                     PIN_A0
@@ -107,18 +105,70 @@
 
 
 // UART Definitions
-#ifndef SERIAL_UART_INSTANCE
-  #define SERIAL_UART_INSTANCE  1
+#ifndef SERIAL_UART_INSTANCES
+  // Define the number of UART instances that can be used.
+  // For CH32X033F8P6 SSOP20 the supported maximum is currently two.
+  // These are UART1 and UART2 on pins PA10=TX1_1, PA11=RX1_1 and on PA2=TX2, PA3=RX2
+  // (two instances will cost 132/136 bytes more flash/ram than one instance)
+  #define SERIAL_UART_INSTANCES  2    // select 1 or 2 instances
 #endif
+
+#if (SERIAL_UART_INSTANCES==1)
+  // If using only one UART inactance, select which to use: UART1 or UART2
+  #ifndef SERIAL_UART_INSTANCE
+    //  #define SERIAL_UART_INSTANCE  1  // UART1: PA10=TX1_1, PA11=RX1_1
+    #define SERIAL_UART_INSTANCE 2  // UART2: PA2=TX2, PA3=RX2
+  #endif
+#else
+  // multiple instances, max 2 for CH32X033F8P SSOP20
+  // NOTE: do not define SERIAL_UART_INSTANCE when using multiple instances!
+  #undef SERIAL_UART_INSTANCE
+  #define ENABLE_HWSERIAL1 1
+  #define ENABLE_HWSERIAL2 1
+#endif
+
 // Default pin used for generic 'Serial' instance
 // Mandatory for Firmata
-// For CH32X033F8P6 serial pins RX2=PA3, TX2=PA2
-#ifndef PIN_SERIAL_RX
-  #define PIN_SERIAL_RX         PA3   // PB11
+// For CH32X033F8P6 serial pins RX2=PA3/TX2=PA2 or alternative RX1_1=PA11/TX1_1=PA10
+
+// Pins used for Serial2 instance (used by HardwareSerial constructor)
+#if (SERIAL_UART_INSTANCES==1)
+  // one single UART instance, specify which oins to be used
+  #if (SERIAL_UART_INSTANCE==1)
+    // Use UART1 alternative pins RX1_1/TX1_1 (PA11/PA10)
+    #ifndef PIN_SERIAL_RX
+      #define PIN_SERIAL_RX         PA11
+    #endif
+    #ifndef PIN_SERIAL_TX
+      #define PIN_SERIAL_TX         PA10
+    #endif
+  #elif (SERIAL_UART_INSTANCE==2)
+    // Use UART2 RX2/TX2 (PA3/PA2)
+    #ifndef PIN_SERIAL_RX
+      #define PIN_SERIAL_RX         PA3
+    #endif
+    #ifndef PIN_SERIAL_TX
+      #define PIN_SERIAL_TX         PA2
+    #endif
+  #endif
+#else
+  // multiple instances. Define each pin for each UART (Serial=Serial2)
+  #define Serial Serial2  // specify which UART to use as 'Serial'
+  #ifndef PIN_SERIAL_RX
+    #define PIN_SERIAL_RX         PA11   // supported: PA3=RX2, alternative PA11=RX1_1 (X035: PB11)
+  #endif
+  #ifndef PIN_SERIAL_TX
+    #define PIN_SERIAL_TX         PA10   // supported:  PA2=TX2, alternative PA10=TX1_1 (X035: PB10)
+  #endif
+  #ifndef PIN_SERIAL_RX2
+    #define PIN_SERIAL_RX2         PA3   // supported: PA3=RX2, alternative PA11=RX1_1 (X035: PB11)
+  #endif
+  #ifndef PIN_SERIAL_TX2
+    #define PIN_SERIAL_TX2         PA2   // supported:  PA2=TX2, alternative PA10=TX1_1 (X035: PB10)
+  #endif
 #endif
-#ifndef PIN_SERIAL_TX
-  #define PIN_SERIAL_TX         PA2   // PB10
-#endif
+
+
 
 /*----------------------------------------------------------------------------
  *        Arduino objects - C++ only
