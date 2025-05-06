@@ -528,6 +528,31 @@ int uart_getc(serial_t *obj, unsigned char *c)
   return 0;
 }
 
+// PR180: HardwareSerial: use correct UART HW for TX
+/**
+  * @brief  Write byte to uart
+  * @param  obj : pointer to serial_t structure
+  * @retval error status
+  */
+int uart_putc(serial_t *obj, unsigned char c)
+{
+  uint32_t tickstart = GetTick();
+
+  if (obj == NULL) {
+    return -1;
+  }
+
+  while (serial_tx_active(obj))
+  {
+    if ((GetTick() - tickstart) >= TX_TIMEOUT)
+    {
+      return 0; // 0 means no error? Should be timeout error?
+    }
+  }
+
+  USART_SendData(uart_handlers[obj->index]->Instance, c);
+  return 0; // 0 means no error
+}
 
 
 
