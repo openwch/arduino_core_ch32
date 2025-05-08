@@ -30,7 +30,7 @@ extern "C" {
 typedef struct 
 {
     uint32_t MaxCurrentIn10mAunits      : 10u;
-    uint32_t VolatageIn50mVunits        : 10u;
+    uint32_t VoltageIn50mVunits        : 10u;
     uint32_t PeakCurrent                : 2u;
     uint32_t Reserved_22bit             : 1u;
     uint32_t EPRModeCapable             : 1u;
@@ -47,9 +47,9 @@ typedef struct
 {
     uint32_t MaxCurrentIn50mAincrements : 7u;
     uint32_t Reserved_7bit              : 1u; // shall br set to zero
-    uint32_t MinVlotageIn100mVincrements: 8u;
+    uint32_t MinVoltageIn100mVincrements: 8u;
     uint32_t Reserved_16bit             : 1u; // shall br set to zero
-    uint32_t MaxVlotageIn100mVincrements: 8u;
+    uint32_t MaxVoltageIn100mVincrements: 8u;
     uint32_t Reserved_25_26bit          : 2u; // shall br set to zero
     uint32_t PPSpowerLimited            : 1u; 
     uint32_t SPRprogrammablePowerSupply : 2u; // 00b
