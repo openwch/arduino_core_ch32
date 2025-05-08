@@ -71,45 +71,29 @@
   #endif /* !HWSERIAL_NONE && SERIAL_UART_INSTANCE */
 
 
-  #if defined(ENABLE_HWSERIAL1)
-    #if defined(USART1_BASE)
-      #define HAVE_HWSERIAL1
-    #endif
+  #if defined(USART1_BASE)
+    #define HAVE_HWSERIAL1
   #endif
-  #if defined(ENABLE_HWSERIAL2)
-    #if defined(USART2_BASE)
-      #define HAVE_HWSERIAL2
-    #endif
+  #if defined(USART2_BASE)
+    #define HAVE_HWSERIAL2
   #endif
-  #if defined(ENABLE_HWSERIAL3)
-    #if defined(USART3_BASE)
-      #define HAVE_HWSERIAL3
-    #endif
+  #if defined(USART3_BASE)
+    #define HAVE_HWSERIAL3
   #endif
-  #if defined(ENABLE_HWSERIAL4)
-    #if defined(USART4_BASE) || defined(UART4_BASE)
-      #define HAVE_HWSERIAL4
-    #endif
+  #if defined(USART4_BASE) || defined(UART4_BASE)
+    #define HAVE_HWSERIAL4
   #endif
-  #if defined(ENABLE_HWSERIAL5)
-    #if defined(UART5_BASE)
-      #define HAVE_HWSERIAL5
-    #endif
+  #if defined(UART5_BASE)
+    #define HAVE_HWSERIAL5
   #endif
-  #if defined(ENABLE_HWSERIAL6)
-    #if defined(UART6_BASE)
-      #define HAVE_HWSERIAL6
-    #endif
+  #if defined(UART6_BASE)
+    #define HAVE_HWSERIAL6
   #endif
-  #if defined(ENABLE_HWSERIAL7)
-    #if defined(UART7_BASE)
-      #define HAVE_HWSERIAL7
-    #endif
+  #if defined(UART7_BASE)
+    #define HAVE_HWSERIAL7
   #endif
-  #if defined(ENABLE_HWSERIAL8)
-    #if defined(UART8_BASE)
-      #define HAVE_HWSERIAL8
-    #endif
+  #if defined(UART8_BASE)
+    #define HAVE_HWSERIAL8
   #endif
 
 #endif
