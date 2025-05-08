@@ -79,7 +79,7 @@ typedef enum
 #define GPIO_PartialRemap1_I2C1        ((uint32_t)0x08130008) /* I2C1 Partia1 Alternate Function mapping */
 #define GPIO_PartialRemap2_I2C1        ((uint32_t)0x08130010) /* I2C1 Partia2 Alternate Function mapping */
 #define GPIO_PartialRemap3_I2C1        ((uint32_t)0x08130018) /* I2C1 Partia3 Alternate Function mapping */
-#define GPIO_FullRemap_I2C1            ((uint32_t)0x08130020) /* I2C1 Full Alternate Function mapping */
+#define GPIO_FullRemap4_I2C1           ((uint32_t)0x08130020) /* I2C1 Full Alternate Function mapping */
 #define GPIO_PartialRemap1_USART1      ((uint32_t)0x00160040) /* USART1 Partial1 Alternate Function mapping */
 #define GPIO_PartialRemap2_USART1      ((uint32_t)0x00160080) /* USART1 Partial2 Alternate Function mapping */
 #define GPIO_PartialRemap3_USART1      ((uint32_t)0x001600C0) /* USART1 Partial3 Alternate Function mapping */

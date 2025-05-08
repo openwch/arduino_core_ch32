@@ -2,7 +2,7 @@
  * File Name          : ch32v00X_flash.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/01/01
+ * Date               : 2024/11/04
  * Description        : This file contains all the functions prototypes for the FLASH
  *                      firmware library.
  *********************************************************************************
@@ -134,6 +134,7 @@ void         FLASH_Lock_Fast(void);
 void         FLASH_BufReset(void);
 void         FLASH_BufLoad(uint32_t Address, uint32_t Data0);
 void         FLASH_ErasePage_Fast(uint32_t Page_Address);
+void         FLASH_EraseBlock_32K_Fast(uint32_t Block_Address);
 void         FLASH_ProgramPage_Fast(uint32_t Page_Address);
 void         SystemReset_StartMode(uint32_t Mode);
 FLASH_Status FLASH_ROM_ERASE(uint32_t StartAddr, uint32_t Length);

@@ -2,7 +2,7 @@
  * File Name          : ch32l103_adc.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/07/08
+ * Date               : 2024/05/06
  * Description        : This file contains all the functions prototypes for the
  *                      ADC firmware library.
  *********************************************************************************
@@ -153,12 +153,6 @@ typedef struct
 #define ADC_FLAG_JSTRT                                 ((uint8_t)0x08)
 #define ADC_FLAG_STRT                                  ((uint8_t)0x10)
 
-/* ADC_TKey_WakeUp_IO_mode_definition */
-#define ADC_TKey_WakeUp_Mode0                          ((uint32_t)0x00000000)
-#define ADC_TKey_WakeUp_Mode1                          ((uint32_t)0x00080000)
-#define ADC_TKey_WakeUp_Mode2                          ((uint32_t)0x00100000)
-#define ADC_TKey_WakeUp_Mode3                          ((uint32_t)0x00180000)
-
 /* ADC_Sample_mode_definition */
 #define ADC_Sample_NoOver_1M_Mode                      ((uint32_t)0x00000000)
 #define ADC_Sample_Over_1M_Mode                        ((uint32_t)0x00000020)
@@ -202,7 +196,6 @@ ITStatus   ADC_GetITStatus(ADC_TypeDef *ADCx, uint16_t ADC_IT);
 void       ADC_ClearITPendingBit(ADC_TypeDef *ADCx, uint16_t ADC_IT);
 s32        TempSensor_Volt_To_Temper(s32 Value);
 void       ADC_BufferCmd(ADC_TypeDef *ADCx, FunctionalState NewState);
-void       ADC_TKey_WakeUpCmd(ADC_TypeDef *ADCx, uint8_t ADC_Channel, uint32_t IO_Mode, FunctionalState NewState);
 void       ADC_TKey_ChannelxMulShieldCmd(ADC_TypeDef *ADCx, uint8_t ADC_Channel, FunctionalState NewState);
 void       ADC_TKey_MulShieldCmd(ADC_TypeDef *ADCx, FunctionalState NewState);
 void       ADC_DutyDelayCmd(ADC_TypeDef *ADCx, FunctionalState NewState);

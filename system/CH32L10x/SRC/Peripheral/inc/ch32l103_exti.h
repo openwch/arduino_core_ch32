@@ -2,7 +2,7 @@
  * File Name          : ch32l103_exti.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/07/08
+ * Date               : 2024/05/06
  * Description        : This file contains all the functions prototypes for the
  *                      EXTI firmware library.
  *********************************************************************************
@@ -69,7 +69,6 @@ typedef struct
 #define EXTI_Line15    ((uint32_t)0x08000)  /* External interrupt line 15 */
 #define EXTI_Line16    ((uint32_t)0x10000)  /* External interrupt line 16 Connected to the PVD Output */
 #define EXTI_Line17    ((uint32_t)0x20000)  /* External interrupt line 17 Connected to the RTC Alarm event */
-#define EXTI_Line18    ((uint32_t)0x40000)  /* External interrupt line 18 Connected to the Tkey Wakeup event */
 #define EXTI_Line19    ((uint32_t)0x80000)  /* External interrupt line 19 Connected to the USBPD Wakeup event */
 #define EXTI_Line20    ((uint32_t)0x100000) /* External interrupt line 20 Connected to the USBFS Wakeup event */
 #define EXTI_Line21    ((uint32_t)0x200000) /* External interrupt line 21 Connected to the LPTIM Wakeup event */

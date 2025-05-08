@@ -2,7 +2,7 @@
 * File Name          : ch32v30x_rcc.c
 * Author             : WCH
 * Version            : V1.0.0
-* Date               : 2021/06/06
+* Date               : 2024/05/28
 * Description        : This file provides all the RCC firmware functions.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -706,7 +706,7 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef *RCC_Clocks)
  *            RCC_AHBPeriph_RNG
  *            RCC_AHBPeriph_SDIO
  *            RCC_AHBPeriph_USBHS
- *            RCC_AHBPeriph_OTG_FS
+ *            RCC_AHBPeriph_USBFS
  *            RCC_AHBPeriph_DVP
  *            RCC_AHBPeriph_ETH_MAC
  *            RCC_AHBPeriph_ETH_MAC_Tx
@@ -1136,7 +1136,7 @@ void RCC_PREDIV2Config(uint32_t RCC_PREDIV2_Div)
  * @brief   Configures the PLL2 multiplication factor.
  *
  * @param   RCC_PLL2Mul - specifies the PLL2 multiplication factor.
- *            This parameter can be RCC_PLL2Mul_x where x:{[8,14], 16, 20}
+ *            This parameter can be RCC_PLL2Mul_x where x:{[4,16], 2.5, 12.5, 20}
  *          Note-
  *          - This function must be used only when the PLL2 is disabled.
  *
@@ -1182,8 +1182,8 @@ void RCC_PLL2Cmd(FunctionalState NewState)
  *
  * @brief   Configures the PLL3 multiplication factor.
  *
- * @param   RCC_PLL3Mul - specifies the PLL2 multiplication factor.
- *            This parameter can be RCC_PLL2Mul_x where x:{[8,14], 16, 20}
+ * @param   RCC_PLL3Mul - specifies the PLL3 multiplication factor.
+ *            This parameter can be RCC_PLL3Mul_x where x:{[4,16], 2.5, 12.5, 20}
  *          Note- 
  *          - This function must be used only when the PLL3 is disabled.
  *
@@ -1222,24 +1222,24 @@ void RCC_PLL3Cmd(FunctionalState NewState)
 }
 
 /*********************************************************************
- * @fn      RCC_OTGFSCLKConfig
+ * @fn      RCC_USBFSCLKConfig
  *
- * @brief   Configures the USB OTG FS clock (OTGFSCLK).
+ * @brief   Configures the USB OTG FS clock (USBFSCLK).
  *
- * @param   RCC_OTGFSCLKSource - specifies the USB OTG FS clock source.
- *            RCC_OTGFSCLKSource_PLLCLK_Div1 - PLL clock divided by 1
+ * @param   RCC_USBFSCLKSource - specifies the USB OTG FS clock source.
+ *            RCC_USBFSCLKSource_PLLCLK_Div1 - PLL clock divided by 1
  *        selected as USB OTG FS clock source
- *            RCC_OTGFSCLKSource_PLLCLK_Div2 - PLL clock divided by 2
+ *            RCC_USBFSCLKSource_PLLCLK_Div2 - PLL clock divided by 2
  *        selected as USB OTG FS clock source
- *            RCC_OTGFSCLKSource_PLLCLK_Div3 - PLL clock divided by 3
+ *            RCC_USBFSCLKSource_PLLCLK_Div3 - PLL clock divided by 3
  *        selected as USB OTG FS clock source
  *
  * @return  none
  */
-void RCC_OTGFSCLKConfig(uint32_t RCC_OTGFSCLKSource)
+void RCC_USBFSCLKConfig(uint32_t RCC_USBFSCLKSource)
 {
     RCC->CFGR0 &= ~(3 << 22);
-    RCC->CFGR0 |= RCC_OTGFSCLKSource << 22;
+    RCC->CFGR0 |= RCC_USBFSCLKSource << 22;
 }
 
 /*********************************************************************
@@ -1284,7 +1284,7 @@ void RCC_I2S3CLKConfig(uint32_t RCC_I2S3CLKSource)
  * @brief   Forces or releases AHB peripheral reset.
  *
  * @param   RCC_AHBPeriph - specifies the AHB peripheral to reset.
- *            RCC_AHBPeriph_OTG_FS
+ *            RCC_AHBPeriph_USBFS
  *            RCC_AHBPeriph_ETH_MAC
  *          NewState - ENABLE or DISABLE.
  *

@@ -14,7 +14,4 @@
 
 #include "debug.h"
 
-
 #endif /* __CH32V10x_IT_H */
-
-

@@ -2,7 +2,7 @@
 ;* File Name          : startup_ch32v00X.s
 ;* Author             : WCH
 ;* Version            : V1.0.1
-;* Date               : 2024/01/01
+;* Date               : 2024/08/02
 ;* Description        : ch32v002-ch32v004-ch32v005-ch32v006-ch32v007-ch32m007 vector table for eclipse toolchain.
 ;*********************************************************************************
 ;* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -165,10 +165,6 @@ handle_reset:
     ori t0, t0, 3
     csrw mtvec, t0
   
-    la a0, __libc_fini_array
-    call atexit
-    call __libc_init_array
-
     jal SystemInit
     la t0, main
     csrw mepc, t0

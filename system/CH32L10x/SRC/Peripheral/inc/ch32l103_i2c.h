@@ -106,7 +106,7 @@ typedef struct
 #define I2C_IT_ADDR                                          ((uint32_t)0x02000002)
 #define I2C_IT_SB                                            ((uint32_t)0x02000001)
 
-/* SR2 register flags  */
+/* STAR2 register flags  */
 #define I2C_FLAG_DUALF                                       ((uint32_t)0x00800000)
 #define I2C_FLAG_SMBHOST                                     ((uint32_t)0x00400000)
 #define I2C_FLAG_SMBDEFAULT                                  ((uint32_t)0x00200000)
@@ -115,7 +115,7 @@ typedef struct
 #define I2C_FLAG_BUSY                                        ((uint32_t)0x00020000)
 #define I2C_FLAG_MSL                                         ((uint32_t)0x00010000)
 
-/* SR1 register flags */
+/* STAR1 register flags */
 #define I2C_FLAG_SMBALERT                                    ((uint32_t)0x10008000)
 #define I2C_FLAG_TIMEOUT                                     ((uint32_t)0x10004000)
 #define I2C_FLAG_PECERR                                      ((uint32_t)0x10001000)

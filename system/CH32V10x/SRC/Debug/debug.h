@@ -20,7 +20,7 @@ extern "C" {
 #include "stdio.h"
 #include "ch32v10x.h"
 
-/*  HID function switch, 1 is to turn off HID function, 0 is to turn on HID function */
+/*  HID function ,1 close HID function ,0 open HID function */
 #define ch32v10x_usb_hid       0
 
 /* UART Printf Definition */
@@ -33,10 +33,19 @@ extern "C" {
 #define DEBUG   DEBUG_UART1
 #endif
 
+/* SDI Printf Definition */
+#define SDI_PR_CLOSE   0
+#define SDI_PR_OPEN    1
+
+#ifndef SDI_PRINT
+#define SDI_PRINT   SDI_PR_CLOSE
+#endif
+
 void Delay_Init(void);
 void Delay_Us(uint32_t n);
 void Delay_Ms(uint32_t n);
 void USART_Printf_Init(uint32_t baudrate);
+void SDI_Printf_Enable(void);
 
 #ifdef __cplusplus
 }

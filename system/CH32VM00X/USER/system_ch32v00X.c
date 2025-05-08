@@ -2,7 +2,7 @@
  * File Name          : system_ch32v00X.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/01/01
+ * Date               : 2024/11/04
  * Description        : CH32V00X Device Peripheral Access Layer System Source File.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -19,7 +19,7 @@
 
 //#define SYSCLK_FREQ_8MHz_HSI    8000000
 //#define SYSCLK_FREQ_24MHz_HSI   HSI_VALUE
-//#define SYSCLK_FREQ_48MHz_HSI   48000000
+// #define SYSCLK_FREQ_48MHz_HSI   48000000
 //#define SYSCLK_FREQ_8MHz_HSE    8000000
 //#define SYSCLK_FREQ_24MHz_HSE   HSE_VALUE
 //#define SYSCLK_FREQ_48MHz_HSE   48000000
@@ -80,8 +80,8 @@ void SystemInit (void)
     RCC->CFGR0 &= (uint32_t)0x68FF0000;
 
     tmp = RCC->CTLR;
-    tmp &= (uint32_t)0xFE16FFFB;
-    tmp |= (uint32_t)(1<<22)|(1<<20);
+    tmp &= (uint32_t)0xFED6FFFB;
+    tmp |= (uint32_t)(1<<20);
     RCC->CTLR = tmp;
 
     RCC->CTLR &= (uint32_t)0xFFFBFFFF;
@@ -158,10 +158,10 @@ GPIOD->BSHR =0x2;
 GPIO_IPD_Unused();
 #ifdef SYSCLK_FREQ_8MHz_HSI
     SetSysClockTo_8MHz_HSI();
-#elif defined SYSCLK_FREQ_24MHZ_HSI
-    SetSysClockTo_24MHZ_HSI();
-#elif defined SYSCLK_FREQ_48MHZ_HSI
-    SetSysClockTo_48MHZ_HSI();
+#elif defined SYSCLK_FREQ_24MHz_HSI
+    SetSysClockTo_24MHz_HSI();
+#elif defined SYSCLK_FREQ_48MHz_HSI
+    SetSysClockTo_48MHz_HSI();
 #elif defined SYSCLK_FREQ_8MHz_HSE
     SetSysClockTo_8MHz_HSE();
 #elif defined SYSCLK_FREQ_24MHz_HSE
@@ -197,7 +197,7 @@ static void SetSysClockTo_8MHz_HSI(void)
 #elif defined SYSCLK_FREQ_24MHz_HSI
 
 /*********************************************************************
- * @fn      SetSysClockTo_24MHZ_HSI
+ * @fn      SetSysClockTo_24MHz_HSI
  *
  * @brief   Sets System clock frequency to 24MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
  *
@@ -216,7 +216,7 @@ static void SetSysClockTo_24MHz_HSI(void)
 #elif defined SYSCLK_FREQ_48MHz_HSI
 
 /*********************************************************************
- * @fn      SetSysClockTo_48MHZ_HSI
+ * @fn      SetSysClockTo_48MHz_HSI
  *
  * @brief   Sets System clock frequency to 48MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
  *
@@ -302,8 +302,13 @@ static void SetSysClockTo_8MHz_HSE(void)
     {
         /*
          * If HSE fails to start-up, the application will have wrong clock
-     * configuration. User can add here some code to deal with this error
+         * configuration. User can add here some code to deal with this error
          */
+        /* Open PA1-PA2 GPIO function */
+        AFIO->PCFR1 &= ~(1<<17);
+        RCC->PB2PCENR &= ~RCC_AFIOEN;
+
+        RCC->CTLR &= ((uint32_t)~RCC_HSEON);   
     }
 }
 
@@ -361,8 +366,13 @@ static void SetSysClockTo_24MHz_HSE(void)
     {
         /*
          * If HSE fails to start-up, the application will have wrong clock
-     * configuration. User can add here some code to deal with this error
+         * configuration. User can add here some code to deal with this error
          */
+        /* Open PA1-PA2 GPIO function */
+        AFIO->PCFR1 &= ~(1<<17);
+        RCC->PB2PCENR &= ~RCC_AFIOEN;
+
+        RCC->CTLR &= ((uint32_t)~RCC_HSEON);   
     }
 }
 
@@ -430,8 +440,13 @@ static void SetSysClockTo_48MHz_HSE(void)
     {
         /*
          * If HSE fails to start-up, the application will have wrong clock
-     * configuration. User can add here some code to deal with this error
+         * configuration. User can add here some code to deal with this error
          */
+        /* Open PA1-PA2 GPIO function */
+        AFIO->PCFR1 &= ~(1<<17);
+        RCC->PB2PCENR &= ~RCC_AFIOEN;
+
+        RCC->CTLR &= ((uint32_t)~RCC_HSEON);   
     }
 }
 #endif

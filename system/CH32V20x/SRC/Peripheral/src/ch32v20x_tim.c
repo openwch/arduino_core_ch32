@@ -4,9 +4,11 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : This file provides all the TIM firmware functions.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 #include "ch32v20x_tim.h"
 #include "ch32v20x_rcc.h"
 
@@ -495,7 +497,7 @@ void TIM_Cmd(TIM_TypeDef *TIMx, FunctionalState NewState)
  *
  * @brief   Enables or disables the TIM peripheral Main Outputs.
  *
- * @param   TIMx - where x can be 1 to 4 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1/8/9/10 to select the TIM peripheral.
  *          NewState - ENABLE or DISABLE.
  *
  * @return  none
@@ -2342,7 +2344,7 @@ static void TI4_Config(TIM_TypeDef *TIMx, uint16_t TIM_ICPolarity, uint16_t TIM_
     }
     else
     {
-        tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC3P | TIM_CC4NP));
+        tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC3P ));
         tmpccer |= (uint16_t)(TIM_ICPolarity | (uint16_t)TIM_CC4E);
     }
 

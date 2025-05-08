@@ -130,15 +130,19 @@ void pin_function(PinName pin, int function)
           case CH_CNF_OUTPUT_PP:
                GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
                break;
+#if !defined(CH32X035)
           case CH_CNF_OUTPUT_OD:
                GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
                break;
+#endif
           case CH_CNF_OUTPUT_AFPP:
                GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
                break;
+#if !defined(CH32X035)
           case CH_CNF_OUTPUT_AFOD:
                GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
-               break;           
+               break; 
+#endif          
           default:
                GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
                break;

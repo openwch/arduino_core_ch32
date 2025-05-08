@@ -2,7 +2,7 @@
  * File Name          : ch32v00X_pwr.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/01/01
+ * Date               : 2024/11/07
  * Description        : This file contains all the functions prototypes for the PWR
  *                      firmware library.
  *********************************************************************************

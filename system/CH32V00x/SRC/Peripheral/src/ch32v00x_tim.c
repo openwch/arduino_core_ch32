@@ -2,7 +2,7 @@
  * File Name          : ch32v00x_tim.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2023/12/25
  * Description        : This file provides all the TIM firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -1056,7 +1056,7 @@ void TIM_SelectCCDMA(TIM_TypeDef *TIMx, FunctionalState NewState)
  * @fn      TIM_CCPreloadControl
  *
  * @brief   DSets or Resets the TIM peripheral Capture Compare Preload Control bit.
- *        reset values (Affects also the I2Ss).
+ *        reset values  .
  * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *          NewState - ENABLE or DISABLE.
  *
@@ -1970,7 +1970,7 @@ uint16_t TIM_GetCapture2(TIM_TypeDef *TIMx)
  *
  * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
  *
- * @return  TIMx->CH2CVR - Capture Compare 2 Register value.
+ * @return  TIMx->CH3CVR - Capture Compare 3 Register value.
  */
 uint16_t TIM_GetCapture3(TIM_TypeDef *TIMx)
 {
@@ -2336,10 +2336,32 @@ static void TI4_Config(TIM_TypeDef *TIMx, uint16_t TIM_ICPolarity, uint16_t TIM_
     }
     else
     {
-        tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC3P | TIM_CC4NP));
+        tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC3P));
         tmpccer |= (uint16_t)(TIM_ICPolarity | (uint16_t)TIM_CC4E);
     }
 
     TIMx->CHCTLR2 = tmpccmr2;
     TIMx->CCER = tmpccer;
 }
+
+/*********************************************************************
+ * @fn      TIM_IndicateCaptureLevelCmd
+ *
+ * @brief   Enables or disables the TIMx capture level indication.
+ *
+ * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
+ *          NewState - ENABLE or DISABLE.
+ *
+ * @return  none
+ */
+void TIM_IndicateCaptureLevelCmd(TIM_TypeDef *TIMx, FunctionalState NewState)
+{
+    if(NewState)
+    {
+        TIMx->CTLR1 |= (1<<15);
+    }
+    else{
+        TIMx->CTLR1 &= ~(1<<15);
+    }
+}
+

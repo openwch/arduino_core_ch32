@@ -137,6 +137,7 @@ void OPA_Init(OPA_InitTypeDef *OPA_InitStruct)
                      | (OPA_InitStruct->RST_EN << 4) | (OPA_InitStruct->BKIN_SEL << 6)
                      | (OPA_InitStruct->OUT_IE << 8) | (OPA_InitStruct->CNT_IE << 10)
                      | (OPA_InitStruct->NMI_IE << 11);
+    tmp1 &= 0xFF00;
     tmp1 |= OPA_InitStruct->OPA_POLL_Interval;
 
     OPA->CFGR1 = tmp0;
@@ -244,7 +245,7 @@ void OPA_CMP_Init(CMP_InitTypeDef *CMP_InitStruct)
 void OPA_CMP_StructInit(CMP_InitTypeDef *CMP_InitStruct)
 {
     CMP_InitStruct->CMP_NUM = CMP1;
-    CMP_InitStruct->Mode = OUT_IO_TIM2_CH1;
+    CMP_InitStruct->Mode = OUT_IO_TIM2;
     CMP_InitStruct->NSEL = CMP_CHN0;
     CMP_InitStruct->PSEL = CMP_CHP1;
     CMP_InitStruct->HYEN = CMP_HYEN1;

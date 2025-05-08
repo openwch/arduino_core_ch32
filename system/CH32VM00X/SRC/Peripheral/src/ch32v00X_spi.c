@@ -2,7 +2,7 @@
  * File Name          : ch32v00X_spi.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/01/01
+ * Date               : 2024/06/05
  * Description        : This file provides all the SPI firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -53,7 +53,8 @@ void SPI_I2S_DeInit(SPI_TypeDef *SPIx)
  * @fn      SPI_Init
  *
  * @brief   Initializes the SPIx peripheral according to the specified
- *        parameters in the SPI_InitStruct.
+ *          parameters in the SPI_InitStruct.
+ *          When using SPI slave mode to send data, the CPOL bit should be set to 1.
  *
  * @param   SPIx - where x can be 1 to select the SPI peripheral.
  *          SPI_InitStruct - pointer to a SPI_InitTypeDef structure that

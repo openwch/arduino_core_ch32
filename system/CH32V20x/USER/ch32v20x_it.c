@@ -2,17 +2,17 @@
  * File Name          : ch32v20x_it.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Date               : 2023/12/29
  * Description        : Main Interrupt Service Routines.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 #include "ch32v20x_it.h"
 
 void NMI_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void HardFault_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-void Ecall_U_Mode_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-void Ecall_M_Mode_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
 /*********************************************************************
  * @fn      NMI_Handler
@@ -23,6 +23,9 @@ void Ecall_M_Mode_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")))
  */
 void NMI_Handler(void)
 {
+  while (1)
+  {
+  }
 }
 
 /*********************************************************************
@@ -34,42 +37,10 @@ void NMI_Handler(void)
  */
 void HardFault_Handler(void)
 {
+  NVIC_SystemReset();
   while (1)
   {
-    
   }
 }
-
-
-/*********************************************************************
- * @fn      Ecall_U_Mode_Handler
- *
- * @brief   This function handles user mode ecall exception.
- *
- * @return  none
- */
-void Ecall_U_Mode_Handler(void)
-{
-  while(1)
-  {
-    
-  }
-}
-
-/*********************************************************************
- * @fn      Ecall_M_Mode_Handler
- *
- * @brief   This function handles mashine mode ecall exception.
- *
- * @return  none
- */
-void Ecall_M_Mode_Handler(void)
-{
-  while(1)
-  {
-    
-  }
-}
-
 
 

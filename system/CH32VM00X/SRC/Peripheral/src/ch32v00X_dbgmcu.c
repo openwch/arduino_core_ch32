@@ -2,7 +2,7 @@
  * File Name          : ch32v00X_dbgmcu.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/01/01
+ * Date               : 2024/11/07
  * Description        : This file provides all the DBGMCU firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -115,7 +115,7 @@ void DBGMCU_Config(uint32_t DBGMCU_Periph, FunctionalState NewState)
  *
  *    CH32M007G8R6-0x007008x0
  *    CH32V007E8R6-0x007106x0
- *    CH32V007F8U6-0x007206x0
+ *    CH32V007K8U6-0x007206x0
  *
  *    CH32V005E6R6-0x005006x0
  *    CH32V005F6U6-0x005106x0

@@ -2,7 +2,7 @@
  * File Name          : ch32v00X.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/01/01
+ * Date               : 2024/11/07
  * Description        : CH32V00X Device Peripheral Access Layer Header File.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -16,18 +16,20 @@
 extern "C" {
 #endif
 
-#if !defined(CH32V002) && !defined(CH32V005) && !defined(CH32V006)&& !defined(CH32V007_M007)
+#if !defined(CH32V002) && !defined(CH32V004) && !defined(CH32V005) && !defined(CH32V006)&& !defined(CH32V007_M007)
 //#define CH32V002             /* CH32V002*/
 //#define CH32V004             /* CH32V004 */
 //#define CH32V005             /* CH32V005 */
-#define CH32V006             /* CH32V006 */
+//#define CH32V006             /* CH32V006 */
 //#define CH32V007_M007        /* CH32V007 - CH32M007*/
 #endif
 
 #define __MPU_PRESENT             0 /* Other CH32 devices does not provide an MPU */
 #define __Vendor_SysTickConfig    0 /* Set to 1 if different SysTick Config is used */
 
+#ifndef HSE_VALUE
 #define HSE_VALUE                 ((uint32_t)24000000) /* Value of the External oscillator in Hz */
+#endif
 
 /* In the following line adjust the External High Speed oscillator (HSE) Startup Timeout value */
 #define HSE_STARTUP_TIMEOUT       ((uint16_t)0x2000) /* Time out for HSE start up */
@@ -36,7 +38,7 @@ extern "C" {
 
 /* CH32V00X Standard Peripheral Library version number */
 #define __CH32V00X_STDPERIPH_VERSION_MAIN   (0x01) /* [15:8] main version */
-#define __CH32V00X_STDPERIPH_VERSION_SUB    (0x00) /* [7:0] sub version */
+#define __CH32V00X_STDPERIPH_VERSION_SUB    (0x02) /* [7:0] sub version */
 #define __CH32V00X_STDPERIPH_VERSION        ( (__CH32V00X_STDPERIPH_VERSION_MAIN << 8)\
                                              |(__CH32V00X_STDPERIPH_VERSION_SUB << 0))
 
@@ -46,7 +48,7 @@ typedef enum IRQn
     /******  RISC-V Processor Exceptions Numbers *******************************************************/
     NonMaskableInt_IRQn = 2, /* 2 Non Maskable Interrupt                             */
     HardFault_IRQn = 3,      /* 3 HardFault Interrupt                                */
-    SysTicK_IRQn = 12,       /* 12 System timer Interrupt                            */
+    SysTick_IRQn = 12,       /* 12 System timer Interrupt                            */
     Software_IRQn = 14,      /* 14 software Interrupt                                */
 
     /******  RISC-V specific Interrupt Numbers *********************************************************/
@@ -79,6 +81,8 @@ typedef enum IRQn
     OPCM_IRQn = 40,          /* OPCM global Interrupt                                */
 #endif
 } IRQn_Type;
+
+#define SysTicK_IRQn      SysTick_IRQn
 
 #include <stdint.h>
 #include <core_riscv.h>
@@ -517,8 +521,6 @@ typedef struct
 /*******************  Bit definition for ADC_CTLR2 register  ********************/
 #define ADC_ADON                                ((uint32_t)0x00000001) /* A/D Converter ON / OFF */
 #define ADC_CONT                                ((uint32_t)0x00000002) /* Continuous Conversion */
-#define ADC_CAL                                 ((uint32_t)0x00000004) /* A/D Calibration */
-#define ADC_RSTCAL                              ((uint32_t)0x00000008) /* Reset Calibration */
 #define ADC_TGREGU                              ((uint32_t)0x00000010) /*External Trigger Events for Rule Channel Conversion*/
 #define ADC_TGINJE                              ((uint32_t)0x00000020) /*Injection of externally triggered events for channel conversions*/
 

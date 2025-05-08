@@ -2,7 +2,7 @@
  * File Name          : ch32l103_gpio.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/07/08
+ * Date               : 2024/03/01
  * Description        : This file contains all the functions prototypes for the
  *                      GPIO firmware library.
  *********************************************************************************
@@ -121,7 +121,7 @@ typedef enum
 #define GPIO_Remap1_CAN1                ((uint32_t)0x001D4000) /* CAN1 Alternate Function mapping */
 #define GPIO_Remap2_CAN1                ((uint32_t)0x001D6000) /* CAN1 Alternate Function mapping */
 #define GPIO_Remap_PD01                 ((uint32_t)0x00008000) /* PD01 Alternate Function mapping */
-#define GPIO_Remap_SWJ_Disable          ((uint32_t)0x00300400) /* Full SWJ Disabled (JTAG-DP + SW-DP) */
+#define GPIO_Remap_SWJ_Disable          ((uint32_t)0x00300400) /* GPIO_Remap_SWJ_Disable - Full SDI Disabled (SDI) */
 
 //bit[31:30] = 01b - PCFR2
 #define GPIO_Remap_USART4               ((uint32_t)0x40000001) /* USART4 Alternate Function mapping */
