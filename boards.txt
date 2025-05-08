@@ -540,6 +540,22 @@ CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY.build.math_lib_gcc=-lm
 CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY.build.IQ_math_RV32=
 CH32V20x_EVT.menu.pnum.CH32V203G6_ADAFRUIT_QTPY.build.ch_extra_lib=-lprintf
 
+#LANA TNY Board
+CH32V20x_EVT.menu.pnum.CH32V203G6_LANA_TNY=LANA TNY
+CH32V20x_EVT.menu.pnum.CH32V203G6_LANA_TNY.node=NODE_V203G6_LANA_TNY
+CH32V20x_EVT.menu.pnum.CH32V203G6_LANA_TNY.upload.maximum_size=229376
+CH32V20x_EVT.menu.pnum.CH32V203G6_LANA_TNY.upload.maximum_data_size=10240
+CH32V20x_EVT.menu.pnum.CH32V203G6_LANA_TNY.build.mcu=QingKe-V4B
+CH32V20x_EVT.menu.pnum.CH32V203G6_LANA_TNY.build.board=CH32V203G6_LANA_TNY
+CH32V20x_EVT.menu.pnum.CH32V203G6_LANA_TNY.build.series=CH32V20x
+CH32V20x_EVT.menu.pnum.CH32V203G6_LANA_TNY.build.variant=CH32V20x/CH32V203G6_LANA_TNY
+CH32V20x_EVT.menu.pnum.CH32V203G6_LANA_TNY.build.chip=CH32V203
+CH32V20x_EVT.menu.pnum.CH32V203G6_LANA_TNY.build.march=rv32imacxw
+CH32V20x_EVT.menu.pnum.CH32V203G6_LANA_TNY.build.mabi=ilp32
+CH32V20x_EVT.menu.pnum.CH32V203G6_LANA_TNY.build.math_lib_gcc=-lm
+CH32V20x_EVT.menu.pnum.CH32V203G6_LANA_TNY.build.IQ_math_RV32=
+CH32V20x_EVT.menu.pnum.CH32V203G6_LANA_TNY.build.ch_extra_lib=-lprintf
+
 
 # USB support
 CH32V20x_EVT.menu.usb.none=None
