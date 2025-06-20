@@ -6,15 +6,15 @@
  * Description        : CH32V00x Device Peripheral Access Layer System Source File.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
+* Attention: This software (modified or not) and binary are used for
 * microcontroller manufactured by Nanjing Qinheng Microelectronics.
 *******************************************************************************/
 #include <ch32v00x.h>
 
-/* 
-* Uncomment the line corresponding to the desired System clock (SYSCLK) frequency (after 
+/*
+* Uncomment the line corresponding to the desired System clock (SYSCLK) frequency (after
 * reset the HSI is used as SYSCLK source).
-* If none of the define below is enabled, the HSI is used as System clock source. 
+* If none of the define below is enabled, the HSI is used as System clock source.
 */
 
 //#define SYSCLK_FREQ_8MHz_HSI    8000000
@@ -155,10 +155,10 @@ static void SetSysClock(void)
 #elif defined SYSCLK_FREQ_48MHz_HSE
     SetSysClockTo_48MHz_HSE();
 #endif
- 
+
  /* If none of the define above is enabled, the HSI is used as System clock.
-  * source (default after reset) 
-	*/ 
+  * source (default after reset)
+	*/
 }
 
 
@@ -231,7 +231,7 @@ static void SetSysClockTo_48MHz_HSI(void)
     }
     /* Select PLL as system clock source */
     RCC->CFGR0 &= (uint32_t)((uint32_t)~(RCC_SW));
-    RCC->CFGR0 |= (uint32_t)RCC_SW_PLL;    
+    RCC->CFGR0 |= (uint32_t)RCC_SW_PLL;
     /* Wait till PLL is used as system clock source */
     while ((RCC->CFGR0 & (uint32_t)RCC_SWS) != (uint32_t)0x08)
     {
@@ -251,10 +251,6 @@ static void SetSysClockTo_8MHz_HSE(void)
 {
     __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
 
-    /* Close PA0-PA1 GPIO function */
-    RCC->APB2PCENR |= RCC_AFIOEN;
-    AFIO->PCFR1 |= (1<<15);
-
     RCC->CTLR |= ((uint32_t)RCC_HSEON);
 
     /* Wait till HSE is ready and if Time out is reached exit */
@@ -263,9 +259,6 @@ static void SetSysClockTo_8MHz_HSE(void)
         HSEStatus = RCC->CTLR & RCC_HSERDY;
         StartUpCounter++;
     } while((HSEStatus == 0) && (StartUpCounter != HSE_STARTUP_TIMEOUT));
-
-    RCC->APB2PCENR |= RCC_AFIOEN;
-    AFIO->PCFR1 |= (1<<15);
 
     if ((RCC->CTLR & RCC_HSERDY) != RESET)
     {
@@ -315,10 +308,6 @@ static void SetSysClockTo_24MHz_HSE(void)
 {
     __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
 
-    /* Close PA0-PA1 GPIO function */
-    RCC->APB2PCENR |= RCC_AFIOEN;
-    AFIO->PCFR1 |= (1<<15);
-
     RCC->CTLR |= ((uint32_t)RCC_HSEON);
 
     /* Wait till HSE is ready and if Time out is reached exit */
@@ -327,9 +316,6 @@ static void SetSysClockTo_24MHz_HSE(void)
         HSEStatus = RCC->CTLR & RCC_HSERDY;
         StartUpCounter++;
     } while((HSEStatus == 0) && (StartUpCounter != HSE_STARTUP_TIMEOUT));
-
-    RCC->APB2PCENR |= RCC_AFIOEN;
-    AFIO->PCFR1 |= (1<<15);
 
     if ((RCC->CTLR & RCC_HSERDY) != RESET)
     {
@@ -378,10 +364,6 @@ static void SetSysClockTo_24MHz_HSE(void)
 static void SetSysClockTo_48MHz_HSE(void)
 {
     __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
-
-    /* Close PA0-PA1 GPIO function */
-    RCC->APB2PCENR |= RCC_AFIOEN;
-    AFIO->PCFR1 |= (1<<15);
 
     RCC->CTLR |= ((uint32_t)RCC_HSEON);
 
@@ -437,7 +419,3 @@ static void SetSysClockTo_48MHz_HSE(void)
     }
 }
 #endif
-
-
-
-    
