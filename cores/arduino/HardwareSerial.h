@@ -20,6 +20,7 @@
   Modified 14 August 2012 by Alarus
   Modified 3 December 2013 by Matthijs Kooijman
   Modified 1 may 2023 by TempersLee
+  Modified 8 September 2025 by Jobit Joseph (Universal CH32 RX Buffer Support)
 */
 
 #ifndef HardwareSerial_h
@@ -96,8 +97,12 @@ typedef enum {
 #define SERIAL_9O0_5    0x37
 #define SERIAL_9O1_5    0x3F  
 
-
-
+// Enable RX buffering for all CH32 series MCUs
+#if defined(CH32V003) || defined(CH32V203) || defined(CH32X035) || defined(CH32V103) || defined(CH32V307)
+#define ENABLE_RX_BUFFER 1
+#else
+#define ENABLE_RX_BUFFER 0
+#endif
 
 class HardwareSerial : public Stream {
 
@@ -116,8 +121,6 @@ public:
     virtual int peek(void);
     virtual int read(void);
 
-
-    
     virtual size_t write(uint8_t);
     inline size_t write(unsigned long n)
     {
@@ -155,6 +158,15 @@ public:
     void setCts(PinName _cts);
     void setRtsCts(PinName _rts, PinName _cts);
     void setHandler(void *handler);
+
+#if ENABLE_RX_BUFFER
+public:
+    // RX Buffer variables - for all CH32 series MCUs (CH32V003, CH32V203, CH32X035, CH32V103, CH32V307)
+    volatile rx_buffer_index_t _rx_buffer_head;
+    volatile rx_buffer_index_t _rx_buffer_tail;
+    unsigned char _rx_buffer[SERIAL_RX_BUFFER_SIZE];
+#endif
+
   private:
     uint8_t _config;
     unsigned long _baud;
@@ -173,16 +185,16 @@ public:
 #if defined(UART4) || defined(USART4)
   extern HardwareSerial Serial4;
 #endif
-#if defined(UART5) 
+#if defined(UART5) || defined(USART5)
   extern HardwareSerial Serial5;
 #endif
-#if defined(UART6) 
+#if defined(USART6)
   extern HardwareSerial Serial6;
 #endif
-#if defined(UART7) 
+#if defined(UART7) || defined(USART7)
   extern HardwareSerial Serial7;
 #endif
-#if defined(UART8) 
+#if defined(UART8) || defined(USART8)
   extern HardwareSerial Serial8;
 #endif
 
