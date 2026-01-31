@@ -125,6 +125,11 @@ uint32_t analogRead(uint32_t ulPin)
   uint32_t value = 0;
 #if defined(ADC_MODULE_ENABLED) && !defined(ADC_MODULE_ONLY)
   PinName p = analogInputToPinName(ulPin);
+ if ((ulPin & PADC_BASE) && (ulPin < ANA_START))  //internal channel 
+  {
+    p = ulPin;  // replace back internal channel reference
+  } 
+
   if (p != NC) {
     value = adc_read_value(p, _internalReadResolution);
     value = mapResolution(value, _internalReadResolution, _readResolution);

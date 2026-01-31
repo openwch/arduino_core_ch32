@@ -628,6 +628,10 @@ uint16_t adc_read_value(PinName pin, uint32_t resolution)
     channel = get_adc_internal_channel(pin);
     samplingTime = ADC_SAMPLINGTIME_INTERNAL;
     padc = ADC1;
+    #if defined(CH32V20x) 
+     ADC_TempSensorVrefintCmd(ENABLE);         /* enable internal channels, not sure about other platforms... */
+    #endif 
+
   } 
   else 
   {
