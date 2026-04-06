@@ -192,6 +192,7 @@ void ch32_interrupt_enable(GPIO_TypeDef *port, GPIOMode_TypeDef io_mode,uint16_t
   */
 void ch32_interrupt_disable(GPIO_TypeDef *port, uint16_t pin)
 {
+  (void)(port);		// CH32 does not allow combination of multiple ports
   uint8_t id = get_pin_id(pin);
   gpio_irq_conf[id].callback = NULL;
 
