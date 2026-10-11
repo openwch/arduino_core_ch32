@@ -9,6 +9,9 @@ on:
         default: '100'
         type: string
 
+permissions:
+  contents: read
+
 jobs:
   load-targets:
     runs-on: ubuntu-latest
@@ -37,6 +40,7 @@ jobs:
           # Onboard iterates through historical commits, so it needs full history
           fetch-depth: 0
           submodules: recursive
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@v6
