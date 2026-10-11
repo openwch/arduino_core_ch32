@@ -10,6 +10,7 @@ Community-maintained, Arduino IDE 2.x ready.
 [![Issues](https://img.shields.io/github/issues/ch32-community/arduino_core_ch32?style=flat-square)](https://github.com/ch32-community/arduino_core_ch32/issues)
 [![Pull requests](https://img.shields.io/github/issues-pr/ch32-community/arduino_core_ch32?style=flat-square)](https://github.com/ch32-community/arduino_core_ch32/pulls)
 [![Last commit](https://img.shields.io/github/last-commit/ch32-community/arduino_core_ch32?style=flat-square)](https://github.com/ch32-community/arduino_core_ch32/commits/main)
+[![MemBrowse](https://membrowse.com/badge.svg)](https://membrowse.com/public/ch32-community/arduino_core_ch32)
 
 [Install](#-installation) · [Supported boards](#-supported-boards) · [Platform setup](#-platform-setup) · [Contributing](#-contributing) · [Get help](#-getting-help)
 
