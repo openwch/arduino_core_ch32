@@ -80,8 +80,8 @@ static inline __attribute__((always_inline)) void uart_rx_isr(USART_TypeDef *uar
   DEFINE_UART_RX_ISR(UART5_IRQHandler, UART5, Serial5);
 #endif
 
-#if defined(USART6) && defined(HAVE_HWSERIAL6)
-  DEFINE_UART_RX_ISR(USART6_IRQHandler, USART6, Serial6);
+#if defined(UART6) && defined(HAVE_HWSERIAL6)   // note: V30x has UART 4-8, no USART5-8 in supported series (even though mentioned in various GPIO/remap sources)
+  DEFINE_UART_RX_ISR(UART6_IRQHandler, UART6, Serial6);
 #endif
 
 #if defined(UART7) && defined(HAVE_HWSERIAL7)
@@ -101,8 +101,9 @@ HardwareSerial::HardwareSerial(void *peripheral)
 {
   setHandler(peripheral);
 
-  setRx(PIN_SERIAL_RX);
-  setTx(PIN_SERIAL_TX);
+  // MxRD: find the first pin in the map, instead of predefined values, to support multiple simultaneous serial ports.
+  setRx(pinmap_pin(peripheral, PinMap_UART_RX));
+  setTx(pinmap_pin(peripheral, PinMap_UART_TX));
   
 #if ENABLE_RX_BUFFER
   // Initialize buffer pointers for all CH32 series MCUs
@@ -256,11 +257,11 @@ void HardwareSerial::begin(unsigned long baud, byte config)
     NVIC_EnableIRQ(UART5_IRQn);
   }
 #endif
-#if defined(USART6) && defined(HAVE_HWSERIAL6)
-  else if (_serial.uart == USART6) {
-    USART_ITConfig(USART6, USART_IT_RXNE, ENABLE);
-    NVIC_SetPriority(USART6_IRQn, 2);
-    NVIC_EnableIRQ(USART6_IRQn);
+#if defined(UART6) && defined(HAVE_HWSERIAL6)
+  else if (_serial.uart == UART6) {
+    USART_ITConfig(UART6, USART_IT_RXNE, ENABLE);
+    NVIC_SetPriority(UART6_IRQn, 2);
+    NVIC_EnableIRQ(UART6_IRQn);
   }
 #endif
 #if defined(UART7) && defined(HAVE_HWSERIAL7)
@@ -320,10 +321,10 @@ void HardwareSerial::end()
     USART_ITConfig(UART5, USART_IT_RXNE, DISABLE);
   }
 #endif
-#if defined(USART6) && defined(HAVE_HWSERIAL6)
-  else if (_serial.uart == USART6) {
-    NVIC_DisableIRQ(USART6_IRQn);
-    USART_ITConfig(USART6, USART_IT_RXNE, DISABLE);
+#if defined(UART6) && defined(HAVE_HWSERIAL6)
+  else if (_serial.uart == UART6) {
+    NVIC_DisableIRQ(UART6_IRQn);
+    USART_ITConfig(UART6, USART_IT_RXNE, DISABLE);
   }
 #endif
 #if defined(UART7) && defined(HAVE_HWSERIAL7)
@@ -492,8 +493,8 @@ void HardwareSerial::setHandler(void *handler)
   HardwareSerial Serial5(UART5);
 #endif
 
-#if defined(HAVE_HWSERIAL6)
-  HardwareSerial Serial6(USART6);
+#if defined(HAVE_HWSERIAL6) && defined(UART6)
+  HardwareSerial Serial6(UART6);
 #endif
 
 #if defined(HAVE_HWSERIAL7) && defined(UART7)

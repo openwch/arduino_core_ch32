@@ -1,8 +1,8 @@
 # See: https://arduino.github.io/arduino-cli/latest/platform-specification/
 
-menu.pnum=Board Select
-menu.clock=Clock Select
-menu.xserial=U(S)ART support
+menu.pnum=Board select
+menu.clock=Clock select
+menu.xserial=U(S)ART select
 menu.usb=USB support (if available)
 menu.xusb=USB speed (if available)
 menu.virtio=Virtual serial support
@@ -219,13 +219,21 @@ CH32VM00X_EVT.menu.rtlib.nanofps.build.flags.ldflags=--specs=nano.specs --specs=
 CH32VM00X_EVT.menu.rtlib.full=Newlib Standard
 CH32VM00X_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
+# Serial port selection
+CH32VM00X_EVT.menu.xserial.serial1=Serial=Serial1 (default)
+CH32VM00X_EVT.menu.xserial.serial1.build.serial_flags=-DSERIAL_UART_INSTANCE=1
+CH32VM00X_EVT.menu.xserial.serial2=Serial=Serial2 (V005/6/7)
+CH32VM00X_EVT.menu.xserial.serial2.build.serial_flags=-DSERIAL_UART_INSTANCE=2
+CH32VM00X_EVT.menu.xserial.serialMulti=Dual Serial1-Serial2 (V005/6/7)
+CH32VM00X_EVT.menu.xserial.serialMulti.build.serial_flags=-DSERIAL_UART_INSTANCES=2
+
 
 
 
 ##############################################################################
 ##CH32X035_EVT Board   
 
-CH32X035_EVT.name=CH32X035
+CH32X035_EVT.name=CH32X035/X033
 CH32X035_EVT.build.core=arduino
 CH32X035_EVT.build.board=CH32X035_EVT
 CH32X035_EVT.upload.maximum_size=0
@@ -265,6 +273,7 @@ CH32X035_EVT.menu.pnum.CH32X033F8P.build.mabi=ilp32
 CH32X035_EVT.menu.pnum.CH32X033F8P.build.math_lib_gcc=-lm
 CH32X035_EVT.menu.pnum.CH32X033F8P.build.IQ_math_RV32=
 CH32X035_EVT.menu.pnum.CH32X033F8P.build.ch_extra_lib=-lprintf
+
 
 # Upload menu
 CH32X035_EVT.menu.upload_method.swdMethod=WCH-SWD
@@ -337,6 +346,23 @@ CH32X035_EVT.menu.rtlib.full=Newlib Standard
 CH32X035_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
 
+# Serial port selection
+CH32X035_EVT.menu.xserial.serial1=Serial=Serial1 (default)
+CH32X035_EVT.menu.xserial.serial1.build.serial_flags=-DSERIAL_UART_INSTANCE=1
+CH32X035_EVT.menu.xserial.serial2=Serial=Serial2
+CH32X035_EVT.menu.xserial.serial2.build.serial_flags=-DSERIAL_UART_INSTANCE=2
+CH32X035_EVT.menu.xserial.serial3=Serial=Serial3 (X035 only)
+CH32X035_EVT.menu.xserial.serial3.build.serial_flags=-DSERIAL_UART_INSTANCE=3
+CH32X035_EVT.menu.xserial.serial4=Serial=Serial4
+CH32X035_EVT.menu.xserial.serial4.build.serial_flags=-DSERIAL_UART_INSTANCE=4
+CH32X035_EVT.menu.xserial.serialMulti=Multiple (Serial1-Serial4)
+CH32X035_EVT.menu.xserial.serialMulti.build.serial_flags=-DSERIAL_UART_INSTANCES=4
+
+# USB support
+CH32X035_EVT.menu.usb.none=None
+CH32X035_EVT.menu.usb.none.build.usb_flags=
+CH32X035_EVT.menu.usb.usbcdc=USB CDC Serial for CH32X033/35 (TODO)
+CH32X035_EVT.menu.usb.usbcdc.build.usb_flags=-DUSBCON -DUSE_TINYUSB -DCFG_TUD_WCH_USBIP_FSDEV=1 "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"
 
 
 ##############################################################################
@@ -445,6 +471,15 @@ CH32V10x_EVT.menu.rtlib.full=Newlib Standard
 CH32V10x_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
 
+# Serial port selection
+CH32V10x_EVT.menu.xserial.serial1=Serial=Serial1 (default)
+CH32V10x_EVT.menu.xserial.serial1.build.serial_flags=-DSERIAL_UART_INSTANCE=1
+CH32V10x_EVT.menu.xserial.serial2=Serial=Serial2
+CH32V10x_EVT.menu.xserial.serial2.build.serial_flags=-DSERIAL_UART_INSTANCE=2
+CH32V10x_EVT.menu.xserial.serial3=Serial=Serial3
+CH32V10x_EVT.menu.xserial.serial3.build.serial_flags=-DSERIAL_UART_INSTANCE=3
+CH32V10x_EVT.menu.xserial.serialMulti=Multiple (Serial1-Serial3)
+CH32V10x_EVT.menu.xserial.serialMulti.build.serial_flags=-DSERIAL_UART_INSTANCES=3
 
 
 ##############################################################################
@@ -572,6 +607,19 @@ CH32V20x_EVT.menu.pnum.CH32V203G6_LANA_TNY.build.IQ_math_RV32=
 CH32V20x_EVT.menu.pnum.CH32V203G6_LANA_TNY.build.ch_extra_lib=-lprintf
 
 
+# Serial port selection
+CH32V20x_EVT.menu.xserial.serial1=Serial=Serial1 (default)
+CH32V20x_EVT.menu.xserial.serial1.build.serial_flags=-DSERIAL_UART_INSTANCE=1
+CH32V20x_EVT.menu.xserial.serial2=Serial=Serial2
+CH32V20x_EVT.menu.xserial.serial2.build.serial_flags=-DSERIAL_UART_INSTANCE=2
+CH32V20x_EVT.menu.xserial.serial3=Serial=Serial3 (only C8/RB)
+CH32V20x_EVT.menu.xserial.serial3.build.serial_flags=-DSERIAL_UART_INSTANCE=3
+CH32V20x_EVT.menu.xserial.serial4=Serial=Serial4 (only C8/RB)
+CH32V20x_EVT.menu.xserial.serial4.build.serial_flags=-DSERIAL_UART_INSTANCE=4
+CH32V20x_EVT.menu.xserial.serialMulti=Multiple (Serial1-Serial4)
+CH32V20x_EVT.menu.xserial.serialMulti.build.serial_flags=-DSERIAL_UART_INSTANCES=4
+
+
 # USB support
 CH32V20x_EVT.menu.usb.none=None
 CH32V20x_EVT.menu.usb.none.build.usb_flags=
@@ -579,6 +627,7 @@ CH32V20x_EVT.menu.usb.tinyusb_usbd=Adafruit TinyUSB with USBD
 CH32V20x_EVT.menu.usb.tinyusb_usbd.build.usb_flags=-DUSBCON -DUSE_TINYUSB -DCFG_TUD_WCH_USBIP_FSDEV=1 "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"
 CH32V20x_EVT.menu.usb.tinyusb_usbfs=Adafruit TinyUSB with USBFS
 CH32V20x_EVT.menu.usb.tinyusb_usbfs.build.usb_flags=-DUSBCON -DUSE_TINYUSB -DCFG_TUD_WCH_USBIP_USBFS=1 "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"
+
 
 # Upload menu
 CH32V20x_EVT.menu.upload_method.swdMethod=WCH-SWD
@@ -698,6 +747,27 @@ CH32V30x_EVT.menu.pnum.CH32V307VCT6.build.mabi=ilp32f
 CH32V30x_EVT.menu.pnum.CH32V307VCT6.build.math_lib_gcc=-lm
 CH32V30x_EVT.menu.pnum.CH32V307VCT6.build.IQ_math_RV32=
 CH32V30x_EVT.menu.pnum.CH32V307VCT6.build.ch_extra_lib=-lprintfloat
+
+
+# Serial port selection
+CH32V30x_EVT.menu.xserial.serial1=Serial=Serial1 (default)
+CH32V30x_EVT.menu.xserial.serial1.build.serial_flags=-DSERIAL_UART_INSTANCE=1
+CH32V30x_EVT.menu.xserial.serial2=Serial=Serial2
+CH32V30x_EVT.menu.xserial.serial2.build.serial_flags=-DSERIAL_UART_INSTANCE=2
+CH32V30x_EVT.menu.xserial.serial3=Serial=Serial3
+CH32V30x_EVT.menu.xserial.serial3.build.serial_flags=-DSERIAL_UART_INSTANCE=3
+CH32V30x_EVT.menu.xserial.serial4=Serial=Serial4
+CH32V30x_EVT.menu.xserial.serial4.build.serial_flags=-DSERIAL_UART_INSTANCE=4
+CH32V30x_EVT.menu.xserial.serial5=Serial=Serial5
+CH32V30x_EVT.menu.xserial.serial5.build.serial_flags=-DSERIAL_UART_INSTANCE=5
+CH32V30x_EVT.menu.xserial.serial6=Serial=Serial6 (V303/V307)
+CH32V30x_EVT.menu.xserial.serial6.build.serial_flags=-DSERIAL_UART_INSTANCE=6
+CH32V30x_EVT.menu.xserial.serial7=Serial=Serial7 (V303/V307)
+CH32V30x_EVT.menu.xserial.serial7.build.serial_flags=-DSERIAL_UART_INSTANCE=7
+CH32V30x_EVT.menu.xserial.serial8=Serial=Serial8 (V303/V307)
+CH32V30x_EVT.menu.xserial.serial8.build.serial_flags=-DSERIAL_UART_INSTANCE=8
+CH32V30x_EVT.menu.xserial.serialMulti=Multiple (Serial1-Serial8)
+CH32V30x_EVT.menu.xserial.serialMulti.build.serial_flags=-DSERIAL_UART_INSTANCES=8
 
 
 # USB support
@@ -909,4 +979,17 @@ CH32L10x_EVT.menu.rtlib.nanofps=Newlib Nano + Float Printf/Scanf
 CH32L10x_EVT.menu.rtlib.nanofps.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
 CH32L10x_EVT.menu.rtlib.full=Newlib Standard
 CH32L10x_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
+
+
+# Serial port selection
+CH32L10x_EVT.menu.xserial.serial1=Serial=Serial1 (default)
+CH32L10x_EVT.menu.xserial.serial1.build.serial_flags=-DSERIAL_UART_INSTANCE=1
+CH32L10x_EVT.menu.xserial.serial2=Serial=Serial2
+CH32L10x_EVT.menu.xserial.serial2.build.serial_flags=-DSERIAL_UART_INSTANCE=2
+CH32L10x_EVT.menu.xserial.serial3=Serial=Serial3
+CH32L10x_EVT.menu.xserial.serial3.build.serial_flags=-DSERIAL_UART_INSTANCE=3
+CH32L10x_EVT.menu.xserial.serial4=Serial=Serial4
+CH32L10x_EVT.menu.xserial.serial4.build.serial_flags=-DSERIAL_UART_INSTANCE=4
+CH32L10x_EVT.menu.xserial.serialMulti=Multiple (Serial1-Serial4)
+CH32L10x_EVT.menu.xserial.serialMulti.build.serial_flags=-DSERIAL_UART_INSTANCES=4
 

@@ -127,19 +127,54 @@
   #define TIMER_SERVO           TIM2
 #endif
 
-
 // UART Definitions
-#ifndef SERIAL_UART_INSTANCE
-  #define SERIAL_UART_INSTANCE  1
+// CH32V203: Serial3/4 only on C8/RB, F6 has only Serial2
+// V203G6U6 (QFN28): 2xUSART - RX/TX/RTS/CTS/CK: USART2:PA3/PA2/PA1/PA0/PA4 USART1: PA10/PA9/PA12/PA11/PA8
+//    RX: PA10=RX1, PA3=RX2, PB11=RX3, PB1=RX4
+//    TX: PA9=TX1, PA2=TX2, PB10=TX3, PB0=TX4
+#ifndef SERIAL_UART_INSTANCES
+  #define SERIAL_UART_INSTANCES 1
 #endif
+
+#if (SERIAL_UART_INSTANCES == 1)
+  //  Using only one Serial port
+  #ifndef SERIAL_UART_INSTANCE
+    #define SERIAL_UART_INSTANCE 1   // use Serial1 as default for Serial
+  #endif
+#else
+  // Using multple Serial ports
+  // When having multiple Serial instances SERIAL_UART_INSTANCE cannot be defined as it will skip defining the other ports.
+  // V203G6U6 (QFN28): only Serial1/Serial2, no Serial3/Serial4
+  #undef SERIAL_UART_INSTANCE
+  #define ENABLE_HWSERIAL1 1
+  #define ENABLE_HWSERIAL2 1
+  #undef SERIAL_UART_INSTANCES
+  #define SERIAL_UART_INSTANCES 2
+  #define Serial Serial1
+#endif
+
 // Default pin used for generic 'Serial' instance
-// Mandatory for Firmata
-#ifndef PIN_SERIAL_RX
-  #define PIN_SERIAL_RX         PA10
+// Mandatory for Firmata, no longer used by HardwareSerial.
+#if SERIAL_UART_INSTANCE==1 || SERIAL_UART_INSTANCES>1
+    #ifndef PIN_SERIAL_RX
+        #define PIN_SERIAL_RX     PA10
+    #endif
+    #ifndef PIN_SERIAL_TX
+        #define PIN_SERIAL_TX     PA9
+    #endif
+#elif  SERIAL_UART_INSTANCE==2
+    #ifndef PIN_SERIAL_RX
+      #define PIN_SERIAL_RX       PA3
+    #endif
+    #ifndef PIN_SERIAL_TX
+      #define PIN_SERIAL_TX       PA2
+    #endif
+#elif  SERIAL_UART_INSTANCE==3
+    #error No Serial3 on CH32V203G6
+#elif  SERIAL_UART_INSTANCE==4
+    #error No Serial4 on CH32V203G6
 #endif
-#ifndef PIN_SERIAL_TX
-  #define PIN_SERIAL_TX         PA9
-#endif
+
 
 /*----------------------------------------------------------------------------
  *        Arduino objects - C++ only
@@ -168,5 +203,3 @@
     #define SERIAL_PORT_HARDWARE  Serial
   #endif
 #endif
-
-

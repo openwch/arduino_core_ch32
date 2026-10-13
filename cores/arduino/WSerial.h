@@ -2,14 +2,17 @@
 #define WIRING_SERIAL_H
 
 #include "variant.h"
-#include "HardwareSerial.h"
+//#include "HardwareSerial.h"   // MxRD 261013: moved to below to allow guards for HAVE_HWSERIALx
 
 #if defined(USE_TINYUSB)
 #include "Adafruit_USBD_CDC.h"
+#if defined(Serial)
+  #undef Serial   // MxRD: undef Serial defined when Multiple Serial was selected
+#endif
 #define Serial SerialTinyUSB
 #endif
 
-#if defined(UART_MODULE_ENABLED) && !defined(UART_MODULE_ONLY)
+#if defined(UART_MODULE_ENABLED) && !defined(UART_MODULE_ONLY)   // MxRD: UART_MODULE_ONLY seems never used
 
   #if !defined(HWSERIAL_NONE) && defined(SERIAL_UART_INSTANCE)
 
@@ -112,6 +115,8 @@
     #endif
   #endif
 
-#endif
+#include "HardwareSerial.h"   // MxRD 261013: moved from above to allow guards for HAVE_HWSERIALx
+
+#endif  // defined(UART_MODULE_ENABLED) && !defined(UART_MODULE_ONLY)
 
 #endif /* WIRING_SERIAL_H */

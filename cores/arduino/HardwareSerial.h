@@ -21,12 +21,11 @@
   Modified 3 December 2013 by Matthijs Kooijman
   Modified 1 may 2023 by TempersLee
   Modified 8 September 2025 by Jobit Joseph (Universal CH32 RX Buffer Support)
+  Modified 13 September 2026 by MxRD (compile-time guards for Serial selection)
 */
 
 #ifndef HardwareSerial_h
 #define HardwareSerial_h
-
-#if 1
 
 #include <inttypes.h>
 #include "Stream.h"
@@ -174,30 +173,29 @@ public:
     void init(PinName _rx, PinName _tx, PinName _rts = NC, PinName _cts = NC);
 };
 
-#if defined(USART1)
+#if defined(HAVE_HWSERIAL1) && defined(USART1)
   extern HardwareSerial Serial1;
 #endif
-#if defined(USART2)
+#if defined(HAVE_HWSERIAL2) && defined(USART2)
   extern HardwareSerial Serial2;
 #endif
-#if defined(USART3)
+#if defined(HAVE_HWSERIAL3) && defined(USART3)
   extern HardwareSerial Serial3;
 #endif
-#if defined(UART4) || defined(USART4)
+#if defined(HAVE_HWSERIAL4) && (defined(UART4) || defined(USART4))   // Note: some have USART4, V30x has UART4
   extern HardwareSerial Serial4;
 #endif
-#if defined(UART5) || defined(USART5)
+#if defined(HAVE_HWSERIAL5) && (defined(UART5) || defined(USART5))   // Note: V30x has UART 4-8, no USART5-8 in supported series (even though mentioned in various GPIO/remap sources)
   extern HardwareSerial Serial5;
 #endif
-#if defined(USART6)
+#if defined(HAVE_HWSERIAL6) && (defined(UART6) || defined(USART6))
   extern HardwareSerial Serial6;
 #endif
-#if defined(UART7) || defined(USART7)
+#if defined(HAVE_HWSERIAL7) && (defined(UART7) || defined(USART7))
   extern HardwareSerial Serial7;
 #endif
-#if defined(UART8) || defined(USART8)
+#if defined(HAVE_HWSERIAL8) && (defined(UART8) || defined(USART8))
   extern HardwareSerial Serial8;
 #endif
 
-#endif
-#endif
+#endif   // HardwareSerial_h

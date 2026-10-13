@@ -107,36 +107,36 @@
 
 
 // UART Definitions
+// CH32X033 (TSSOP20):
+//    RX: PA11=RX1=SDA, PA3=RX2, PC19=RX3=SWCLK, PB1=RX4
+//    TX: PA10=TX1=SCL, PA2=TX2, PC18=TX3=SWDIO, PB0=TX4=MOSI=PA7
+// For CH32X033F8P6 serial pins RX2=PA3/TX2=PA2 or alternative RX1_1=PA11/TX1_1=PA10
 #ifndef SERIAL_UART_INSTANCES
   // Define the number of UART instances that can be used.
-  // For CH32X033F8P6 SSOP20 the supported maximum is currently two.
-  // These are UART1 and UART2 on pins PA10=TX1_1, PA11=RX1_1 and on PA2=TX2, PA3=RX2
-  // (two instances will cost 132/136 bytes more flash/ram than one instance)
-  #define SERIAL_UART_INSTANCES  2    // select 1 or 2 instances
+  // For CH32X033F8P6 SSOP20 not all ports are always usable. Possible conflicts: Serial1 w/ I2C, Serial4 w/ SPI
+  #define SERIAL_UART_INSTANCES 1
 #endif
 
-#if (SERIAL_UART_INSTANCES==1)
-  // If using only one UART inactance, select which to use: UART1 or UART2
+#if (SERIAL_UART_INSTANCES == 1)
+  //  Using only one Serial port
   #ifndef SERIAL_UART_INSTANCE
-    //  #define SERIAL_UART_INSTANCE  1  // UART1: PA10=TX1_1, PA11=RX1_1
-    #define SERIAL_UART_INSTANCE 2  // UART2: PA2=TX2, PA3=RX2
+    #define SERIAL_UART_INSTANCE 2   // use Serial2 as default for Serial - UART2: PA2=TX2, PA3=RX2
   #endif
 #else
-  // multiple instances, max 2 for CH32X033F8P SSOP20
-  // NOTE: do not define SERIAL_UART_INSTANCE when using multiple instances!
+  // Use multiple instances.
+  // CH32X033/035 has 4 UARTS,    // UART3 not usable on X033, only on X035
+  // When having multiple Serial instances SERIAL_UART_INSTANCE cannot be defined as it will skip defining the other ports.
   #undef SERIAL_UART_INSTANCE
   #define ENABLE_HWSERIAL1 1
   #define ENABLE_HWSERIAL2 1
+  //#define ENABLE_HWSERIAL3 1
+  #define ENABLE_HWSERIAL4 1
+  #define Serial Serial2
 #endif
 
 // Default pin used for generic 'Serial' instance
-// Mandatory for Firmata
-// For CH32X033F8P6 serial pins RX2=PA3/TX2=PA2 or alternative RX1_1=PA11/TX1_1=PA10
-
-// Pins used for Serial2 instance (used by HardwareSerial constructor)
-#if (SERIAL_UART_INSTANCES==1)
-  // one single UART instance, specify which pins to be used
-  #if (SERIAL_UART_INSTANCE==1)
+// Mandatory for Firmata, no longer used by HardwareSerial.
+#if SERIAL_UART_INSTANCE==1
     // Use UART1 alternative pins RX1_1/TX1_1 (PA11/PA10)
     #ifndef PIN_SERIAL_RX
       #define PIN_SERIAL_RX         PA11
@@ -144,7 +144,7 @@
     #ifndef PIN_SERIAL_TX
       #define PIN_SERIAL_TX         PA10
     #endif
-  #elif (SERIAL_UART_INSTANCE==2)
+#elif SERIAL_UART_INSTANCE==2 || SERIAL_UART_INSTANCES>1
     // Use UART2 RX2/TX2 (PA3/PA2)
     #ifndef PIN_SERIAL_RX
       #define PIN_SERIAL_RX         PA3
@@ -152,22 +152,17 @@
     #ifndef PIN_SERIAL_TX
       #define PIN_SERIAL_TX         PA2
     #endif
-  #endif
-#else
-  // multiple instances. Define each pin for each UART (Serial=Serial2)
-  #define Serial Serial2  // specify which UART to use as 'Serial'
-  #ifndef PIN_SERIAL_RX
-    #define PIN_SERIAL_RX         PA11   // supported: PA3=RX2, alternative PA11=RX1_1 (X035: PB11)
-  #endif
-  #ifndef PIN_SERIAL_TX
-    #define PIN_SERIAL_TX         PA10   // supported:  PA2=TX2, alternative PA10=TX1_1 (X035: PB10)
-  #endif
-  #ifndef PIN_SERIAL_RX2
-    #define PIN_SERIAL_RX2         PA3   // supported: PA3=RX2, alternative PA11=RX1_1 (X035: PB11)
-  #endif
-  #ifndef PIN_SERIAL_TX2
-    #define PIN_SERIAL_TX2         PA2   // supported:  PA2=TX2, alternative PA10=TX1_1 (X035: PB10)
-  #endif
+#elif SERIAL_UART_INSTANCE==3
+    // Don't Use UART3 on PC18/PC19, they are SWDIO/SWCLK.
+    #error No Serial3 on CH32X033F8P
+#elif SERIAL_UART_INSTANCE==4
+    // Use UART4 RX2/TX2 PB1=RX4, PB0=TX4=MOSI=PA7 
+    #ifndef PIN_SERIAL_RX
+      #define PIN_SERIAL_RX         PB1
+    #endif
+    #ifndef PIN_SERIAL_TX
+      #define PIN_SERIAL_TX         PB0
+    #endif
 #endif
 
 
@@ -199,5 +194,3 @@
     #define SERIAL_PORT_HARDWARE  Serial
   #endif
 #endif
-
-
