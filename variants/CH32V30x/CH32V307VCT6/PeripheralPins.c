@@ -105,6 +105,7 @@ WEAK const PinMap PinMap_TIM[] = {
 // Note: CH32V307 has 3 USART and 5 UART perhipherals. USART supports both asynchronous and synchronous modes.
 //    RX: PA10=RX1, PA3=RX2, PB11=RX3, PC11=RX4, PD2=RX5, PC1=RX6, PC3=RX7, PC5=RX8
 //    TX: PA9=TX1, PA2=TX2, PB10=TX3, PC10=TX4, PC12=TX5, PC0=TX6, PC2=TX7, PC4=TX8
+// Note: pin definitions for V307 are incomplete. Serial6, 7 and 8 use undefined pins and give errors. See issue #63.
 #ifdef UART_MODULE_ENABLED
 WEAK const PinMap PinMap_UART_TX[] = {
   {PA_9, USART1, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)},
@@ -167,6 +168,7 @@ WEAK const PinMap PinMap_UART_CTS[] = {
 WEAK const PinMap PinMap_SPI_MOSI[] = {
   {PA_7,  SPI1, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)},
   {PB_15, SPI2, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)},
+  {PB_5,  SPI3, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)},
   {NC,    NP,   0}
 };
 #endif
@@ -175,6 +177,7 @@ WEAK const PinMap PinMap_SPI_MOSI[] = {
 WEAK const PinMap PinMap_SPI_MISO[] = {
   {PA_6,  SPI1, CH_PIN_DATA(CH_MODE_INPUT, CH_CNF_INPUT_FLOAT, 0, AFIO_NONE)},
   {PB_14, SPI2, CH_PIN_DATA(CH_MODE_INPUT, CH_CNF_INPUT_FLOAT, 0, AFIO_NONE)},
+  {PB_4,  SPI3, CH_PIN_DATA(CH_MODE_INPUT, CH_CNF_INPUT_FLOAT, 0, AFIO_NONE)},
   {NC,    NP,   0}
 };
 #endif
@@ -183,6 +186,7 @@ WEAK const PinMap PinMap_SPI_MISO[] = {
 WEAK const PinMap PinMap_SPI_SCLK[] = {
   {PA_5,  SPI1, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)},
   {PB_13, SPI2, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)},
+  {PB_3,  SPI3, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)},
   {NC,    NP,   0}
 };
 #endif
@@ -191,6 +195,8 @@ WEAK const PinMap PinMap_SPI_SCLK[] = {
 WEAK const PinMap PinMap_SPI_SSEL[] = {
   {PA_4,  SPI1, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)},
   {PB_12, SPI2, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)},
+  {NC, SPI3, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0, AFIO_NONE)},  // was unsupported PA_15
+// CodeRabbit says: The CH32V307 reference manual states that SPI3_NSS does not support hardware function. Use a GPIO-managed CS instead.
   {NC,    NP,   0}
 };
 #endif

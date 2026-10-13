@@ -43,7 +43,18 @@
 #define PB14                    18
 #define PB13                    19
 #define PB11                    20
-#define PB10                    21 
+#define PB10                    21
+#define PA15                    22
+#define PB4                     23
+#define PB3                     24
+#define PC8                     25
+#define PC9                     26
+#define PC10                    27
+#define PC11                    28
+#define PC6                     29
+#define PC7                     30
+#define PC12                    31
+#define PD2                     32
 
 
 // Alternate pins number
@@ -64,7 +75,8 @@
 // See also V10x issue openwch#210, resolved by PR #22 (openwch#211), which was very much the same thing.
 // These numbers/definitions were not updated since the first release in 2023. 
 // Probably there are more variants suffering from the same issue. TODO: need to check those!
-#define NUM_DIGITAL_PINS        22
+// PR #12 [161] added 11 pins, so let's add them first.
+#define NUM_DIGITAL_PINS        33
 #define NUM_ANALOG_INPUTS       6
 // #define ADC_CTLR_ADCAL          
 #define ADC_RESOLUTION          12
