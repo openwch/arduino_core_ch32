@@ -15,7 +15,7 @@ menu.upload_method=Upload method
 
 
 ##############################################################################
-##CH32V00x_EVT Board   
+##CH32V00x_EVT Board
 
 CH32V00x_EVT.name=CH32V00x
 CH32V00x_EVT.build.core=arduino
@@ -134,7 +134,7 @@ CH32VM00X_EVT.debug.tool=gdb-WCH_LinkE
 #CH32V002A4 QSOP16 Board
 #CH32V002D4 QFN12 Board
 
-#CH32V006K8 EVT Board
+#CH32V006K8 QFN32 EVT Board
 CH32VM00X_EVT.menu.pnum.CH32V006K8=CH32V006K8 QFN32 EVT
 CH32VM00X_EVT.menu.pnum.CH32V006K8.node=NODE_V006K8
 CH32VM00X_EVT.menu.pnum.CH32V006K8.upload.maximum_size=63488
@@ -151,9 +151,39 @@ CH32VM00X_EVT.menu.pnum.CH32V006K8.build.IQ_math_RV32=
 CH32VM00X_EVT.menu.pnum.CH32V006K8.build.ch_extra_lib=-lprintf
 CH32VM00X_EVT.menu.pnum.CH32V006K8.build.ldscript=Link.ld
 
-# TODO:
 #CH32V006F8 QFN20/TSSOP20 Board
+CH32VM00X_EVT.menu.pnum.CH32V006F8=CH32V006F8 TSSOP20/QFN20
+CH32VM00X_EVT.menu.pnum.CH32V006F8.node=NODE_V006F8
+CH32VM00X_EVT.menu.pnum.CH32V006F8.upload.maximum_size=63488
+CH32VM00X_EVT.menu.pnum.CH32V006F8.upload.maximum_data_size=8192
+CH32VM00X_EVT.menu.pnum.CH32V006F8.build.mcu=QingKe-V2C
+CH32VM00X_EVT.menu.pnum.CH32V006F8.build.board=CH32V006F8
+CH32VM00X_EVT.menu.pnum.CH32V006F8.build.series=CH32VM00X
+CH32VM00X_EVT.menu.pnum.CH32V006F8.build.variant=CH32VM00X/CH32V006F8
+CH32VM00X_EVT.menu.pnum.CH32V006F8.build.chip=CH32V006F8
+CH32VM00X_EVT.menu.pnum.CH32V006F8.build.march=rv32ecxw
+CH32VM00X_EVT.menu.pnum.CH32V006F8.build.mabi=ilp32e
+CH32VM00X_EVT.menu.pnum.CH32V006F8.build.math_lib_gcc=-lm
+CH32VM00X_EVT.menu.pnum.CH32V006F8.build.IQ_math_RV32=
+CH32VM00X_EVT.menu.pnum.CH32V006F8.build.ch_extra_lib=-lprintf
+CH32VM00X_EVT.menu.pnum.CH32V006F8.build.ldscript=Link.ld
+
 #CH32V006E8 QSOP24 Board
+CH32VM00X_EVT.menu.pnum.CH32V006E8=CH32V006E8 QSOP24
+CH32VM00X_EVT.menu.pnum.CH32V006E8.node=NODE_V006E8
+CH32VM00X_EVT.menu.pnum.CH32V006E8.upload.maximum_size=63488
+CH32VM00X_EVT.menu.pnum.CH32V006E8.upload.maximum_data_size=8192
+CH32VM00X_EVT.menu.pnum.CH32V006E8.build.mcu=QingKe-V2C
+CH32VM00X_EVT.menu.pnum.CH32V006E8.build.board=CH32V006E8
+CH32VM00X_EVT.menu.pnum.CH32V006E8.build.series=CH32VM00X
+CH32VM00X_EVT.menu.pnum.CH32V006E8.build.variant=CH32VM00X/CH32V006E8
+CH32VM00X_EVT.menu.pnum.CH32V006E8.build.chip=CH32V006E8
+CH32VM00X_EVT.menu.pnum.CH32V006E8.build.march=rv32ecxw
+CH32VM00X_EVT.menu.pnum.CH32V006E8.build.mabi=ilp32e
+CH32VM00X_EVT.menu.pnum.CH32V006E8.build.math_lib_gcc=-lm
+CH32VM00X_EVT.menu.pnum.CH32V006E8.build.IQ_math_RV32=
+CH32VM00X_EVT.menu.pnum.CH32V006E8.build.ch_extra_lib=-lprintf
+CH32VM00X_EVT.menu.pnum.CH32V006E8.build.ldscript=Link.ld
 
 #CH32M007E8 QSOP24 Board
 CH32VM00X_EVT.menu.pnum.CH32M007E8=CH32M007E8 QSOP24
@@ -804,6 +834,7 @@ CH32V30x_EVT.menu.usb.tinyusb_usbhs=Adafruit TinyUSB with USBHS
 CH32V30x_EVT.menu.usb.tinyusb_usbhs.build.usb_flags=-DUSBCON -DUSE_TINYUSB -DCFG_TUD_WCH_USBIP_USBHS=1 "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"
 CH32V30x_EVT.menu.usb.tinyusb_usbfs=Adafruit TinyUSB with USBFS
 CH32V30x_EVT.menu.usb.tinyusb_usbfs.build.usb_flags=-DUSBCON -DUSE_TINYUSB -DCFG_TUD_WCH_USBIP_USBFS=1 "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"
+
 
 # Upload menu
 CH32V30x_EVT.menu.upload_method.swdMethod=WCH-SWD

@@ -54,10 +54,9 @@ Shared pinout for CH32V003F4P6 / CH32V002F4P6 / CH32V006F8P6.
 - Reference manual: [CH32V00X](https://www.wch-ic.com/downloads/CH32V00XRM_PDF.html)
 
 ### Known Issues & Limitations ###
-- The boards file in this PR has provisions for selecting peripherals from the menu. This feature is not (yet) implemented for all boards (currenly only for  V003/V002/V006/X035). To support other boards the menu options need to be copied and `#ifndef IDE_MENU_PERIPHERALS` should be added to the variant specific file variant_CH32XnnnYYZZ.h
-- To fix the clock capitalization bug (see #66), minimal changes were made. Not all changes from the latest SDK were incorporated.
-- This PR requires CH32 Arduino core with latest updates from the master branch (see [installation notes](#fresh-installation-with-support-for-ch32vm00x-v002v006etc)).
-- To see the updated boards menu after installation of core v1.0.4, you may need to [clear the IDE 2.x application cache](https://github.com/ch32-community/arduino_core_ch32/wiki/Clearing-Arduino-2.x-IDE-application-cache).
+- The boards file has provisions for selecting peripherals from the menu. This feature is aimed at chips with limited flash (think  V003/V002) and is not implemented on all boards. (To support other boards the menu options need to be copied and `#ifndef IDE_MENU_PERIPHERALS` should be added to the variant specific file variant_CH32XnnnYYZZ.h)
+- To fix the clock capitalization bug (see openwch#66), minimal changes were made. Not all changes from the latest SDK were incorporated.
+- To see the updated boards menu after installation of WCH core v1.0.4, you may need to [clear the IDE 2.x application cache](https://github.com/ch32-community/arduino_core_ch32/wiki/Clearing-Arduino-2.x-IDE-application-cache).
 - Uploading and debugging the new boards using the Arduino IDE 2.x, requires an [updated version of OpenOCD](#updating-openocd).
 
 ------------------
@@ -65,8 +64,9 @@ Shared pinout for CH32V003F4P6 / CH32V002F4P6 / CH32V006F8P6.
 ### Fresh installation with support for CH32VM00X (V002/V006/etc) ###
 
 1. Install [latest WCH Link Utility](https://www.wch.cn/downloads/WCH-LinkUtility_ZIP.html), update LinkE device when prompted. Test connection to Link Utility and CH32 chip using Query Chip Info. (This step installs drivers and support for CH32V006 and other newer chips).
-2. Install latest Arduino IDE (v2.3.6).
-3. Run Arduino IDE as administrator, Add [board json](https://github.com/ch32-community/board_manager_files/raw/main/package_ch32v_index.json) to preferences. Open Tools → Board → Boards Manager, search for wch, and click Install. Exit IDE.
+2. Install latest Arduino IDE (v2.3.10).
+3. Run Arduino IDE as administrator, Add [board json](https://github.com/ch32-community/board_manager_files/raw/main/package_ch32v_index.json) to preferences: `https://github.com/ch32-community/board_manager_files/raw/main/package_ch32v_index.json`
+Open Tools → Board → Boards Manager, search for wch, and click Install. Exit IDE.
 4. For latest sources download [zip of latest master branch](https://github.com/ch32-community/arduino_core_ch32/archive/refs/heads/main.zip). Unzip and copy/overwrite all contents to this location: 
    - `C:\Users\<username>\AppData\Local\Arduino15\packages\ch32-community\hardware\ch32v\[release number]`
 5. Optional: review [unmerged PRs](https://github.com/ch32-community/arduino_core_ch32/pulls) for possibly required fixes and manually copy changed files.
