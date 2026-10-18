@@ -349,39 +349,6 @@ uint32_t FSMC_GetECC(uint32_t FSMC_Bank)
 }
 
 /*********************************************************************
- * @fn      FSMC_ITConfig
- *
- * @brief   Enables or disables the specified FSMC interrupts.
- *
- * @param   FSMC_Bank - specifies the FSMC Bank to be used
- *            FSMC_Bank2_NAND - FSMC Bank2 NAND
- *          FSMC_IT - specifies the FSMC interrupt sources to be enabled or disabled.
- *            FSMC_IT_RisingEdge - Rising edge detection interrupt.
- *            FSMC_IT_Level - Level edge detection interrupt.
- *            FSMC_IT_FallingEdge - Falling edge detection interrupt.
- *          NewState - ENABLE or DISABLE.
- *
- * @return  none
- */
-void FSMC_ITConfig(uint32_t FSMC_Bank, uint32_t FSMC_IT, FunctionalState NewState)
-{
-    if(NewState != DISABLE)
-    {
-        if(FSMC_Bank == FSMC_Bank2_NAND)
-        {
-            FSMC_Bank2->SR2 |= FSMC_IT;
-        }
-    }
-    else
-    {
-        if(FSMC_Bank == FSMC_Bank2_NAND)
-        {
-            FSMC_Bank2->SR2 &= (uint32_t)~FSMC_IT;
-        }
-    }
-}
-
-/*********************************************************************
  * @fn      FSMC_GetFlagStatus
  *
  * @brief   Checks whether the specified FSMC flag is set or not.
@@ -389,9 +356,6 @@ void FSMC_ITConfig(uint32_t FSMC_Bank, uint32_t FSMC_IT, FunctionalState NewStat
  * @param   FSMC_Bank - specifies the FSMC Bank to be used
  *            FSMC_Bank2_NAND - FSMC Bank2 NAND
  *          FSMC_FLAG - specifies the flag to check.
- *            FSMC_FLAG_RisingEdge - Rising egde detection Flag.
- *            FSMC_FLAG_Level - Level detection Flag.
- *            FSMC_FLAG_FallingEdge - Falling egde detection Flag.
  *            FSMC_FLAG_FEMPT - Fifo empty Flag.
  *          NewState - ENABLE or DISABLE.
  *
@@ -417,86 +381,4 @@ FlagStatus FSMC_GetFlagStatus(uint32_t FSMC_Bank, uint32_t FSMC_FLAG)
     }
 
     return bitstatus;
-}
-
-/*********************************************************************
- * @fn      FSMC_ClearFlag
- *
- * @brief   Clears the FSMC's pending flags.
- *
- * @param   FSMC_Bank - specifies the FSMC Bank to be used
- *            FSMC_Bank2_NAND - FSMC Bank2 NAND
- *          FSMC_FLAG - specifies the flag to check.
- *            FSMC_FLAG_RisingEdge - Rising egde detection Flag.
- *            FSMC_FLAG_Level - Level detection Flag.
- *            FSMC_FLAG_FallingEdge - Falling egde detection Flag.
- *
- * @return  none
- */
-void FSMC_ClearFlag(uint32_t FSMC_Bank, uint32_t FSMC_FLAG)
-{
-    if(FSMC_Bank == FSMC_Bank2_NAND)
-    {
-        FSMC_Bank2->SR2 &= ~FSMC_FLAG;
-    }
-}
-
-/*********************************************************************
- * @fn      FSMC_GetITStatus
- *
- * @brief   Checks whether the specified FSMC interrupt has occurred or not.
- *
- * @param   FSMC_Bank - specifies the FSMC Bank to be used
- *            FSMC_Bank2_NAND - FSMC Bank2 NAND
- *          FSMC_IT - specifies the FSMC interrupt source to check.
- *            FSMC_IT_RisingEdge - Rising edge detection interrupt.
- *            FSMC_IT_Level - Level edge detection interrupt.
- *            FSMC_IT_FallingEdge - Falling edge detection interrupt.
- *
- * @return  ITStatus - The new state of FSMC_IT (SET or RESET).
- */
-ITStatus FSMC_GetITStatus(uint32_t FSMC_Bank, uint32_t FSMC_IT)
-{
-    ITStatus bitstatus = RESET;
-    uint32_t tmpsr = 0x0, itstatus = 0x0, itenable = 0x0;
-
-    if(FSMC_Bank == FSMC_Bank2_NAND)
-    {
-        tmpsr = FSMC_Bank2->SR2;
-    }
-
-    itstatus = tmpsr & FSMC_IT;
-
-    itenable = tmpsr & (FSMC_IT >> 3);
-    if((itstatus != (uint32_t)RESET) && (itenable != (uint32_t)RESET))
-    {
-        bitstatus = SET;
-    }
-    else
-    {
-        bitstatus = RESET;
-    }
-    return bitstatus;
-}
-
-/*********************************************************************
- * @fn      FSMC_ClearITPendingBit
- *
- * @brief   Clears the FSMC's interrupt pending bits.
- *
- * @param   FSMC_Bank - specifies the FSMC Bank to be used
- *            FSMC_Bank2_NAND - FSMC Bank2 NAND
- *          FSMC_IT - specifies the FSMC interrupt source to check.
- *            FSMC_IT_RisingEdge - Rising edge detection interrupt.
- *            FSMC_IT_Level - Level edge detection interrupt.
- *            FSMC_IT_FallingEdge - Falling edge detection interrupt.
- *
- * @return  none
- */
-void FSMC_ClearITPendingBit(uint32_t FSMC_Bank, uint32_t FSMC_IT)
-{
-    if(FSMC_Bank == FSMC_Bank2_NAND)
-    {
-        FSMC_Bank2->SR2 &= ~(FSMC_IT >> 3);
-    }
 }

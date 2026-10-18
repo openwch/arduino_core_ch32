@@ -97,7 +97,7 @@ void TIM_DeInit(TIM_TypeDef *TIMx)
  * @brief   Initializes the TIMx Time Base Unit peripheral according to
  *        the specified parameters in the TIM_TimeBaseInitStruct.
  *
- * @param   TIMx - where x can be 1 to 4 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 10 to select the TIM peripheral.
  *          TIM_TimeBaseInitStruct - pointer to a TIM_TimeBaseInitTypeDef
  *        structure.
  *

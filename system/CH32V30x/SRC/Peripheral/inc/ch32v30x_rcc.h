@@ -428,7 +428,7 @@ void RCC_ClearFlag(void);
 ITStatus RCC_GetITStatus(uint8_t RCC_IT);
 void RCC_ClearITPendingBit(uint8_t RCC_IT);
 void RCC_ADCCLKADJcmd(FunctionalState NewState);
-void RCC_OTGFSCLKConfig(uint32_t RCC_OTGFSCLKSource);
+void RCC_USBFSCLKConfig(uint32_t RCC_USBFSCLKSource);
 void RCC_USBCLK48MConfig(uint32_t RCC_USBCLK48MSource);
 #define RCC_OTGFSCLKConfig  RCC_USBFSCLKConfig
 

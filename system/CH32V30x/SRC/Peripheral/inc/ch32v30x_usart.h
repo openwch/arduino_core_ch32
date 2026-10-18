@@ -174,8 +174,6 @@ void USART_SetPrescaler(USART_TypeDef* USARTx, uint8_t USART_Prescaler);
 void USART_SmartCardCmd(USART_TypeDef* USARTx, FunctionalState NewState);
 void USART_SmartCardNACKCmd(USART_TypeDef* USARTx, FunctionalState NewState);
 void USART_HalfDuplexCmd(USART_TypeDef* USARTx, FunctionalState NewState);
-void USART_OverSampling8Cmd(USART_TypeDef* USARTx, FunctionalState NewState);
-void USART_OneBitMethodCmd(USART_TypeDef* USARTx, FunctionalState NewState);
 void USART_IrDAConfig(USART_TypeDef* USARTx, uint16_t USART_IrDAMode);
 void USART_IrDACmd(USART_TypeDef* USARTx, FunctionalState NewState);
 FlagStatus USART_GetFlagStatus(USART_TypeDef* USARTx, uint16_t USART_FLAG);

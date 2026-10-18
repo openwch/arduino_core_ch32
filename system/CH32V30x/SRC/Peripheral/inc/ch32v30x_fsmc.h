@@ -89,10 +89,6 @@ typedef struct
                                         the Flash memory in burst mode.
                                         This parameter can be a value of @ref FSMC_Wait_Signal_Polarity */
 
-  uint32_t FSMC_WrapMode;            /* Enables or disables the Wrapped burst access mode for Flash
-                                        memory, valid only when accessing Flash memories in burst mode.
-                                        This parameter can be a value of @ref FSMC_Wrap_Mode */
-
   uint32_t FSMC_WaitSignalActive;    /* Specifies if the wait signal is asserted by the memory one
                                         clock cycle before the wait state or during the wait state,
                                         valid only when accessing memories in burst mode.
@@ -208,10 +204,6 @@ typedef struct
 #define FSMC_WaitSignalPolarity_Low                     ((uint32_t)0x00000000)
 #define FSMC_WaitSignalPolarity_High                    ((uint32_t)0x00000200)
 
-/* FSMC_Wrap_Mode */
-#define FSMC_WrapMode_Disable                           ((uint32_t)0x00000000)
-#define FSMC_WrapMode_Enable                            ((uint32_t)0x00000400) 
-
 /* FSMC_Wait_Timing */
 #define FSMC_WaitSignalActive_BeforeWaitState           ((uint32_t)0x00000000)
 #define FSMC_WaitSignalActive_DuringWaitState           ((uint32_t)0x00000800) 
@@ -254,15 +246,6 @@ typedef struct
 #define FSMC_ECCPageSize_4096Bytes                      ((uint32_t)0x00080000)
 #define FSMC_ECCPageSize_8192Bytes                      ((uint32_t)0x000A0000)
 
-/* FSMC_Interrupt_sources */
-#define FSMC_IT_RisingEdge                              ((uint32_t)0x00000008)
-#define FSMC_IT_Level                                   ((uint32_t)0x00000010)
-#define FSMC_IT_FallingEdge                             ((uint32_t)0x00000020)
-
-/* FSMC_Flags */
-#define FSMC_FLAG_RisingEdge                            ((uint32_t)0x00000001)
-#define FSMC_FLAG_Level                                 ((uint32_t)0x00000002)
-#define FSMC_FLAG_FallingEdge                           ((uint32_t)0x00000004)
 #define FSMC_FLAG_FEMPT                                 ((uint32_t)0x00000040)
 
 
@@ -276,11 +259,7 @@ void FSMC_NORSRAMCmd(uint32_t FSMC_Bank, FunctionalState NewState);
 void FSMC_NANDCmd(uint32_t FSMC_Bank, FunctionalState NewState);
 void FSMC_NANDECCCmd(uint32_t FSMC_Bank, FunctionalState NewState);
 uint32_t FSMC_GetECC(uint32_t FSMC_Bank);
-void FSMC_ITConfig(uint32_t FSMC_Bank, uint32_t FSMC_IT, FunctionalState NewState);
 FlagStatus FSMC_GetFlagStatus(uint32_t FSMC_Bank, uint32_t FSMC_FLAG);
-void FSMC_ClearFlag(uint32_t FSMC_Bank, uint32_t FSMC_FLAG);
-ITStatus FSMC_GetITStatus(uint32_t FSMC_Bank, uint32_t FSMC_IT);
-void FSMC_ClearITPendingBit(uint32_t FSMC_Bank, uint32_t FSMC_IT);
 
 #ifdef __cplusplus
 }

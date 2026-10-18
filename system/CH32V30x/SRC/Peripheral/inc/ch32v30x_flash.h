@@ -123,7 +123,6 @@ void FLASH_Unlock_Fast(void);
 void FLASH_Lock_Fast(void);
 void FLASH_ErasePage_Fast(uint32_t Page_Address);
 void FLASH_EraseBlock_32K_Fast(uint32_t Block_Address);
-void FLASH_EraseBlock_64K_Fast(uint32_t Block_Address);
 void FLASH_ProgramPage_Fast(uint32_t Page_Address, uint32_t* pbuf);
 void FLASH_Access_Clock_Cfg(uint32_t FLASH_Access_CLK);
 void FLASH_Enhance_Mode(FunctionalState NewState);
@@ -134,6 +133,8 @@ void FLASH_LockBank1(void);
 FLASH_Status FLASH_EraseAllBank1Pages(void);
 FLASH_Status FLASH_GetBank1Status(void);
 FLASH_Status FLASH_WaitForLastBank1Operation(uint32_t Timeout);
+FLASH_Status FLASH_ROM_ERASE(uint32_t StartAddr, uint32_t Length);
+FLASH_Status FLASH_ROM_WRITE(uint32_t StartAddr, uint32_t *pbuf, uint32_t Length);
 
 #ifdef __cplusplus
 }

@@ -868,27 +868,6 @@ void FLASH_EraseBlock_32K_Fast(uint32_t Block_Address)
 }
 
 /*********************************************************************
- * @fn      FLASH_EraseBlock_64K_Fast
- *
- * @brief   Erases a specified FLASH Block (1Block = 64KByte).
- *
- * @param   Block_Address - The block address to be erased.
- *
- * @return  none
- */
-void FLASH_EraseBlock_64K_Fast(uint32_t Block_Address)
-{
-    Block_Address &= 0xFFFF0000;
-
-    FLASH->CTLR |= CR_BER64;
-    FLASH->ADDR = Block_Address;
-    FLASH->CTLR |= CR_STRT_Set;
-    while(FLASH->STATR & SR_BSY)
-        ;
-    FLASH->CTLR &= ~CR_BER64;
-}
-
-/*********************************************************************
  * @fn      FLASH_ProgramPage_Fast
  *
  * @brief   Program a specified FLASH page (1page = 256Byte).

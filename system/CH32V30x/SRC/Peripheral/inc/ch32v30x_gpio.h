@@ -139,8 +139,6 @@ typedef enum
 #define GPIO_PortSourceGPIOC        ((uint8_t)0x02)
 #define GPIO_PortSourceGPIOD        ((uint8_t)0x03)
 #define GPIO_PortSourceGPIOE        ((uint8_t)0x04)
-#define GPIO_PortSourceGPIOF        ((uint8_t)0x05)
-#define GPIO_PortSourceGPIOG        ((uint8_t)0x06)
 
 /* GPIO_Pin_sources */
 #define GPIO_PinSource0             ((uint8_t)0x00)

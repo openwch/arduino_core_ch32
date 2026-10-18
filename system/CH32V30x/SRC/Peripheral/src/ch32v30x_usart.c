@@ -41,21 +41,13 @@
 #define CTLR3_HDSEL_Reset         ((uint16_t)0xFFF7) /* USART Half-Duplex Disable Mask */
 
 #define CTLR3_IRLP_Mask           ((uint16_t)0xFFFB) /* USART IrDA LowPower mode Mask */
-#define CTLR3_CLEAR_Mask          ((uint16_t)0xFCFF) /* USART CR3 Mask */
+#define CTLR3_CLEAR_Mask          ((uint16_t)0xFCFF) /* USART CTLR3 Mask */
 
 #define CTLR3_IREN_Set            ((uint16_t)0x0002) /* USART IrDA Enable Mask */
 #define CTLR3_IREN_Reset          ((uint16_t)0xFFFD) /* USART IrDA Disable Mask */
 #define GPR_LSB_Mask              ((uint16_t)0x00FF) /* Guard Time Register LSB Mask */
 #define GPR_MSB_Mask              ((uint16_t)0xFF00) /* Guard Time Register MSB Mask */
 #define IT_Mask                   ((uint16_t)0x001F) /* USART Interrupt Mask */
-
-/* USART OverSampling-8 Mask */
-#define CTLR1_OVER8_Set           ((uint16_t)0x8000) /* USART OVER8 mode Enable Mask */
-#define CTLR1_OVER8_Reset         ((uint16_t)0x7FFF) /* USART OVER8 mode Disable Mask */
-
-/* USART One Bit Sampling Mask */
-#define CTLR3_ONEBITE_Set         ((uint16_t)0x0800) /* USART ONEBITE mode Enable Mask */
-#define CTLR3_ONEBITE_Reset       ((uint16_t)0xF7FF) /* USART ONEBITE mode Disable Mask */
 
 /*********************************************************************
  * @fn      USART_DeInit
@@ -602,52 +594,6 @@ void USART_HalfDuplexCmd(USART_TypeDef *USARTx, FunctionalState NewState)
     else
     {
         USARTx->CTLR3 &= CTLR3_HDSEL_Reset;
-    }
-}
-
-/*********************************************************************
- * @fn      USART_OverSampling8Cmd
- *
- * @brief   Enables or disables the USART's 8x oversampling mode.
- *
- * @param   USARTx - where x can be 1, 2, 3 to select the USART peripheral.
- *          NewState - ENABLE or DISABLE.
- *          Note-
- *          This function has to be called before calling USART_Init()
- *          function in order to have correct baudrate Divider value. 
- * @return  none
- */
-void USART_OverSampling8Cmd(USART_TypeDef *USARTx, FunctionalState NewState)
-{
-    if(NewState != DISABLE)
-    {
-        USARTx->CTLR1 |= CTLR1_OVER8_Set;
-    }
-    else
-    {
-        USARTx->CTLR1 &= CTLR1_OVER8_Reset;
-    }
-}
-
-/*********************************************************************
- * @fn      USART_OneBitMethodCmd
- *
- * @brief   Enables or disables the USART's one bit sampling method.
- *
- * @param   USARTx - where x can be 1, 2, 3 to select the USART peripheral.
- *          NewState - ENABLE or DISABLE.
- *
- * @return  none
- */
-void USART_OneBitMethodCmd(USART_TypeDef *USARTx, FunctionalState NewState)
-{
-    if(NewState != DISABLE)
-    {
-        USARTx->CTLR3 |= CTLR3_ONEBITE_Set;
-    }
-    else
-    {
-        USARTx->CTLR3 &= CTLR3_ONEBITE_Reset;
     }
 }
 

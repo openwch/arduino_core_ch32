@@ -1222,24 +1222,24 @@ void RCC_PLL3Cmd(FunctionalState NewState)
 }
 
 /*********************************************************************
- * @fn      RCC_OTGFSCLKConfig
+ * @fn      RCC_USBFSCLKConfig
  *
- * @brief   Configures the USB OTG FS clock (OTGFSCLK).
+ * @brief   Configures the USB OTG FS clock (USBFSCLK).
  *
- * @param   RCC_OTGFSCLKSource - specifies the USB OTG FS clock source.
- *            RCC_OTGFSCLKSource_PLLCLK_Div1 - PLL clock divided by 1
+ * @param   RCC_USBFSCLKSource - specifies the USB OTG FS clock source.
+ *            RCC_USBFSCLKSource_PLLCLK_Div1 - PLL clock divided by 1
  *        selected as USB OTG FS clock source
- *            RCC_OTGFSCLKSource_PLLCLK_Div2 - PLL clock divided by 2
+ *            RCC_USBFSCLKSource_PLLCLK_Div2 - PLL clock divided by 2
  *        selected as USB OTG FS clock source
- *            RCC_OTGFSCLKSource_PLLCLK_Div3 - PLL clock divided by 3
+ *            RCC_USBFSCLKSource_PLLCLK_Div3 - PLL clock divided by 3
  *        selected as USB OTG FS clock source
  *
  * @return  none
  */
-void RCC_OTGFSCLKConfig(uint32_t RCC_OTGFSCLKSource)
+void RCC_USBFSCLKConfig(uint32_t RCC_USBFSCLKSource)
 {
     RCC->CFGR0 &= ~(3 << 22);
-    RCC->CFGR0 |= RCC_OTGFSCLKSource << 22;
+    RCC->CFGR0 |= RCC_USBFSCLKSource << 22;
 }
 
 /*********************************************************************
