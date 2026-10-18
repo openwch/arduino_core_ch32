@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
 * File Name          : ch32v30x.h
 * Author             : WCH
-* Version            : V1.0.0
-* Date               : 2021/06/06
+* Version            : V1.0.1
+* Date               : 2025/04/09
 * Description        : CH32V30x Device Peripheral Access Layer Header File.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -18,7 +18,7 @@
 
 #if !defined(CH32V30x_D8) && !defined(CH32V30x_D8C)
 //#define CH32V30x_D8              /* CH32V303x */
-#define CH32V30x_D8C             /* CH32V307x-CH32V305x */
+#define CH32V30x_D8C             /* CH32V307x-CH32V305x-CH32V317x */
 
 #endif
   
@@ -5171,7 +5171,7 @@ typedef struct
 /*                          ENHANCED FUNNCTION                                */
 /******************************************************************************/
 
-/****************************  Enhanced register  *****************************/
+/****************************  Enhanced CTLR1 register  *****************************/
 #define  EXTEN_USBD_LS                         ((uint32_t)0x00000001)         /* Bit 0 */
 #define  EXTEN_USBD_PU_EN                      ((uint32_t)0x00000002)         /* Bit 1 */
 #define  EXTEN_ETH_10M_EN                      ((uint32_t)0x00000004)         /* Bit 2 */

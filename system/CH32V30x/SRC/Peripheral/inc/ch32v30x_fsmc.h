@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
 * File Name          : ch32v30x_fsmc.h
 * Author             : WCH
-* Version            : V1.0.0
-* Date               : 2021/06/06
+* Version            : V1.0.1
+* Date               : 2025/03/06
 * Description        : This file contains all the functions prototypes for the FSMC
 *                      firmware library.
 *********************************************************************************

@@ -1,7 +1,7 @@
 /********************************** (C) COPYRIGHT  *******************************
 * File Name          : ch32v30x_can.c
 * Author             : WCH
-* Version            : V1.0.0
+* Version            : V1.0.1
 * Date               : 2021/06/06
 * Description        : This file provides all the CAN firmware functions.
 *********************************************************************************

@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
 * File Name          : ch32v30x_flash.c
 * Author             : WCH
-* Version            : V1.0.0
-* Date               : 2021/06/06
+* Version            : V1.0.2
+* Date               : 2026/08/06
 * Description        : This file provides all the FLASH firmware functions.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -947,8 +947,7 @@ void FLASH_Access_Clock_Cfg(uint32_t FLASH_Access_CLK)
  *
  * @brief   Read FLASH Enhance Mode
  *
- * @param
- *          Newstate - new state of the ReadOut Protection(ENABLE or DISABLE).
+ * @param   Newstate - new state of the ReadOut Protection(ENABLE or DISABLE).
  *
  * @return  none
  */

@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
 * File Name          : ch32v30x_fsmc.c
 * Author             : WCH
-* Version            : V1.0.0
-* Date               : 2021/06/06
+* Version            : V1.0.1
+* Date               : 2025/04/06
 * Description        : This file provides all the FSMC firmware functions.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -274,7 +274,6 @@ void FSMC_NORSRAMCmd(uint32_t FSMC_Bank, FunctionalState NewState)
  *
  * @param   FSMC_Bank - specifies the FSMC Bank to be used
  *            FSMC_Bank2_NAND - FSMC Bank2 NAND
- *            FSMC_Bank3_NAND - FSMC Bank3 NAND
  *          NewStat - ENABLE or DISABLE.
  *
  * @return  none

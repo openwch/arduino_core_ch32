@@ -2,7 +2,7 @@
 * File Name          : ch32v30x_misc.h
 * Author             : WCH
 * Version            : V1.0.0
-* Date               : 2021/06/06
+* Date               : 2024/03/06
 * Description        : This file contains all the functions prototypes for the 
 *                      miscellaneous firmware library functions.
 *********************************************************************************
@@ -38,7 +38,7 @@ typedef struct
 
 
 void NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup);
-void NVIC_Init(NVIC_InitTypeDef* NVIC_InitStruct);
+void NVIC_Init(NVIC_InitTypeDef *NVIC_InitStruct);
 
 #ifdef __cplusplus
 }

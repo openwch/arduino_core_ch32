@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
 * File Name          : ch32v30x_adc.h
 * Author             : WCH
-* Version            : V1.0.0
-* Date               : 2021/06/06
+* Version            : V1.0.1
+* Date               : 2026/01/20
 * Description        : This file contains all the functions prototypes for the 
 *                      ADC firmware library.
 *********************************************************************************
