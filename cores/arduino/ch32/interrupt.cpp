@@ -176,6 +176,9 @@ void ch32_interrupt_enable(GPIO_TypeDef *port, GPIOMode_TypeDef io_mode,uint16_t
     EXTI_InitStruct.EXTI_Mode = it_mode;
     EXTI_InitStruct.EXTI_Trigger = trigger_mode;
     EXTI_Init(&EXTI_InitStruct);
+    /* Drop edges latched before this attach (e.g. while detached), so the
+      callback only runs for edges that come after it */
+    EXTI_ClearITPendingBit(exti_lines[id]);
 
     gpio_irq_conf[id].callback = callback;
 
