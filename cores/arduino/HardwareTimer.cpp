@@ -1594,14 +1594,14 @@ extern "C" {
     * @retval None
     */
   void TIM1_UP_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-  void TIM1_UP_IRQHandler(void)
+  void __attribute__((weak)) TIM1_UP_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER1_INDEX]) {
       HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER1_INDEX]->handle);
     }
   }
   void TIM1_CC_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-  void TIM1_CC_IRQHandler(void)
+  void __attribute__((weak)) TIM1_CC_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER1_INDEX]) {
       HardwareTimer::captureCompareCallback(&HardwareTimer_Handle[TIMER1_INDEX]->handle);
@@ -1618,7 +1618,7 @@ extern "C" {
     * @retval None
     */
   void TIM2_UP_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-  void TIM2_UP_IRQHandler(void)
+  void __attribute__((weak)) TIM2_UP_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER2_INDEX]) {
       HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER2_INDEX]->handle);
@@ -1626,7 +1626,7 @@ extern "C" {
   }
 
   void TIM2_CC_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-  void TIM2_CC_IRQHandler(void)
+  void __attribute__((weak)) TIM2_CC_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER2_INDEX]) {
       HardwareTimer::captureCompareCallback(&HardwareTimer_Handle[TIMER2_INDEX]->handle);
@@ -1640,7 +1640,7 @@ extern "C" {
     * @retval None
     */
   void TIM2_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-  void TIM2_IRQHandler(void)
+  void __attribute__((weak)) TIM2_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER2_INDEX]) 
     {
@@ -1659,7 +1659,7 @@ extern "C" {
     * @retval None
     */
   void TIM3_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast"))); 
-  void TIM3_IRQHandler(void)
+  void __attribute__((weak)) TIM3_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER3_INDEX]) {
       HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER3_INDEX]->handle);
@@ -1675,7 +1675,7 @@ extern "C" {
     * @retval None
     */
   void TIM4_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast"))); 
-  void TIM4_IRQHandler(void)
+  void __attribute__((weak)) TIM4_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER4_INDEX]) {
        HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER4_INDEX]->handle);
@@ -1691,7 +1691,7 @@ extern "C" {
     * @retval None
     */
   void TIM5_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast"))); 
-  void TIM5_IRQHandler(void)
+  void __attribute__((weak)) TIM5_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER5_INDEX]) {
        HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER5_INDEX]->handle);
@@ -1707,7 +1707,7 @@ extern "C" {
     * @retval None
     */
   void TIM6_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast"))); 
-  void TIM6_IRQHandler(void)
+  void __attribute__((weak)) TIM6_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER6_INDEX]) {
        HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER6_INDEX]->handle);
@@ -1723,7 +1723,7 @@ extern "C" {
     * @retval None
     */
   void TIM7_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast"))); 
-  void TIM7_IRQHandler(void)
+  void __attribute__((weak)) TIM7_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER7_INDEX]) {
        HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER7_INDEX]->handle);
@@ -1739,14 +1739,14 @@ extern "C" {
     * @retval None
     */
   void TIM8_UP_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast"))); 
-  void TIM8_UP_IRQHandler(void)
+  void __attribute__((weak)) TIM8_UP_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER8_INDEX]) {
        HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER8_INDEX]->handle);
     }
   }
   void TIM8_CC_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast"))); 
-  void TIM8_CC_IRQHandler(void)
+  void __attribute__((weak)) TIM8_CC_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER8_INDEX]) {
       HardwareTimer::captureCompareCallback(&HardwareTimer_Handle[TIMER8_INDEX]->handle);
@@ -1761,14 +1761,14 @@ extern "C" {
     * @retval None
     */
   void TIM9_UP_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));  
-  void TIM9_UP_IRQHandler(void)
+  void __attribute__((weak)) TIM9_UP_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER9_INDEX]) {
        HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER9_INDEX]->handle);
     }
   }
   void TIM9_CC_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));    
-  void TIM9_CC_IRQHandler(void)
+  void __attribute__((weak)) TIM9_CC_IRQHandler(void)
   {
     if(HardwareTimer_Handle[TIMER9_INDEX]){
         HardwareTimer::captureCompareCallback(&HardwareTimer_Handle[TIMER9_INDEX]->handle);
@@ -1783,14 +1783,14 @@ extern "C" {
     * @retval None
     */
   void TIM10_UP_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));   
-  void TIM10_UP_IRQHandler(void)
+  void __attribute__((weak)) TIM10_UP_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER10_INDEX]) {
        HardwareTimer::updateCallback(&HardwareTimer_Handle[TIMER10_INDEX]->handle);
     }
   }
   void TIM10_CC_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));  
-  void TIM10_CC_IRQHandler(void)
+  void __attribute__((weak)) TIM10_CC_IRQHandler(void)
   {
     if (HardwareTimer_Handle[TIMER10_INDEX]){
        HardwareTimer::captureCompareCallback(&HardwareTimer_Handle[TIMER10_INDEX]->handle);

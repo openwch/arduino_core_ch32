@@ -229,7 +229,7 @@ extern "C" {
 #endif
 
 void EXTI7_0_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-void EXTI7_0_IRQHandler(void)
+void __attribute__((weak)) EXTI7_0_IRQHandler(void)
 {
    uint32_t pin;
    for (pin = GPIO_Pin_0; pin <= GPIO_Pin_7; pin = pin << 1) 
@@ -257,7 +257,7 @@ void EXTI7_0_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void EXTI15_8_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void EXTI25_16_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
-void EXTI7_0_IRQHandler(void)
+void __attribute__((weak)) EXTI7_0_IRQHandler(void)
 {
    uint32_t pin;
    for (pin = GPIO_Pin_0; pin <= GPIO_Pin_7; pin = pin << 1) 
@@ -270,7 +270,7 @@ void EXTI7_0_IRQHandler(void)
    }
 }
 
-void EXTI15_8_IRQHandler(void)
+void __attribute__((weak)) EXTI15_8_IRQHandler(void)
 {
    uint32_t pin;
    for (pin = GPIO_Pin_8; pin <= GPIO_Pin_15; pin = pin << 1) 
@@ -283,7 +283,7 @@ void EXTI15_8_IRQHandler(void)
    }
 }
 
-void EXTI25_16_IRQHandler(void)
+void __attribute__((weak)) EXTI25_16_IRQHandler(void)
 {
    uint32_t pin;
    for (pin = GPIO_Pin_16; pin <= GPIO_Pin_23; pin = pin << 1) 
@@ -320,7 +320,7 @@ void EXTI15_10_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")))
   * @param  None
   * @retval None
   */
-void EXTI0_IRQHandler(void)
+void __attribute__((weak)) EXTI0_IRQHandler(void)
 {
   EXTI_ClearITPendingBit(EXTI_Line0); 
   _gpio_exti_callback(EXTI_Line0);
@@ -331,7 +331,7 @@ void EXTI0_IRQHandler(void)
   * @param  None
   * @retval None
   */
-void EXTI1_IRQHandler(void)
+void __attribute__((weak)) EXTI1_IRQHandler(void)
 {
    EXTI_ClearITPendingBit(EXTI_Line1); 
   _gpio_exti_callback(EXTI_Line1);
@@ -342,7 +342,7 @@ void EXTI1_IRQHandler(void)
   * @param  None
   * @retval None
   */
-void EXTI2_IRQHandler(void)
+void __attribute__((weak)) EXTI2_IRQHandler(void)
 {
   EXTI_ClearITPendingBit(EXTI_Line2); 
   _gpio_exti_callback(EXTI_Line2);
@@ -353,7 +353,7 @@ void EXTI2_IRQHandler(void)
   * @param  None
   * @retval None
   */
-void EXTI3_IRQHandler(void)
+void __attribute__((weak)) EXTI3_IRQHandler(void)
 {
   EXTI_ClearITPendingBit(EXTI_Line3); 
   _gpio_exti_callback(EXTI_Line3);
@@ -364,7 +364,7 @@ void EXTI3_IRQHandler(void)
   * @param  None
   * @retval None
   */
-void EXTI4_IRQHandler(void)
+void __attribute__((weak)) EXTI4_IRQHandler(void)
 {
    EXTI_ClearITPendingBit(EXTI_Line4); 
    _gpio_exti_callback(EXTI_Line4);
@@ -376,7 +376,7 @@ void EXTI4_IRQHandler(void)
   * @param  None
   * @retval None
   */
-void EXTI9_5_IRQHandler(void)
+void __attribute__((weak)) EXTI9_5_IRQHandler(void)
 {
   uint32_t pin;
   for (pin = GPIO_Pin_5; pin <= GPIO_Pin_9; pin = pin << 1) {
@@ -393,7 +393,7 @@ void EXTI9_5_IRQHandler(void)
   * @param  None
   * @retval None
   */
-void EXTI15_10_IRQHandler(void)
+void __attribute__((weak)) EXTI15_10_IRQHandler(void)
 {
   uint32_t pin;
   for (pin = GPIO_Pin_10; pin <= GPIO_Pin_15; pin = pin << 1) {
