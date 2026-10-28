@@ -95,6 +95,12 @@ void HardwareSerial::begin(unsigned long baud, byte config)
     parity = USART_Parity_No;
   }
 
+  // The USART word length includes the parity bit: 8 data bits + parity
+  // need a 9-bit word
+  if (parity != USART_Parity_No) {
+    databits++;
+  }
+
 
   switch ( (config & 0x0C) >> 2 ) {
     case 0x00:
