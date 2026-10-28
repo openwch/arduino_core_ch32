@@ -13,11 +13,13 @@
 #pragma once
 
 /* ENABLE Peripherals */
+#ifndef IDE_MENU_PERIPHERALS   // MMOLE: defined when peripherals are enabled/disabled via the IDE menu
 #define                         ADC_MODULE_ENABLED
 #define                         UART_MODULE_ENABLED
 #define                         SPI_MODULE_ENABLED
 #define                         I2C_MODULE_ENABLED
 #define                         TIM_MODULE_ENABLED
+#endif
 
 /* CH32V003F4 Pins */
 #define PA1                     PIN_A1

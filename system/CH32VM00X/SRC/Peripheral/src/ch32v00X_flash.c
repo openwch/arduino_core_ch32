@@ -680,7 +680,8 @@ void FLASH_BufReset(void)
  */
 void FLASH_BufLoad(uint32_t Address, uint32_t Data0)
 {
-    if(((Address >= ValidAddrStart) && (Address < ValidAddrEnd)) || (Address == OB_BASE))
+    if(((Address >= ValidAddrStart) && (Address < ValidAddrEnd)) || ((Address >= OB_BASE) && (Address < OB_BASE+0x100)))  // MMOLE 250721: copied from latest EVT (v1.2), needed by EEPROM
+    //if(((Address >= ValidAddrStart) && (Address < ValidAddrEnd)) || (Address == OB_BASE))
     {
         FLASH->CTLR &= (CR_OPTER_Reset & CR_PAGE_ER_Reset);
 

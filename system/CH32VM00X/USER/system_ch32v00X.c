@@ -158,10 +158,10 @@ GPIOD->BSHR =0x2;
 GPIO_IPD_Unused();
 #ifdef SYSCLK_FREQ_8MHz_HSI
     SetSysClockTo_8MHz_HSI();
-#elif defined SYSCLK_FREQ_24MHZ_HSI
-    SetSysClockTo_24MHZ_HSI();
-#elif defined SYSCLK_FREQ_48MHZ_HSI
-    SetSysClockTo_48MHZ_HSI();
+#elif defined SYSCLK_FREQ_24MHz_HSI  // MMOLE 250602: fix MHz - SYSCLK_FREQ_24MHZ_HSI
+    SetSysClockTo_24MHz_HSI();       //     SetSysClockTo_24MHZ_HSI();
+#elif defined SYSCLK_FREQ_48MHz_HSI  // MMOLE 250602: fix MHz - SYSCLK_FREQ_48MHZ_HSI
+    SetSysClockTo_48MHz_HSI();       //     SetSysClockTo_48MHZ_HSI();
 #elif defined SYSCLK_FREQ_8MHz_HSE
     SetSysClockTo_8MHz_HSE();
 #elif defined SYSCLK_FREQ_24MHz_HSE

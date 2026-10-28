@@ -13,11 +13,13 @@
 #pragma once
 
 /* ENABLE Peripherals */
+#ifndef IDE_MENU_PERIPHERALS   // defined when peripherals are enabled/disabled via the IDE menu
 #define                         ADC_MODULE_ENABLED
 #define                         UART_MODULE_ENABLED
 #define                         SPI_MODULE_ENABLED
 #define                         I2C_MODULE_ENABLED
 #define                         TIM_MODULE_ENABLED
+#endif  //  IDE_MENU_PERIPHERALS  
 
 /* CH32V006K8 Pins */
 #define PA0                     0

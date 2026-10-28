@@ -65,6 +65,31 @@ extern void delay(uint32_t ms) ;
 static inline void delayMicroseconds(uint32_t) __attribute__((always_inline, unused));
 static inline void delayMicroseconds(uint32_t us)
 {
+#if defined(CH32VM00X) || defined(CH32V00x)
+  // MMOLE 250708: a uint64_t division causes need for __udivdi3, which is quite large (more than 1KB)
+  //      SysTick->CMP and CNT are 32-bit values, let's try to avoid 64 bit divisions to minimize Flash usage
+  //      (This might cause smaller roll-over, but who cares...)
+  // NOTE: 64 bit divisions are also used by micros() in clock.c
+  __IO uint32_t currentTicks = SysTick->CNT;
+  /* Number of ticks per millisecond */
+  uint32_t tickPerMs = SysTick->CMP + 1;
+  /* Number of ticks to count */
+  uint32_t nbTicks = ((us - ((us > 0) ? 1 : 0)) * tickPerMs) / 1000;
+  /* Number of elapsed ticks */
+  uint32_t elapsedTicks = 0;
+  __IO uint32_t oldTicks = currentTicks;
+  do {
+    currentTicks = SysTick->CNT;
+    // elapsedTicks += (oldTicks < currentTicks) ? tickPerMs + oldTicks - currentTicks :
+    //                 oldTicks - currentTicks;
+    
+    //increment
+    elapsedTicks += (oldTicks <= currentTicks) ? currentTicks - oldTicks :
+                     tickPerMs - oldTicks + currentTicks;
+
+    oldTicks = currentTicks;
+  } while (nbTicks > elapsedTicks);
+#else  
   __IO uint64_t currentTicks = SysTick->CNT;
   /* Number of ticks per millisecond */
   uint64_t tickPerMs = SysTick->CMP + 1;
@@ -83,7 +108,8 @@ static inline void delayMicroseconds(uint32_t us)
                      tickPerMs - oldTicks + currentTicks;
 
     oldTicks = currentTicks;
-  } while (nbTicks > elapsedTicks);  
+  } while (nbTicks > elapsedTicks);
+#endif
 }
 #else
 #define SYSTICK_CNTL    (0xE000F004)   

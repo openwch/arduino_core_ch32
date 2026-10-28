@@ -53,7 +53,25 @@ uint32_t getCurrentMillis(void)
 
 uint32_t getCurrentMicros(void)
 {
-  
+#if defined(CH32VM00X) || defined(CH32V00x)
+  // MMOLE  250708: a uint64_t division causes need for __udivdi3, which is quite large (more than 1KB)
+  //      SysTick->CMP and CNT are 32-bit values, let's try to avoid 64 bit divisions to minimize Flash usage
+  //      (This might cause smaller roll-over, but who cares...)
+  // NOTE: 64 bit divisions are also used by delayMicroseconds() in wiring_time.h
+  uint32_t m0 = GetTick();
+  __IO uint32_t u0 = SysTick->CNT;
+  uint32_t m1 = GetTick();
+  __IO uint32_t u1 = SysTick->CNT;   //may be a interruption
+   uint32_t tms = SysTick->CMP + 1;
+
+  if (m1 != m0) {
+    //return (m1 * 1000 + ((tms - u1) * 1000) / tms);
+    return m1 * 1000 + u1 * 1000 / tms;  // fix issue #65
+  } else {
+    //return (m0 * 1000 + ((tms - u0) * 1000) / tms);
+    return m0 * 1000 + u0 * 1000 / tms;  // fix issue #65
+  }
+#else
   uint64_t m0 = GetTick();
   __IO uint64_t u0 = SysTick->CNT;
   uint64_t m1 = GetTick();
@@ -61,10 +79,13 @@ uint32_t getCurrentMicros(void)
    uint64_t tms = SysTick->CMP + 1;
 
   if (m1 != m0) {
-    return (m1 * 1000 + ((tms - u1) * 1000) / tms);
+    //return (m1 * 1000 + ((tms - u1) * 1000) / tms);
+    return m1 * 1000 + u1 * 1000 / tms;  // fix issue #65
   } else {
-    return (m0 * 1000 + ((tms - u0) * 1000) / tms);
+    //return (m0 * 1000 + ((tms - u0) * 1000) / tms);
+    return m0 * 1000 + u0 * 1000 / tms;  // fix issue #65
   }
+#endif
 }
 
 
@@ -112,9 +133,11 @@ uint32_t getCurrentMicros(void)
            tms = (tms << 32) + *((__IO uint32_t *)SYSTICK_CMPL) + 1;     
 
   if (m1 != m0) {
-    return (m1 * 1000 + ((tms - u1) * 1000) / tms);
+    //return (m1 * 1000 + ((tms - u1) * 1000) / tms);
+    return m1 * 1000 + u1 * 1000 / tms;  // fix issue #65
   } else {
-    return (m0 * 1000 + ((tms - u0) * 1000) / tms);
+    //return (m0 * 1000 + ((tms - u0) * 1000) / tms);
+    return m0 * 1000 + u0 * 1000 / tms;  // fix issue #65
   }
 }
 

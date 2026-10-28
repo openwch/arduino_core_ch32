@@ -16,7 +16,11 @@
 extern "C" {
 #endif
 
-#if !defined(CH32V002) && !defined(CH32V005) && !defined(CH32V006)&& !defined(CH32V007_M007)
+#if defined(CH32V002F4)
+  #define CH32V002      // MMOLE 250710: added to not use V006 defaults
+#endif
+
+#if !defined(CH32V002) && !defined(CH32V004) && !defined(CH32V005) && !defined(CH32V006)&& !defined(CH32V007_M007)  // MMOLE 250710: added V004
 //#define CH32V002             /* CH32V002*/
 //#define CH32V004             /* CH32V004 */
 //#define CH32V005             /* CH32V005 */
@@ -406,14 +410,19 @@ typedef struct
 #define TIM3_BASE                               (PB1PERIPH_BASE + 0x0800)
 #define WWDG_BASE                               (PB1PERIPH_BASE + 0x2C00)
 #define IWDG_BASE                               (PB1PERIPH_BASE + 0x3000)
-#define USART2_BASE                             (PB1PERIPH_BASE + 0x4400)
+#if !defined(CH32V002) && !defined(CH32V004)   // MMOLE 250625: V002 has no USART2 (same for V004), not having GPIOB_BASE makes flash size a bit smaller.
+  // TODO? CH32V006F4U6 16KB/4K/QFN20 also has no USART2
+  #define USART2_BASE                             (PB1PERIPH_BASE + 0x4400)
+#endif
 #define I2C1_BASE                               (PB1PERIPH_BASE + 0x5400)
 #define PWR_BASE                                (PB1PERIPH_BASE + 0x7000)
 
 #define AFIO_BASE                               (PB2PERIPH_BASE + 0x0000)
 #define EXTI_BASE                               (PB2PERIPH_BASE + 0x0400)
 #define GPIOA_BASE                              (PB2PERIPH_BASE + 0x0800)
-#define GPIOB_BASE                              (PB2PERIPH_BASE + 0x0C00)
+#if !defined(CH32V002) && !defined(CH32V004)   // MMOLE 250625: V002 has no port B (same for V004), not having GPIOB_BASE makes flash size a bit smaller.
+  #define GPIOB_BASE                              (PB2PERIPH_BASE + 0x0C00)
+#endif
 #define GPIOC_BASE                              (PB2PERIPH_BASE + 0x1000)
 #define GPIOD_BASE                              (PB2PERIPH_BASE + 0x1400)
 #define ADC1_BASE                               (PB2PERIPH_BASE + 0x2400)
@@ -445,7 +454,9 @@ typedef struct
 #define AFIO                                    ((AFIO_TypeDef *)AFIO_BASE)
 #define EXTI                                    ((EXTI_TypeDef *)EXTI_BASE)
 #define GPIOA                                   ((GPIO_TypeDef *)GPIOA_BASE)
-#define GPIOB                                   ((GPIO_TypeDef *)GPIOB_BASE)
+#if defined(GPIOB_BASE)   // MMOLE 250625: V002 and V004 have no port B
+  #define GPIOB                                   ((GPIO_TypeDef *)GPIOB_BASE)
+#endif
 #define GPIOC                                   ((GPIO_TypeDef *)GPIOC_BASE)
 #define GPIOD                                   ((GPIO_TypeDef *)GPIOD_BASE)
 #define ADC1                                    ((ADC_TypeDef *)ADC1_BASE)
@@ -465,7 +476,9 @@ typedef struct
 #define OB                                      ((OB_TypeDef *)OB_BASE)
 #define EXTEN                                   ((EXTEN_TypeDef *)EXTEN_BASE)
 
-#define USART2                                  ((USART_TypeDef *)USART2_BASE)
+#if defined(USART2_BASE)   // MMOLE 250710: V002 and V004 have no USART2
+  #define USART2                                  ((USART_TypeDef *)USART2_BASE)
+#endif
 #define OPA                                     ((OPA_TypeDef *)OPA_BASE)
 #define TIM3                                    ((TIM_TypeDef *)TIM3_BASE)
 #define TKey1                                   ((ADC_TypeDef *)ADC1_BASE)

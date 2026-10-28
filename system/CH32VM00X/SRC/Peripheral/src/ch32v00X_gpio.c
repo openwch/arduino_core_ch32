@@ -37,11 +37,13 @@ void GPIO_DeInit(GPIO_TypeDef *GPIOx)
         RCC_PB2PeriphResetCmd(RCC_PB2Periph_GPIOA, ENABLE);
         RCC_PB2PeriphResetCmd(RCC_PB2Periph_GPIOA, DISABLE);
     }
+#if defined(GPIOB_BASE) // MMOLE 250625: V002 and V004 have no port B
     else if(GPIOx == GPIOB)
     {
         RCC_PB2PeriphResetCmd(RCC_PB2Periph_GPIOB, ENABLE);
         RCC_PB2PeriphResetCmd(RCC_PB2Periph_GPIOB, DISABLE);
     }
+#endif
     else if(GPIOx == GPIOC)
     {
         RCC_PB2PeriphResetCmd(RCC_PB2Periph_GPIOC, ENABLE);
@@ -464,12 +466,35 @@ void GPIO_EXTILineConfig(uint8_t GPIO_PortSource, uint8_t GPIO_PinSource)
  * @param   none
  *
  * @return  none
+ *
+ * MMOLE 250625 - by not using chip specific defines, GPIO_IPD_Unused takes up 750 bytes on the V002F4, resulting in 3792 bytes for the simple Blink sketch
+ * Using the define brings this back to 64 bytes, resulting in 3096 bytes.
+ * By not defining GPIOB_BASE and using #if defined(GPIOB_BASE)  this is lowered to 3056 bytes.
+
+ * 
  */
 void GPIO_IPD_Unused(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
-    uint32_t chip = 0;
     RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOA |RCC_PB2Periph_GPIOB | RCC_PB2Periph_GPIOC | RCC_PB2Periph_GPIOD, ENABLE);
+#if defined(CH32V002F4)
+    // MMOLE 250625: note that original code is identical for CH32V002F4U6 and CH32V002F4P6. Both 20 pin packages have full set of ports GPIOC and GPIOD
+    // CH32V002J4M6, CH32V002D4U6, CH32V002A4M6 have less pins and thus need additional and inits for GPIOC and GPIOD, but are identical for GPIOA and GPIOB
+    // Note that according to Reference Manual p1 fig.1-1, the V002 has no port GPIOB, so perhaps that init can be omitted along with everything GPIOB_BASE?
+    // (location of GPIOB_BASE (PB2PERIPH_BASE+0x0C00) is marked RESERVED in the RM p9. for V002 and V004
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3|GPIO_Pin_4\
+                                 |GPIO_Pin_5|GPIO_Pin_6|GPIO_Pin_7;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+#if defined(GPIOB_BASE) // MMOLE 250625: V002 and V004 have no port B
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2\
+                                 |GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5\
+                                 |GPIO_Pin_6;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+    GPIO_Init(GPIOB, &GPIO_InitStructure);
+#endif
+#else
+    uint32_t chip = 0;
     chip =  *( uint32_t * )0x1FFFF704 & (~0x000000F0);
     switch(chip)
     {
@@ -735,6 +760,6 @@ void GPIO_IPD_Unused(void)
         }
 
     }
-
+#endif // #if defined(CH32V002F4)
 }
 

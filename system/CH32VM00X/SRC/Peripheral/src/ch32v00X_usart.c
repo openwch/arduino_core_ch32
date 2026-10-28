@@ -59,11 +59,13 @@ void USART_DeInit(USART_TypeDef *USARTx)
         RCC_PB2PeriphResetCmd(RCC_PB2Periph_USART1, ENABLE);
         RCC_PB2PeriphResetCmd(RCC_PB2Periph_USART1, DISABLE);
     }
+#if defined(USART2)   // MMOLE 250710: V002 and V004 have no USART2
     if(USARTx == USART2)
     {
         RCC_PB2PeriphResetCmd(RCC_PB2Periph_USART2, ENABLE);
         RCC_PB2PeriphResetCmd(RCC_PB2Periph_USART2, DISABLE);
     }
+#endif
 }
 
 /*********************************************************************

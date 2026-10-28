@@ -119,10 +119,17 @@ static inline void pinV32_DisconnectDebug(PinName pin)
 
   // Disconnect JTAG-DP + SW-DP signals.
   // Warning: Need to reconnect under reset
+#if defined(GPIOB_BASE) // MMOLE 250625: V002 and V004 have no port B
   if ((pin == PD_1) || (pin == PB_3)) 
   {
      GPIO_PinRemapConfig(GPIO_Remap_SDI_Disable, ENABLE);  // JTAG-DP Disabled and SW-DP Disabled
   }
+#else
+  if ((pin == PD_1)) 
+  {
+     GPIO_PinRemapConfig(GPIO_Remap_SDI_Disable, ENABLE);  // JTAG-DP Disabled and SW-DP Disabled
+  }
+#endif // #if defined(GPIOB_BASE)
 #else
   (void)(pin);
 #endif 
