@@ -83,6 +83,12 @@ bool usbpd_sink_set_request_fixed_voltage(Request_voltage_t requestVoltage)
 
 void timer3_init(uint16_t arr, uint16_t psc)
 {
+#if defined(TIM_MODULE_ENABLED)
+    // Init of HardwareTimer is done in main sketch
+	(void)arr;
+	(void)psc;
+#else
+    // keep original bypass of CH32 core API
     TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;
 
     RCC_APB1PeriphClockCmd( RCC_APB1Periph_TIM3, ENABLE );
@@ -101,8 +107,8 @@ void timer3_init(uint16_t arr, uint16_t psc)
     NVIC_EnableIRQ(TIM3_IRQn);
 
     TIM_Cmd( TIM3, ENABLE );
+#endif // defined(TIM_MODULE_ENABLED)
 }
-
 
 void usbpd_sink_rx_mode(void)
 {
@@ -155,9 +161,7 @@ void usbpd_sink_init(void)
     USBPD->CONFIG = PD_DMA_EN;
     USBPD->STATUS = BUF_ERR | IF_RX_BIT | IF_RX_BYTE | IF_RX_ACT | IF_RX_RESET | IF_TX_END;// Clear all interrupt flags
 
-
     timer3_init(5000-1,48-1); // 5ms
-
 }
 
 void usbpd_sink_phy_send_data(uint8_t* pBuf, uint8_t length, uint8_t sop)
@@ -185,7 +189,6 @@ void usbpd_sink_phy_send_data(uint8_t* pBuf, uint8_t length, uint8_t sop)
     USBPD->CONTROL |= BMC_START ;                               //BMC_START
 }
 
-
 uint8_t usbpd_sink_check_cc_connect(void)
 {
     uint8_t ccLine = USBPD_CCNONE;
@@ -197,7 +200,6 @@ uint8_t usbpd_sink_check_cc_connect(void)
     {
         ccLine = USBPD_CC1;
     }
-
 
     USBPD->PORT_CC2 &= ~( CC_CE | PA_CC_AI );
     USBPD->PORT_CC2 |= CC_CMP_22;
@@ -223,8 +225,6 @@ void usbpd_sink_pdo_analyse(uint8_t* pdoData, pd_control_t* pdControl)
             pdControl->cc_PPSSourceCap[pdControl->cc_SourcePPSNum].MaxVoltage = POWER_DECODE_100MV(test.SourcePPSPDO.MaxVlotageIn100mVincrements);
             pdControl->cc_PPSSourceCap[pdControl->cc_SourcePPSNum].MinVoltage = POWER_DECODE_100MV(test.SourcePPSPDO.MinVlotageIn100mVincrements);
             pdControl->cc_PPSSourceCap[pdControl->cc_SourcePPSNum].Current = POWER_DECODE_50MA(test.SourcePPSPDO.MaxCurrentIn50mAincrements);
-
-
             pdControl->cc_SourcePPSNum++;
         }
         else // fixed
@@ -300,7 +300,6 @@ void usbpd_sink_pps_pdo_request(PPSSourceCap_t* sourceCap, uint8_t pdoNum, uint1
 
 }
 
-
 void usbpd_sink_process(void)
 {
     
@@ -310,7 +309,7 @@ void usbpd_sink_process(void)
     {
         case CC_IDLE:
         {
-            NVIC_DisableIRQ( USBPD_IRQn );  
+            NVIC_DisableIRQ( USBPD_IRQn );
             usbpd_sink_reset();
                
             pdControl_g.cc_State = CC_CHECK_CONNECT;
@@ -342,6 +341,7 @@ void usbpd_sink_process(void)
                 usbpd_sink_pdo_analyse(storageSourceCap, &pdControl_g);
                 NVIC_EnableIRQ( USBPD_IRQn );
 
+
                 pdControl_g.cc_State = CC_SEND_REQUEST;
             }
             break;
@@ -366,7 +366,6 @@ void usbpd_sink_process(void)
                 pdControl_g.cc_State = CC_WAIT_ACCEPT;
                 
             }
-
             break;
         }
 
@@ -407,12 +406,10 @@ void usbpd_sink_process(void)
 
                 pdControl_g.cc_State = CC_GET_SOURCE_CAP+1;
             }
-            
             break;
         }
 
         default:
-            
             break;
     }
     
@@ -466,7 +463,6 @@ void usbpd_sink_protocol_analysis(USBPD_MessageHeader_t* messageHeader, pd_contr
                     // pdControl->cc_PD_Version = messageHeader->MessageHeader.SpecificationRevision;
                     memcpy(storageSourceCap,&usbpdRxBuffer[2],28);
                     // debug_log("cc source cap\r\n");
-                    
                     break;
                 }
 
@@ -529,13 +525,23 @@ void USBPD_IRQHandler(void)
 
 }
 
+#if defined(TIM_MODULE_ENABLED)
+    // Use of HardwareTimer in main sketch. All we have here is the callback that does all things needed
+void USBPD_Timer_Callback(void)
+#else
+    #warning TIM_MODULE_ENABLED is not defined. Please enable HardwareTimer module.
+    // keep original bypass of CH32 core API
 void TIM3_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void TIM3_IRQHandler(void)
+#endif // defined(TIM_MODULE_ENABLED)
 { 
-    
+#if defined(TIM_MODULE_ENABLED)
+    // C++ HardwareTimer management is in main sketch; it calls timer to resume after handling this
+#else
     TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
-    uint8_t ccLine = usbpd_sink_check_cc_connect();
+#endif // defined(TIM_MODULE_ENABLED)
 
+    uint8_t ccLine = usbpd_sink_check_cc_connect();
 
     pdControl_g.cc_WaitTime++;
 
@@ -591,7 +597,5 @@ void TIM3_IRQHandler(void)
             pdControl_g.cc_NoneTimes = 0;
         }       
     }
-
     usbpd_sink_process();
 }
-

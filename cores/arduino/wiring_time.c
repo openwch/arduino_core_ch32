@@ -36,11 +36,17 @@ uint32_t micros(void)
 
 void delay(uint32_t ms)
 {
+  // Count whole milliseconds in micros(), as the AVR core does: counting
+  // millis() ticks makes the first ms anything from 0 to 1 ms long
   if (ms != 0) {
-    uint32_t start = getCurrentMillis();
+    uint32_t start = getCurrentMicros();
     do {
       yield();
-    } while (getCurrentMillis() - start < ms);
+      while (ms > 0 && (getCurrentMicros() - start) >= 1000) {
+        ms--;
+        start += 1000;
+      }
+    } while (ms > 0);
   }
 }
 

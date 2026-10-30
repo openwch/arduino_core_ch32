@@ -72,6 +72,12 @@ void pinMode(uint32_t ulPin, uint32_t ulMode)
       case OUTPUT_OD:
         pin_function(p, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_OD, 0,0));
         break;
+      case OUTPUT_AF_PP:
+        pin_function(p, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFPP, 0,0));
+        break;
+      case OUTPUT_AF_OD:
+        pin_function(p, CH_PIN_DATA(CH_MODE_OUTPUT_50MHz, CH_CNF_OUTPUT_AFOD, 0,0));
+        break;
       default:
         Error_Handler();
         break;

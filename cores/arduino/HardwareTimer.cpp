@@ -560,6 +560,50 @@ void HardwareTimer::TIM_OC_ConfigChannel_Static(TIM_TypeDef *tim, TIM_OCInitType
 }
 
 /**
+  * @brief  Enable or disable capture/compare preload for one timer channel
+  * @param  htim: timer instance to configure
+  * @param  Channel: timer channel to configure (TIM_Channel_1 through TIM_Channel_4)
+  * @param  state: ENABLE to enable preload, DISABLE to disable it
+  * @retval None
+  */
+void HardwareTimer::TIM_OC_PreloadConfig_Static(TIM_TypeDef *htim, uint32_t Channel, FunctionalState state)
+{
+  #ifdef ENSURE_COMPATIBILITY
+    const uint16_t preload = state == ENABLE ? TIM_OCPreload_Enable : TIM_OCPreload_Disable;
+
+    switch (Channel){
+    case TIM_Channel_1:
+      TIM_OC1PreloadConfig(htim, preload);
+      break;
+    case TIM_Channel_2:
+      TIM_OC2PreloadConfig(htim, preload);
+      break;
+    case TIM_Channel_3:
+      TIM_OC3PreloadConfig(htim, preload);
+      break;
+    case TIM_Channel_4:
+      TIM_OC4PreloadConfig(htim, preload);
+      break;
+    default:
+      break;
+    }
+  #else
+    if(htim == nullptr || Channel > TIM_Channel_4 || (Channel & 0x03))
+      return;
+
+    const uint8_t TIM_OCPE_BP = 2;
+    const uint16_t TIM_OCPE_ARR[] = {TIM_OC1PE, TIM_OC2PE, TIM_OC3PE, TIM_OC4PE};
+    __IO uint16_t *const CHCTLR_REG = (Channel <= TIM_Channel_2 ? &htim->CHCTLR1 : &htim->CHCTLR2);
+
+    uint8_t channel_num = Channel >> TIM_OCPE_BP; // channel number 0..3
+    if(state == ENABLE)
+      *CHCTLR_REG |= TIM_OCPE_ARR[channel_num];   // set preload bit
+    else
+      *CHCTLR_REG &= ~TIM_OCPE_ARR[channel_num];  // clear preload bit
+  #endif  
+}
+
+/**
   * @brief  Configure input capture channels
   * @param   timerX, TIM_ICInitTypeDef,  Arduino channel [1..4] 
   * @retval None
@@ -781,6 +825,11 @@ void HardwareTimer::setMode(uint32_t channel, TimerModes_t mode, PinName pin)
     Error_Handler();
   }
 
+  const bool wasPWM = _ChannelMode[channel - 1] == TIMER_OUTPUT_COMPARE_PWM1 ||
+                      _ChannelMode[channel - 1] == TIMER_OUTPUT_COMPARE_PWM2;
+  const bool isPWM = mode == TIMER_OUTPUT_COMPARE_PWM1 ||
+                     mode == TIMER_OUTPUT_COMPARE_PWM2;
+
   /* Configure some default values. Maybe overwritten later */
   channelOC.TIM_OCMode = TIMER_NOT_USED;  //set default value 0xFFFF
 
@@ -822,6 +871,8 @@ void HardwareTimer::setMode(uint32_t channel, TimerModes_t mode, PinName pin)
 
         TIM_OC_ConfigChannel_Static(_timerObj.handle.Instance, &channelOC, timChannel);
       }
+      if (wasPWM && !isPWM)
+        TIM_OC_PreloadConfig_Static(_timerObj.handle.Instance, timChannel, DISABLE);
       return;
     case TIMER_OUTPUT_COMPARE_ACTIVE:
       channelOC.TIM_OCMode = TIM_OCMode_Active;
@@ -838,11 +889,13 @@ void HardwareTimer::setMode(uint32_t channel, TimerModes_t mode, PinName pin)
       break;
     case TIMER_OUTPUT_COMPARE_PWM1:
       channelOC.TIM_OCMode = TIM_OCMode_PWM1;
-      TIM_OC_ConfigChannel_Static(_timerObj.handle.Instance, &channelOC, timChannel);      
+      TIM_OC_ConfigChannel_Static(_timerObj.handle.Instance, &channelOC, timChannel);
+      TIM_OC_PreloadConfig_Static(_timerObj.handle.Instance, timChannel, ENABLE);
       break;
     case TIMER_OUTPUT_COMPARE_PWM2:
       channelOC.TIM_OCMode = TIM_OCMode_PWM2;
       TIM_OC_ConfigChannel_Static(_timerObj.handle.Instance, &channelOC, timChannel);
+      TIM_OC_PreloadConfig_Static(_timerObj.handle.Instance, timChannel, ENABLE);
       break;
     
     case TIMER_OUTPUT_COMPARE_FORCED_ACTIVE:
@@ -872,6 +925,10 @@ void HardwareTimer::setMode(uint32_t channel, TimerModes_t mode, PinName pin)
       TIM_IC_ConfigChannel_Static(_timerObj.handle.Instance, &channelIC, timChannel); 
       // // Identify and configure 2nd associated channel
       timAssociatedInputChannel = getAssociatedChannel(channel);
+      if (_ChannelMode[timAssociatedInputChannel - 1] == TIMER_OUTPUT_COMPARE_PWM1 ||
+          _ChannelMode[timAssociatedInputChannel - 1] == TIMER_OUTPUT_COMPARE_PWM2) {
+        TIM_OC_PreloadConfig_Static(_timerObj.handle.Instance, getChannel(timAssociatedInputChannel), DISABLE);
+      }
       _ChannelMode[timAssociatedInputChannel - 1] = mode;
       channelIC.TIM_ICPolarity = TIM_ICPolarity_Falling;
       channelIC.TIM_ICSelection = TIM_ICSelection_IndirectTI;
@@ -880,6 +937,9 @@ void HardwareTimer::setMode(uint32_t channel, TimerModes_t mode, PinName pin)
     default:
       break;
   }
+  if (wasPWM && !isPWM)
+    TIM_OC_PreloadConfig_Static(_timerObj.handle.Instance, timChannel, DISABLE);
+  
   // Save channel selected mode to object attribute
   _ChannelMode[channel - 1] = mode;
   if (pin != NC) 
@@ -1326,38 +1386,21 @@ void HardwareTimer::captureCompareCallback(TIM_HandleTypeDef *htim)
     Error_Handler();
   }
 
- uint32_t channel ;
-
-if( (htim->Instance->DMAINTENR & TIM_IT_CC1) || (htim->Instance->DMAINTENR & TIM_IT_CC2) \
- || (htim->Instance->DMAINTENR & TIM_IT_CC3) || (htim->Instance->DMAINTENR & TIM_IT_CC4) )
-{
- if( TIM_GetITStatus(htim->Instance, TIM_IT_CC1) ) 
- {
-    channel = 1;
-    TIM_ClearITPendingBit( htim->Instance, TIM_IT_CC1);
- }
- else if(TIM_GetITStatus(htim->Instance, TIM_IT_CC2) )
- {
-    channel = 2;
-    TIM_ClearITPendingBit( htim->Instance, TIM_IT_CC2);
- }
- else if(TIM_GetITStatus(htim->Instance, TIM_IT_CC3) )
- {
-    channel = 3;
-    TIM_ClearITPendingBit( htim->Instance, TIM_IT_CC3);
- }
- else if(TIM_GetITStatus(htim->Instance, TIM_IT_CC4) )
- {
-    channel = 4;
-    TIM_ClearITPendingBit( htim->Instance, TIM_IT_CC4);
- }
-
+  static const uint16_t cc_it[TIMER_CHANNELS] = {TIM_IT_CC1, TIM_IT_CC2, TIM_IT_CC3, TIM_IT_CC4};
   timerObj_t *obj = get_timer_obj(htim);
   HardwareTimer *HT = (HardwareTimer *)(obj->__this);
-  if (HT->callbacks[channel]) {
-    HT->callbacks[channel]();
+
+  // General-purpose timers share one IRQ for update and compare events, so
+  // this also runs on update-only interrupts: call only the channels whose
+  // compare flag is set (and enabled), all of them if several are pending
+  for (uint32_t channel = 1; channel <= TIMER_CHANNELS; channel++) {
+    if (TIM_GetITStatus(htim->Instance, cc_it[channel - 1]) != RESET) {
+      TIM_ClearITPendingBit(htim->Instance, cc_it[channel - 1]);
+      if (HT->callbacks[channel]) {
+        HT->callbacks[channel]();
+      }
+    }
   }
-}
 }
 
 /**
