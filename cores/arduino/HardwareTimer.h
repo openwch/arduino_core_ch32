@@ -178,8 +178,9 @@ class HardwareTimer {
 #if defined(TIM_CC1NE)
     bool isComplementaryChannel[TIMER_CHANNELS];
 #endif
-   void TIM_OC_ConfigChannel_Static(TIM_TypeDef *htim, TIM_OCInitTypeDef *sConfig, uint32_t Channel);
-   void TIM_IC_ConfigChannel_Static(TIM_TypeDef *htim, TIM_ICInitTypeDef *sConfig, uint32_t Channel);
+    void TIM_OC_PreloadConfig_Static(TIM_TypeDef *htim, uint32_t Channel, FunctionalState state);
+    void TIM_OC_ConfigChannel_Static(TIM_TypeDef *htim, TIM_OCInitTypeDef *sConfig, uint32_t Channel);
+    void TIM_IC_ConfigChannel_Static(TIM_TypeDef *htim, TIM_ICInitTypeDef *sConfig, uint32_t Channel);
 
   private:
      TimerModes_t  _ChannelMode[TIMER_CHANNELS];
