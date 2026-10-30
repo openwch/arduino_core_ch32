@@ -23,7 +23,7 @@ Add the following link in the "*Additional Boards Managers URLs*" field:
 
 https://github.com/openwch/board_manager_files/raw/main/package_ch32v_index.json
 
-Then you can search for "**wch**" through the "**board manager**", find the installation package, and install it.
+Then search for "**CH32**" in the "**Boards Manager**", find the installation package, and install it.
 
 ## Supported boards
 
