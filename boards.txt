@@ -251,6 +251,23 @@ CH32X035_EVT.menu.pnum.CH32X035G8U.build.IQ_math_RV32=
 CH32X035_EVT.menu.pnum.CH32X035G8U.build.ch_extra_lib=-lprintf
 
 
+#CH32X033F8P EVT Board
+CH32X035_EVT.menu.pnum.CH32X033F8P=CH32X033F8P EVT
+CH32X035_EVT.menu.pnum.CH32X033F8P.node=NODE_X033F8P
+CH32X035_EVT.menu.pnum.CH32X033F8P.upload.maximum_size=63488
+CH32X035_EVT.menu.pnum.CH32X033F8P.upload.maximum_data_size=20480
+CH32X035_EVT.menu.pnum.CH32X033F8P.build.mcu=QingKe-V4C
+CH32X035_EVT.menu.pnum.CH32X033F8P.build.board=CH32X033F8P
+CH32X035_EVT.menu.pnum.CH32X033F8P.build.series=CH32X035
+CH32X035_EVT.menu.pnum.CH32X033F8P.build.variant=CH32X035/CH32X033F8P
+CH32X035_EVT.menu.pnum.CH32X033F8P.build.chip=CH32X033F8P
+CH32X035_EVT.menu.pnum.CH32X033F8P.build.march=rv32imacxw
+CH32X035_EVT.menu.pnum.CH32X033F8P.build.mabi=ilp32
+CH32X035_EVT.menu.pnum.CH32X033F8P.build.math_lib_gcc=-lm
+CH32X035_EVT.menu.pnum.CH32X033F8P.build.IQ_math_RV32=
+CH32X035_EVT.menu.pnum.CH32X033F8P.build.ch_extra_lib=-lprintf
+
+
 # Upload menu
 CH32X035_EVT.menu.upload_method.swdMethod=WCH-SWD
 CH32X035_EVT.menu.upload_method.swdMethod.upload.protocol=

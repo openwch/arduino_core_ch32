@@ -18,10 +18,44 @@
    These 8 bytes use 16 bytes of flash. The total storage area page is 64 bytes, leaving 48 bytes available, 
    (including required inverse values). This is 24 bytes that can be used plus the two data0 and data1 bytes. 
    Layout for uint8_t _data[26]: { ob[4], ob[6], ob[16...62] ].
+
+     
+  From the CH32X035 Data Sheet:
+   "Built-in 3328 bytes system storage area (System FLASH), i.e. BOOT area, for system boot program storage, builtin
+   bootstrap loading program. 256-byte system non-volatile configuration information storage area, used for vendor configuration word storage,
+   factory-cured, user cannot be modified. 256-byte user-defined information storage area for user-selected word storage."
+  So next to 62kB of Code FLASH, the chip features 3kB Flash for boot, configuration and storage. That 256-byte
+  user-selected word storage area is the area we can use to emulate on chip EEPROM memory.
+
+  The size of the user-defined information storage area can be different, allowing for a larger emulated EEPROM. 
+  For all CH32 chips the starting address is 0x1FFFF800. The first 16 bytes is for configuration + 4-bytes for data0/data1. 
+  The remainder can be used for EEPROM values and their inverse. The method to write these bytes can be different per chip. 
+     64B  => 2+(64-16)/2=2+24=26B:    CH32V003
+     128B => 2+(128-16)/2=2+56=58B:   CH32V103, CH32V20x, CH32V30x/31x
+     256B => 2+(256-16)/2=2+120=122B: CH32V002/V004/V006/V007, CH32X033/X035
+  Currently tested to work: CH32V003/CH32V002/CH32V006/CH32X033
+  (CH32VM00X required updated ch32v00x_flash.c from latest EVT code)
+
+  TODO: Allow larger EEPROM for CH32V10x/V20x/V30x/V31x. Note: User option bytes storage area is 128B
+
+  Note: for some board the current Arduino core may have incorrect latency set
+  V00X RM page 242 suggests this:
+    FLASH_ACTLR  [1:0] LATENCY[1:0] RW, reset value is 0 => 0 wait state
+    FLASH wait status number.
+    00: 0 wait (Recommended 0<=SYSCLK<=15MHz);
+    01: 1 wait (Recommended 15<SYSCLK<=24MHz);
+    10: 2 wait (Recommended 24<SYSCLK<=48MHz);
+    11: Reserved.
+  Same for V003 RM page 171; same for X035 RM page 237; different for V103
+  Latency is set by subfunction of SetSysClock(). E.g. SetSysClockTo_48MHz_HSI() should set FLASH_Latency_2.
+  For some variants it sets to FLASH_Latency_1. For higher clocks latency may need to be even higher.
+  Note: V20x/V30x have no ACTLR register???
+  //FLASH_SetLatency(FLASH_Latency_2); // TODO: do only where needed
+
 */
 #include <EEPROM.h>
 
-#define OB_AVAIL_DATA_START 8  // valid for CH32V003; how about others?
+#define OB_AVAIL_DATA_START 8  // valid for CH32V003; how about others? (same for X03x, V20x, V30x, V31x)
 
 EEPROMClass::EEPROMClass(void) {
 }
@@ -44,7 +78,11 @@ uint32_t EEPROMClass::ReadOptionBytes()
 
 void EEPROMClass::begin(void)
 {
+#if defined(CH32VM00X) ||  defined(CH32X035)
+  _size = 122;   // Option bytes available on CH32V002/V006, CH32X035/X033: 256- 16 = 240; 240/2=120, 2+120=122
+#else  
   _size = 26;   // Option bytes available on CH32V003: 64 - 16 = 48; 48/2=24, 2+24=26
+#endif
 
   // Allocate data buffer and copy the current content from storage
   if(!_data)
@@ -141,6 +179,21 @@ bool EEPROMClass::commit()
   // Note that when a byte is written as a word, it automatically gets its inverse value as second byte
   if(_data && _size)
   {
+#if defined(CH32VM00X) || defined(CH32X035)
+    // To write to the larger 256B option byte area of V00X, we use fast page programming as shown by EVT EXAM code
+    // (see FLASH_OptionBytePR() in /EVT/EXAM/SRC/Peripheral/src/ch32v00X_flash.c)
+    // Tested OK for V002/V006. X035 seems similar, but first needs testing 
+    FLASH_Unlock_Fast();
+    FLASH_BufReset();
+    for (int i=2;i<_size; i++) {
+      uint32_t val;
+      val=_data[i+1]<<16 | _data[i];
+      FLASH_BufLoad((OB_BASE + (OB_AVAIL_DATA_START + (i-2))*2), val);
+      i++;
+    }
+    FLASH_ProgramPage_Fast(OB_BASE);
+    FLASH_Lock_Fast();    
+#else
     uint16_t *ob16p=(uint16_t *)OB_BASE;
     for (int i=2;i<_size; i++) {
       if(_data[i]!=0xFF) {
@@ -148,8 +201,9 @@ bool EEPROMClass::commit()
         while (FLASH->STATR & FLASH_BUSY);	// Wait for flash operation to be done
       }
     }
+#endif
   }
-    
+
   FLASH->CTLR &= CR_OPTPG_Reset;			// Disable programming mode
   FLASH->CTLR|=CR_LOCK_Set;				// Lock flash memories again
   return(true);

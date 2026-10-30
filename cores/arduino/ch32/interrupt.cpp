@@ -93,7 +93,7 @@ static const uint32_t exti_lines[NB_EXTI] = {
   EXTI_Line4,  EXTI_Line5,  EXTI_Line6,  EXTI_Line7, 
   EXTI_Line8,  EXTI_Line9,  EXTI_Line10, EXTI_Line11,
   EXTI_Line12, EXTI_Line13, EXTI_Line14, EXTI_Line15,
-  EXTI_Line16, EXTI_Line17, EXTI_Line19, EXTI_Line19,
+  EXTI_Line16, EXTI_Line17, EXTI_Line18, EXTI_Line19,
   EXTI_Line20, EXTI_Line21, EXTI_Line22, EXTI_Line23,
   EXTI_Line24, EXTI_Line25  
 };
@@ -117,6 +117,8 @@ static const uint32_t exti_lines[NB_EXTI] = {
   * @param  pin : one of the gpio pin
   * @retval None
   */
+// TODO: fix support for >16 pins.
+// See https://github.com/openwch/arduino_core_ch32/issues/257
 static uint8_t get_pin_id(uint16_t pin)
 {
   uint8_t id = 0;
@@ -129,6 +131,8 @@ static uint8_t get_pin_id(uint16_t pin)
   return id;
 }
 
+// TODO: fix support for >16 pins.
+// See https://github.com/openwch/arduino_core_ch32/issues/257
 void ch32_interrupt_enable(GPIO_TypeDef *port, GPIOMode_TypeDef io_mode,uint16_t pin, void (*callback)(void), EXTIMode_TypeDef it_mode, EXTITrigger_TypeDef trigger_mode)
 {
     GPIO_InitTypeDef GPIO_InitStruct={0};
@@ -193,6 +197,8 @@ void ch32_interrupt_enable(GPIO_TypeDef *port, GPIOMode_TypeDef io_mode,uint16_t
   * @param  pin : one of the gpio pin
   * @retval None
   */
+// TODO: fix support for >16 pins.
+// See https://github.com/openwch/arduino_core_ch32/issues/257
 void ch32_interrupt_disable(GPIO_TypeDef *port, uint16_t pin)
 {
   uint8_t id = get_pin_id(pin);
@@ -212,6 +218,8 @@ void ch32_interrupt_disable(GPIO_TypeDef *port, uint16_t pin)
   * @param  GPIO_Pin : one of the gpio pin
   * @retval None
   */
+// TODO: fix support for >16 pins.
+// See https://github.com/openwch/arduino_core_ch32/issues/257
 void _gpio_exti_callback(uint16_t GPIO_Pin)
 {
   uint8_t irq_id = get_pin_id(GPIO_Pin);
