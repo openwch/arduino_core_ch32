@@ -293,6 +293,12 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
   */
 void uart_deinit(serial_t *obj)
 {
+    /* Never started (begin() not called, or it failed on an unmapped pin):
+     index is still 0 = USART1, so resetting it would kill Serial */
+  if ((obj == NULL) || (obj->index >= UART_NUM) || (uart_handlers[obj->index] != &(obj->handle))) {
+    return;
+  }
+  
   /* Reset UART and disable clock */
   switch (obj->index) 
   {
