@@ -1,6 +1,9 @@
 #ifndef _USBPD_SINK_H
 #define _USBPD_SINK_H
 
+// make sure we can use the CH32 defines and API, such as TIM_MODULE_ENABLED and HardwareTimer
+#include <Arduino.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* end of __cplusplus */
@@ -204,6 +207,10 @@ void usbpd_sink_clear_ready(void);
 
 bool usbpd_sink_set_request_fixed_voltage(Request_voltage_t requestVoltage);
 
+#if defined(TIM_MODULE_ENABLED)
+    // use callback for HardwareTimer
+void USBPD_Timer_Callback(void);
+#endif
 
 #ifdef __cplusplus
 }
