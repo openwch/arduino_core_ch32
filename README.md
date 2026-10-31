@@ -30,6 +30,7 @@ Then search for "**CH32**" in the "**Boards Manager**", find the installation pa
 It will be a long-term support and maintenance project, unless we encounter force majeure factors.The current version supports the following development boards:
 
 - [CH32V00x EVT Boards](#CH32V00x-EVT-Boards)
+- [CH32VM00X EVT Boards](#CH32VM00X-EVT-Boards)
 - [CH32V10x EVT Boards](#CH32V10x-EVT-Boards)
 - [CH32V20x EVT Boards](#CH32V20x-EVT-Boards)
 - [CH32V30x EVT Boards](#CH32V30x-EVT-Boards)
@@ -40,6 +41,12 @@ It will be a long-term support and maintenance project, unless we encounter forc
 | Status | Boards name | Peripherals | Release | Notes |
 | :----: |     ----    |     ----    | :-----: | :---- |
 | :heavy_check_mark: | CH32V003F4P | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.0 | SPI,I2C_Master since 1.0.2 |
+
+### CH32VM00X EVT Boards
+
+| Status | Boards name | Peripherals | Release | Notes |
+| :----: |     ----    |     ----    | :-----: | :---- |
+| :heavy_check_mark: | CH32V006K8U6 | ADC,DAC,USART,GPIO,EXTI,SysTick | 1.0.5 | for VM00X variants see openwch#200 |
 
 ### CH32V20x EVT Boards
 

@@ -58,6 +58,7 @@ _start:
     .word   USART2_IRQHandler          	/* USART2 */
     .word   OPCM_IRQHandler            	/* OPCM */
 
+/* MMOLE 250727: moved from startup_ch32v00X.S to ch32v00X_misc.c (see issue #204)
 	.option rvc;
 	.section  .text.vector_handler, "ax", @progbits
 	.weak   NMI_Handler
@@ -121,6 +122,8 @@ USART2_IRQHandler:
 OPCM_IRQHandler:
 1:
 	j 1b
+  
+*/
 
 	.section  .text.handle_reset, "ax", @progbits
 	.weak     handle_reset

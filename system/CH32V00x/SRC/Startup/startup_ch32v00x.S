@@ -56,6 +56,8 @@ _start:
     .word   TIM1_CC_IRQHandler         	/* TIM1 Capture Compare */
     .word   TIM2_IRQHandler            	/* TIM2 */
 
+/* MMOLE 250727: moved from startup_ch32v00x.S to ch32v00x_misc.c (see issue #204)
+
 	.option rvc;
 	.section  .text.vector_handler, "ax", @progbits
 	.weak   NMI_Handler
@@ -114,6 +116,7 @@ TIM1_TRG_COM_IRQHandler:  1: j 1b
 TIM1_CC_IRQHandler:       1: j 1b
 TIM2_IRQHandler:          1: j 1b
 
+*/
 
 	.section  .text.handle_reset, "ax", @progbits
 	.weak     handle_reset
