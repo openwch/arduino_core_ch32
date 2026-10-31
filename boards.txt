@@ -321,7 +321,8 @@ CH32X035_EVT.menu.rtlib.nanofps.build.flags.ldflags=--specs=nano.specs --specs=n
 CH32X035_EVT.menu.rtlib.full=Newlib Standard
 CH32X035_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
-
+CH32X035_EVT.upload.use_1200bps_touch=true
+CH32X035_EVT.upload.wait_for_upload_port=false
 
 
 ##############################################################################
