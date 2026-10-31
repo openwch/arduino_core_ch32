@@ -1,5 +1,5 @@
 /**
- *******************************************************************************
+*******************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * All rights reserved.
  *
@@ -22,25 +22,59 @@ const PinName digitalPin[] = {
   PA_1,  //D1/A1
   PA_2,  //D2/A2
   PA_3,  //D3/A3
-  PA_4,  //D4/A4   
-  PA_5,  //D5/A5    
+  PA_4,  //D4/A4
+  PA_5,  //D5/A5
 
-  PA_10,  //D6      USART1_RX
+  PA_6,
+  PA_7,
+  PA_8,   //D13
   PA_9,   //D7      USART1_TX
-  PB_4,   //D8   
-  PB_6,   //D9       
-  PB_7,   //D10       
-  PB_8,   //D11                 
-  PB_9,   //D12                 
-  PA_8,   //D13                  
-  PB_1,   //D14                    
-  PB_0,   //D15                     
+  PA_10,  //D6      USART1_RX
+  PA_11,
+  PA_12,
+  PA_13,
+  PA_14,
+  PA_15,
+
+  PB_0,   //D15
+  PB_1,   //D14
+  PB_2,
+  PB_3,
+  PB_4,   //D8
+  PB_5,
+  PB_6,   //D9
+  PB_7,   //D10
+  PB_8,   //D11
+  PB_9,   //D12
+  PB_10,  //D21    I2C2_SCL USART3_TX
+  PB_11,  //D20    I2C2_SDA USART3_RX
   PB_12,  //D16    SPI2_NSS
-  PB_15,  //D17    SPI2_MOSI  
-  PB_14,  //D18    SPI2_MISO
   PB_13,  //D19    SPI2_SCK
-  PB_11,  //D20    I2C2_SDA
-  PB_10   //D21    I2C2_SCL
+  PB_14,  //D18    SPI2_MISO
+  PB_15,  //D17    SPI2_MOSI
+
+
+  PC_0,
+  PC_1,
+  PC_2,
+  PC_3,
+  PC_4,
+  PC_5,
+  PC_6,
+  PC_7,
+  PC_8,
+  PC_9,
+  PC_10,
+  PC_11,
+  PC_12,
+  PC_13,
+  PC_14,
+  PC_15,
+
+  PD_0,
+  PD_1,
+  PD_2
+
 };
 
 // Analog (Ax) pin number array
