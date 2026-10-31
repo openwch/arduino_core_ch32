@@ -90,6 +90,7 @@ typedef struct __UART_HandleTypeDef
   void uart_deinit(serial_t *obj);
 
   int uart_getc(serial_t *obj, unsigned char *c);
+  int uart_putc(serial_t *obj, unsigned char c);
 
   uint8_t serial_tx_active(serial_t *obj);
   uint8_t serial_rx_active(serial_t *obj);
