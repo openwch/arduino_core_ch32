@@ -1,0 +1,74 @@
+name: Pack Arduino Action
+
+on: [pull_request, push]
+
+jobs:
+    packArduino:
+        runs-on: ubuntu-latest
+
+        steps:
+        - uses: actions/checkout@v3
+
+        - name: Set release tag name for storage
+          id: tag
+          run: |
+            echo "Release tag name is arduinoPack"
+            echo "tag=arduinoPack" >> $GITHUB_ENV
+            echo "Store the github username"
+            echo "username=${{ github.actor }}" >> $GITHUB_ENV
+            echo "Store the github branch name"
+            branch_name=$(echo "${{ github.ref }}" | awk -F'/' '{print $NF}')
+            echo "branch=${branch_name}" >> $GITHUB_ENV
+
+        - name: Get current date and commit hash
+          id: vars
+          run: |
+            date=$(date +'%y.%-m.%-d')
+            commit=$(git rev-parse --short HEAD)
+            echo "Date: $date"
+            echo "Commit: $commit"
+            echo "date=$date" >> $GITHUB_ENV
+            echo "commit=$commit" >> $GITHUB_ENV
+            echo "zip_name=arduino_core_ch32_${date}_${commit}.zip" >> $GITHUB_ENV
+            echo "zip_basename=arduino_core_ch32_${date}_${commit}" >> $GITHUB_ENV
+
+        - name: Pack whole repo excluding hidden files
+          run: |
+            echo "Packing the whole repository excluding hidden files..."
+            mkdir -p ${{ env.zip_basename }}
+            shopt -s extglob
+            cp -r !(${{ env.zip_basename }}) ${{ env.zip_basename }}/
+            zip -r ${{ env.zip_name }} ${{ env.zip_basename }} -x ".*" "*~" "*.zip"
+
+        - name: Calculate SHA256 checksum
+          id: checksum
+          run: |
+            echo "Calculating SHA256 checksum..."
+            sha256sum ${{ env.zip_name }} | awk '{print $1}' > checksum.txt
+            echo "SHA256 Checksum: $(cat checksum.txt)"
+            echo "checksum=$(cat checksum.txt)" >> $GITHUB_ENV
+
+        - name: Replace content in package_ch32v_index_template.json
+          run: |
+            echo "Replacing content in package_ch32v_index_template.json, replace !!!SHA!!! with real SHA256 checksum"
+            sed -i "s/!!!SHA!!!/${{ env.checksum }}/g" package_ch32v_index_template.json
+            echo "replace !!!VERSION!!! with date_commit"
+            sed -i "s/!!!VERSION!!!/${{ env.date }}/g" package_ch32v_index_template.json
+            echo "replace !!!FILENAME!!! with real filename"
+            sed -i "s/!!!FILENAME!!!/${{ env.zip_name }}/g" package_ch32v_index_template.json
+            echo "replace !!!SIZE!!! with real size"
+            sed -i "s/!!!SIZE!!!/$(stat -c%s ${{ env.zip_name }})/g" package_ch32v_index_template.json
+            echo "replace !!!URL!!! with soemthing like https://github.com/USERNAME/arduino_core_ch32/arduino_core_ch32/releases/download/TAG/ZIPFILENAME"
+            sed -i "s/!!!URL!!!/https:\/\/github.com\/${{ env.username }}\/arduino_core_ch32\/releases\/download\/${{ env.tag }}\/${{ env.zip_name }}/g" package_ch32v_index_template.json
+            echo "copy file to package_ch32v_index_BRANCHNAME.json"
+            cp package_ch32v_index_template.json package_ch32v_index_${{ env.branch }}.json
+            echo "-----preview the file------"
+            cat package_ch32v_index_template.json
+            
+            
+        - name: Upload asset, make sure you have a release tagged arduinoPack
+          env:
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: |
+            gh release upload ${{ env.tag }} ${{ env.zip_name }} --clobber
+            gh release upload ${{ env.tag }} package_ch32v_index_${{ env.branch }}.json --clobber
