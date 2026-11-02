@@ -541,7 +541,7 @@ int uart_getc(serial_t *obj, unsigned char *c)
 /**
   * @brief  Write byte to uart
   * @param  obj : pointer to serial_t structure
-  * @retval error status
+  * @retval number of bytes written: 1, or 0 on error / timeout
   */
 int uart_putc(serial_t *obj, unsigned char c)
 {
