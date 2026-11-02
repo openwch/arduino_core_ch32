@@ -34,10 +34,16 @@ HardwareSerial::HardwareSerial(void *peripheral)
 {
   setHandler(peripheral);
 
-  setRx(PIN_SERIAL_RX);
-  
-  setTx(PIN_SERIAL_TX);
-  
+  // The variant's Serial pins belong to one UART only; any other UART
+  // (Serial2, HardwareSerial S(USART2), ...) takes its pins from the pin map
+  if (pinmap_peripheral(digitalPinToPinName(PIN_SERIAL_TX), PinMap_UART_TX) == peripheral) {
+    setRx(PIN_SERIAL_RX);
+    setTx(PIN_SERIAL_TX);
+  } else {
+    setRx(pinmap_pin(peripheral, PinMap_UART_RX));
+    setTx(pinmap_pin(peripheral, PinMap_UART_TX));
+  }
+
   init(_serial.pin_rx, _serial.pin_tx);
 }
 
