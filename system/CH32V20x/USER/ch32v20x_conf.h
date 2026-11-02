@@ -34,6 +34,7 @@
 #include "ch32v20x_wwdg.h"
 #include "ch32v20x_it.h"
 #include "ch32v20x_misc.h"
+#include "ch32v20x_opa.h"
 
 #ifdef __cplusplus
 }

@@ -62,7 +62,8 @@ void deviceWriteOneByte(uint8_t addr, uint8_t data)
 uint8_t deviceReadOneByte(uint8_t addr)
 {
   Wire.requestFrom(AT24C02_ADDR,1,addr,1,1);
-  while (Wire.available())
+  // requestFrom() has already read the byte; 0xFF if the EEPROM didn't answer
+  if (Wire.available())
   {
     return Wire.read();
   }

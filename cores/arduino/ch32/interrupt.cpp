@@ -131,6 +131,19 @@ static uint8_t get_pin_id(uint16_t pin)
   return id;
 }
 
+/**
+  * @brief  Configure a GPIO pin and enable its external interrupt or event line.
+  * @param  port : GPIO port whose required clocks are already enabled.
+  * @param  io_mode : GPIO mode to apply to the pin.
+  * @param  pin : nonzero GPIO_Pin_* mask selecting one supported pin.
+  * @param  callback : function called in interrupt context, or NULL to skip
+  *         callback dispatch; replaces the callback for this pin number.
+  * @param  it_mode : EXTI interrupt or event mode.
+  * @param  trigger_mode : rising, falling, or both edges.
+  * @note   Ports share the EXTI line for a given pin number. Clear any pending
+  *         edge on that line before installing the callback and enabling its IRQ.
+  * @retval None
+  */
 void ch32_interrupt_enable(GPIO_TypeDef *port, GPIOMode_TypeDef io_mode,uint16_t pin, void (*callback)(void), EXTIMode_TypeDef it_mode, EXTITrigger_TypeDef trigger_mode)
 {
     GPIO_InitTypeDef GPIO_InitStruct={};
@@ -178,6 +191,9 @@ void ch32_interrupt_enable(GPIO_TypeDef *port, GPIOMode_TypeDef io_mode,uint16_t
     EXTI_InitStruct.EXTI_Mode = it_mode;
     EXTI_InitStruct.EXTI_Trigger = trigger_mode;
     EXTI_Init(&EXTI_InitStruct);
+    /* Drop edges latched before this attach (e.g. while detached), so the
+      callback only runs for edges that come after it */
+    EXTI_ClearITPendingBit(exti_lines[id]);
 
     gpio_irq_conf[id].callback = callback;
 

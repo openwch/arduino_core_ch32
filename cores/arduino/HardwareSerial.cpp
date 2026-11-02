@@ -127,6 +127,18 @@ void HardwareSerial::init(PinName _rx, PinName _tx, PinName _rts, PinName _cts)
 }
 
 // Public Methods //////////////////////////////////////////////////////////////
+/**
+  * @brief  Initialize the UART with the selected baud rate and frame format.
+  * @param  baud : nonzero baud rate in bits per second.
+  * @param  config : SERIAL_* frame format; the data bit count excludes parity.
+  * @note   The data bits plus any parity bit must fit a supported USART word
+  *         length. Otherwise, Error_Handler() is called; its default behavior
+  *         is to halt execution.
+  * @note   When RX buffering is enabled, discard buffered input and enable
+  *         receive interrupts. UART pin mapping failures are not reported
+  *         to the caller.
+  * @retval None
+  */
 void HardwareSerial::begin(unsigned long baud, byte config)
 {
   uint32_t databits = 0;
@@ -167,6 +179,12 @@ void HardwareSerial::begin(unsigned long baud, byte config)
     parity = USART_Parity_Even;
   } else {
     parity = USART_Parity_No;
+  }
+
+  // The USART word length includes the parity bit: 8 data bits + parity
+  // need a 9-bit word
+  if (parity != USART_Parity_No) {
+    databits++;
   }
 
   switch ( (config & 0x0C) >> 2 ) {

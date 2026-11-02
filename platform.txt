@@ -99,7 +99,7 @@ build.pid=0
 
 # Build information's     
 #####################-D{build.board} -DARDUINO_ARCH_{build.arch} -DBOARD_NAME="{build.board}" -DVARIANT_H="{build.variant_h}"
-build.info.flags=-DARDUINO_ARCH_CH32 -D{build.series} -DARDUINO={runtime.ide.version} -D{build.chip} -DVARIANT_H="{build.variant_h}" {build.serial_flags} {build.usb_flags}
+build.info.flags=-DARDUINO_ARCH_CH32 -DARDUINO_{build.board} -D{build.series} -DARDUINO={runtime.ide.version} -D{build.chip} -DVARIANT_H="{build.variant_h}" {build.serial_flags} {build.usb_flags}
 
 # Defaults config
 build.xSerial=
