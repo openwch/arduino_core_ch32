@@ -89,7 +89,7 @@
 
 
 #define NUM_DIGITAL_PINS        51
-#define NUM_ANALOG_INPUTS       6
+#define NUM_ANALOG_INPUTS       16
 // #define ADC_CTLR_ADCAL
 #define ADC_RESOLUTION          12
 
