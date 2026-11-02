@@ -220,8 +220,9 @@ handle_reset:
 	addi a0, a0, 4
 	bltu a0, a1, 1b
 2:
-	/* enable all interrupt */
-    li t0, 0x88
+	/* enable all interrupt; MPP = 11 so main() runs in Machine mode,
+	   where noInterrupts()/interrupts() can use mstatus */
+    li t0, 0x1888
     csrs mstatus, t0
 	la t0, _vector_base
     ori t0, t0, 1

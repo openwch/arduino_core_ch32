@@ -57,16 +57,9 @@ void analogReadResolution(int res)
 {
   if ((res > 0) && (res <= 32)) 
   {
+      // adc_read_value() returns the converter's own ADC_RESOLUTION bits;
+      // mapResolution() scales them to the resolution asked for here
       _readResolution = res;
-      _internalReadResolution = _readResolution;
-      if (_readResolution > MAX_ADC_RESOLUTION) 
-      {
-        _internalReadResolution = MAX_ADC_RESOLUTION;
-      } 
-      else 
-      {
-        _internalReadResolution = 12;
-      }
   } 
   else 
   {

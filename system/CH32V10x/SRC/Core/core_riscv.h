@@ -128,6 +128,32 @@ typedef struct
 
 #define SysTick         ((SysTick_Type *) 0xE000F000)
 
+/*********************************************************************
+ * @fn      __enable_irq
+ *          This function is only used for Machine mode.
+ *
+ * @brief   Enable Global Interrupt
+ *
+ * @return  none
+ */
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __enable_irq()
+{
+  __asm volatile ("csrs mstatus, %0" : : "r" (0x88) );
+}
+
+/*********************************************************************
+ * @fn      __disable_irq
+ *          This function is only used for Machine mode.
+ *
+ * @brief   Disable Global Interrupt
+ *
+ * @return  none
+ */
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __disable_irq()
+{
+  __asm volatile ("csrc mstatus, %0" : : "r" (0x88) );
+  __asm volatile ("fence.i");
+}
 
 /*********************************************************************
  * @fn      __NOP
