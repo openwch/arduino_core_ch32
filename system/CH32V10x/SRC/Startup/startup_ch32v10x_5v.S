@@ -97,6 +97,7 @@ _vector_base:
 
     .option rvc;
 
+/* MxRD 2611102: moved from startup_ch32v10x.S to ch32v10x_misc.c (see issue openwch#204, PR ch32-community#85) 
     .section    .text.vector_handler, "ax", @progbits
     .weak   NMI_Handler
     .weak   HardFault_Handler
@@ -187,6 +188,7 @@ EXTI15_10_IRQHandler:  1:  j 1b
 RTCAlarm_IRQHandler:  1:  j 1b
 USBWakeUp_IRQHandler:  1:  j 1b
 USBHD_IRQHandler:  1:  j 1b
+*/
 
 	.section	.text.handle_reset,"ax",@progbits
 	.weak	handle_reset
@@ -226,7 +228,7 @@ handle_reset:
 	la t0, _vector_base
     ori t0, t0, 1
 	csrw mtvec, t0
-    
+
     la a0, __libc_fini_array
     call atexit
     call __libc_init_array
@@ -235,5 +237,3 @@ handle_reset:
 	la t0, main
 	csrw mepc, t0
 	mret
-
-

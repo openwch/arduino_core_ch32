@@ -57,7 +57,11 @@ _start:
     .word   TIM2_IRQHandler            	/* TIM2 */
 
 	.option rvc;
-	.section  .text.vector_handler, "ax", @progbits
+
+
+/* MxRD 250727: moved from startup_ch32v00x.S to ch32v00x_misc.c (see issue #204)
+
+.section  .text.vector_handler, "ax", @progbits
 	.weak   NMI_Handler
 	.weak   HardFault_Handler
 	.weak   SysTick_Handler
@@ -113,6 +117,8 @@ TIM1_UP_IRQHandler:       1: j 1b
 TIM1_TRG_COM_IRQHandler:  1: j 1b
 TIM1_CC_IRQHandler:       1: j 1b
 TIM2_IRQHandler:          1: j 1b
+
+*/
 
 
 	.section  .text.handle_reset, "ax", @progbits

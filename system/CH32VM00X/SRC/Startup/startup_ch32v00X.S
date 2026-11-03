@@ -59,6 +59,8 @@ _start:
     .word   OPCM_IRQHandler            	/* OPCM */
 
 	.option rvc;
+
+/* MxRD 250727: moved from startup_ch32v00X.S to ch32v00X_misc.c (see issue #204)
 	.section  .text.vector_handler, "ax", @progbits
 	.weak   NMI_Handler
 	.weak   HardFault_Handler
@@ -121,6 +123,7 @@ USART2_IRQHandler:
 OPCM_IRQHandler:
 1:
 	j 1b
+*/
 
 	.section  .text.handle_reset, "ax", @progbits
 	.weak     handle_reset

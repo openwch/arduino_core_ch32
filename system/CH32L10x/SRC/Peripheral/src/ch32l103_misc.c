@@ -79,3 +79,75 @@ void NVIC_Init(NVIC_InitTypeDef *NVIC_InitStruct)
         NVIC_DisableIRQ(NVIC_InitStruct->NVIC_IRQChannel);
     }
 }
+
+/* MxRD 2611102: moved from startup_ch32l103.S to ch32l103_misc.c (see issue openwch#204, PR ch32-community#85) */
+__attribute__ ((weak)) void while1_handler(void) {while(1);};
+__attribute__ ((weak)) void Ecall_M_Mode_Handler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void Ecall_U_Mode_Handler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void Break_Point_Handler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void SW_Handler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void WWDG_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void PVD_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void TAMPER_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void RTC_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void FLASH_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void RCC_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void EXTI0_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void EXTI1_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void EXTI2_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void EXTI3_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void EXTI4_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void DMA1_Channel1_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void DMA1_Channel2_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void DMA1_Channel3_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void DMA1_Channel4_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void DMA1_Channel5_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void DMA1_Channel6_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void DMA1_Channel7_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void ADC_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void USB_HP_CAN1_TX_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void USB_LP_CAN1_RX0_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void CAN1_RX1_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void CAN1_SCE_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void EXTI9_5_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void TIM1_BRK_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void TIM1_UP_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void TIM1_TRG_COM_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void TIM1_CC_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void TIM2_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void TIM3_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void TIM4_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void I2C1_EV_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void I2C1_ER_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void I2C2_EV_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void I2C2_ER_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void SPI1_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void SPI2_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void USART1_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void USART2_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void USART3_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void EXTI15_10_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void RTCAlarm_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void LPTIMWakeUp_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void USBFS_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void USBFSWakeUp_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void USART4_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void DMA1_Channel8_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void LPTIM_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void OPA_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void USBPD_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void TKeyWakeUp_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void USBPDWakeUp_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+__attribute__ ((weak)) void CMPWakeUp_IRQHandler (void) __attribute__ ((weak, alias ("while1_handler")));
+
+/*
+
+// No default handlers are needed for handlers defined elsewhere.
+// NMI_Handler and HardFault_Handler are defined in system/CH32L10x/USER/ch32l103_it.c
+// SysTick_Handler is defined in cores/arduino/ch32/clock.c
+// Note: Unlike V20x, the L103 has no definition for Ecall_M_Mode_Handler and Ecall_U_Mode_Handler
+NMI_Handler:
+HardFault_Handler:
+SysTick_Handler:
+
+*/

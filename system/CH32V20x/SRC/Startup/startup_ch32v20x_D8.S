@@ -107,6 +107,8 @@ _vector_base:
 
     .option rvc;
 
+/* MxRD 261101: moved from startup_ch32v20x_D8.S to ch32v20x_misc.c (see PR ch32-community#85) */
+#if 0
     .section    .text.vector_handler, "ax", @progbits
     .weak   NMI_Handler                /* NMI */
     .weak   HardFault_Handler          /* Hard Fault */
@@ -227,6 +229,7 @@ OSC32KCal_IRQHandler:  1:  j 1b
 OSCWakeUp_IRQHandler:  1:  j 1b
 UART4_IRQHandler:  1:  j 1b
 DMA1_Channel8_IRQHandler:  1:  j 1b
+#endif  // #if 0
 
 	.section	.text.handle_reset,"ax",@progbits
 	.weak	handle_reset
