@@ -111,58 +111,30 @@
 //    RX: PA11=RX1=SDA, PA3=RX2, PC19=RX3=SWCLK, PB1=RX4
 //    TX: PA10=TX1=SCL, PA2=TX2, PC18=TX3=SWDIO, PB0=TX4=MOSI=PA7
 // For CH32X033F8P6 serial pins RX2=PA3/TX2=PA2 or alternative RX1_1=PA11/TX1_1=PA10
-#ifndef SERIAL_UART_INSTANCES
-  // Define the number of UART instances that can be used.
-  // For CH32X033F8P6 SSOP20 not all ports are always usable. Possible conflicts: Serial1 w/ I2C, Serial4 w/ SPI
-  #define SERIAL_UART_INSTANCES 1
+#ifndef BOARD_DEFAULT_SERIAL
+  #define BOARD_DEFAULT_SERIAL 2
 #endif
 
-#if (SERIAL_UART_INSTANCES == 1)
-  //  Using only one Serial port
-  #ifndef SERIAL_UART_INSTANCE
-    #define SERIAL_UART_INSTANCE 2   // use Serial2 as default for Serial - UART2: PA2=TX2, PA3=RX2
-  #endif
-#else
-  // Use multiple instances.
-  // CH32X033/035 has 4 UARTS,    // UART3 not usable on X033, only on X035
-  // When having multiple Serial instances SERIAL_UART_INSTANCE cannot be defined as it will skip defining the other ports.
-  #undef SERIAL_UART_INSTANCE
-  #define ENABLE_HWSERIAL1 1
-  #define ENABLE_HWSERIAL2 1
-  //#define ENABLE_HWSERIAL3 1
-  #define ENABLE_HWSERIAL4 1
-  #define Serial Serial2
+// Default pins for each hardware serial port.
+#ifndef PIN_SERIAL1_RX
+  #define PIN_SERIAL1_RX     PA11  /* UART1 default RX pin */
+#endif
+#ifndef PIN_SERIAL1_TX
+  #define PIN_SERIAL1_TX     PA10  /* UART1 default TX pin */
 #endif
 
-// Default pin used for generic 'Serial' instance
-// Mandatory for Firmata, no longer used by HardwareSerial.
-#if SERIAL_UART_INSTANCE==1
-    // Use UART1 alternative pins RX1_1/TX1_1 (PA11/PA10)
-    #ifndef PIN_SERIAL_RX
-      #define PIN_SERIAL_RX         PA11
-    #endif
-    #ifndef PIN_SERIAL_TX
-      #define PIN_SERIAL_TX         PA10
-    #endif
-#elif SERIAL_UART_INSTANCE==2 || SERIAL_UART_INSTANCES>1
-    // Use UART2 RX2/TX2 (PA3/PA2)
-    #ifndef PIN_SERIAL_RX
-      #define PIN_SERIAL_RX         PA3
-    #endif
-    #ifndef PIN_SERIAL_TX
-      #define PIN_SERIAL_TX         PA2
-    #endif
-#elif SERIAL_UART_INSTANCE==3
-    // Don't Use UART3 on PC18/PC19, they are SWDIO/SWCLK.
-    #error No Serial3 on CH32X033F8P
-#elif SERIAL_UART_INSTANCE==4
-    // Use UART4 RX2/TX2 PB1=RX4, PB0=TX4=MOSI=PA7 
-    #ifndef PIN_SERIAL_RX
-      #define PIN_SERIAL_RX         PB1
-    #endif
-    #ifndef PIN_SERIAL_TX
-      #define PIN_SERIAL_TX         PB0
-    #endif
+#ifndef PIN_SERIAL2_RX
+  #define PIN_SERIAL2_RX     PA3  /* UART2 default RX pin */
+#endif
+#ifndef PIN_SERIAL2_TX
+  #define PIN_SERIAL2_TX     PA2  /* UART2 default TX pin */
+#endif
+
+#ifndef PIN_SERIAL4_RX
+  #define PIN_SERIAL4_RX     PB1  /* UART4 default RX pin */
+#endif
+#ifndef PIN_SERIAL4_TX
+  #define PIN_SERIAL4_TX     PB0  /* UART4 default TX pin */
 #endif
 
 

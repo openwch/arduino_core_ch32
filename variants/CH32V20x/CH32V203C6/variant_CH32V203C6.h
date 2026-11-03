@@ -140,16 +140,23 @@
 
 
 // UART Definitions
-#ifndef SERIAL_UART_INSTANCE
-  #define SERIAL_UART_INSTANCE  1
+#ifndef BOARD_DEFAULT_SERIAL
+  #define BOARD_DEFAULT_SERIAL 1
 #endif
-// Default pin used for generic 'Serial' instance
-// Mandatory for Firmata
-#ifndef PIN_SERIAL_RX
-  #define PIN_SERIAL_RX         PA10
+
+// Default pins for hardware serial port 1.
+#ifndef PIN_SERIAL1_RX
+  #define PIN_SERIAL1_RX         PA10
 #endif
-#ifndef PIN_SERIAL_TX
-  #define PIN_SERIAL_TX         PA9
+#ifndef PIN_SERIAL1_TX
+  #define PIN_SERIAL1_TX         PA9
+#endif
+
+#ifndef PIN_SERIAL2_RX
+  #define PIN_SERIAL2_RX     PA3  /* UART2 default RX pin */
+#endif
+#ifndef PIN_SERIAL2_TX
+  #define PIN_SERIAL2_TX     PA2  /* UART2 default TX pin */
 #endif
 
 /*----------------------------------------------------------------------------

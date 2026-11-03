@@ -134,47 +134,23 @@
 // The QTPY is a very small board with only few pins: https://learn.adafruit.com/adafruit-qt-py-ch32v203/pinouts
 // TODO: It only exposes UART2 and UART4. These don't match V203G6 datasheet which shows USART1 and USART2.
 // V203G6 LANA also shows UART4: TX4=PB0, RX4=PB1. Correct pinout should be confirmed!
-#ifndef SERIAL_UART_INSTANCES
-  #define SERIAL_UART_INSTANCES 1
+#ifndef BOARD_DEFAULT_SERIAL
+  #define BOARD_DEFAULT_SERIAL 2
 #endif
 
-#if (SERIAL_UART_INSTANCES == 1)
-  //  Using only one Serial port
-  #ifndef SERIAL_UART_INSTANCE
-    #define SERIAL_UART_INSTANCE 2   // use Serial2 as default for Serial
-  #endif
-#else
-  // Using multple Serial ports
-  // When having multiple Serial instances SERIAL_UART_INSTANCE cannot be defined as it will skip defining the other ports.
-  // V203G6U6 (QFN28): only Serial1/Serial2, no Serial3/Serial4
-  #undef SERIAL_UART_INSTANCE
-  #define ENABLE_HWSERIAL1 1
-  #define ENABLE_HWSERIAL2 1
-  #undef SERIAL_UART_INSTANCES
-  #define SERIAL_UART_INSTANCES 2
-  #define Serial Serial2
+// Default pins for each hardware serial port.
+#ifndef PIN_SERIAL1_RX
+  #define PIN_SERIAL1_RX     PA10  /* UART1 default RX pin */
+#endif
+#ifndef PIN_SERIAL1_TX
+  #define PIN_SERIAL1_TX     PA9  /* UART1 default TX pin */
 #endif
 
-// Default pin used for generic 'Serial' instance
-// Mandatory for Firmata, no longer used by HardwareSerial.
-#if SERIAL_UART_INSTANCE==1 || SERIAL_UART_INSTANCES>1
-    #ifndef PIN_SERIAL_RX
-        #define PIN_SERIAL_RX     PA10
-    #endif
-    #ifndef PIN_SERIAL_TX
-        #define PIN_SERIAL_TX     PA9
-    #endif
-#elif  SERIAL_UART_INSTANCE==2
-    #ifndef PIN_SERIAL_RX
-      #define PIN_SERIAL_RX       PA3
-    #endif
-    #ifndef PIN_SERIAL_TX
-      #define PIN_SERIAL_TX       PA2
-    #endif
-#elif  SERIAL_UART_INSTANCE==3
-    #error No Serial3 on CH32V203G6
-#elif  SERIAL_UART_INSTANCE==4
-    #error No Serial4 on CH32V203G6
+#ifndef PIN_SERIAL2_RX
+  #define PIN_SERIAL2_RX     PA3  /* UART2 default RX pin */
+#endif
+#ifndef PIN_SERIAL2_TX
+  #define PIN_SERIAL2_TX     PA2  /* UART2 default TX pin */
 #endif
 
 /*----------------------------------------------------------------------------

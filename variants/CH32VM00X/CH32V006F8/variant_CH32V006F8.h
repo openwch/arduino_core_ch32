@@ -107,40 +107,23 @@
 //    RX: PD6=RX1, PD3=RX2_3
 //    TX: PD5=TX1, PD2=TX2_3
 // CH32V006F8 QFN20/TSSOP20 USART2 onlyhas RX2/TX2 as alternative function USART2_3 - U2RX_3/U2TX_3 on PD3/PD2 (pins 20/19).
-#ifndef SERIAL_UART_INSTANCES
-  #define SERIAL_UART_INSTANCES 1
+#ifndef BOARD_DEFAULT_SERIAL
+  #define BOARD_DEFAULT_SERIAL 1
 #endif
 
-#if (SERIAL_UART_INSTANCES == 1)
-  //  Using only one Serial port
-  #ifndef SERIAL_UART_INSTANCE
-    #define SERIAL_UART_INSTANCE 1   // use Serial1 as default for Serial
-  #endif
-#else
-  // Using multple Serial ports
-  // When having multiple Serial instances SERIAL_UART_INSTANCE cannot be defined as it will skip defining the other ports.
-  #undef SERIAL_UART_INSTANCE
-  #define ENABLE_HWSERIAL1 1
-  #define ENABLE_HWSERIAL2 1
-  #define Serial Serial1
+// Default pins for each hardware serial port.
+#ifndef PIN_SERIAL1_RX
+  #define PIN_SERIAL1_RX     PD6  /* UART1 default RX pin */
+#endif
+#ifndef PIN_SERIAL1_TX
+  #define PIN_SERIAL1_TX     PD5  /* UART1 default TX pin */
 #endif
 
-// Default pin used for generic 'Serial' instance
-// Mandatory for Firmata, no longer used by HardwareSerial.
-#if SERIAL_UART_INSTANCE==1 || SERIAL_UART_INSTANCES>1
-    #ifndef PIN_SERIAL_RX
-        #define PIN_SERIAL_RX     PD6
-    #endif
-    #ifndef PIN_SERIAL_TX
-        #define PIN_SERIAL_TX     PD5
-    #endif
-#elif  SERIAL_UART_INSTANCE==2
-    #ifndef PIN_SERIAL_RX
-      #define PIN_SERIAL_RX       PD3
-    #endif
-    #ifndef PIN_SERIAL_TX
-      #define PIN_SERIAL_TX       PD2
-    #endif
+#ifndef PIN_SERIAL2_RX
+  #define PIN_SERIAL2_RX     PD3  /* UART2 default RX pin */
+#endif
+#ifndef PIN_SERIAL2_TX
+  #define PIN_SERIAL2_TX     PD2  /* UART2 default TX pin */
 #endif
 
 

@@ -168,8 +168,6 @@ public:
 #endif
 
   private:
-    uint8_t _config;
-    unsigned long _baud;
     void init(PinName _rx, PinName _tx, PinName _rts = NC, PinName _cts = NC);
 };
 

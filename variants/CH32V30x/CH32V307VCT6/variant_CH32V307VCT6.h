@@ -136,90 +136,65 @@
 // CH32V30x: Serial1-Serial8 on V307 amd V303RC/VC, only 1-3 on V303CB/RB, only 1/3 on V305FB, 1-5 ON V305GB/CC/RB.
 //    RX: PA10=RX1, PA3=RX2, PB11=RX3, PC11=RX4, PD2=RX5, PC1=RX6, PC3=RX7, PC5=RX8
 //    TX: PA9=TX1, PA2=TX2, PB10=TX3, PC10=TX4, PC12=TX5, PC0=TX6, PC2=TX7, PC4=TX8
-#ifndef SERIAL_UART_INSTANCES
-  #define SERIAL_UART_INSTANCES 1
+#ifndef BOARD_DEFAULT_SERIAL
+  #define BOARD_DEFAULT_SERIAL 1
 #endif
 
-#if (SERIAL_UART_INSTANCES == 1)
-  //  Using only one Serial port
-  #ifndef SERIAL_UART_INSTANCE
-    #define SERIAL_UART_INSTANCE 1   // use Serial1 as default for Serial
-  #endif
-#else
-  // Using multple Serial ports
-  // When having multiple Serial instances SERIAL_UART_INSTANCE cannot be defined as it will skip defining the other ports.
-  #undef SERIAL_UART_INSTANCE
-  #define ENABLE_HWSERIAL1 1
-  #define ENABLE_HWSERIAL2 1
-  #define ENABLE_HWSERIAL3 1
-  #define ENABLE_HWSERIAL4 1
-  #define ENABLE_HWSERIAL5 1
-  #define ENABLE_HWSERIAL6 1
-  #define ENABLE_HWSERIAL7 1
-  #define ENABLE_HWSERIAL8 1
-  #define Serial Serial1
+// Default pins for each hardware serial port.
+#ifndef PIN_SERIAL1_RX
+  #define PIN_SERIAL1_RX     PA10  /* UART1 default RX pin */
+#endif
+#ifndef PIN_SERIAL1_TX
+  #define PIN_SERIAL1_TX     PA9  /* UART1 default TX pin */
 #endif
 
-// Default pin used for generic 'Serial' instance
-// Mandatory for Firmata, no longer used by HardwareSerial.
-#if SERIAL_UART_INSTANCE==1 || SERIAL_UART_INSTANCES>1
-    #ifndef PIN_SERIAL_RX
-        #define PIN_SERIAL_RX     PA10
-    #endif
-    #ifndef PIN_SERIAL_TX
-        #define PIN_SERIAL_TX     PA9
-    #endif
-#elif  SERIAL_UART_INSTANCE==2
-    #ifndef PIN_SERIAL_RX
-      #define PIN_SERIAL_RX       PA3
-    #endif
-    #ifndef PIN_SERIAL_TX
-      #define PIN_SERIAL_TX       PA2
-    #endif
-#elif  SERIAL_UART_INSTANCE==3
-    #ifndef PIN_SERIAL_RX
-      #define PIN_SERIAL_RX       PB11
-    #endif
-    #ifndef PIN_SERIAL_TX
-      #define PIN_SERIAL_TX       PB10
-    #endif
-#elif  SERIAL_UART_INSTANCE==4
-    #ifndef PIN_SERIAL_RX
-      #define PIN_SERIAL_RX       PC11
-    #endif
-    #ifndef PIN_SERIAL_TX
-      #define PIN_SERIAL_TX       PC10
-    #endif
-#elif  SERIAL_UART_INSTANCE==5
-    #ifndef PIN_SERIAL_RX
-      #define PIN_SERIAL_RX       PD2
-    #endif
-    #ifndef PIN_SERIAL_TX
-      #define PIN_SERIAL_TX       PC12
-    #endif
-#elif  SERIAL_UART_INSTANCE==6
-    #ifndef PIN_SERIAL_RX
-      #define PIN_SERIAL_RX       PC1
-    #endif
-    #ifndef PIN_SERIAL_TX
-      #define PIN_SERIAL_TX       PC0
-    #endif
-#elif  SERIAL_UART_INSTANCE==7
-    #ifndef PIN_SERIAL_RX
-      #define PIN_SERIAL_RX       PC3
-    #endif
-    #ifndef PIN_SERIAL_TX
-      #define PIN_SERIAL_TX       PC2
-    #endif
-#elif  SERIAL_UART_INSTANCE==8
-    #ifndef PIN_SERIAL_RX
-      #define PIN_SERIAL_RX       PC5
-    #endif
-    #ifndef PIN_SERIAL_TX
-      #define PIN_SERIAL_TX       PC4
-    #endif
-//    RX: PA10=RX1, PA3=RX2, PB11=RX3, PC11=RX4, PD2=RX5, PC1=RX6, PC3=RX7, PC5=RX8
-//    TX: PA9=TX1, PA2=TX2, PB10=TX3, PC10=TX4, PC12=TX5, PC0=TX6, PC2=TX7, PC4=TX8
+#ifndef PIN_SERIAL2_RX
+  #define PIN_SERIAL2_RX     PA3  /* UART2 default RX pin */
+#endif
+#ifndef PIN_SERIAL2_TX
+  #define PIN_SERIAL2_TX     PA2  /* UART2 default TX pin */
+#endif
+
+#ifndef PIN_SERIAL3_RX
+  #define PIN_SERIAL3_RX     PB11  /* UART3 default RX pin */
+#endif
+#ifndef PIN_SERIAL3_TX
+  #define PIN_SERIAL3_TX     PB10  /* UART3 default TX pin */
+#endif
+
+#ifndef PIN_SERIAL4_RX
+  #define PIN_SERIAL4_RX     PC11  /* UART4 default RX pin */
+#endif
+#ifndef PIN_SERIAL4_TX
+  #define PIN_SERIAL4_TX     PC10  /* UART4 default TX pin */
+#endif
+
+#ifndef PIN_SERIAL5_RX
+  #define PIN_SERIAL5_RX     PD2  /* UART5 default RX pin */
+#endif
+#ifndef PIN_SERIAL5_TX
+  #define PIN_SERIAL5_TX     PC12  /* UART5 default TX pin */
+#endif
+
+#ifndef PIN_SERIAL6_RX
+  #define PIN_SERIAL6_RX     PC1  /* UART6 default RX pin */
+#endif
+#ifndef PIN_SERIAL6_TX
+  #define PIN_SERIAL6_TX     PC0  /* UART6 default TX pin */
+#endif
+
+#ifndef PIN_SERIAL7_RX
+  #define PIN_SERIAL7_RX     PC3  /* UART7 default RX pin */
+#endif
+#ifndef PIN_SERIAL7_TX
+  #define PIN_SERIAL7_TX     PC2  /* UART7 default TX pin */
+#endif
+
+#ifndef PIN_SERIAL8_RX
+  #define PIN_SERIAL8_RX     PC5  /* UART8 default RX pin */
+#endif
+#ifndef PIN_SERIAL8_TX
+  #define PIN_SERIAL8_TX     PC4  /* UART8 default TX pin */
 #endif
 
 

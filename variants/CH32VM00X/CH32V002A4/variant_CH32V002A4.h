@@ -112,46 +112,29 @@
 // When SPI is enabled alternative pins UART_3 (RX'/TX'=PC1/PC0) are used, but these conflict with I2C
 // If I2C is enabled we cannot use these alternatives but there are no other combinations available.
 // Using both I2C/SPI and UART is too much (but flash gets limited then also)
-#ifndef SERIAL_UART_INSTANCES
-  #define SERIAL_UART_INSTANCES 1
+#if defined(SERIAL_UART_ENABLE_ALL)
+  #error "CH32V002A4 only supports Serial1; Dual Serial is unavailable"
 #endif
 
-#if (SERIAL_UART_INSTANCES == 1)
-  //  Using only one Serial port
-  #ifndef SERIAL_UART_INSTANCE
-    #define SERIAL_UART_INSTANCE 1   // use Serial1 as default for Serial
-  #endif
-#else
-  // Using multple Serial ports
-  // When having multiple Serial instances SERIAL_UART_INSTANCE cannot be defined as it will skip defining the other ports.
-  #undef SERIAL_UART_INSTANCE
-  #define ENABLE_HWSERIAL1 1
-  //#define ENABLE_HWSERIAL2 1
-  #define Serial Serial1
-  #error No Serial2 on CH32V002 (do not select Dual Serial)
-  // Note: cannot use single quote ' in #error
+#ifndef BOARD_DEFAULT_SERIAL
+  #define BOARD_DEFAULT_SERIAL 1
 #endif
 
-// Default pin used for generic 'Serial' instance
-// Mandatory for Firmata, no longer used by HardwareSerial.
-#if SERIAL_UART_INSTANCE==1 || SERIAL_UART_INSTANCES>1
-  #ifndef PIN_SERIAL_RX
+// Default pins for each hardware serial port.
+#ifndef PIN_SERIAL1_RX
   #if defined(I2C_MODULE_ENABLED)
-    #define PIN_SERIAL_RX         PD6
+    #define PIN_SERIAL1_RX         PD6
   #else  
-    #define PIN_SERIAL_RX         PC1   // use pin-remap UART_3
+    #define PIN_SERIAL1_RX         PC1   // use pin-remap UART_3
   #endif // I2C_MODULE_ENABLED
   #endif
-  #ifndef PIN_SERIAL_TX
+  #ifndef PIN_SERIAL1_TX
   #if defined(I2C_MODULE_ENABLED)
-    #define PIN_SERIAL_TX         PD5
+    #define PIN_SERIAL1_TX         PD5
   #else  
-    #define PIN_SERIAL_TX         PC0   // use pin-remap UART_3
+    #define PIN_SERIAL1_TX         PC0   // use pin-remap UART_3
   #endif // I2C_MODULE_ENABLED
   #endif
-#elif  SERIAL_UART_INSTANCE==2
-    #error No Serial2 on CH32V002 (select Serial1 instead)
-#endif
 
 
 

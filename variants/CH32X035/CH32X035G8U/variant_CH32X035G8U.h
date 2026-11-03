@@ -115,57 +115,37 @@
 // CH32X035:
 //    RX: PB11=RX1, PA3=RX2, PB4=RX3, PB1=RX4
 //    TX: PB10=TX1, PA2=TX2, PB3=TX3, PB0=TX4
-#ifndef SERIAL_UART_INSTANCES
-  #define SERIAL_UART_INSTANCES 1
+#ifndef BOARD_DEFAULT_SERIAL
+  #define BOARD_DEFAULT_SERIAL 1
 #endif
 
-#if (SERIAL_UART_INSTANCES == 1)
-  //  Using only one Serial port
-  #ifndef SERIAL_UART_INSTANCE
-    #define SERIAL_UART_INSTANCE 1   // use Serial1 as default for Serial
-  #endif
-#else
-  // Using multple Serial ports
-  // CH32X033/035 has 4 UARTS,    // UART3 not usable on X033, only on X035
-  // When having multiple Serial instances SERIAL_UART_INSTANCE cannot be defined as it will skip defining the other ports.
-  #undef SERIAL_UART_INSTANCE
-  #define ENABLE_HWSERIAL1 1
-  #define ENABLE_HWSERIAL2 1
-  #define ENABLE_HWSERIAL3 1
-  #define ENABLE_HWSERIAL4 1
-  #define Serial Serial1   // Serial should be redefined in sketch if other port is preferred
+// Default pins for each hardware serial port.
+#ifndef PIN_SERIAL1_RX
+  #define PIN_SERIAL1_RX     PB11  /* UART1 default RX pin */
+#endif
+#ifndef PIN_SERIAL1_TX
+  #define PIN_SERIAL1_TX     PB10  /* UART1 default TX pin */
 #endif
 
-// Default pin used for generic 'Serial' instance
-// Mandatory for Firmata, no longer used by HardwareSerial.
-#if SERIAL_UART_INSTANCE==1 || SERIAL_UART_INSTANCES>1
-    #ifndef PIN_SERIAL_RX
-        #define PIN_SERIAL_RX         PB11
-    #endif
-    #ifndef PIN_SERIAL_TX
-        #define PIN_SERIAL_TX         PB10
-    #endif
-#elif  SERIAL_UART_INSTANCE==2
-    #ifndef PIN_SERIAL_RX
-      #define PIN_SERIAL_RX         PA3
-    #endif
-    #ifndef PIN_SERIAL_TX
-      #define PIN_SERIAL_TX         PA2
-    #endif
-#elif  SERIAL_UART_INSTANCE==3
-    #ifndef PIN_SERIAL_RX
-      #define PIN_SERIAL_RX         PB4
-    #endif
-    #ifndef PIN_SERIAL_TX
-      #define PIN_SERIAL_TX         PB3
-    #endif
-#elif  SERIAL_UART_INSTANCE==4
-    #ifndef PIN_SERIAL_RX
-      #define PIN_SERIAL_RX         PB1
-    #endif
-    #ifndef PIN_SERIAL_TX
-      #define PIN_SERIAL_TX         PB0
-    #endif
+#ifndef PIN_SERIAL2_RX
+  #define PIN_SERIAL2_RX     PA3  /* UART2 default RX pin */
+#endif
+#ifndef PIN_SERIAL2_TX
+  #define PIN_SERIAL2_TX     PA2  /* UART2 default TX pin */
+#endif
+
+#ifndef PIN_SERIAL3_RX
+  #define PIN_SERIAL3_RX     PB4  /* UART3 default RX pin */
+#endif
+#ifndef PIN_SERIAL3_TX
+  #define PIN_SERIAL3_TX     PB3  /* UART3 default TX pin */
+#endif
+
+#ifndef PIN_SERIAL4_RX
+  #define PIN_SERIAL4_RX     PB1  /* UART4 default RX pin */
+#endif
+#ifndef PIN_SERIAL4_TX
+  #define PIN_SERIAL4_TX     PB0  /* UART4 default TX pin */
 #endif
 
 /*----------------------------------------------------------------------------

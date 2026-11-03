@@ -145,9 +145,6 @@ void HardwareSerial::begin(unsigned long baud, byte config)
   uint32_t stopbits = 0;
   uint32_t parity = 0;
 
-  _baud = baud;
-  _config = config;
-
 #if ENABLE_RX_BUFFER
   // Clear buffers for all CH32 series MCUs
   _rx_buffer_head = 0;
@@ -232,14 +229,14 @@ void HardwareSerial::begin(unsigned long baud, byte config)
   uart_init(&_serial, (uint32_t)baud, databits, parity, stopbits);
 
 #if ENABLE_RX_BUFFER
-  // Enable UART RX interrupts for all CH32 series MCUs
+  // Enable only ports with a receive interrupt handler in this build.
   if (_serial.uart == USART1) {
 #if defined(USART1) && defined(HAVE_HWSERIAL1)
     USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
     NVIC_SetPriority(USART1_IRQn, 2);
     NVIC_EnableIRQ(USART1_IRQn);
-    #endif
-  } 
+#endif
+  }
 #if defined(USART2) && defined(HAVE_HWSERIAL2)
   else if (_serial.uart == USART2) {
     USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
