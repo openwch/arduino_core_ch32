@@ -91,6 +91,7 @@ board_list = {
         'hse': [144, 120, 96, 72, 56, 48, 0],
         'pnums': {
             'CH32V307VCT6': {'name': 'CH32V307VCT6 EVT', 'maximum_size': 262144, 'maximum_data_size': 65536, 'mcu': 'QingKe-V4F', 'chip': 'CH32V30x_C'},
+            'CH32V303CBT6': {'name': 'CH32V303CBT6 EVT', 'maximum_size': 131072, 'maximum_data_size': 32768, 'mcu': 'QingKe-V4F', 'chip': 'CH32V30x'},
         }
     },
     'CH32L10x': {
