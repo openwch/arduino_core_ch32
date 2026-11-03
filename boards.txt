@@ -91,6 +91,84 @@ CH573_EVT.upload.wait_for_upload_port=false
 ##############################################################################
 
 
+##CH572 Board
+CH572_EVT.name=CH572
+CH572_EVT.build.core=arduino
+CH572_EVT.build.board=CH572_EVT
+CH572_EVT.upload.maximum_size=0
+CH572_EVT.upload.maximum_data_size=0
+CH572_EVT.build.variant_h=variant_{build.board}.h
+CH572_EVT.debug.tool=gdb-WCH_LinkE
+
+
+#CH572 EVT Board
+CH572_EVT.menu.pnum.CH572=CH572 EVT
+CH572_EVT.menu.pnum.CH572.node=NODE_CH572
+CH572_EVT.menu.pnum.CH572.upload.maximum_size=245760
+CH572_EVT.menu.pnum.CH572.upload.maximum_data_size=12288
+CH572_EVT.menu.pnum.CH572.build.mcu=QingKe-V3C
+CH572_EVT.menu.pnum.CH572.build.board=CH572
+CH572_EVT.menu.pnum.CH572.build.series=CH572
+CH572_EVT.menu.pnum.CH572.build.variant=CH572/CH572
+CH572_EVT.menu.pnum.CH572.build.chip=CH572
+CH572_EVT.menu.pnum.CH572.build.march=rv32imc_zba_zbb_zbc_zbs_xw
+CH572_EVT.menu.pnum.CH572.build.mabi=ilp32
+CH572_EVT.menu.pnum.CH572.build.math_lib_gcc=-lm
+CH572_EVT.menu.pnum.CH572.build.IQ_math_RV32=
+CH572_EVT.menu.pnum.CH572.build.ch_extra_lib="{build.system.path}/{build.series}/SRC/StdPeriphDriver/libISP572.a"
+CH572_EVT.menu.pnum.CH572.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs
+CH572_EVT.menu.pnum.CH572.build.extra_flags=--param=highcode-gen-section-name=1
+
+# Upload menu
+CH572_EVT.menu.upload_method.swdMethod=WCH-SWD
+CH572_EVT.menu.upload_method.swdMethod.upload.protocol=
+CH572_EVT.menu.upload_method.swdMethod.upload.options=
+CH572_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH572_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH572_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH572_EVT.menu.upload_method.ispMethod.upload.options=
+CH572_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
+
+# Optimizations
+CH572_EVT.menu.opt.osstd=Smallest (-Os default)
+CH572_EVT.menu.opt.osstd.build.flags.optimize=-Os
+CH572_EVT.menu.opt.oslto=Smallest (-Os) with LTO
+CH572_EVT.menu.opt.oslto.build.flags.optimize=-Os -flto
+CH572_EVT.menu.opt.o1std=Fast (-O1)
+CH572_EVT.menu.opt.o1std.build.flags.optimize=-O1
+CH572_EVT.menu.opt.o1lto=Fast (-O1) with LTO
+CH572_EVT.menu.opt.o1lto.build.flags.optimize=-O1 -flto
+CH572_EVT.menu.opt.o2std=Faster (-O2)
+CH572_EVT.menu.opt.o2std.build.flags.optimize=-O2
+CH572_EVT.menu.opt.o2lto=Faster (-O2) with LTO
+CH572_EVT.menu.opt.o2lto.build.flags.optimize=-O2 -flto
+CH572_EVT.menu.opt.o3std=Fastest (-O3)
+CH572_EVT.menu.opt.o3std.build.flags.optimize=-O3
+CH572_EVT.menu.opt.o3lto=Fastest (-O3) with LTO
+CH572_EVT.menu.opt.o3lto.build.flags.optimize=-O3 -flto
+CH572_EVT.menu.opt.ogstd=Debug (-Og)
+CH572_EVT.menu.opt.ogstd.build.flags.optimize=-Og
+CH572_EVT.menu.opt.o0std=No Optimization (-O0)
+CH572_EVT.menu.opt.o0std.build.flags.optimize=-O0
+
+
+# Debug information
+CH572_EVT.menu.dbg.none=None
+CH572_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG
+CH572_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
+CH572_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
+CH572_EVT.menu.dbg.enable_log=Core logs Enabled
+CH572_EVT.menu.dbg.enable_log.build.flags.debug=
+CH572_EVT.menu.dbg.enable_all=Core Logs and Symbols Enabled (-g)
+CH572_EVT.menu.dbg.enable_all.build.flags.debug=-g
+
+CH572_EVT.upload.use_1200bps_touch=true
+CH572_EVT.upload.wait_for_upload_port=false
+
+
+##############################################################################
+
+
 ##############################################################################
 ##CH32V00x_EVT Board   
 
