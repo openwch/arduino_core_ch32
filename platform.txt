@@ -5,7 +5,14 @@
 # https://arduino.github.io/arduino-cli/latest/platform-specification/
 
 name=CH32V EVT Boards Support
-version=1.0.0
+version=1.0.5
+
+# Toolchain folders. Installed from Boards Manager, the IDE downloads the
+# tools for this OS and sets runtime.tools.*.path. A manual install (core cloned
+# to Documents/Arduino/hardware) can point these two keys at other tool folders
+# in platform.local.txt.
+wch.gcc.dir={runtime.tools.riscv-wch-gcc.path}
+wch.openocd.dir={runtime.tools.openocd-wch.path}
 
 # Compile variables
 # ----------------------
@@ -19,16 +26,16 @@ compiler.warning_flags.more=-Wall
 compiler.warning_flags.all=-Wall -Wextra
 
 #---compiler.cmd
-compiler.path={runtime.tools.riscv-none-embed-gcc-8.2.0.path}/bin/
+compiler.path={wch.gcc.dir}/bin/
 
-compiler.S.cmd=riscv-none-embed-gcc
-compiler.c.cmd=riscv-none-embed-gcc
-compiler.cpp.cmd=riscv-none-embed-g++
-compiler.ar.cmd=riscv-none-embed-ar
-compiler.c.elf.cmd=riscv-none-embed-g++
-compiler.objcopy.cmd=riscv-none-embed-objcopy
-compiler.elf2hex.cmd=riscv-none-embed-objcopy
-compiler.objdump.cmd=riscv-none-embed-objdump
+compiler.S.cmd=riscv32-wch-elf-gcc
+compiler.c.cmd=riscv32-wch-elf-gcc
+compiler.cpp.cmd=riscv32-wch-elf-g++
+compiler.ar.cmd=riscv32-wch-elf-ar
+compiler.c.elf.cmd=riscv32-wch-elf-g++
+compiler.objcopy.cmd=riscv32-wch-elf-objcopy
+compiler.elf2hex.cmd=riscv32-wch-elf-objcopy
+compiler.objdump.cmd=riscv32-wch-elf-objdump
 
 compiler.libraries.ldflags=
 
@@ -54,7 +61,7 @@ compiler.objdump.flags=--all-headers --demangle --disassemble -M xw
 
 
 compiler.ldflags=
-compiler.size.cmd=riscv-none-embed-size
+compiler.size.cmd=riscv32-wch-elf-size
 compiler.define=-DARDUINO=
 
 # These can be overridden in boards.txt
@@ -162,11 +169,11 @@ recipe.size.regex.data=^(?:\.data|\.bss|\.noinit)\s+([0-9]+).*
 
 # Uploader tool
 ## WCH-LinkE
-tools.WCH_linkE.path={runtime.tools.openocd-1.0.0.path}/bin/
+tools.WCH_linkE.path={wch.openocd.dir}/bin/
 tools.WCH_linkE.cmd=openocd
 tools.WCH_linkE.upload.params.verbose=
 tools.WCH_linkE.upload.params.quiet=
-tools.WCH_linkE.upload.config={runtime.tools.openocd.path}/bin/wch-riscv.cfg
+tools.WCH_linkE.upload.config={wch.openocd.dir}/bin/wch-riscv.cfg
 tools.WCH_linkE.upload.pattern="{path}{cmd}" -f "{upload.config}" -c init -c halt -c "program {{build.path}/{build.project_name}.elf} verify; wlink_reset_resume; exit;"
 
 #tools.WCH_linkE.upload.pattern="{path}{cmd}" -f {upload.config} -c init -c halt -c "program {{build.path}/{build.project_name}.elf}; verify_image {{build.path}/{build.project_name}.elf}; wlink_reset_resume;  exit;"
@@ -186,10 +193,11 @@ tools.wchisp.upload.pattern="{path}{cmd}" {upload.verbose} flash "{build.path}/{
 #  - this is alpha and may be subject to change without notice
 debug.executable={build.path}/{build.project_name}.elf
 debug.toolchain=gcc
-debug.toolchain.prefix=riscv-none-embed
+debug.toolchain.prefix=riscv32-wch-elf
 debug.toolchain.path={compiler.path}
 
 debug.server=openocd
-debug.server.openocd.path={runtime.tools.openocd-1.0.0.path}/bin/openocd
-debug.server.openocd.scripts_dir={debug.toolchain.path}/scripts
-debug.server.openocd.script={runtime.tools.openocd.path}/bin/wch-riscv.cfg
+debug.server.openocd.path={wch.openocd.dir}/bin/openocd
+debug.server.openocd.path.windows={wch.openocd.dir}/bin/openocd.exe
+debug.server.openocd.scripts_dir={wch.openocd.dir}/bin/
+debug.server.openocd.script={wch.openocd.dir}/bin/wch-riscv.cfg
