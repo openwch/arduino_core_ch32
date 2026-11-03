@@ -548,7 +548,7 @@ int uart_putc(serial_t *obj, unsigned char c)
   uint32_t tickstart = GetTick();
 
   if (obj == NULL) {
-    return -1;
+    return 0;
   }
 
   while (serial_tx_active(obj))
@@ -561,7 +561,7 @@ int uart_putc(serial_t *obj, unsigned char c)
 
   USART_SendData(uart_handlers[obj->index]->Instance, c);
 
-  return 0;
+  return 1;
 }
 
 
