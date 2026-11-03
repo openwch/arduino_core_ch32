@@ -159,10 +159,11 @@ CH32VM00X_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
 
 
 # Clock Select
+# (Some of the ""MHz"" and ""MHZ"" notations are mixed, but this is to match the definitions on the SDK side.)
 CH32VM00X_EVT.menu.clock.48MHz_HSI=48MHz Internal
-CH32VM00X_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000 -DF_CPU=48000000
+CH32VM00X_EVT.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHZ_HSI=48000000 -DF_CPU=48000000
 CH32VM00X_EVT.menu.clock.24MHz_HSI=24MHz Internal
-CH32VM00X_EVT.menu.clock.24MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSI=24000000 -DF_CPU=24000000
+CH32VM00X_EVT.menu.clock.24MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_24MHZ_HSI=24000000 -DF_CPU=24000000
 CH32VM00X_EVT.menu.clock.8MHz_HSI=8MHz Internal
 CH32VM00X_EVT.menu.clock.8MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSI=8000000 -DF_CPU=8000000
 CH32VM00X_EVT.menu.clock.48MHz_HSE=48MHz External
