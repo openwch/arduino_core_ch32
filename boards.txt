@@ -169,6 +169,81 @@ CH572_EVT.upload.wait_for_upload_port=false
 ##############################################################################
 
 
+##CH585 Board
+CH585_EVT.name=CH585
+CH585_EVT.build.core=arduino
+CH585_EVT.build.board=CH585_EVT
+CH585_EVT.upload.maximum_size=0
+CH585_EVT.upload.maximum_data_size=0
+CH585_EVT.build.variant_h=variant_{build.board}.h
+CH585_EVT.debug.tool=gdb-WCH_LinkE
+
+
+#CH585 EVT Board
+CH585_EVT.menu.pnum.CH585=CH585 EVT
+CH585_EVT.menu.pnum.CH585.node=NODE_CH585
+CH585_EVT.menu.pnum.CH585.upload.maximum_size=458752
+CH585_EVT.menu.pnum.CH585.upload.maximum_data_size=131072
+CH585_EVT.menu.pnum.CH585.build.mcu=QingKe-V3C
+CH585_EVT.menu.pnum.CH585.build.board=CH585
+CH585_EVT.menu.pnum.CH585.build.series=CH585
+CH585_EVT.menu.pnum.CH585.build.variant=CH585/CH585
+CH585_EVT.menu.pnum.CH585.build.chip=CH585
+CH585_EVT.menu.pnum.CH585.build.march=rv32imc_zba_zbb_zbc_zbs_xw
+CH585_EVT.menu.pnum.CH585.build.mabi=ilp32
+CH585_EVT.menu.pnum.CH585.build.math_lib_gcc=-lm
+CH585_EVT.menu.pnum.CH585.build.IQ_math_RV32=
+CH585_EVT.menu.pnum.CH585.build.ch_extra_lib="{build.system.path}/{build.series}/SRC/StdPeriphDriver/libISP585.a"
+CH585_EVT.menu.pnum.CH585.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs
+CH585_EVT.menu.pnum.CH585.build.extra_flags=--param=highcode-gen-section-name=1
+
+# Upload menu
+CH585_EVT.menu.upload_method.swdMethod=WCH-SWD
+CH585_EVT.menu.upload_method.swdMethod.upload.protocol=
+CH585_EVT.menu.upload_method.swdMethod.upload.options=
+CH585_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH585_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH585_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH585_EVT.menu.upload_method.ispMethod.upload.options=
+CH585_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
+
+# Optimizations
+CH585_EVT.menu.opt.osstd=Smallest (-Os default)
+CH585_EVT.menu.opt.osstd.build.flags.optimize=-Os
+CH585_EVT.menu.opt.oslto=Smallest (-Os) with LTO
+CH585_EVT.menu.opt.oslto.build.flags.optimize=-Os -flto
+CH585_EVT.menu.opt.o1std=Fast (-O1)
+CH585_EVT.menu.opt.o1std.build.flags.optimize=-O1
+CH585_EVT.menu.opt.o1lto=Fast (-O1) with LTO
+CH585_EVT.menu.opt.o1lto.build.flags.optimize=-O1 -flto
+CH585_EVT.menu.opt.o2std=Faster (-O2)
+CH585_EVT.menu.opt.o2std.build.flags.optimize=-O2
+CH585_EVT.menu.opt.o2lto=Faster (-O2) with LTO
+CH585_EVT.menu.opt.o2lto.build.flags.optimize=-O2 -flto
+CH585_EVT.menu.opt.o3std=Fastest (-O3)
+CH585_EVT.menu.opt.o3std.build.flags.optimize=-O3
+CH585_EVT.menu.opt.o3lto=Fastest (-O3) with LTO
+CH585_EVT.menu.opt.o3lto.build.flags.optimize=-O3 -flto
+CH585_EVT.menu.opt.ogstd=Debug (-Og)
+CH585_EVT.menu.opt.ogstd.build.flags.optimize=-Og
+CH585_EVT.menu.opt.o0std=No Optimization (-O0)
+CH585_EVT.menu.opt.o0std.build.flags.optimize=-O0
+
+
+# Debug information
+CH585_EVT.menu.dbg.none=None
+CH585_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG
+CH585_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
+CH585_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
+CH585_EVT.menu.dbg.enable_log=Core logs Enabled
+CH585_EVT.menu.dbg.enable_log.build.flags.debug=
+CH585_EVT.menu.dbg.enable_all=Core Logs and Symbols Enabled (-g)
+CH585_EVT.menu.dbg.enable_all.build.flags.debug=-g
+
+CH585_EVT.upload.use_1200bps_touch=true
+CH585_EVT.upload.wait_for_upload_port=false
+
+
 ##############################################################################
 ##CH32V00x_EVT Board   
 
