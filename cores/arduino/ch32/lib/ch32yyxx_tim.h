@@ -29,4 +29,8 @@
 #include "ch32l103_tim.h"
 #endif
 
+#if defined (CH573)
+#include "CH573_clk.h"
+#endif
+
 #endif /*   __CH32YYXX_TIM_H_ */
