@@ -22,10 +22,21 @@ extern "C" {
 }
 #include "WMath.h"
 
+// Same generator and sequence as newlib's rand()/srand(). newlib's own rand()
+// (GCC 15) allocates its state with malloc and pulls in assert/fprintf, about
+// 3 KB of flash, which no longer fits next to a sketch on the 16 KB V003.
+static uint64_t _rand_next = 1;
+
+static long _rand(void)
+{
+  _rand_next = _rand_next * 6364136223846793005ULL + 1;
+  return (long)((_rand_next >> 32) & RAND_MAX);
+}
+
 extern void randomSeed(uint32_t dwSeed)
 {
   if (dwSeed != 0) {
-    srand(dwSeed) ;
+    _rand_next = dwSeed;
   }
 }
 
@@ -35,7 +46,7 @@ extern long random(long howbig)
     return 0 ;
   }
 
-  return rand() % howbig;
+  return _rand() % howbig;
 }
 
 extern long random(long howsmall, long howbig)
