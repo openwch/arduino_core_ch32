@@ -239,7 +239,7 @@ void spi_init(spi_t *obj, uint32_t speed, spi_mode_e mode, uint8_t msb)
   // Enable SPI clock
   if (handle->Instance == SPI1) 
   {
-    #if defined(CH32L10x)
+    #if defined(CH32L10x) || defined(CH32VM00X)
     RCC_PB2PeriphResetCmd(RCC_PB2Periph_SPI1, ENABLE);
     RCC_PB2PeriphResetCmd(RCC_PB2Periph_SPI1, DISABLE);
     RCC_PB2PeriphClockCmd(RCC_PB2Periph_SPI1, ENABLE );
@@ -254,7 +254,7 @@ void spi_init(spi_t *obj, uint32_t speed, spi_mode_e mode, uint8_t msb)
 #if defined SPI2_BASE
   if (handle->Instance == SPI2) 
   {
-    #if defined(CH32L10x)
+    #if defined(CH32L10x) || defined(CH32VM00X)
     RCC_PB1PeriphResetCmd(RCC_PB1Periph_SPI2, ENABLE);
     RCC_PB1PeriphResetCmd(RCC_PB1Periph_SPI2, DISABLE);
     RCC_PB1PeriphClockCmd(RCC_PB1Periph_SPI2, ENABLE );
@@ -269,7 +269,7 @@ void spi_init(spi_t *obj, uint32_t speed, spi_mode_e mode, uint8_t msb)
 #if defined SPI3_BASE
   if (handle->Instance == SPI3) 
   {
-    #if defined(CH32L10x)
+    #if defined(CH32L10x) || defined(CH32VM00X)
     RCC_PB1PeriphResetCmd(RCC_PB1Periph_SPI3, ENABLE);
     RCC_PB1PeriphResetCmd(RCC_PB1Periph_SPI3, DISABLE);
     RCC_PB1PeriphClockCmd(RCC_PB1Periph_SPI3, ENABLE );
@@ -306,7 +306,7 @@ void spi_deinit(spi_t *obj)
   // Reset SPI and disable clock
   if (handle->Instance == SPI1) 
   {
-    #if defined(CH32L10x)
+    #if defined(CH32L10x) || defined(CH32VM00X)
     RCC_PB2PeriphResetCmd(RCC_PB2Periph_SPI1, ENABLE);
     RCC_PB2PeriphResetCmd(RCC_PB2Periph_SPI1, DISABLE);
     RCC_PB2PeriphClockCmd(RCC_PB2Periph_SPI1, DISABLE);
@@ -320,7 +320,7 @@ void spi_deinit(spi_t *obj)
 #if defined SPI2_BASE
   if (handle->Instance == SPI2) 
   {
-    #if defined(CH32L10x)
+    #if defined(CH32L10x) || defined(CH32VM00X)
     RCC_PB1PeriphResetCmd(RCC_PB1Periph_SPI2, ENABLE);
     RCC_PB1PeriphResetCmd(RCC_PB1Periph_SPI2, DISABLE);
     RCC_PB1PeriphClockCmd(RCC_PB1Periph_SPI2, DISABLE);
@@ -335,7 +335,7 @@ void spi_deinit(spi_t *obj)
 #if defined SPI3_BASE
   if (handle->Instance == SPI3) 
   {
-    #if defined(CH32L10x)
+    #if defined(CH32L10x) || defined(CH32VM00X)
     RCC_PB1PeriphResetCmd(RCC_PB1Periph_SPI3, ENABLE);
     RCC_PB1PeriphResetCmd(RCC_PB1Periph_SPI3, DISABLE);
     RCC_PB1PeriphClockCmd(RCC_PB1Periph_SPI3, DISABLE);
