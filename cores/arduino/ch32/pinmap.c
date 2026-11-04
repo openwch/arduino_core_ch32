@@ -80,6 +80,79 @@ const uint32_t pin_map[24] = {
   GPIO_Pin_22,
   GPIO_Pin_23
 };
+
+#elif defined(CH573)
+const uint32_t pin_map[24] = {
+  GPIO_Pin_0,
+  GPIO_Pin_1,
+  GPIO_Pin_2,
+  GPIO_Pin_3,
+  GPIO_Pin_4,
+  GPIO_Pin_5,
+  GPIO_Pin_6,
+  GPIO_Pin_7,
+  GPIO_Pin_8,
+  GPIO_Pin_9,
+  GPIO_Pin_10,
+  GPIO_Pin_11,
+  GPIO_Pin_12,
+  GPIO_Pin_13,
+  GPIO_Pin_14,
+  GPIO_Pin_15,
+  GPIO_Pin_16,
+  GPIO_Pin_17,
+  GPIO_Pin_18,
+  GPIO_Pin_19,
+  GPIO_Pin_20,
+  GPIO_Pin_21,
+  GPIO_Pin_22,
+  GPIO_Pin_23
+};
+
+#elif defined(CH572)
+const uint32_t pin_map[12] = {
+  GPIO_Pin_0,
+  GPIO_Pin_1,
+  GPIO_Pin_2,
+  GPIO_Pin_3,
+  GPIO_Pin_4,
+  GPIO_Pin_5,
+  GPIO_Pin_6,
+  GPIO_Pin_7,
+  GPIO_Pin_8,
+  GPIO_Pin_9,
+  GPIO_Pin_10,
+  GPIO_Pin_11
+};
+
+#elif defined(CH585)
+const uint32_t pin_map[24] = {
+  GPIO_Pin_0,
+  GPIO_Pin_1,
+  GPIO_Pin_2,
+  GPIO_Pin_3,
+  GPIO_Pin_4,
+  GPIO_Pin_5,
+  GPIO_Pin_6,
+  GPIO_Pin_7,
+  GPIO_Pin_8,
+  GPIO_Pin_9,
+  GPIO_Pin_10,
+  GPIO_Pin_11,
+  GPIO_Pin_12,
+  GPIO_Pin_13,
+  GPIO_Pin_14,
+  GPIO_Pin_15,
+  GPIO_Pin_16,
+  GPIO_Pin_17,
+  GPIO_Pin_18,
+  GPIO_Pin_19,
+  GPIO_Pin_20,
+  GPIO_Pin_21,
+  GPIO_Pin_22,
+  GPIO_Pin_23
+};
+
 #endif
 
 
@@ -166,7 +239,7 @@ void pin_function(PinName pin, int function)
 
   }
 
-#if defined(CH32X035)
+#if defined(CH32X035) || defined(CH573) || defined(CH585)
   GPIO_InitStructure.GPIO_Pin = ch_pinx; // fixed by Ngo Hung Cuong: pin_16, 17, ..., 23
 #else
   GPIO_InitStructure.GPIO_Pin = (uint16_t) ch_pinx;

@@ -31,7 +31,7 @@
 
 #include "ch32yyxx_debug.h"
 #include "system_ch32yyxx.h"
-#include "core_riscv_cH32yyxx.h"
+#include "core_riscv_ch32yyxx.h"
 #include "ch32yyxx_it.h"
 
 

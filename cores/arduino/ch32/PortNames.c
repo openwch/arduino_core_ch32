@@ -64,6 +64,8 @@ GPIO_TypeDef *set_GPIO_Port_Clock(uint32_t port_idx)
       gpioPort = GPIOA;
       #if defined(CH32L10x) || defined(CH32VM00X)
       RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOA, ENABLE);
+      #elif defined(CH573) || defined(CH572) || defined(CH585)
+      //pass
       #else
       RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
       #endif
@@ -72,7 +74,9 @@ GPIO_TypeDef *set_GPIO_Port_Clock(uint32_t port_idx)
     case PortB:
       gpioPort = GPIOB;
       #if defined(CH32L10x) || defined(CH32VM00X)
-      RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOB, ENABLE);      
+      RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOB, ENABLE);   
+      #elif defined(CH573) || defined(CH572) || defined(CH585)
+      //pass   
       #else
       RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
       #endif

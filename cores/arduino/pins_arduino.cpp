@@ -41,7 +41,7 @@ PinName analogInputToPinName(uint32_t pin)
   PinName pn = digitalPinToPinName(analogInputToDigitalPin(pin));
   // MMOLE 240330: Don't know what's going on, but PADC_VREF maps to PA_1 instead of just PADC_VREF
   // --->>>
-#ifdef ADC_MODULE_ENABLED
+#if defined(ADC_MODULE_ENABLED) && defined(PADC_VREF)
   if(pin==PADC_VREF)
     return(PADC_VREF);
 #endif

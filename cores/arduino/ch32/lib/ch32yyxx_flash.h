@@ -29,4 +29,16 @@
 #include "ch32l103_flash.h"
 #endif
 
+#if defined(CH573)
+#include "CH573_flash.h"
+#endif
+
+#if defined(CH572)
+#include "CH572_flash.h"
+#endif
+
+#if defined(CH585)
+#include "CH585_flash.h"
+#endif
+
 #endif /* __CH32YYXX_FLASH_H_   */
