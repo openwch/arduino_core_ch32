@@ -27,13 +27,13 @@
 #endif
 
 #if defined(CH572)
-#include "ch572_pwr.c"
+#include "CH572_pwr.c"
 #endif
 
 #if defined(CH573)
-#include "ch573_pwr.c"
+#include "CH573_pwr.c"
 #endif
 
 #if defined(CH585)
-#include "ch585_pwr.c"
+#include "CH585_pwr.c"
 #endif

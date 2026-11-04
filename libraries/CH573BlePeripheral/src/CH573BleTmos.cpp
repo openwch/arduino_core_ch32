@@ -1,6 +1,6 @@
 #include "CH573BleTmos.h"
 
-#include "CONFIG.h"
+#include "config.h"
 #include "devinfoservice.h"
 
 #include "BLEUuid.h"

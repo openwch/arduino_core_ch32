@@ -19,9 +19,9 @@
 #define CHIP_ID                             ID_CH573
 
 #ifdef CH573BLE_ROM
-#include "CH573BLE_ROM.H"
+#include "CH573BLE_ROM.h"
 #else
-#include "CH573BLE_LIB.H"
+#include "CH573BLE_LIB.h"
 #endif
 #include "CH573_common.h"
 
