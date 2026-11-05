@@ -8,7 +8,7 @@ import shlex
 import subprocess
 import sys
 
-from generate_membrowse_targets import CONFIG_PATH, ROOT, generate_targets
+from generate_membrowse_targets import CORE_INSTALL_CMD, CONFIG_PATH, ROOT, generate_targets
 
 
 def run(command: list[str] | str, *, shell: bool = False) -> int:
@@ -38,14 +38,7 @@ def main() -> int:
         return 1
 
     print("Replacing the installed core with this checkout...")
-    install_core = (
-        'CORE_DIR="$(arduino-cli config get directories.data)/packages/'
-        'ch32-community/hardware/ch32v" && '
-        'rm -rf "$CORE_DIR"/* && '
-        'mkdir -p "$CORE_DIR/0.0.0" && '
-        'rsync -a --exclude=.git --exclude=build ./ "$CORE_DIR/0.0.0/"'
-    )
-    if run(install_core, shell=True) != 0:
+    if run(CORE_INSTALL_CMD, shell=True) != 0:
         return 1
 
     print("Installing MemBrowse CLI...")
