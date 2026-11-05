@@ -1,0 +1,35 @@
+name: Release package
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name }}
+      NAME: arduino_core_ch32-${{ github.event.release.tag_name }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      # GitHub's tag archives omit submodules such as libraries/Adafruit_TinyUSB_Arduino
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+          path: ${{ env.NAME }}
+
+      - name: Attach the Boards Manager archive
+        run: |
+          zip -qrXy "$NAME.zip" "$NAME" -x '*/.git' '*/.git/*'
+          gh release upload "$TAG" "$NAME.zip" --repo "$GITHUB_REPOSITORY"
+          {
+            echo '```json'
+            echo "\"url\": \"https://github.com/$GITHUB_REPOSITORY/releases/download/$TAG/$NAME.zip\","
+            echo "\"archiveFileName\": \"$NAME.zip\","
+            echo "\"checksum\": \"SHA-256:$(sha256sum "$NAME.zip" | cut -d' ' -f1 | tr a-f A-F)\","
+            echo "\"size\": \"$(stat -c %s "$NAME.zip")\","
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
