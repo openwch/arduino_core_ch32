@@ -379,8 +379,8 @@ void uart_deinit(serial_t *obj)
 #if (defined(USART4_BASE) || defined(UART4_BASE)) && defined(ENABLE_HWSERIAL4)
     case UART4_INDEX:
       #if defined(CH32L10x)
-      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART4, ENABLE);
-      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART4, DISABLE);
+      RCC_PB1PeriphResetCmd(RCC_PB1Periph_USART4, ENABLE);
+      RCC_PB1PeriphResetCmd(RCC_PB1Periph_USART4, DISABLE);
       #elif defined(USART4_BASE)
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART4, ENABLE);
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART4, DISABLE);
