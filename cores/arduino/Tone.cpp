@@ -133,7 +133,6 @@ void noTone(uint8_t _pin, bool destruct)
   }
 }
 #else
-#warning "TIMER_TONE or TIM_MODULE_ENABLED not defined"
 void tone(uint8_t _pin, unsigned int frequency, unsigned long duration)
 {
   (void)(_pin);

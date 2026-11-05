@@ -20,6 +20,14 @@
 #define _WIRING_TONE_
 
 #ifdef __cplusplus
+  #include "variant.h"
+
+  // Diagnose use of the no-op fallback at the call site, not in every core build.
+  #if !defined(TIM_MODULE_ENABLED) || !defined(TIMER_TONE) || defined(TIM_MODULE_ONLY)
+    #define CH32_TONE_UNAVAILABLE __attribute__((deprecated("Tone requires TIM_MODULE_ENABLED and TIMER_TONE, without TIM_MODULE_ONLY")))
+  #else
+    #define CH32_TONE_UNAVAILABLE
+  #endif
   /*
   * \brief Generate a tone to a pin.
   *
@@ -27,6 +35,7 @@
   * \param frequency Tone frequency (in hertz)
   * \param duration  Tone duration (in milliseconds)
   */
+  CH32_TONE_UNAVAILABLE
   extern void tone(uint8_t _pin, unsigned int frequency, unsigned long duration = 0);
 
   /*
@@ -34,7 +43,10 @@
   *
   * \param _pin
   */
+  CH32_TONE_UNAVAILABLE
   extern void noTone(uint8_t _pin, bool destruct = false);
+
+  #undef CH32_TONE_UNAVAILABLE
 
 #endif
 
