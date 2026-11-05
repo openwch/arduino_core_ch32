@@ -47,37 +47,53 @@ extern "C" {
 #endif
 
 
+#if (defined(USART1_BASE) && defined(ENABLE_HWSERIAL1)) || \
+    (defined(USART2_BASE) && defined(ENABLE_HWSERIAL2)) || \
+    (defined(USART3_BASE) && defined(ENABLE_HWSERIAL3)) || \
+    ((defined(USART4_BASE) || defined(UART4_BASE)) && defined(ENABLE_HWSERIAL4)) || \
+    (defined(UART5_BASE) && defined(ENABLE_HWSERIAL5)) || \
+    (defined(UART6_BASE) && defined(ENABLE_HWSERIAL6)) || \
+    (defined(UART7_BASE) && defined(ENABLE_HWSERIAL7)) || \
+    (defined(UART8_BASE) && defined(ENABLE_HWSERIAL8))
+#define UART_HAS_ENABLED_PORTS 1
+#else
+#define UART_HAS_ENABLED_PORTS 0    // defined when option No Serial is selected
+#endif
 
 /* @brief uart caracteristics */
 typedef enum {
-#if defined(USART1_BASE)
+#if defined(USART1_BASE) && defined(ENABLE_HWSERIAL1)
   UART1_INDEX,
 #endif
-#if defined(USART2_BASE)
+#if defined(USART2_BASE) && defined(ENABLE_HWSERIAL2)
   UART2_INDEX,
 #endif
-#if defined(USART3_BASE)
+#if defined(USART3_BASE) && defined(ENABLE_HWSERIAL3)
   UART3_INDEX,
 #endif
-#if defined(UART4_BASE) 
+#if (defined(USART4_BASE) || defined(UART4_BASE)) && defined(ENABLE_HWSERIAL4)
+  // Note: Some processors have UART4 while others have USART4. UART only has RX/TX, USART also has CTD/RTS/CK
+  // UART4: V203 (C8/RB), V208, V30x, V31x
+  // USART4: X035/X033, L103
+  // (Other processors and specific packages have less than 4 USARTs)
   UART4_INDEX,
 #endif
-#if defined(UART5_BASE) 
+#if defined(UART5_BASE) && defined(ENABLE_HWSERIAL5)
   UART5_INDEX,
 #endif
-#if defined(UART6_BASE) 
+#if defined(UART6_BASE) && defined(ENABLE_HWSERIAL6)
   UART6_INDEX,
 #endif
-#if defined(UART7_BASE) 
+#if defined(UART7_BASE) && defined(ENABLE_HWSERIAL7)
   UART7_INDEX,
 #endif
-#if defined(UART8_BASE) 
+#if defined(UART8_BASE) && defined(ENABLE_HWSERIAL8)
   UART8_INDEX,
 #endif
   UART_NUM
 } uart_index_t;
 
-static UART_HandleTypeDef *uart_handlers[UART_NUM] = {NULL};
+static UART_HandleTypeDef *uart_handlers[UART_NUM > 0 ? UART_NUM : 1] = {NULL};
 
 
 static serial_t serial_debug =
@@ -114,6 +130,8 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
   if (obj == NULL) {
     return;
   }
+  obj->index = UART_NUM;
+  obj->uart = NP;
   UART_HandleTypeDef *huart = &(obj->handle);  
   
   /* Determine the U(S)ART peripheral to use (USART1, USART2, ...) */
@@ -167,8 +185,8 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
     return;
   }
 
-  /* Enable USART clock */
-#if defined(USART1_BASE)
+  /* Enable clocks only for hardware serial ports enabled by the variant. */
+#if defined(USART1_BASE) && defined(ENABLE_HWSERIAL1)
   else if (obj->uart == USART1) 
   {
     #if defined(CH32L10x) || defined(CH32VM00X)
@@ -180,10 +198,10 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
     obj->irq = USART1_IRQn;
   }
 #endif
-#if defined(USART2_BASE)
+#if defined(USART2_BASE) && defined(ENABLE_HWSERIAL2)
   else if (obj->uart == USART2) 
   {
-    #if defined(CH32L10x) 
+    #if defined(CH32L10x)   // L103 has USART1 on Peripheral Bus 2 (PB2), USART1/2/3 are on PB1
     RCC_PB1PeriphClockCmd(RCC_PB1Periph_USART2, ENABLE);
     #elif defined(CH32VM00X)
     RCC_PB2PeriphClockCmd(RCC_PB2Periph_USART2, ENABLE);
@@ -194,7 +212,7 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
     obj->irq = USART2_IRQn;
   }
 #endif
-#if defined(USART3_BASE) 
+#if defined(USART3_BASE) && defined(ENABLE_HWSERIAL3)
   else if (obj->uart == USART3) 
   {
     #if defined(CH32L10x)
@@ -206,15 +224,29 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
     obj->irq = USART3_IRQn;
   }
 #endif
-#if defined(UART4_BASE) && !defined(CH32V10x) && !defined(CH32L10x)
+#if (defined(USART4_BASE) || defined(UART4_BASE)) && defined(ENABLE_HWSERIAL4) // && !defined(CH32V10x) && !defined(CH32L10x)
+  #if defined(USART4_BASE)
+  else if (obj->uart == USART4) 
+  {
+  #if defined(CH32L10x)
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_USART4, ENABLE);
+  #else
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART4, ENABLE);
+  #endif
+    obj->index = UART4_INDEX;
+    obj->irq = USART4_IRQn;
+  }
+  #else
   else if (obj->uart == UART4) 
   {
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART4, ENABLE);
     obj->index = UART4_INDEX;
     obj->irq = UART4_IRQn;
   }
+  #endif
+
 #endif
-#if defined(UART5_BASE) && !defined(CH32V10x) && !defined(CH32L10x)
+#if defined(UART5_BASE) && defined(ENABLE_HWSERIAL5) // && !defined(CH32V10x) && !defined(CH32L10x)
   else if (obj->uart == UART5) 
   {
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART5, ENABLE);
@@ -222,7 +254,7 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
     obj->irq = UART5_IRQn;
   }
 #endif
-#if defined(UART6_BASE)
+#if defined(UART6_BASE) && defined(ENABLE_HWSERIAL6)
   else if (obj->uart == UART6) 
   {
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART6, ENABLE);   
@@ -230,7 +262,7 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
     obj->irq = UART6_IRQn;
   }
 #endif
-#if defined(UART7_BASE)
+#if defined(UART7_BASE) && defined(ENABLE_HWSERIAL7)
   else if (obj->uart == UART7) 
   {
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART7, ENABLE); 
@@ -238,7 +270,7 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
     obj->irq = UART7_IRQn;
   }
 #endif
-#if defined(UART8_BASE)
+#if defined(UART8_BASE) && defined(ENABLE_HWSERIAL8)
   else if (obj->uart == UART8) 
   {
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART8, ENABLE);
@@ -246,6 +278,12 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
     obj->irq = UART8_IRQn;
   }
 #endif
+
+  else {
+    // The requested peripheral is not enabled in this build.
+    obj->uart = NP;
+    return;
+  }
 
   /* Configure UART GPIO pins */
   pinmap_pinout(obj->pin_tx, PinMap_UART_TX);
@@ -292,10 +330,17 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
   */
 void uart_deinit(serial_t *obj)
 {
+#if !UART_HAS_ENABLED_PORTS
+  (void)obj;
+#else
+  if ((obj == NULL) || (obj->index >= UART_NUM)) {
+    return;
+  }
+
   /* Reset UART and disable clock */
   switch (obj->index) 
   {
-#if defined(USART1_BASE)
+#if defined(USART1_BASE) && defined(ENABLE_HWSERIAL1)
     case UART1_INDEX:
       #if defined(CH32L10x) || defined(CH32VM00X)
       RCC_PB2PeriphResetCmd(RCC_PB2Periph_USART1, ENABLE);
@@ -306,7 +351,7 @@ void uart_deinit(serial_t *obj)
       #endif
       break;
 #endif
-#if defined(USART2_BASE)
+#if defined(USART2_BASE) && defined(ENABLE_HWSERIAL2)
     case UART2_INDEX:
       #if defined(CH32L10x) 
       RCC_PB1PeriphResetCmd(RCC_PB1Periph_USART2, ENABLE);
@@ -320,7 +365,7 @@ void uart_deinit(serial_t *obj)
       #endif
       break;
 #endif
-#if defined(USART3_BASE)
+#if defined(USART3_BASE) && defined(ENABLE_HWSERIAL3)
     case UART3_INDEX:
       #if defined(CH32L10x)
       RCC_PB1PeriphResetCmd(RCC_PB1Periph_USART3, ENABLE);
@@ -331,11 +376,14 @@ void uart_deinit(serial_t *obj)
       #endif
       break;
 #endif
-#if defined(UART4_BASE)
+#if (defined(USART4_BASE) || defined(UART4_BASE)) && defined(ENABLE_HWSERIAL4)
     case UART4_INDEX:
       #if defined(CH32L10x)
       RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART4, ENABLE);
       RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART4, DISABLE);
+      #elif defined(USART4_BASE)
+      RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART4, ENABLE);
+      RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART4, DISABLE);
       #else
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART4, ENABLE);
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART4, DISABLE);
@@ -343,51 +391,31 @@ void uart_deinit(serial_t *obj)
       break;
 #endif
 
-#if defined(UART5_BASE)
+#if defined(UART5_BASE) && defined(ENABLE_HWSERIAL5)
     case UART5_INDEX:
-      #if defined(CH32L10x)
-      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART5, ENABLE);
-      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART5, DISABLE);
-      #else
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART5, ENABLE);
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART5, DISABLE);
-      #endif    
       break;
 #endif
 
-#if defined(UART6_BASE)
+#if defined(UART6_BASE) && defined(ENABLE_HWSERIAL6)
     case UART6_INDEX:
-      #if defined(CH32L10x)
-      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART6, ENABLE);
-      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART6, DISABLE);
-      #else
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART6, ENABLE);
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART6, DISABLE);
-      #endif
       break;
 #endif
 
-#if defined(UART7_BASE)
+#if defined(UART7_BASE) && defined(ENABLE_HWSERIAL7)
     case UART7_INDEX:
-      #if defined(CH32L10x)
-      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART7, ENABLE);
-      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART7, DISABLE);
-      #else
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART7, ENABLE);
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART7, DISABLE);
-      #endif
       break;
 #endif
 
-#if defined(UART8_BASE)
+#if defined(UART8_BASE) && defined(ENABLE_HWSERIAL8)
     case UART8_INDEX:
-      #if defined(CH32L10x)
-      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART8, ENABLE);
-      RCC_PB1PeriphResetCmd(RCC_PB1Periph_UART8, DISABLE);
-      #else
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART8, ENABLE);
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART8, DISABLE);
-      #endif
       break;
 #endif
   }
@@ -397,6 +425,7 @@ void uart_deinit(serial_t *obj)
   {
     serial_debug.index = UART_NUM;
   }
+#endif // #if !UART_HAS_ENABLED_PORTS
 }
 
 
@@ -430,6 +459,11 @@ void uart_debug_init(void)
   */
 size_t uart_debug_write(uint8_t *data, uint32_t size)
 {
+#if !UART_HAS_ENABLED_PORTS
+  (void)data;
+  (void)size;
+  return 0;
+#else
   uint32_t tickstart = GetTick();
   serial_t *obj = NULL;
 
@@ -481,6 +515,7 @@ size_t uart_debug_write(uint8_t *data, uint32_t size)
     USART_SendData(uart_handlers[serial_debug.index]->Instance,*data++);
   }
   return size;  //it shouled be 0
+#endif // #if !UART_HAS_ENABLED_PORTS
 }
 
 /**
@@ -512,7 +547,12 @@ uint8_t serial_tx_active(serial_t *obj)
   */
 int uart_getc(serial_t *obj, unsigned char *c)
 {
-  if (obj == NULL) {
+#if !UART_HAS_ENABLED_PORTS
+  (void)obj;
+  (void)c;
+  return -1;
+#else
+  if ((obj == NULL) || (obj->index >= UART_NUM)) {
     return -1;
   }
 
@@ -521,16 +561,10 @@ int uart_getc(serial_t *obj, unsigned char *c)
     return -1; 
   }
 
-/* // MxRD: this is redundant since serial_rx_active(obj) already checked the same flag. 
-   // It returned false to indicate that USART_FLAG_RXNE was not RESET.
-  if (!USART_GetFlagStatus(uart_handlers[obj->index]->Instance, USART_FLAG_RXNE)){
-    return -1;
-  }
-*/ 
-
   *c = (unsigned char)USART_ReceiveData(uart_handlers[obj->index]->Instance);
 
   return 0;
+#endif // #if !UART_HAS_ENABLED_PORTS
 }
 
 /**
@@ -540,10 +574,15 @@ int uart_getc(serial_t *obj, unsigned char *c)
   */
 int uart_putc(serial_t *obj, unsigned char c)
 {
+#if !UART_HAS_ENABLED_PORTS
+  (void)obj;
+  (void)c;
+  return 0;
+#else
   uint32_t tickstart = GetTick();
 
-  if (obj == NULL) {
-    return -1;
+  if ((obj == NULL) || (obj->index >= UART_NUM)) {
+    return 0;  // see openwch#278 (was -1)
   }
 
   while (serial_tx_active(obj))
@@ -556,7 +595,8 @@ int uart_putc(serial_t *obj, unsigned char c)
 
   USART_SendData(uart_handlers[obj->index]->Instance, c);
 
-  return 0;
+  return 1;  // see openwch#278 (was 0)
+#endif // #if !UART_HAS_ENABLED_PORTS
 }
 
 

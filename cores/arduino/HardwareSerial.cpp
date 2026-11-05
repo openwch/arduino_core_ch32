@@ -227,6 +227,9 @@ void HardwareSerial::begin(unsigned long baud, byte config)
   }
   
   uart_init(&_serial, (uint32_t)baud, databits, parity, stopbits);
+  if (_serial.uart == NP) {
+    return;
+  }
 
 #if ENABLE_RX_BUFFER
   // Enable only ports with a receive interrupt handler in this build.
