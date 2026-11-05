@@ -10,6 +10,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG_PATH = ROOT / ".github" / "membrowse-targets.json"
+CORE_INSTALL_CMD = (
+    'CORE_DIR="$(arduino-cli config get directories.data)/packages/'
+    'ch32-community/hardware/ch32v" && '
+    'rm -rf "$CORE_DIR"/* && '
+    'mkdir -p "$CORE_DIR/0.0.0" && '
+    'rsync -a --exclude=.git --exclude=build ./ "$CORE_DIR/0.0.0/"'
+)
 
 
 def example_is_skipped(example: str, skip_keys: list[str]) -> bool:
@@ -67,11 +74,7 @@ def generate_targets(config: dict) -> list[dict]:
 
             build_dir = f"{mcu['build_dir']}/{sketch}"
             build_cmd = (
-                'CORE_DIR="$(arduino-cli config get directories.data)/packages/'
-                'ch32-community/hardware/ch32v" && '
-                'rm -rf "$CORE_DIR"/* && '
-                'mkdir -p "$CORE_DIR/0.0.0" && '
-                'rsync -a --exclude=.git --exclude=build ./ "$CORE_DIR/0.0.0/" && '
+                CORE_INSTALL_CMD + ' && '
                 f'arduino-cli compile --fqbn {mcu["fqbn"]} '
                 f'--build-path "$PWD/{build_dir}" {compile_path}'
             )
