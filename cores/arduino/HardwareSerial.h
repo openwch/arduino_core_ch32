@@ -97,12 +97,8 @@ typedef enum {
 #define SERIAL_9O0_5    0x37
 #define SERIAL_9O1_5    0x3F  
 
-// Enable RX buffering for all CH32 series MCUs
-#if defined(CH32V003) || defined(CH32V203) || defined(CH32X035) || defined(CH32V103) || defined(CH32V307)
+// Interrupt-driven RX with a ring buffer of SERIAL_RX_BUFFER_SIZE bytes, every series
 #define ENABLE_RX_BUFFER 1
-#else
-#define ENABLE_RX_BUFFER 0
-#endif
 
 class HardwareSerial : public Stream {
 
@@ -161,7 +157,7 @@ public:
 
 #if ENABLE_RX_BUFFER
 public:
-    // RX Buffer variables - for all CH32 series MCUs (CH32V003, CH32V203, CH32X035, CH32V103, CH32V307)
+    // RX ring buffer, filled by the UART's RX interrupt (HardwareSerial.cpp)
     volatile rx_buffer_index_t _rx_buffer_head;
     volatile rx_buffer_index_t _rx_buffer_tail;
     unsigned char _rx_buffer[SERIAL_RX_BUFFER_SIZE];
@@ -188,7 +184,7 @@ public:
 #if defined(UART5) || defined(USART5)
   extern HardwareSerial Serial5;
 #endif
-#if defined(USART6)
+#if defined(UART6) || defined(USART6)
   extern HardwareSerial Serial6;
 #endif
 #if defined(UART7) || defined(USART7)
