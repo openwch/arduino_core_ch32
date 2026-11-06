@@ -4,12 +4,16 @@
 import argparse
 import json
 import os
+import shlex
 import sys
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG_PATH = ROOT / ".github" / "membrowse-targets.json"
+sys.path.insert(0, str(ROOT / "tools"))
+from miscellaneous_builds import miscellaneous_builds
+
 CORE_INSTALL_CMD = (
     'CORE_DIR="$(arduino-cli config get directories.data)/packages/'
     'ch32-community/hardware/ch32v" && '
@@ -90,6 +94,26 @@ def generate_targets(config: dict) -> list[dict]:
                 }
             )
 
+    for case in miscellaneous_builds('ch32-community:ch32v'):
+        sketch = Path(case['sketch']).name
+        compile_args = ['arduino-cli', 'compile', '--fqbn', case['fqbn']]
+        for key, value in case['build_properties'].items():
+            compile_args.extend(['--build-property', f'{key}={value}'])
+        build_dir = case['build_dir']
+        build_cmd = (
+            CORE_INSTALL_CMD + ' && ' + shlex.join(compile_args)
+            + f' --build-path "$PWD/{build_dir}" ' + shlex.quote(case['sketch'])
+        )
+        targets.append({
+            'target_name': f"Miscellaneous/{case['name']}",
+            'setup_cmd': setup_cmd,
+            'build_cmd': build_cmd,
+            'elf': f'{build_dir}/{sketch}.ino.elf',
+            'ld': case['ld'],
+            'map_file': f'{build_dir}/{sketch}.ino.map',
+            'linker_vars': case['linker_vars'],
+        })
+
     names = [target["target_name"] for target in targets]
     if len(names) != len(set(names)):
         raise ValueError("Generated MemBrowse target names are not unique")
@@ -104,7 +128,7 @@ def generate_mcu_matrix(config: dict) -> list[dict]:
         {"mcu": mcu["name"]}
         for mcu in config["mcus"]
         if any(name.startswith(f"{mcu['name']}/") for name in target_names)
-    ]
+    ] + [{'mcu': 'Miscellaneous'}]
 
 
 def main() -> None:
