@@ -53,3 +53,7 @@ jobs:
       - name: CH32X035 - Compile Sketches
         if: '!cancelled()'
         run: python3 ./arduino_core_ch32/tools/build_examples.py CH32X035
+
+      - name: Miscellaneous - Compile Sketches
+        if: '!cancelled()'
+        run: python3 ./arduino_core_ch32/tools/build_examples.py Miscellaneous
