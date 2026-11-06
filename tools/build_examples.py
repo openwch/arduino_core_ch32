@@ -10,6 +10,7 @@ import shutil
 import tempfile
 from contextlib import contextmanager
 from multiprocessing import Pool
+from miscellaneous_builds import miscellaneous_builds
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -179,7 +180,7 @@ def sketch_is_skipped(variant, sketch):
 
 
 # return [succeeded, failed, skipped], output
-def build_sketch(variant, sketch, local_build):
+def build_sketch(variant, sketch, local_build, build_properties=None, display_name=None):
     ret = [0, 0, 0]
     fqbn = sketch_fqbn(variant, sketch)
     start_time = time.monotonic()
@@ -190,9 +191,12 @@ def build_sketch(variant, sketch, local_build):
     else:
         build_env = os.environ.copy()
         build_env['ARDUINO_DIRECTORIES_USER'] = local_build['sketchbook']
+        property_options = []
+        for key, value in (build_properties or {}).items():
+            property_options.extend(['--build-property', f'{key}={value}'])
         build_result = subprocess.run(
             [local_build['cli'], 'compile', '--warnings', 'all', '--fqbn', fqbn,
-             *local_build['compile_options'], os.path.abspath(sketch)],
+             *local_build['compile_options'], *property_options, os.path.abspath(sketch)],
             env=build_env, stdout=PIPE, stderr=PIPE,
         )
         # get stderr into a form where warning/error was output to stderr
@@ -208,7 +212,7 @@ def build_sketch(variant, sketch, local_build):
 
     build_duration = time.monotonic() - start_time
     output = [build_format.format(
-        os.path.basename(sketch), success, '{:5.2f}s'.format(build_duration)
+        display_name or os.path.basename(sketch), success, '{:5.2f}s'.format(build_duration)
     )]
 
     if success != SKIPPED:
@@ -277,6 +281,51 @@ def build_variant(variant, local_build):
     # Sum each result column (succeeded, failed, skipped).
     return list(map(sum, zip(*results)))
 
+
+def build_miscellaneous_task(task):
+    case, local_build = task
+    sketch_name = os.path.basename(case['sketch'])
+    # Arduino's default build directory is shared by repeated builds of a sketch.
+    # Different peripheral flags must never write into the same directory.
+    local_build = {
+        **local_build,
+        'compile_options': [
+            *local_build['compile_options'], '--build-path',
+            os.path.join(local_build['sketchbook'], 'builds', case['name']),
+        ],
+    }
+    ret, output = build_sketch(
+        [case['name'], case['fqbn']],
+        os.path.join(case['sketch'], sketch_name + '.ino'), local_build,
+        case['build_properties'],
+        display_name=case['name'].removesuffix('-' + sketch_name),
+    )
+    return ret, output
+
+
+def build_miscellaneous(local_build):
+    result = [0, 0, 0]
+    cases = sorted(miscellaneous_builds(),
+                   key=lambda case: os.path.basename(case['sketch']).casefold())
+    current_sketch = None
+    # Each CLI also compiles in parallel; bound concurrent configurations.
+    with Pool(processes=min(4, os.cpu_count() or 1)) as pool:
+        tasks = ((case, local_build) for case in cases)
+        results = pool.imap(build_miscellaneous_task, tasks, chunksize=1)
+        for case, (ret, output) in zip(cases, results):
+            sketch_name = os.path.basename(case['sketch'])
+            if sketch_name != current_sketch:
+                print()
+                print(build_separator)
+                print('| {:^56} |'.format('Miscellaneous/' + sketch_name))
+                print(build_separator)
+                print(build_format.format('Example', '\033[39mResult\033[0m', 'Time'))
+                print(build_separator)
+                current_sketch = sketch_name
+            print(output, flush=True)
+            result = list(map(sum, zip(result, ret)))
+    return result
+
 if __name__ == '__main__':
     # Resolve all sketch paths from the repository, even when invoked elsewhere.
     os.chdir(REPO_ROOT)
@@ -305,6 +354,8 @@ if __name__ == '__main__':
     total_result = [0, 0, 0]
     with local_core_build() as local_build:
         print(f'Building against local core: {REPO_ROOT}', flush=True)
+        if len(sys.argv) > 1 and sys.argv[1] == 'Miscellaneous':
+            total_result = build_miscellaneous(local_build)
         for b in build_boards:
             ret = build_variant(b, local_build)
             total_result = list(map(lambda x, y: x + y, total_result, ret))
