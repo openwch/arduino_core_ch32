@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: WCH-Link / WCH-LinkUtility
+    url: https://www.wch-ic.com/downloads/WCH-LinkUtility_ZIP.html
+    about: Programmer firmware, RV/ARM mode and chip erase
+  - name: WCH chip documentation
+    url: https://www.wch-ic.com/
+    about: Datasheets and reference manuals

@@ -1,0 +1,21 @@
+name: Feature or board request
+description: An Arduino function, library or chip/board the core should support
+labels: [enhancement]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What you'd like
+      description: The function, library, peripheral or board, and what you want to do with it
+    validations:
+      required: true
+  - type: input
+    id: chips
+    attributes:
+      label: Chips / boards
+      placeholder: e.g. CH32V203C8, CH32X033F8P6
+  - type: textarea
+    id: more
+    attributes:
+      label: Anything else
+      description: Links to the datasheet, an existing implementation, or a pull request you plan to send
