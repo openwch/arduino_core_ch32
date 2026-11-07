@@ -24,7 +24,8 @@ jobs:
       - name: Attach the Boards Manager archive
         run: |
           zip -qrXy "$NAME.zip" "$NAME" -x '*/.git' '*/.git/*'
-          gh release upload "$TAG" "$NAME.zip" --repo "$GITHUB_REPOSITORY"
+          unzip -l "$NAME.zip" | grep -q "$NAME/libraries/Adafruit_TinyUSB_Arduino/src/" || { echo "::error::Adafruit_TinyUSB_Arduino is missing from $NAME.zip"; exit 1; }
+          gh release upload "$TAG" "$NAME.zip" --repo "$GITHUB_REPOSITORY" --clobber
           {
             echo '```json'
             echo "\"url\": \"https://github.com/$GITHUB_REPOSITORY/releases/download/$TAG/$NAME.zip\","
