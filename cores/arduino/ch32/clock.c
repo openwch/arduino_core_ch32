@@ -51,20 +51,43 @@ uint32_t getCurrentMillis(void)
 
 #if defined(CH32V20x) || defined(CH32V30x) || defined(CH32V30x_C) || defined(CH32V00x) || defined(CH32X035) || defined(CH32L10x) || defined(CH32VM00X)
 
+/* SysTick ticks -> microseconds as (ticks * k) >> 20, k = (1000 << 20) / ticks
+   per ms. 32-bit only: the 64-bit multiply and divide used before are library
+   calls on chips without a hardware divider (about 20 us on the V003/V006).
+   k is computed once; ticks < ticks per ms, so ticks * k < 2^30. */
+static uint32_t us_tms, us_k;
+
+static inline uint32_t ticks_to_us(uint32_t ticks, uint32_t tms)
+{
+  if (tms != us_tms) {
+    us_k = 1048576000u / tms;
+    us_tms = tms;
+  }
+  return (ticks * us_k) >> 20;
+}
+
 uint32_t getCurrentMicros(void)
 {
-  
-  uint64_t m0 = GetTick();
-  __IO uint64_t u0 = SysTick->CNT;
-  uint64_t m1 = GetTick();
-  __IO uint32_t u1 = SysTick->CNT;   //may be a interruption
-   uint64_t tms = SysTick->CMP + 1;
+  /* low words of CNT/CMP (64-bit registers on V20x/V30x/X035/L10x) */
+  __IO uint32_t *cnt = (__IO uint32_t *)&SysTick->CNT;
+  uint32_t tms = *(__IO uint32_t *)&SysTick->CMP + 1;
+  uint32_t m, u, wrapped;
 
-  if (m1 != m0) {
-    return m1 * 1000 + u1 * 1000 / tms;  // fix #65 - micros() is non-monotonic 
-  } else {
-    return m0 * 1000 + u0 * 1000 / tms;  // fix #65 - micros() is non-monotonic 
+  /* SysTick restarts at CMP and sets SR bit 0; SysTick_Handler then adds the
+     millisecond and clears the flag. Read the count until no handler ran in
+     between; if the flag is still set, the restart happened but the handler
+     has not run yet (a few cycles, or interrupts off): count that ms here.
+     Without this, micros() stepped back by 1 ms and delay() ended early (#65). */
+  do {
+    m = (uint32_t)GetTick();
+    u = *cnt;
+    wrapped = SysTick->SR & 1;
+  } while (m != (uint32_t)GetTick());
+  if (wrapped) {
+    u = *cnt;      /* read after the restart */
+    m++;
   }
+  return m * 1000 + ticks_to_us(u, tms);
 }
 
 
@@ -97,24 +120,31 @@ void __attribute__((weak)) SysTick_Handler(void)
 #define SYSTICK_CMPL    (0xE000F00C)
 #define SYSTICK_CMPH    (0xE000F010)
 
+/* Same as above: 32-bit only, (ticks * k) >> 20 with k computed once */
+static uint32_t us_tms, us_k;
+
+static inline uint32_t ticks_to_us(uint32_t ticks, uint32_t tms)
+{
+  if (tms != us_tms) {
+    us_k = 1048576000u / tms;
+    us_tms = tms;
+  }
+  return (ticks * us_k) >> 20;
+}
+
 uint32_t getCurrentMicros(void)
 {
-  
-  uint64_t m0 = GetTick();
-  uint64_t u0 = *((__IO uint32_t *)SYSTICK_CNTH);  
-           u0 = (u0 << 32) + *((__IO uint32_t *)SYSTICK_CNTL);
-  
-  uint64_t m1 = GetTick();
-  uint64_t u1 = *((__IO uint32_t *)SYSTICK_CNTH); //may be a interruption
-           u1 = (u1 << 32) + *((__IO uint32_t *)SYSTICK_CNTL);
-
-  uint64_t tms = *((__IO uint32_t *)SYSTICK_CMPH);
-           tms = (tms << 32) + *((__IO uint32_t *)SYSTICK_CMPL) + 1;     
+  /* SysTick restarts every ms: the low words are enough */
+  uint32_t m0 = GetTick();
+  uint32_t u0 = *((__IO uint32_t *)SYSTICK_CNTL);
+  uint32_t m1 = GetTick();
+  uint32_t u1 = *((__IO uint32_t *)SYSTICK_CNTL); //may be a interruption
+  uint32_t tms = *((__IO uint32_t *)SYSTICK_CMPL) + 1;
 
   if (m1 != m0) {
-    return m1 * 1000 + u1 * 1000 / tms;  // fix #65 - micros() is non-monotonic 
+    return m1 * 1000 + ticks_to_us(u1, tms);  // fix #65 - micros() is non-monotonic
   } else {
-    return m0 * 1000 + u0 * 1000 / tms;  // fix #65 - micros() is non-monotonic 
+    return m0 * 1000 + ticks_to_us(u0, tms);  // fix #65 - micros() is non-monotonic
   }
 }
 
