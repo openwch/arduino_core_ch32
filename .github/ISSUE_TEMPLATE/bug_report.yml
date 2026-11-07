@@ -1,0 +1,53 @@
+name: Bug report
+description: Something in the core doesn't work as it should
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. The more of this we have, the faster we can reproduce it.
+  - type: input
+    id: version
+    attributes:
+      label: Core version
+      description: Boards Manager version (e.g. 1.0.5), or the git commit for a clone
+    validations:
+      required: true
+  - type: dropdown
+    id: series
+    attributes:
+      label: Series (Tools → Board)
+      options: [CH32V00x, CH32VM00X, CH32X035, CH32V10x, CH32V20x, CH32V30x, CH32L10x, other]
+    validations:
+      required: true
+  - type: input
+    id: board
+    attributes:
+      label: Board Select and menu settings
+      description: e.g. "CH32V203C8, Clock 144MHz Internal, Optimize -Os"
+    validations:
+      required: true
+  - type: input
+    id: ide
+    attributes:
+      label: Arduino IDE / CLI version and OS
+      placeholder: Arduino IDE 2.3.x on Windows 11
+  - type: textarea
+    id: what
+    attributes:
+      label: What happens, and what you expected
+    validations:
+      required: true
+  - type: textarea
+    id: sketch
+    attributes:
+      label: Smallest sketch that shows it, and its wiring
+      render: cpp
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Serial output or build/upload log
+      description: For build or upload problems, turn on "Show verbose output" in File → Preferences
+      render: text
