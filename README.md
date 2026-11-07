@@ -66,6 +66,14 @@ The clone uses the same toolchain as the release: install the release once from 
 | Linux x86_64 | ✅ | run once after installing, so the WCH-LinkE (and other debug probes) work without sudo: `~/.arduino15/packages/WCH/tools/beforeinstall/2.0.0/start.sh` |
 | macOS | ⚠️ | the 1.0.5 tools aren't published for macOS yet, so the Boards Manager offers 1.0.4 there |
 
+**macOS with 1.0.4:** install the `libusb` library before the first upload:
+
+```bash
+brew install libusb
+```
+
+If uploads still fail with `libusb` errors, contact the MounRiver Studio team at support@mounriver.com (they build the toolchain and OpenOCD).
+
 ## Supported chips and boards
 
 | Series (Tools → Board) | Chips / boards (Board Select) | Core | Max clock | Flash / RAM | Since |
