@@ -2,7 +2,9 @@
 
 All releases are installable from the Arduino Boards Manager (`package_ch32v_index.json`); older versions stay available there.
 
-## Unreleased (on `main`)
+## 1.0.6 (2026-11-07)
+
+The Boards Manager package includes the Adafruit TinyUSB library again (Tools → USB support).
 
 ### Fixed
 

@@ -64,7 +64,7 @@ The clone uses the same toolchain as the release: install the release once from 
 |---|---|---|
 | Windows 10/11 x64 | ✅ | WCH-LinkE driver: install [WCH-LinkUtility](https://www.wch-ic.com/downloads/WCH-LinkUtility_ZIP.html) once |
 | Linux x86_64 | ✅ | run once after installing, so the WCH-LinkE (and other debug probes) work without sudo: `~/.arduino15/packages/WCH/tools/beforeinstall/2.0.0/start.sh` |
-| macOS | ⚠️ | the 1.0.5 tools aren't published for macOS yet, so the Boards Manager offers 1.0.4 there |
+| macOS | ⚠️ | the tools for 1.0.5 and newer aren't published for macOS yet, so the Boards Manager offers 1.0.4 there |
 
 **macOS with 1.0.4:** install the `libusb` library before the first upload:
 
@@ -102,11 +102,11 @@ More packages of the V002/V004/V005/V006/V007 family and the CH32X033 are on the
 | `SPI` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✓ |
 | LTO (Tools → Optimize) | ✅ | ✅ | ✅ | ⚠️ ⁴ | ⚠️ ⁴ | ⚠️ ⁴ | ⚠️ ⁴ |
 | `EEPROM` (option bytes) | ✓ | | | ⚠️ ³ | | | |
-| USB device (Adafruit TinyUSB) | | | | | ⚠️ ⁵ | ⚠️ ⁵ | |
+| USB device (Adafruit TinyUSB) | | | | | ✓ | ✓ | |
 | USB-PD sink (`USBPD_SINK`) | | | ✓ | | | | |
 
 ✅ checked on an EVT board · ✓ available, not yet checked on a board · ⚠️ known problem
-¹ not on complementary (N) timer outputs yet, [#183](https://github.com/openwch/arduino_core_ch32/issues/183) · ² [#149](https://github.com/openwch/arduino_core_ch32/issues/149) · ³ [#213](https://github.com/openwch/arduino_core_ch32/issues/213) · ⁴ LTO drops the core's interrupt handlers on these series ([#204](https://github.com/openwch/arduino_core_ch32/issues/204)); use the plain optimize options · ⁵ the 1.0.5 package from the Boards Manager is missing the TinyUSB library (the release zip left out the submodule); it works from a git clone and will be in the next release
+¹ not on complementary (N) timer outputs yet, [#183](https://github.com/openwch/arduino_core_ch32/issues/183) · ² [#149](https://github.com/openwch/arduino_core_ch32/issues/149) · ³ [#213](https://github.com/openwch/arduino_core_ch32/issues/213) · ⁴ LTO drops the core's interrupt handlers on these series ([#204](https://github.com/openwch/arduino_core_ch32/issues/204)); use the plain optimize options
 
 Open problems are in the [issues](https://github.com/openwch/arduino_core_ch32/issues).
 

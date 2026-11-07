@@ -5,7 +5,7 @@
 # https://arduino.github.io/arduino-cli/latest/platform-specification/
 
 name=CH32V EVT Boards Support
-version=1.0.5
+version=1.0.6
 
 # Toolchain folders. Installed from Boards Manager, the IDE downloads the
 # tools for this OS and sets runtime.tools.*.path. A manual install (core cloned
