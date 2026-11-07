@@ -61,29 +61,35 @@ extern void delay(uint32_t ms) ;
  * \param us the number of microseconds to pause (uint32_t)
  */
 
+/*
+ * SysTick restarts every millisecond (CMP = ticks per ms - 1), so every count
+ * fits in 32 bits. Only 32-bit math here: the 64-bit multiply and divide
+ * this used to do are library calls on chips without a hardware divider and
+ * took 35-55 us on the V003/V006 before the wait even started.
+ * tickPerMs / 1000 is done as (tickPerMs * 1049) >> 20 (exact for whole-MHz
+ * clocks, no division).
+ */
 #ifndef CH32V10x
 static inline void delayMicroseconds(uint32_t) __attribute__((always_inline, unused));
 static inline void delayMicroseconds(uint32_t us)
 {
-  __IO uint64_t currentTicks = SysTick->CNT;
-  /* Number of ticks per millisecond */
-  uint64_t tickPerMs = SysTick->CMP + 1;
-  /* Number of ticks to count */
-  uint64_t nbTicks = ((us - ((us > 0) ? 1 : 0)) * tickPerMs) / 1000;
-  /* Number of elapsed ticks */
-  uint64_t elapsedTicks = 0;
-  __IO uint64_t oldTicks = currentTicks;
-  do {
-    currentTicks = SysTick->CNT;
-    // elapsedTicks += (oldTicks < currentTicks) ? tickPerMs + oldTicks - currentTicks :
-    //                 oldTicks - currentTicks;
-    
-    //increment
+  /* low word of CNT/CMP (64-bit registers on V20x/V30x/X035/L10x) */
+  __IO uint32_t *cnt = (__IO uint32_t *)&SysTick->CNT;
+  uint32_t oldTicks = *cnt;
+  uint32_t tickPerMs = *(__IO uint32_t *)&SysTick->CMP + 1;
+#if defined(F_CPU) && (F_CPU % 1000000 == 0)
+  /* SysTick runs at HCLK = F_CPU: a constant, so no multiply call on rv32ec */
+  uint32_t nbTicks = (us - ((us > 0) ? 1 : 0)) * (F_CPU / 1000000);
+#else
+  uint32_t nbTicks = (us - ((us > 0) ? 1 : 0)) * ((tickPerMs * 1049) >> 20);
+#endif
+  uint32_t elapsedTicks = 0;
+  while (elapsedTicks < nbTicks) {
+    uint32_t currentTicks = *cnt;
     elapsedTicks += (oldTicks <= currentTicks) ? currentTicks - oldTicks :
                      tickPerMs - oldTicks + currentTicks;
-
     oldTicks = currentTicks;
-  } while (nbTicks > elapsedTicks);  
+  }
 }
 #else
 #define SYSTICK_CNTL    (0xE000F004)   
@@ -94,25 +100,17 @@ static inline void delayMicroseconds(uint32_t us)
 static inline void delayMicroseconds(uint32_t) __attribute__((always_inline, unused));
 static inline void delayMicroseconds(uint32_t us)
 {
-  __IO uint64_t currentTicks = *((__IO uint32_t *)SYSTICK_CNTH);
-                currentTicks = (currentTicks << 32) +  *((__IO uint32_t *)SYSTICK_CNTL); 
-  /* Number of ticks per millisecond */
-  uint64_t tickPerMs = *((__IO uint32_t *)SYSTICK_CMPH);
-           tickPerMs = (tickPerMs << 32) + *((__IO uint32_t *)SYSTICK_CMPL) + 1;        
-  /* Number of ticks to count */
-  uint64_t nbTicks = ((us - ((us > 0) ? 1 : 0)) * tickPerMs) / 1000;
-  /* Number of elapsed ticks */
-  uint64_t elapsedTicks = 0;
-  __IO uint64_t oldTicks = currentTicks;
-  do {
-    currentTicks = *((__IO uint32_t *)SYSTICK_CNTH);
-    currentTicks = (currentTicks << 32) +  *((__IO uint32_t *)SYSTICK_CNTL); 
-    //increment
+  /* V10x: SysTick at HCLK/8, restarts every ms; the low words are enough */
+  uint32_t oldTicks = *((__IO uint32_t *)SYSTICK_CNTL);
+  uint32_t tickPerMs = *((__IO uint32_t *)SYSTICK_CMPL) + 1;
+  uint32_t nbTicks = (us - ((us > 0) ? 1 : 0)) * ((tickPerMs * 1049) >> 20);
+  uint32_t elapsedTicks = 0;
+  while (elapsedTicks < nbTicks) {
+    uint32_t currentTicks = *((__IO uint32_t *)SYSTICK_CNTL);
     elapsedTicks += (oldTicks <= currentTicks) ? currentTicks - oldTicks :
                      tickPerMs - oldTicks + currentTicks;
-
     oldTicks = currentTicks;
-  } while (nbTicks > elapsedTicks);  
+  }
 }
 
 #endif

@@ -21,6 +21,7 @@
   Modified 14 August 2012 by Alarus
   Modified 3  December 2013 by Matthijs Kooijman
   Modified 1 may 2023 by TempersLee
+  Modified 8 September 2025 by Jobit Joseph (Universal CH32 RX Buffer Support)
 */
 
 #include <stdio.h>
@@ -29,6 +30,111 @@
 
 #if defined(UART_MODULE_ENABLED) && !defined(UART_MODULE_ONLY)
 
+#if ENABLE_RX_BUFFER
+// RX ring buffers: rx_owner[] holds the HardwareSerial object that opened each
+// UART (set in begin()); the UART's RX interrupt stores the byte in its buffer.
+// UART4/5 exist on the V10x but have no interrupt vector there.
+static HardwareSerial *rx_owner[8];
+
+static int rx_index(USART_TypeDef *uart, IRQn_Type *irq)
+{
+#if defined(USART1_BASE)
+  if (uart == USART1) { *irq = USART1_IRQn; return 0; }
+#endif
+#if defined(USART2_BASE)
+  if (uart == USART2) { *irq = USART2_IRQn; return 1; }
+#endif
+#if defined(USART3_BASE)
+  if (uart == USART3) { *irq = USART3_IRQn; return 2; }
+#endif
+#if defined(USART4_BASE)
+  if (uart == USART4) { *irq = USART4_IRQn; return 3; }
+#endif
+#if defined(UART4_BASE) && !defined(CH32V10x)
+  if (uart == UART4) { *irq = UART4_IRQn; return 3; }
+#endif
+#if defined(UART5_BASE) && !defined(CH32V10x)
+  if (uart == UART5) { *irq = UART5_IRQn; return 4; }
+#endif
+#if defined(UART6_BASE)
+  if (uart == UART6) { *irq = UART6_IRQn; return 5; }
+#endif
+#if defined(UART7_BASE)
+  if (uart == UART7) { *irq = UART7_IRQn; return 6; }
+#endif
+#if defined(UART8_BASE)
+  if (uart == UART8) { *irq = UART8_IRQn; return 7; }
+#endif
+  return -1;
+}
+
+// With an FPU (V30x) a handler that calls a function must save the FPU
+// registers itself (the hardware stacking doesn't cover them), so the body is
+// inlined there; without one, all handlers share one copy (smaller)
+#if defined(__riscv_flen)
+  #define RX_IRQ_INLINE inline __attribute__((always_inline))
+#else
+  #define RX_IRQ_INLINE __attribute__((noinline))
+#endif
+static RX_IRQ_INLINE void rx_irq(USART_TypeDef *uart, int idx)
+{
+  // RXNE, or an overrun: reading STATR then DATAR clears both
+  if ((uart->STATR & (USART_FLAG_RXNE | USART_FLAG_ORE)) == 0) {
+    return;
+  }
+  unsigned char c = (unsigned char)uart->DATAR;
+  HardwareSerial *obj = rx_owner[idx];
+  if (obj == NULL) {
+    return;
+  }
+  rx_buffer_index_t next_head = (rx_buffer_index_t)((obj->_rx_buffer_head + 1) % SERIAL_RX_BUFFER_SIZE);
+  if (next_head != obj->_rx_buffer_tail) {   // buffer full: the byte is dropped
+    obj->_rx_buffer[obj->_rx_buffer_head] = c;
+    obj->_rx_buffer_head = next_head;
+  }
+}
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// Weak, like the core's other handlers: a library can still define its own
+#define CH32_UART_RX_IRQ(name, uart, idx) \
+  void name(void) __attribute__((interrupt("WCH-Interrupt-fast"))); \
+  void __attribute__((weak)) name(void) { rx_irq(uart, idx); }
+
+#if defined(USART1_BASE)
+CH32_UART_RX_IRQ(USART1_IRQHandler, USART1, 0)
+#endif
+#if defined(USART2_BASE)
+CH32_UART_RX_IRQ(USART2_IRQHandler, USART2, 1)
+#endif
+#if defined(USART3_BASE)
+CH32_UART_RX_IRQ(USART3_IRQHandler, USART3, 2)
+#endif
+#if defined(USART4_BASE)
+CH32_UART_RX_IRQ(USART4_IRQHandler, USART4, 3)
+#endif
+#if defined(UART4_BASE) && !defined(CH32V10x)
+CH32_UART_RX_IRQ(UART4_IRQHandler, UART4, 3)
+#endif
+#if defined(UART5_BASE) && !defined(CH32V10x)
+CH32_UART_RX_IRQ(UART5_IRQHandler, UART5, 4)
+#endif
+#if defined(UART6_BASE)
+CH32_UART_RX_IRQ(UART6_IRQHandler, UART6, 5)
+#endif
+#if defined(UART7_BASE)
+CH32_UART_RX_IRQ(UART7_IRQHandler, UART7, 6)
+#endif
+#if defined(UART8_BASE)
+CH32_UART_RX_IRQ(UART8_IRQHandler, UART8, 7)
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+#endif // ENABLE_RX_BUFFER
 
 HardwareSerial::HardwareSerial(void *peripheral)
 {
@@ -44,11 +150,13 @@ HardwareSerial::HardwareSerial(void *peripheral)
     setTx(pinmap_pin(peripheral, PinMap_UART_TX));
   }
 
+#if ENABLE_RX_BUFFER
+  _rx_buffer_head = 0;
+  _rx_buffer_tail = 0;
+#endif
+
   init(_serial.pin_rx, _serial.pin_tx);
 }
-
-
-
 
 void HardwareSerial::init(PinName _rx, PinName _tx, PinName _rts, PinName _cts)
 {
@@ -62,8 +170,6 @@ void HardwareSerial::init(PinName _rx, PinName _tx, PinName _rts, PinName _cts)
   _serial.pin_cts = _cts;
 }
 
-
-
 // Public Methods //////////////////////////////////////////////////////////////
 void HardwareSerial::begin(unsigned long baud, byte config)
 {
@@ -73,6 +179,12 @@ void HardwareSerial::begin(unsigned long baud, byte config)
 
   _baud = baud;
   _config = config;
+
+#if ENABLE_RX_BUFFER
+  // Clear buffers for all CH32 series MCUs
+  _rx_buffer_head = 0;
+  _rx_buffer_tail = 0;
+#endif
 
   // Manage databits
   switch (config & 0x03) {
@@ -149,35 +261,85 @@ void HardwareSerial::begin(unsigned long baud, byte config)
       Error_Handler();
       break;
   }
+  
   uart_init(&_serial, (uint32_t)baud, databits, parity, stopbits);
+
+#if ENABLE_RX_BUFFER
+  // Received bytes go into this object's ring buffer from the UART's RX
+  // interrupt, for any UART: Serial, Serial2, or a HardwareSerial(USARTx)
+  IRQn_Type irq;
+  int idx = rx_index(_serial.uart, &irq);
+  if (idx >= 0 && _serial.pin_rx != NC) {
+    rx_owner[idx] = this;
+    USART_ITConfig(_serial.uart, USART_IT_RXNE, ENABLE);
+    NVIC_EnableIRQ(irq);
+  }
+#endif
 }
 
 void HardwareSerial::end()
 {
+#if ENABLE_RX_BUFFER
+  IRQn_Type irq;
+  int idx = rx_index(_serial.uart, &irq);
+  if (idx >= 0 && rx_owner[idx] == this) {
+    NVIC_DisableIRQ(irq);
+    USART_ITConfig(_serial.uart, USART_IT_RXNE, DISABLE);
+    rx_owner[idx] = NULL;
+  }
+  _rx_buffer_head = _rx_buffer_tail;
+#endif
+
   uart_deinit(&_serial);
 }
 
 int HardwareSerial::available(void)
 {
+#if ENABLE_RX_BUFFER
+  // For all CH32 series MCUs: return proper buffer count
+  return ((unsigned int)(SERIAL_RX_BUFFER_SIZE + _rx_buffer_head - _rx_buffer_tail)) % SERIAL_RX_BUFFER_SIZE;
+#else
+  // For other MCUs: keep original behavior
   return -1;
+#endif
 }
 
 int HardwareSerial::peek(void)
 {
-   return -1;
+#if ENABLE_RX_BUFFER
+  // For all CH32 series MCUs: return next byte without removing it
+  if (_rx_buffer_head == _rx_buffer_tail) {
+    return -1;
+  } else {
+    return _rx_buffer[_rx_buffer_tail];
+  }
+#else
+  // For other MCUs: keep original behavior
+  return -1;
+#endif
 }
 
 int HardwareSerial::read(void)
 {
-
+#if ENABLE_RX_BUFFER
+  // For all CH32 series MCUs: read from buffer
+  if (_rx_buffer_head == _rx_buffer_tail) {
+    return -1;
+  } else {
+    unsigned char c = _rx_buffer[_rx_buffer_tail];
+    _rx_buffer_tail = (rx_buffer_index_t)(_rx_buffer_tail + 1) % SERIAL_RX_BUFFER_SIZE;
+    return c;
+  }
+#else
+  // For other MCUs: keep original behavior
   unsigned char c;
   if(uart_getc(&_serial, &c) == 0){
     return c;
   }else{
     return -1;
   }
+#endif
 }
-
 
 size_t HardwareSerial::write(const uint8_t *buffer, size_t size)
 {
@@ -188,7 +350,6 @@ size_t HardwareSerial::write(const uint8_t *buffer, size_t size)
 
     return size;
 }
-
 
 size_t HardwareSerial::write(uint8_t c)
 {
@@ -252,9 +413,6 @@ void HardwareSerial::setHandler(void *handler)
    _serial.uart  = (USART_TypeDef *) handler;
 }
 
-
-
-
 #if defined(HAVE_HWSERIAL1) || defined(HAVE_HWSERIAL2) || defined(HAVE_HWSERIAL3) ||\
   defined(HAVE_HWSERIAL4) || defined(HAVE_HWSERIAL5) || defined(HAVE_HWSERIAL6) ||\
   defined(HAVE_HWSERIAL7) || defined(HAVE_HWSERIAL8) 
@@ -302,7 +460,5 @@ void HardwareSerial::setHandler(void *handler)
     #endif
   #endif
 #endif // HAVE_HWSERIALx
-
-
 
 #endif // UART_MODULE_ENABLED && !UART_MODULE_ONLY

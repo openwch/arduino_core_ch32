@@ -20,6 +20,7 @@
   Modified 14 August 2012 by Alarus
   Modified 3 December 2013 by Matthijs Kooijman
   Modified 1 may 2023 by TempersLee
+  Modified 8 September 2025 by Jobit Joseph (Universal CH32 RX Buffer Support)
 */
 
 #ifndef HardwareSerial_h
@@ -96,8 +97,8 @@ typedef enum {
 #define SERIAL_9O0_5    0x37
 #define SERIAL_9O1_5    0x3F  
 
-
-
+// Interrupt-driven RX with a ring buffer of SERIAL_RX_BUFFER_SIZE bytes, every series
+#define ENABLE_RX_BUFFER 1
 
 class HardwareSerial : public Stream {
 
@@ -116,8 +117,6 @@ public:
     virtual int peek(void);
     virtual int read(void);
 
-
-    
     virtual size_t write(uint8_t);
     inline size_t write(unsigned long n)
     {
@@ -155,6 +154,15 @@ public:
     void setCts(PinName _cts);
     void setRtsCts(PinName _rts, PinName _cts);
     void setHandler(void *handler);
+
+#if ENABLE_RX_BUFFER
+public:
+    // RX ring buffer, filled by the UART's RX interrupt (HardwareSerial.cpp)
+    volatile rx_buffer_index_t _rx_buffer_head;
+    volatile rx_buffer_index_t _rx_buffer_tail;
+    unsigned char _rx_buffer[SERIAL_RX_BUFFER_SIZE];
+#endif
+
   private:
     uint8_t _config;
     unsigned long _baud;
@@ -173,16 +181,16 @@ public:
 #if defined(UART4) || defined(USART4)
   extern HardwareSerial Serial4;
 #endif
-#if defined(UART5) 
+#if defined(UART5) || defined(USART5)
   extern HardwareSerial Serial5;
 #endif
-#if defined(UART6) 
+#if defined(UART6) || defined(USART6)
   extern HardwareSerial Serial6;
 #endif
-#if defined(UART7) 
+#if defined(UART7) || defined(USART7)
   extern HardwareSerial Serial7;
 #endif
-#if defined(UART8) 
+#if defined(UART8) || defined(USART8)
   extern HardwareSerial Serial8;
 #endif
 
