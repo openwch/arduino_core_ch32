@@ -69,7 +69,10 @@ The clone uses the same toolchain as the release: install the release once from 
 **macOS with 1.0.4:** install the `libusb` library before the first upload:
 
 ```bash
+# with brew
 brew install libusb
+# or with macport
+sudo port install libusb
 ```
 
 If uploads still fail with `libusb` errors, contact the MounRiver Studio team at support@mounriver.com (they build the toolchain and OpenOCD).
