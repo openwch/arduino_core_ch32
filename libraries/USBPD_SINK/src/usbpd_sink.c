@@ -20,13 +20,207 @@ static pd_control_t  pdControl_g =
     .cc2_ConnectTimes = 0,
 };
 
-FixedSourceCap_t fixedSourceCap[5];
-PPSSourceCap_t   ppsSourceCap[2];
+FixedSourceCap_t fixedSourceCap[USBPD_MAX_SOURCE_CAPABILITIES];
+PPSSourceCap_t   ppsSourceCap[USBPD_MAX_SOURCE_CAPABILITIES];
+__attribute__ ((aligned(4))) uint8_t usbpdRxBuffer[34];
+__attribute__ ((aligned(4))) uint8_t usbpdTxBuffer[34];
+__attribute__ ((aligned(4))) uint8_t storageSourceCap[28];
 
+static USBPD_Capability_t sourceCapabilities[USBPD_MAX_SOURCE_CAPABILITIES];
+static volatile uint8_t sourceCapabilityCount;
+static volatile uint8_t sourceCapabilitiesReady;
+static volatile uint8_t apiManaged;
+static volatile uint8_t requestPending;
+static volatile uint8_t requestByVoltage;
+static volatile uint8_t requestedCapability;
+static volatile uint16_t requestedVoltage;
+static volatile uint16_t requestedCurrent;
+static volatile uint16_t negotiatedVoltage;
+static volatile uint16_t negotiatedCurrent;
+static volatile USBPD_Status_t apiStatus = USBPD_STATUS_NO_SOURCE;
+static volatile uint8_t connected;
+static volatile uint16_t negotiationWait;
+static volatile uint16_t sourceWait;
 
-__attribute__ ((aligned(4))) uint8_t usbpdRxBuffer[34];       // PD receive buffer 
-__attribute__ ((aligned(4))) uint8_t usbpdTxBuffer[34] ;       // PD send buffer 
-__attribute__ ((aligned(4))) uint8_t storageSourceCap[28];    
+static uint16_t usbpd_request_current_for(const USBPD_Capability_t *capability)
+{
+    uint16_t step = capability->programmable ? 50 : 10;
+    return ((requestedCurrent + step - 1) / step) * step;
+}
+
+static void usbpd_start_requested_contract(void)
+{
+    uint8_t selected = 0xff;
+    uint8_t voltageMatch = 0;
+    uint8_t currentMatch = 0;
+
+    if (!requestPending || !sourceCapabilitiesReady)
+        return;
+
+    if (requestByVoltage)
+    {
+        for (uint8_t i = 0; i < sourceCapabilityCount; ++i)
+        {
+            USBPD_Capability_t *cap = &sourceCapabilities[i];
+            if (!cap->available || requestedVoltage < cap->minVoltage ||
+                requestedVoltage > cap->maxVoltage)
+                continue;
+
+            voltageMatch = 1;
+            if (usbpd_request_current_for(cap) > cap->current)
+                continue;
+
+            currentMatch = 1;
+            if (selected == 0xff ||
+                cap->current < sourceCapabilities[selected].current)
+                selected = i;
+        }
+    }
+    else if (requestedCapability < sourceCapabilityCount &&
+             sourceCapabilities[requestedCapability].available)
+    {
+        USBPD_Capability_t *cap = &sourceCapabilities[requestedCapability];
+        voltageMatch = 1;
+        if (usbpd_request_current_for(cap) <= cap->current)
+        {
+            currentMatch = 1;
+            selected = requestedCapability;
+            if (cap->programmable)
+                requestedVoltage = cap->minVoltage;
+            else
+                requestedVoltage = cap->maxVoltage;
+        }
+    }
+
+    if (selected == 0xff)
+    {
+        apiStatus = !voltageMatch ? USBPD_STATUS_VOLTAGE_UNAVAILABLE :
+                    (!currentMatch ? USBPD_STATUS_CURRENT_UNAVAILABLE :
+                     USBPD_STATUS_ERROR);
+        requestPending = 0;
+        pdControl_g.cc_State = CC_HAVE_CAPABILITIES;
+        return;
+    }
+
+    pdControl_g.cc_SetPDONum = selected + 1;
+    pdControl_g.cc_USBPD_READY = 0;
+    apiStatus = USBPD_STATUS_NEGOTIATING;
+    negotiationWait = 0;
+    requestPending = 0;
+    pdControl_g.cc_State = CC_SEND_REQUEST;
+}
+
+static void usbpd_update_source_capabilities(void)
+{
+    memset(sourceCapabilities, 0, sizeof(sourceCapabilities));
+    usbpd_decode_source_capabilities(storageSourceCap,
+                                     pdControl_g.cc_SourcePDONum,
+                                     fixedSourceCap, ppsSourceCap);
+
+    sourceCapabilityCount = pdControl_g.cc_SourcePDONum;
+    if (sourceCapabilityCount > USBPD_MAX_SOURCE_CAPABILITIES)
+        sourceCapabilityCount = USBPD_MAX_SOURCE_CAPABILITIES;
+
+    for (uint8_t i = 0; i < sourceCapabilityCount; ++i)
+    {
+        if (fixedSourceCap[i].Voltage)
+        {
+            sourceCapabilities[i].minVoltage = fixedSourceCap[i].Voltage;
+            sourceCapabilities[i].maxVoltage = fixedSourceCap[i].Voltage;
+            sourceCapabilities[i].current = fixedSourceCap[i].Current;
+            sourceCapabilities[i].available = 1;
+        }
+        else if (ppsSourceCap[i].MaxVoltage)
+        {
+            sourceCapabilities[i].minVoltage = ppsSourceCap[i].MinVoltage;
+            sourceCapabilities[i].maxVoltage = ppsSourceCap[i].MaxVoltage;
+            sourceCapabilities[i].current = ppsSourceCap[i].Current;
+            sourceCapabilities[i].programmable = 1;
+            sourceCapabilities[i].available = 1;
+        }
+    }
+
+    sourceCapabilitiesReady = 1;
+}
+
+void usbpd_api_begin(void)
+{
+    apiManaged = 1;
+    usbpd_sink_init();
+}
+
+bool usbpd_api_request_voltage(uint16_t voltage, uint16_t current)
+{
+    if (voltage < 5 || voltage > 21 || current == 0)
+        return false;
+
+    requestedVoltage = voltage * 1000u;
+    requestedCurrent = current;
+    requestByVoltage = 1;
+    requestPending = 1;
+    apiStatus = USBPD_STATUS_NEGOTIATING;
+    pdControl_g.cc_USBPD_READY = 0;
+    usbpd_start_requested_contract();
+    return true;
+}
+
+bool usbpd_api_request_capability(uint8_t index, uint16_t current)
+{
+    if (index >= USBPD_MAX_SOURCE_CAPABILITIES || current == 0)
+        return false;
+    if (sourceCapabilitiesReady && index >= sourceCapabilityCount)
+        return false;
+
+    requestedCapability = index;
+    requestedCurrent = current;
+    requestByVoltage = 0;
+    requestPending = 1;
+    apiStatus = USBPD_STATUS_NEGOTIATING;
+    pdControl_g.cc_USBPD_READY = 0;
+    usbpd_start_requested_contract();
+    return true;
+}
+
+bool usbpd_api_is_ready(void)
+{
+    return apiStatus == USBPD_STATUS_READY;
+}
+
+USBPD_Status_t usbpd_api_get_status(void)
+{
+    return apiStatus;
+}
+
+uint16_t usbpd_api_get_voltage(void)
+{
+    return apiStatus == USBPD_STATUS_READY ? negotiatedVoltage : 0;
+}
+
+uint16_t usbpd_api_get_current(void)
+{
+    return apiStatus == USBPD_STATUS_READY ? negotiatedCurrent : 0;
+}
+
+bool usbpd_api_has_capabilities(void)
+{
+    return sourceCapabilitiesReady != 0;
+}
+
+uint8_t usbpd_api_get_capability_count(void)
+{
+    return sourceCapabilitiesReady ? sourceCapabilityCount : 0;
+}
+
+bool usbpd_api_get_capability(uint8_t index, USBPD_Capability_t *capability)
+{
+    if (!capability || !sourceCapabilitiesReady ||
+        index >= sourceCapabilityCount || !sourceCapabilities[index].available)
+        return false;
+
+    *capability = sourceCapabilities[index];
+    return true;
+}
+
 
 uint8_t usbpd_sink_get_ready(void)
 {
@@ -67,12 +261,21 @@ bool usbpd_sink_set_request_fixed_voltage(Request_voltage_t requestVoltage)
             targetVoltage = 5000;
             break;
     }
-    // pdControl_g.cc_LastSetPDONum = pdControl_g.cc_SetPDONum;
-    for(uint8_t i=0; i<5; i++)
+    if (!sourceCapabilitiesReady)
+        return false;
+    for(uint8_t i=0; i<pdControl_g.cc_SourcePDONum; i++)
     {
         if(pdControl_g.cc_FixedSourceCap[i].Voltage == targetVoltage)
         { 
+            if (pdControl_g.cc_SetPDONum == i + 1 &&
+                apiStatus == USBPD_STATUS_READY)
+                return true;
             pdControl_g.cc_SetPDONum = i+1;
+            requestedCurrent = pdControl_g.cc_FixedSourceCap[i].Current;
+            requestedVoltage = targetVoltage;
+            requestByVoltage = 0;
+            requestPending = 1;
+            usbpd_start_requested_contract();
             return true;
         }
     }
@@ -131,6 +334,8 @@ void usbpd_sink_reset(void)
     pdControl_g.cc_NoneTimes = 0;
     pdControl_g.cc_SourcePDONum = 0;
     pdControl_g.cc_SourcePPSNum = 0;
+    memset(fixedSourceCap, 0, sizeof(fixedSourceCap));
+    memset(ppsSourceCap, 0, sizeof(ppsSourceCap));
     pdControl_g.cc_FixedSourceCap = fixedSourceCap;
     pdControl_g.cc_PPSSourceCap = ppsSourceCap;
     pdControl_g.cc_State = CC_IDLE;
@@ -142,6 +347,7 @@ void usbpd_sink_reset(void)
     pdControl_g.cc_USBPD_READY = 0;
     pdControl_g.cc_SetPDONum = 1;
     pdControl_g.cc_LastSetPDONum = 1;
+    negotiationWait = 0;
 }
 
 void usbpd_sink_init(void)
@@ -214,26 +420,9 @@ uint8_t usbpd_sink_check_cc_connect(void)
 
 void usbpd_sink_pdo_analyse(uint8_t* pdoData, pd_control_t* pdControl)
 {
-    USBPD_PDO_t test;
-    pdControl->cc_SourcePPSNum = 0;
-
-    for(uint8_t i=0; i<pdControl->cc_SourcePDONum; i++)
-    { 
-        test.d32 = *(uint32_t*)(&pdoData[i*4]);
-        if((test.SourcePPSPDO.AugmentedPowerDataObject==3u) && (test.SourcePPSPDO.SPRprogrammablePowerSupply==0)) //PPS
-        {
-            pdControl->cc_PPSSourceCap[pdControl->cc_SourcePPSNum].MaxVoltage = POWER_DECODE_100MV(test.SourcePPSPDO.MaxVlotageIn100mVincrements);
-            pdControl->cc_PPSSourceCap[pdControl->cc_SourcePPSNum].MinVoltage = POWER_DECODE_100MV(test.SourcePPSPDO.MinVlotageIn100mVincrements);
-            pdControl->cc_PPSSourceCap[pdControl->cc_SourcePPSNum].Current = POWER_DECODE_50MA(test.SourcePPSPDO.MaxCurrentIn50mAincrements);
-            pdControl->cc_SourcePPSNum++;
-        }
-        else // fixed
-        {
-            pdControl->cc_FixedSourceCap[i].Current = POWER_DECODE_10MA(test.SourceFixedPDO.MaxCurrentIn10mAunits);
-            pdControl->cc_FixedSourceCap[i].Voltage = POWER_DECODE_50MV(test.SourceFixedPDO.VolatageIn50mVunits);
-        }
-        
-    }
+    usbpd_decode_source_capabilities(pdoData, pdControl->cc_SourcePDONum,
+                                     pdControl->cc_FixedSourceCap,
+                                     pdControl->cc_PPSSourceCap);
 }
 
 void usbpd_sink_fixed_pdo_request(FixedSourceCap_t* sourceCap, uint8_t pdoNum, pd_control_t* pdControl, uint8_t* txData)
@@ -243,18 +432,16 @@ void usbpd_sink_fixed_pdo_request(FixedSourceCap_t* sourceCap, uint8_t pdoNum, p
     messageHeader.d16 = 0u;
     sinkFixedRDO.d32 = 0u;
 
-    if(pdoNum > (pdControl->cc_SourcePDONum - pdControl->cc_SourcePPSNum))
-    {
-        pdoNum = (pdControl->cc_SourcePDONum - pdControl->cc_SourcePPSNum);
-    }
-
     messageHeader.MessageHeader.MessageID = pdControl->cc_SinkMessageID ;
     messageHeader.MessageHeader.MessageType = USBPD_DATA_MSG_REQUEST;
     messageHeader.MessageHeader.NumberOfDataObjects = 1u;
     messageHeader.MessageHeader.SpecificationRevision = pdControl->cc_PD_Version;
 
-    sinkFixedRDO.SinkFixedVariableRDO.MaxOperatingCurrent10mAunits = sourceCap[pdoNum-1].Current/10;
-    sinkFixedRDO.SinkFixedVariableRDO.OperatingCurrentIn10mAunits = sourceCap[pdoNum-1].Current/10;
+    uint16_t current = usbpd_request_current_for(&sourceCapabilities[pdoNum - 1]) / 10;
+    if (current > sourceCap[pdoNum-1].Current / 10)
+        current = sourceCap[pdoNum-1].Current / 10;
+    sinkFixedRDO.SinkFixedVariableRDO.MaxOperatingCurrent10mAunits = current;
+    sinkFixedRDO.SinkFixedVariableRDO.OperatingCurrentIn10mAunits = current;
     sinkFixedRDO.SinkFixedVariableRDO.ObjectPosition = pdoNum;
     sinkFixedRDO.SinkFixedVariableRDO.USBCommunicationsCapable = 1u;
     sinkFixedRDO.SinkFixedVariableRDO.NoUSBSuspend = 1u;
@@ -275,12 +462,6 @@ void usbpd_sink_pps_pdo_request(PPSSourceCap_t* sourceCap, uint8_t pdoNum, uint1
     messageHeader.d16 = 0u;
     sinkPPSRDO.d32 = 0u;
 
-    if(pdoNum > pdControl->cc_SourcePDONum)
-    {
-        // debug_log("not support this pps \r\n");
-        pdoNum = pdControl->cc_SourcePDONum - pdControl->cc_SourcePPSNum;
-    }
-
     messageHeader.MessageHeader.MessageID = pdControl->cc_SinkMessageID;
     messageHeader.MessageHeader.MessageType = USBPD_DATA_MSG_REQUEST;
     messageHeader.MessageHeader.NumberOfDataObjects = 1u;
@@ -288,7 +469,10 @@ void usbpd_sink_pps_pdo_request(PPSSourceCap_t* sourceCap, uint8_t pdoNum, uint1
 
     sinkPPSRDO.SinkPPSRDO.ObjectPosition = pdoNum;
     sinkPPSRDO.SinkPPSRDO.OutputVoltagein20mVunits = voltage/20;
-    sinkPPSRDO.SinkPPSRDO.OperatingCurrentIN50mAuints = sourceCap[pdoNum+pdControl->cc_SourcePPSNum-pdControl->cc_SourcePDONum - 1].Current/50;
+    uint16_t current = usbpd_request_current_for(&sourceCapabilities[pdoNum - 1]) / 50;
+    if (current > sourceCap[pdoNum-1].Current / 50)
+        current = sourceCap[pdoNum-1].Current / 50;
+    sinkPPSRDO.SinkPPSRDO.OperatingCurrentIN50mAuints = current;
     sinkPPSRDO.SinkPPSRDO.NoUSBSuspend = 1u;
     sinkPPSRDO.SinkPPSRDO.USBCommunicationsCapable = 1u;
 
@@ -339,10 +523,18 @@ void usbpd_sink_process(void)
                 pdControl_g.cc_SinkGoodCRCOver = 0;
                 NVIC_DisableIRQ( USBPD_IRQn );
                 usbpd_sink_pdo_analyse(storageSourceCap, &pdControl_g);
+                usbpd_update_source_capabilities();
                 NVIC_EnableIRQ( USBPD_IRQn );
 
-
-                pdControl_g.cc_State = CC_SEND_REQUEST;
+                pdControl_g.cc_State = CC_HAVE_CAPABILITIES;
+                if (!apiManaged && !requestPending)
+                {
+                    requestedCapability = 0;
+                    requestByVoltage = 0;
+                    requestedCurrent = sourceCapabilities[0].current;
+                    requestPending = 1;
+                }
+                usbpd_start_requested_contract();
             }
             break;
         }
@@ -355,9 +547,19 @@ void usbpd_sink_process(void)
                 // Delay_Ms(2);
                 // printf("request\r\n");
 
-                usbpd_sink_fixed_pdo_request(fixedSourceCap, pdControl_g.cc_SetPDONum, &pdControl_g,usbpdTxBuffer);        
+                uint8_t index = pdControl_g.cc_SetPDONum - 1;
+                if (sourceCapabilities[index].programmable)
+                    usbpd_sink_pps_pdo_request(ppsSourceCap,
+                                               pdControl_g.cc_SetPDONum,
+                                               requestedVoltage, &pdControl_g,
+                                               usbpdTxBuffer);
+                else
+                    usbpd_sink_fixed_pdo_request(fixedSourceCap,
+                                                 pdControl_g.cc_SetPDONum,
+                                                 &pdControl_g, usbpdTxBuffer);
 
                 usbpd_sink_phy_send_data(usbpdTxBuffer, 6, USBPD_SOP0);
+                negotiationWait = 0;
             }
 
             if(pdControl_g.cc_SourceGoodCRCOver)
@@ -379,35 +581,35 @@ void usbpd_sink_process(void)
             if(pdControl_g.cc_SinkGoodCRCOver)
             {
                 pdControl_g.cc_SinkGoodCRCOver = 0;
-                pdControl_g.cc_State = CC_GET_SOURCE_CAP;
-                pdControl_g.cc_WaitTime = 0;
-                
+                uint8_t index = pdControl_g.cc_SetPDONum - 1;
+                negotiatedVoltage = sourceCapabilities[index].programmable ?
+                                    requestedVoltage :
+                                    sourceCapabilities[index].maxVoltage;
+                negotiatedCurrent =
+                    usbpd_request_current_for(&sourceCapabilities[index]);
+                apiStatus = USBPD_STATUS_READY;
+                pdControl_g.cc_USBPD_READY = 1;
+                pdControl_g.cc_State = CC_ACTIVE;
             }
             break;
         }
 
-        case CC_GET_SOURCE_CAP:
+        case CC_HAVE_CAPABILITIES:
         {
-            pdControl_g.cc_USBPD_READY = 1; 
-            if(pdControl_g.cc_SetPDONum != pdControl_g.cc_LastSetPDONum)
-            {
-                pdControl_g.cc_LastSetPDONum = pdControl_g.cc_SetPDONum;
-                pdControl_g.cc_USBPD_READY = 0; 
-                // Delay_Ms(5);
-                messageHeader.d16 = 0u;
-                messageHeader.MessageHeader.MessageID = pdControl_g.cc_SinkMessageID;
-                messageHeader.MessageHeader.MessageType = USBPD_CONTROL_MSG_GET_SRC_CAP;
-                messageHeader.MessageHeader.NumberOfDataObjects = 0u;
-                messageHeader.MessageHeader.SpecificationRevision = pdControl_g.cc_PD_Version;
-                *(uint16_t*)&usbpdTxBuffer[0] =  messageHeader.d16;
-
-
-                usbpd_sink_phy_send_data(  usbpdTxBuffer, 2, USBPD_SOP0 );
-
-                pdControl_g.cc_State = CC_GET_SOURCE_CAP+1;
-            }
+            usbpd_start_requested_contract();
             break;
         }
+
+        case CC_ACTIVE:
+        {
+            break;
+        }
+
+        case CC_REQUEST_FAILED:
+            break;
+
+        case CC_WAIT_ACCEPT:
+            break;
 
         default:
             break;
@@ -436,13 +638,43 @@ void usbpd_sink_protocol_analysis(USBPD_MessageHeader_t* messageHeader, pd_contr
                 }
                 case USBPD_CONTROL_MSG_ACCEPT:
                 {
-                    pdControl->cc_State = CC_WAIT_PS_RDY;
+                    if (pdControl->cc_State == CC_SEND_REQUEST ||
+                        pdControl->cc_State == CC_WAIT_ACCEPT)
+                    {
+                        pdControl->cc_SourceGoodCRCOver = 0;
+                        pdControl->cc_State = CC_WAIT_PS_RDY;
+                    }
                     // debug_log("accept\r\n");
+                    break;
+                }
+                case USBPD_CONTROL_MSG_REJECT:
+                {
+                    if (pdControl->cc_State == CC_SEND_REQUEST ||
+                        pdControl->cc_State == CC_WAIT_ACCEPT)
+                    {
+                        pdControl->cc_SourceGoodCRCOver = 0;
+                        pdControl->cc_USBPD_READY = 0;
+                        apiStatus = USBPD_STATUS_REJECTED;
+                        pdControl->cc_State = CC_REQUEST_FAILED;
+                    }
+                    break;
+                }
+                case USBPD_CONTROL_MSG_WAIT:
+                {
+                    if (pdControl->cc_State == CC_SEND_REQUEST ||
+                        pdControl->cc_State == CC_WAIT_ACCEPT)
+                    {
+                        pdControl->cc_SourceGoodCRCOver = 0;
+                        pdControl->cc_USBPD_READY = 0;
+                        apiStatus = USBPD_STATUS_ERROR;
+                        pdControl->cc_State = CC_REQUEST_FAILED;
+                    }
                     break;
                 }
                 case USBPD_CONTROL_MSG_PS_RDY:
                 {
-                    pdControl->cc_State = CC_PS_RDY;
+                    if (pdControl->cc_State == CC_WAIT_PS_RDY)
+                        pdControl->cc_State = CC_PS_RDY;
                     // debug_log("ps RDY\r\n");
                     break;
                 }
@@ -549,24 +781,32 @@ void TIM3_IRQHandler(void)
     {
         if(ccLine == USBPD_CC1)
         {
+            sourceWait = 0;
             pdControl_g.cc2_ConnectTimes = 0;
             pdControl_g.cc1_ConnectTimes++;
             if(pdControl_g.cc1_ConnectTimes > 5)
             {
                 pdControl_g.cc1_ConnectTimes = 0;
                 pdControl_g.cc_State = CC_CONNECT;
+                connected = 1;
+                apiStatus = requestPending ? USBPD_STATUS_NEGOTIATING :
+                            USBPD_STATUS_IDLE;
                 USBPD->CONFIG &= ~CC_SEL; // select cc1 line to communication
                 // debug_log("cc1 connect\r\n");
             }
         }
         else if(ccLine == USBPD_CC2)
         {
+            sourceWait = 0;
             pdControl_g.cc1_ConnectTimes = 0;
             pdControl_g.cc2_ConnectTimes++;
             if(pdControl_g.cc2_ConnectTimes > 5)
             {
                 pdControl_g.cc2_ConnectTimes = 0;
                 pdControl_g.cc_State = CC_CONNECT;
+                connected = 1;
+                apiStatus = requestPending ? USBPD_STATUS_NEGOTIATING :
+                            USBPD_STATUS_IDLE;
                 USBPD->CONFIG |= CC_SEL; // select cc2 line to communication
                 // debug_log("cc2 connect\r\n");
             }
@@ -575,6 +815,10 @@ void TIM3_IRQHandler(void)
         {
             pdControl_g.cc1_ConnectTimes = 0;
             pdControl_g.cc2_ConnectTimes = 0;
+            if (sourceWait < 400)
+                ++sourceWait;
+            if (sourceWait >= 400 && requestPending)
+                apiStatus = USBPD_STATUS_NO_SOURCE;
         }
     }
 
@@ -587,6 +831,14 @@ void TIM3_IRQHandler(void)
             if(pdControl_g.cc_NoneTimes > 5)
             {
                 pdControl_g.cc_NoneTimes = 0;
+                pdControl_g.cc_USBPD_READY = 0;
+                sourceCapabilitiesReady = 0;
+                sourceCapabilityCount = 0;
+                negotiatedVoltage = 0;
+                negotiatedCurrent = 0;
+                apiStatus = connected ? USBPD_STATUS_DISCONNECTED :
+                            USBPD_STATUS_NO_SOURCE;
+                connected = 0;
                 pdControl_g.cc_State = CC_IDLE;
                 NVIC_DisableIRQ( USBPD_IRQn );  
                 // debug_log("cc  disconnect\r\n");
@@ -597,5 +849,19 @@ void TIM3_IRQHandler(void)
             pdControl_g.cc_NoneTimes = 0;
         }       
     }
+
+    if (pdControl_g.cc_State == CC_SEND_REQUEST ||
+        pdControl_g.cc_State == CC_WAIT_ACCEPT ||
+        pdControl_g.cc_State == CC_WAIT_PS_RDY ||
+        pdControl_g.cc_State == CC_PS_RDY)
+    {
+        if (++negotiationWait > 400)
+        {
+            pdControl_g.cc_USBPD_READY = 0;
+            apiStatus = USBPD_STATUS_ERROR;
+            pdControl_g.cc_State = CC_REQUEST_FAILED;
+        }
+    }
+
     usbpd_sink_process();
 }

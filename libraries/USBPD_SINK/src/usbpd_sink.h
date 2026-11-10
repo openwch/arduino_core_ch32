@@ -10,6 +10,8 @@ extern "C" {
 
 #include <stdbool.h>
 #include "usbpd_def.h"
+#include "usbpd_capabilities.h"
+#include "usbpd_api.h"
 
 // Register Bit Definition
 //USBPD->CONFIG
@@ -144,20 +146,6 @@ typedef enum
 // #define REQUEST_15v  15u
 // #define REQUEST_20v  20u
 
-typedef struct 
-{
-    uint16_t Current;
-    uint16_t Voltage;
-}FixedSourceCap_t;
-
-typedef struct 
-{
-    uint16_t MinVoltage;
-    uint16_t MaxVoltage;
-    uint16_t Current;
-}PPSSourceCap_t;
-
-
 typedef enum
 {
     CC_IDLE = 0u,
@@ -170,6 +158,9 @@ typedef enum
     CC_WAIT_PS_RDY,
     CC_PS_RDY,
     CC_GET_SOURCE_CAP,
+    CC_HAVE_CAPABILITIES,
+    CC_ACTIVE,
+    CC_REQUEST_FAILED,
 }cc_state_t;
 
 typedef struct 

@@ -5,7 +5,9 @@
 #######################################
 # Datatypes (KEYWORD1)
 #######################################
-Request_voltage_t KEYWORD1
+USBPDClass KEYWORD1
+USBPDCapability KEYWORD1
+USBPDStatus KEYWORD1
 
 
 #######################################
@@ -24,8 +26,14 @@ Request_voltage_t KEYWORD1
 #######################################
 # Constants (LITERAL1)
 #######################################
-REQUEST_5v    LITERAL1
-REQUEST_9v    LITERAL1
-REQUEST_12v    LITERAL1
-REQUEST_15v    LITERAL1
-REQUEST_20v    LITERAL1
+USBPD KEYWORD2
+begin KEYWORD2
+requestVoltage KEYWORD2
+requestCapability KEYWORD2
+isReady KEYWORD2
+getStatus KEYWORD2
+getVoltage KEYWORD2
+getCurrent KEYWORD2
+hasCapabilities KEYWORD2
+getCapabilityCount KEYWORD2
+getCapability KEYWORD2
