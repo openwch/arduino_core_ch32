@@ -42,8 +42,8 @@
 #define DEBUG_UART2_Remap6    16  //Tx-PA6
 #endif
 /* DEBUG UATR Definition */
-#ifndef DEBUG
-#define DEBUG   DEBUG_UART1_NoRemap
+#ifndef SDK_DEBUG
+#define SDK_DEBUG   DEBUG_UART1_NoRemap
 #endif
 
 /* SDI Printf Definition */
