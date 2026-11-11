@@ -145,7 +145,6 @@ void SPIClass::end()
   */
 void SPIClass::setBitOrder(uint8_t _pin, BitOrder _bitOrder)
 {
-  /* ADD_NEW_PIN: also keep the setting when called before begin() (#42) */
   uint8_t idx = pinIdx(_pin, ADD_NEW_PIN);
   if (idx >= NB_SPI_SETTINGS) {
     return;
@@ -153,11 +152,9 @@ void SPIClass::setBitOrder(uint8_t _pin, BitOrder _bitOrder)
 
   spiSettings[idx].bOrder = _bitOrder;
 
-  if (_CSPinConfig != NO_CONFIG) {
-    spi_init(&_spi, spiSettings[idx].clk,
-             spiSettings[idx].dMode,
-             spiSettings[idx].bOrder);
-  }
+  spi_init(&_spi, spiSettings[idx].clk,
+           spiSettings[idx].dMode,
+           spiSettings[idx].bOrder);
 }
 
 /**
@@ -174,7 +171,6 @@ void SPIClass::setBitOrder(uint8_t _pin, BitOrder _bitOrder)
   */
 void SPIClass::setDataMode(uint8_t _pin, uint8_t _mode)
 {
-  /* ADD_NEW_PIN: also keep the setting when called before begin() (#42) */
   uint8_t idx = pinIdx(_pin, ADD_NEW_PIN);
   if (idx >= NB_SPI_SETTINGS) {
     return;
@@ -190,11 +186,9 @@ void SPIClass::setDataMode(uint8_t _pin, uint8_t _mode)
     spiSettings[idx].dMode = SPI_MODE_3;
   }
 
-  if (_CSPinConfig != NO_CONFIG) {
-    spi_init(&_spi, spiSettings[idx].clk,
-             spiSettings[idx].dMode,
-             spiSettings[idx].bOrder);
-  }
+  spi_init(&_spi, spiSettings[idx].clk,
+           spiSettings[idx].dMode,
+           spiSettings[idx].bOrder);
 }
 
 /**
@@ -206,7 +200,6 @@ void SPIClass::setDataMode(uint8_t _pin, uint8_t _mode)
   */
 void SPIClass::setClockDivider(uint8_t _pin, uint8_t _divider)
 {
-  /* ADD_NEW_PIN: also keep the setting when called before begin() (#42) */
   uint8_t idx = pinIdx(_pin, ADD_NEW_PIN);
   if (idx >= NB_SPI_SETTINGS) {
     return;
@@ -218,11 +211,9 @@ void SPIClass::setClockDivider(uint8_t _pin, uint8_t _divider)
     spiSettings[idx].clk = spi_getClkFreq(&_spi) / _divider;
   }
 
-  if (_CSPinConfig != NO_CONFIG) {
-    spi_init(&_spi, spiSettings[idx].clk,
-             spiSettings[idx].dMode,
-             spiSettings[idx].bOrder);
-  }
+  spi_init(&_spi, spiSettings[idx].clk,
+           spiSettings[idx].dMode,
+           spiSettings[idx].bOrder);
 }
 
 /**
