@@ -30,4 +30,16 @@
 #include "../../../variants/CH32L10x/PinAF_CH32L10x.h"
 #endif
 
+#if defined(CH573)
+#include "../../../variants/CH573/PinAF_CH573.h"
+#endif
+
+#if defined(CH572)
+#include "../../../variants/CH572/PinAF_CH572.h"
+#endif
+
+#if defined(CH585)
+#include "../../../variants/CH585/PinAF_CH585.h"
+#endif
+
 #endif /* _PINAF_CH32YYXX_H */

@@ -662,7 +662,10 @@ uint16_t adc_read_value(PinName pin, uint32_t resolution)
   ADC_InitStructure.ADC_OutputBuffer         = ENABLE;
 #endif
   ADC_Init(padc, &ADC_InitStructure);
+
+#if !defined(CH573) && !defined(CH572) && !defined(CH585)
   padc->STATR = 0;
+#endif
   ADC_Cmd(padc,ENABLE); 
 
   /*##-2- Configure ADC regular channel ######################################*/  
@@ -688,7 +691,23 @@ uint16_t adc_read_value(PinName pin, uint32_t resolution)
       conversion, but application may perform other tasks while conversion
       operation is ongoing. */
   while(!ADC_GetFlagStatus(padc, ADC_FLAG_EOC ));
+#if defined(CH573)
+  uhADCxConvertedValue = ADC_ConvertPAGValueCH573();
+#elif defined(CH572)
+  // CH572 does not support adc
+#elif defined(CH585)
+#if defined(ADC_Channel_TempSensor)
+  if (pin == PADC_TEMP) {
+    /* TS uses differential + 6dB; return raw 12-bit counts */
+    uhADCxConvertedValue = R16_ADC_DATA & RB_ADC_DATA;
+  } else
+#endif
+  {
+    uhADCxConvertedValue = ADC_ConvertPAGValueCH585();
+  }
+#else
   uhADCxConvertedValue = padc->RDATAR;
+#endif
   ADC_Stop(padc);
   ADC_DeInit(padc);
 

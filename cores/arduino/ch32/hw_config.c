@@ -8,6 +8,25 @@ extern "C" {
 #endif
 
 #ifndef CH32V10x
+#if defined(CH573)
+void systick_init(void)
+{
+    SetSysClock(CLK_SOURCE_PLL_60MHz);
+    SysTick_Config(60*1000);
+}
+#elif defined(CH572)
+void systick_init(void)
+{
+    SetSysClock(CLK_SOURCE_HSE_PLL_60MHz);
+    SysTick_Config(60*1000);
+}
+#elif defined(CH585)
+void systick_init(void)
+{
+    SetSysClock(CLK_SOURCE_HSE_PLL_78MHz);
+    SysTick_Config(78*1000);
+}
+#else
 void systick_init(void)
 {
     SysTick->SR  = 0;
@@ -18,6 +37,7 @@ void systick_init(void)
     NVIC_SetPriority(SysTicK_IRQn,0xFF);
     NVIC_EnableIRQ(SysTicK_IRQn);
 }
+#endif
 #else  //QingKe_V3A registers are different from others 
 void systick_init(void)
 {

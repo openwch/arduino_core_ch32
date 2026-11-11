@@ -33,6 +33,12 @@ extern const uint32_t pin_map[16];
 extern const uint32_t pin_map[8];
 #elif defined(CH32X035)
 extern const uint32_t pin_map[24];
+#elif defined(CH573)
+extern const uint32_t pin_map[24];
+#elif defined(CH572)
+extern const uint32_t pin_map[12];
+#elif defined(CH585)
+extern const uint32_t pin_map[24];
 #endif
 
 

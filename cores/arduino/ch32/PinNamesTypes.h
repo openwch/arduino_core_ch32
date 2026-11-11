@@ -204,7 +204,7 @@ typedef enum {
 #define PILLDOWN             (2)
 
 
-#if !defined(CH32X035)
+#if (!defined(CH32X035))&&(!defined(CH573))&&(!defined(CH585))
 // High nibble = port number (FirstPort <= PortName <= LastPort)
 // Low nibble  = pin number
 #define CH_PORT(X) (((uint32_t)(X) >> 4) & 0xF)

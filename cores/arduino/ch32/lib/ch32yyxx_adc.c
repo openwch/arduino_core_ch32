@@ -19,6 +19,16 @@
 
 #elif defined(CH32L10x)
 #include "ch32l103_adc.c"
+
+#elif defined(CH573)
+#include "CH573_adc.c"
+
+#elif defined(CH572)
+//CH572 does not have ADC
+
+#elif defined(CH585)
+#include "CH585_adc.c"
+
 #endif
 
 

@@ -250,12 +250,19 @@ void HardwareSerial::begin(unsigned long baud, byte config)
       databits = USART_WordLength_7b;
       break;
 #endif
+#ifdef USART_WordLength_5b
+    case 5:
+      databits = USART_WordLength_5b;
+      break;
+#endif
     case 8:
       databits = USART_WordLength_8b;
       break;
+#ifdef USART_WordLength_9b
     case 9:
       databits = USART_WordLength_9b;
       break;
+#endif
     default:
     case 0:
       Error_Handler();

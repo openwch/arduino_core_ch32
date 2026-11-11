@@ -25,3 +25,15 @@
 #if defined(CH32L10x)
 #include "ch32l103_pwr.c"
 #endif
+
+#if defined(CH572)
+#include "CH572_pwr.c"
+#endif
+
+#if defined(CH573)
+#include "CH573_pwr.c"
+#endif
+
+#if defined(CH585)
+#include "CH585_pwr.c"
+#endif
