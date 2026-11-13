@@ -233,6 +233,10 @@ CH32X035_EVT.upload.maximum_size=0
 CH32X035_EVT.upload.maximum_data_size=0
 CH32X035_EVT.build.variant_h=variant_{build.board}.h
 CH32X035_EVT.debug.tool=gdb-WCH_LinkE
+CH32X035_EVT.menu.usb.uart=Hardware UART (default)
+CH32X035_EVT.menu.usb.uart.build.usb_flags=
+CH32X035_EVT.menu.usb.cdc=USB CDC Serial
+CH32X035_EVT.menu.usb.cdc.build.usb_flags=-DCH32X035_USB_CDC
 
 
 #CH32X035G8U EVT Board
