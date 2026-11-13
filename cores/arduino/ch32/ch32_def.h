@@ -38,12 +38,54 @@
 #include "ch32l103.h"
 #elif defined(CH32VM00X)
 #include "ch32v00X.h"
+#elif defined(CH32V4x7)
+  #include "ch32v4x7.h"
 #else 
   #error "CH32YYXX chip series is not defined in boards.txt."
 #endif
 
 #ifndef F_CPU
   #define F_CPU SystemCoreClock
+#endif
+
+#if defined(CH32V4x7)
+  // The V4x7 SDK calls the APB1/APB2 buses PB1/PB2
+  #define RCC_APB1PeriphClockCmd   RCC_PB1PeriphClockCmd
+  #define RCC_APB1PeriphResetCmd   RCC_PB1PeriphResetCmd
+  #define RCC_APB2PeriphClockCmd   RCC_PB2PeriphClockCmd
+  #define RCC_APB2PeriphResetCmd   RCC_PB2PeriphResetCmd
+
+  #define RCC_APB2Periph_AFIO      RCC_PB2Periph_AFIO
+  #define RCC_APB2Periph_GPIOA     RCC_PB2Periph_GPIOA
+  #define RCC_APB2Periph_GPIOB     RCC_PB2Periph_GPIOB
+  #define RCC_APB2Periph_GPIOC     RCC_PB2Periph_GPIOC
+  #define RCC_APB2Periph_GPIOD     RCC_PB2Periph_GPIOD
+  #define RCC_APB2Periph_GPIOE     RCC_PB2Periph_GPIOE
+  #define RCC_APB2Periph_USART1    RCC_PB2Periph_USART1
+  #define RCC_APB2Periph_SPI1      RCC_PB2Periph_SPI1
+  #define RCC_APB2Periph_ADC1      RCC_PB2Periph_ADC1
+  #define RCC_APB2Periph_ADC2      RCC_PB2Periph_ADC2
+  #define RCC_APB2Periph_TIM1      RCC_PB2Periph_TIM1
+  #define RCC_APB2Periph_TIM8      RCC_PB2Periph_TIM8
+
+  #define RCC_APB1Periph_USART2    RCC_PB1Periph_USART2
+  #define RCC_APB1Periph_USART3    RCC_PB1Periph_USART3
+  #define RCC_APB1Periph_USART4    RCC_PB1Periph_USART4
+  #define RCC_APB1Periph_USART5    RCC_PB1Periph_USART5
+  #define RCC_APB1Periph_USART6    RCC_PB1Periph_USART6
+  #define RCC_APB1Periph_USART7    RCC_PB1Periph_USART7
+  #define RCC_APB1Periph_USART8    RCC_PB1Periph_USART8
+  #define RCC_APB1Periph_USART9    RCC_PB1Periph_USART9
+  #define RCC_APB1Periph_USART10   RCC_PB1Periph_USART10
+  #define RCC_APB1Periph_SPI2      RCC_PB1Periph_SPI2
+  #define RCC_APB1Periph_SPI3      RCC_PB1Periph_SPI3
+  #define RCC_APB1Periph_I2C1      RCC_PB1Periph_I2C1
+  #define RCC_APB1Periph_TIM2      RCC_PB1Periph_TIM2
+  #define RCC_APB1Periph_TIM3      RCC_PB1Periph_TIM3
+  #define RCC_APB1Periph_TIM4      RCC_PB1Periph_TIM4
+  #define RCC_APB1Periph_TIM5      RCC_PB1Periph_TIM5
+  #define RCC_APB1Periph_TIM6      RCC_PB1Periph_TIM6
+  #define RCC_APB1Periph_TIM7      RCC_PB1Periph_TIM7
 #endif
 
 // Here define some compatibility

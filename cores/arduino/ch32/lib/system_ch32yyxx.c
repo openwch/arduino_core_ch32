@@ -25,3 +25,6 @@
 #if defined(CH32L10x)
 #include "system_ch32l103.c"
 #endif
+#if defined(CH32V4x7)
+#include "system_ch32v4x7.c"
+#endif

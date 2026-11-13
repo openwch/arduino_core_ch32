@@ -150,6 +150,18 @@ static int calibration_value = 0;
 #endif
 #endif /* !ADC_CLOCK_DIV */
 
+#elif defined(CH32V4x7)
+
+#ifndef ADC_SAMPLINGTIME
+#define ADC_SAMPLINGTIME          ADC_SampleTime_CyclesMode7
+#endif
+#ifndef ADC_SAMPLINGTIME_INTERNAL
+#define ADC_SAMPLINGTIME_INTERNAL ADC_SampleTime_CyclesMode7
+#endif
+#ifndef ADC_CLOCK_DIV
+#define ADC_CLOCK_DIV             RCC_PCLK2_Div8
+#endif
+
 #elif defined(CH32V00x)
 
 /* Default to use maximum sampling period */
@@ -658,7 +670,7 @@ uint16_t adc_read_value(PinName pin, uint32_t resolution)
   ADC_InitStructure.ADC_ContinuousConvMode   = DISABLE;
   ADC_InitStructure.ADC_NbrOfChannel         = 1; 
   ADC_InitStructure.ADC_ExternalTrigConv     = ADC_ExternalTrigConv_None;
- #if !defined(CH32V00x) && !defined(CH32V10x)  && !defined(CH32VM00X)
+ #if !defined(CH32V00x) && !defined(CH32V10x)  && !defined(CH32VM00X) && !defined(CH32V4x7)
   ADC_InitStructure.ADC_OutputBuffer         = ENABLE;
 #endif
   ADC_Init(padc, &ADC_InitStructure);
@@ -679,6 +691,11 @@ uint16_t adc_read_value(PinName pin, uint32_t resolution)
 	while(ADC_GetCalibrationStatus(padc));
 	calibration_value = Get_CalibrationValue(padc);	
 	ADC_BufferCmd(padc, ENABLE);   //enable buffer  
+#elif defined(CH32V4x7)
+  ADC_ResetCalibration(padc);
+  while(ADC_GetResetCalibrationStatus(padc));
+  ADC_StartCalibration(padc);
+  while(ADC_GetCalibrationStatus(padc));
 #endif
 
   /*##-3- Start the conversion process ####################*/

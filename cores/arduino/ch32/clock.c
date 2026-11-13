@@ -49,7 +49,7 @@ uint32_t getCurrentMillis(void)
 
 
 
-#if defined(CH32V20x) || defined(CH32V30x) || defined(CH32V30x_C) || defined(CH32V00x) || defined(CH32X035) || defined(CH32L10x) || defined(CH32VM00X)
+#if defined(CH32V20x) || defined(CH32V30x) || defined(CH32V30x_C) || defined(CH32V00x) || defined(CH32X035) || defined(CH32L10x) || defined(CH32VM00X) || defined(CH32V4x7)
 
 /* SysTick ticks -> microseconds as (ticks * k) >> 20, k = (1000 << 20) / ticks
    per ms. 32-bit only: the 64-bit multiply and divide used before are library

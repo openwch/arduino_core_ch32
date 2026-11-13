@@ -34,6 +34,8 @@
 
   #elif defined(CH32L10x)  
       #define  COM_STARTUP_FILE  "startup_ch32l103.S"   
+  #elif defined(CH32V4x7)
+      #define COM_STARTUP_FILE "startup_ch32v4x7.S"
   #else
     #error "Unknow chip!"
   #endif

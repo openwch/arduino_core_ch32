@@ -28,5 +28,8 @@
 #if defined (CH32L10x)
 #include "ch32l103_tim.h"
 #endif
+#if defined(CH32V4x7)
+#include "ch32v4x7_tim.h"
+#endif
 
 #endif /*   __CH32YYXX_TIM_H_ */

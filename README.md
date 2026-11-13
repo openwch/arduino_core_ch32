@@ -17,9 +17,9 @@
 
 ## Why this core
 
-- **One core for the CH32V family**: V003 and the V002/V004/V005/V006/V007 family, X035, V103, V203, V307 and L103, from 16 KB to 256 KB of flash, with the same sketch code.
+- **One core for the CH32V family**: V003 and the V002/V004/V005/V006/V007 family, X035, V103, V203, V307, L103 and V407, from 16 KB to 512 KB of flash, with the same sketch code.
 - **Standard Arduino API**: `digitalWrite`, `analogRead`, `analogWrite`, `attachInterrupt`, `Serial`, `Wire`, `SPI`, `tone`, `HardwareTimer`, plus the WCH peripheral drivers for everything else.
-- **WCH's own toolchain**: GCC 15.2 with the WCH extensions (`xw` compressed instructions, hardware stack push/pop) and OpenOCD 2.10 for the WCH-LinkE, both installed by the Boards Manager.
+- **WCH's own toolchain**: GCC 15.2 with the WCH extensions (`xw` compressed instructions, hardware stack push/pop) and OpenOCD 2.12 for the WCH-LinkE, both installed by the Boards Manager.
 - **Tuning menus**: clock source and speed, optimization (LTO for the 16 KB V003), C library (nano, float printf/scanf), USB stack, upload method.
 - **Checked on hardware**: releases are run on the EVT boards of each series (GPIO, interrupts, ADC, PWM, timers, I2C, SPI, Serial) before they go to the Boards Manager.
 
@@ -34,7 +34,7 @@
    ```
 
 2. **Tools → Board → Boards Manager**, search **CH32**, install **CH32 MCU EVT Boards**.
-   The IDE also downloads the toolchain (WCH GCC 15.2) and OpenOCD 2.10.
+   The IDE also downloads the toolchain (WCH GCC 15.2) and OpenOCD 2.12.
 3. **Tools → Board → CH32 MCU EVT Boards**: pick your series, then your chip under **Tools → Board Select**.
 
 ### Arduino CLI
@@ -64,9 +64,10 @@ The clone uses the same toolchain as the release: install the release once from 
 |---|---|---|
 | Windows 10/11 x64 | ✅ | WCH-LinkE driver: install [WCH-LinkUtility](https://www.wch-ic.com/downloads/WCH-LinkUtility_ZIP.html) once |
 | Linux x86_64 | ✅ | run once after installing, so the WCH-LinkE (and other debug probes) work without sudo: `~/.arduino15/packages/WCH/tools/beforeinstall/2.0.0/start.sh` |
-| macOS | ⚠️ | the tools for 1.0.5 and newer aren't published for macOS yet, so the Boards Manager offers 1.0.4 there |
+| macOS, Apple silicon | ✅ | macOS 14 or newer |
+| macOS, Intel | ⚠️ | WCH's toolchain for macOS runs on Apple silicon only, so the Boards Manager offers 1.0.4 there |
 
-**macOS with 1.0.4:** install the `libusb` library before the first upload:
+**Intel Mac with 1.0.4:** install the `libusb` library before the first upload:
 
 ```bash
 # with brew
@@ -88,25 +89,26 @@ If uploads still fail with `libusb` errors, contact the MounRiver Studio team at
 | **CH32V20x** | CH32V203C6, C8, G6, G8, RB EVT, Adafruit QT Py CH32V203 | QingKe V4B | 144 MHz | up to 128 KB / 64 KB | 1.0.0 |
 | **CH32V30x** | CH32V307VCT6 EVT | QingKe V4F (FPU) | 144 MHz | 256 KB / 64 KB | 1.0.3 |
 | **CH32L10x** | CH32L103C8T6 EVT | QingKe V4C | 96 MHz | 64 KB / 20 KB | 1.0.5 |
+| **CH32V4x7** | CH32V407VET6 EVT | QingKe V5F | 200 MHz | 512 KB / 200 KB | 1.0.7 |
 
 More packages of the V002/V004/V005/V006/V007 family and the CH32X033 are on the way ([#200](https://github.com/openwch/arduino_core_ch32/pull/200), [#171](https://github.com/openwch/arduino_core_ch32/pull/171)). A board that isn't listed can usually run the variant of the same chip; see [adding a board](CONTRIBUTING.md#adding-a-chip-or-board).
 
 ## Features
 
-| | V00x | VM00X | X035 | V10x | V20x | V30x | L10x |
-|---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-| GPIO, pull-up/down, open drain | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `attachInterrupt` (EXTI) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `analogRead` (ADC) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `analogWrite` (PWM), `tone` | ✅ | ✅ | ✅ ¹ | ✅ | ✅ | ✅ | ✅ |
-| `HardwareTimer` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `Serial` (U(S)ART) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⚠️ ² |
-| `Wire` (I2C master) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✓ |
-| `SPI` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✓ |
-| LTO (Tools → Optimize) | ✅ | ✅ | ✅ | ⚠️ ⁴ | ⚠️ ⁴ | ⚠️ ⁴ | ⚠️ ⁴ |
-| `EEPROM` (option bytes) | ✓ | | | ⚠️ ³ | | | |
-| USB device (Adafruit TinyUSB) | | | | | ✓ | ✓ | |
-| USB-PD sink (`USBPD_SINK`) | | | ✓ | | | | |
+| | V00x | VM00X | X035 | V10x | V20x | V30x | L10x | V4x7 |
+|---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| GPIO, pull-up/down, open drain | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `attachInterrupt` (EXTI) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `analogRead` (ADC) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `analogWrite` (PWM), `tone` | ✅ | ✅ | ✅ ¹ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `HardwareTimer` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✓ |
+| `Serial` (U(S)ART) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⚠️ ² | ✅ |
+| `Wire` (I2C master) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✓ | ✅ |
+| `SPI` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✓ | ✅ |
+| LTO (Tools → Optimize) | ✅ | ✅ | ✅ | ⚠️ ⁴ | ⚠️ ⁴ | ⚠️ ⁴ | ⚠️ ⁴ | |
+| `EEPROM` (option bytes) | ✓ | | | ⚠️ ³ | | | | |
+| USB device (Adafruit TinyUSB) | | | | | ✓ | ✓ | | |
+| USB-PD sink (`USBPD_SINK`) | | | ✓ | | | | | |
 
 ✅ checked on an EVT board · ✓ available, not yet checked on a board · ⚠️ known problem
 ¹ not on complementary (N) timer outputs yet, [#183](https://github.com/openwch/arduino_core_ch32/issues/183) · ² [#149](https://github.com/openwch/arduino_core_ch32/issues/149) · ³ [#213](https://github.com/openwch/arduino_core_ch32/issues/213) · ⁴ LTO drops the core's interrupt handlers on these series ([#204](https://github.com/openwch/arduino_core_ch32/issues/204)); use the plain optimize options
@@ -166,9 +168,9 @@ void setup() {
 | Tool | Version | Installed by |
 |---|---|---|
 | WCH GCC (`riscv32-wch-elf`) | 15.2.0 | Boards Manager (`riscv-wch-gcc`) |
-| WCH OpenOCD | 2.10 | Boards Manager (`openocd-wch`) |
+| WCH OpenOCD | 2.12 | Boards Manager (`openocd-wch`) |
 
-GCC 15.2 and OpenOCD 2.10 are the builds from [MounRiver Studio](http://www.mounriver.com/). Releases up to 1.0.4 used GCC 8.2 ([openwch/risc-none-embed-gcc](https://github.com/openwch/risc-none-embed-gcc)) and OpenOCD 1.0.0 ([openwch/openocd_wch](https://github.com/openwch/openocd_wch)); they stay installable from the Boards Manager.
+GCC 15.2 and OpenOCD 2.12 are the builds from [MounRiver Studio](http://www.mounriver.com/) (3.0.0 for OpenOCD and for macOS). Releases up to 1.0.4 used GCC 8.2 ([openwch/risc-none-embed-gcc](https://github.com/openwch/risc-none-embed-gcc)) and OpenOCD 1.0.0 ([openwch/openocd_wch](https://github.com/openwch/openocd_wch)); they stay installable from the Boards Manager.
 
 ## Project layout
 

@@ -16,5 +16,8 @@
 #if defined(CH32L10x)
 #include "ch32l103_crc.h"
 #endif
+#if defined(CH32V4x7)
+#include "ch32v4x7_crc.h"
+#endif
 
 #endif /* __CH32YYXX_CRC_H_ */

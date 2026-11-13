@@ -25,3 +25,6 @@
 #if defined(CH32L10x)
 #include "ch32l103_exti.c"
 #endif
+#if defined(CH32V4x7)
+#include "ch32v4x7_exti.c"
+#endif
