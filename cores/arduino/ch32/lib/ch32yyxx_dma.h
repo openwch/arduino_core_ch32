@@ -28,5 +28,8 @@
 #if defined(CH32L10x)
 #include "ch32l103_dma.h"
 #endif
+#if defined(CH32V4x7)
+#include "ch32v4x7_dma.h"
+#endif
 
 #endif /* __CH32YYXX_DMA_H__ */
