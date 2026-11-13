@@ -1,8 +1,8 @@
 #include <USBPD.h>
 
 void setup() {
-  // Ask the USB-C source for 9 V and at least 1 A.
-  USBPD.requestVoltage(9 ,0.2);
+  // Ask the USB-C source for 9 V and at least 0.2 A.
+  USBPD.requestVoltage(9, 0.2);
 }
 
 void loop() {

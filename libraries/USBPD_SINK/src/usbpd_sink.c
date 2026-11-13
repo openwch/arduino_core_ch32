@@ -31,6 +31,7 @@ static volatile uint8_t sourceCapabilityCount;
 static volatile uint8_t sourceCapabilitiesReady;
 static volatile uint8_t apiManaged;
 static volatile uint8_t requestPending;
+static volatile uint8_t requestConfigured;
 static volatile uint8_t requestByVoltage;
 static volatile uint8_t requestedCapability;
 static volatile uint16_t requestedVoltage;
@@ -41,6 +42,9 @@ static volatile USBPD_Status_t apiStatus = USBPD_STATUS_NO_SOURCE;
 static volatile uint8_t connected;
 static volatile uint16_t negotiationWait;
 static volatile uint16_t sourceWait;
+static uint16_t ppsRefreshWait;
+
+#define USBPD_PPS_REFRESH_TICKS 600u
 
 static uint16_t usbpd_request_current_for(const USBPD_Capability_t *capability)
 {
@@ -63,7 +67,8 @@ static void usbpd_start_requested_contract(void)
         {
             USBPD_Capability_t *cap = &sourceCapabilities[i];
             if (!cap->available || requestedVoltage < cap->minVoltage ||
-                requestedVoltage > cap->maxVoltage)
+                requestedVoltage > cap->maxVoltage ||
+                (cap->programmable && pdControl_g.cc_PD_Version < DEF_PD_REVISION_30))
                 continue;
 
             voltageMatch = 1;
@@ -77,7 +82,9 @@ static void usbpd_start_requested_contract(void)
         }
     }
     else if (requestedCapability < sourceCapabilityCount &&
-             sourceCapabilities[requestedCapability].available)
+             sourceCapabilities[requestedCapability].available &&
+             (!sourceCapabilities[requestedCapability].programmable ||
+              pdControl_g.cc_PD_Version >= DEF_PD_REVISION_30))
     {
         USBPD_Capability_t *cap = &sourceCapabilities[requestedCapability];
         voltageMatch = 1;
@@ -158,6 +165,7 @@ bool usbpd_api_request_voltage(uint16_t voltage, uint16_t current)
     requestedCurrent = current;
     requestByVoltage = 1;
     requestPending = 1;
+    requestConfigured = 1;
     apiStatus = USBPD_STATUS_NEGOTIATING;
     pdControl_g.cc_USBPD_READY = 0;
     usbpd_start_requested_contract();
@@ -175,6 +183,7 @@ bool usbpd_api_request_capability(uint8_t index, uint16_t current)
     requestedCurrent = current;
     requestByVoltage = 0;
     requestPending = 1;
+    requestConfigured = 1;
     apiStatus = USBPD_STATUS_NEGOTIATING;
     pdControl_g.cc_USBPD_READY = 0;
     usbpd_start_requested_contract();
@@ -271,10 +280,12 @@ bool usbpd_sink_set_request_fixed_voltage(Request_voltage_t requestVoltage)
                 apiStatus == USBPD_STATUS_READY)
                 return true;
             pdControl_g.cc_SetPDONum = i+1;
+            requestedCapability = i;
             requestedCurrent = pdControl_g.cc_FixedSourceCap[i].Current;
             requestedVoltage = targetVoltage;
             requestByVoltage = 0;
             requestPending = 1;
+            requestConfigured = 1;
             usbpd_start_requested_contract();
             return true;
         }
@@ -398,6 +409,7 @@ void usbpd_sink_end(void)
     sourceCapabilitiesReady = 0;
     apiManaged = 0;
     requestPending = 0;
+    requestConfigured = 0;
     requestByVoltage = 0;
     requestedCapability = 0;
     requestedVoltage = 0;
@@ -408,6 +420,7 @@ void usbpd_sink_end(void)
     connected = 0;
     negotiationWait = 0;
     sourceWait = 0;
+    ppsRefreshWait = 0;
 }
 
 void usbpd_sink_phy_send_data(uint8_t* pBuf, uint8_t length, uint8_t sop)
@@ -629,6 +642,7 @@ void usbpd_sink_process(void)
                     usbpd_request_current_for(&sourceCapabilities[index]);
                 apiStatus = USBPD_STATUS_READY;
                 pdControl_g.cc_USBPD_READY = 1;
+                ppsRefreshWait = 0;
                 pdControl_g.cc_State = CC_ACTIVE;
             }
             break;
@@ -642,6 +656,16 @@ void usbpd_sink_process(void)
 
         case CC_ACTIVE:
         {
+            uint8_t index = pdControl_g.cc_SetPDONum - 1;
+            if (sourceCapabilities[index].programmable &&
+                ++ppsRefreshWait >= USBPD_PPS_REFRESH_TICKS)
+            {
+                ppsRefreshWait = 0;
+                pdControl_g.cc_USBPD_READY = 0;
+                apiStatus = USBPD_STATUS_NEGOTIATING;
+                negotiationWait = 0;
+                pdControl_g.cc_State = CC_SEND_REQUEST;
+            }
             break;
         }
 
@@ -730,10 +754,15 @@ void usbpd_sink_protocol_analysis(USBPD_MessageHeader_t* messageHeader, pd_contr
             {
                 case USBPD_DATA_MSG_SRC_CAP:
                 {
+                    if (requestConfigured && !requestPending)
+                        requestPending = 1;
                     pdControl->cc_State = CC_SOURCE_CAP;
                     pdControl->cc_SourcePDONum = messageHeader->MessageHeader.NumberOfDataObjects;
-                    // pdControl->cc_PD_Version = messageHeader->MessageHeader.SpecificationRevision;
-                    memcpy(storageSourceCap,&usbpdRxBuffer[2],28);
+                    pdControl->cc_PD_Version =
+                        messageHeader->MessageHeader.SpecificationRevision < DEF_PD_REVISION_30 ?
+                        messageHeader->MessageHeader.SpecificationRevision : DEF_PD_REVISION_30;
+                    memcpy(storageSourceCap, &usbpdRxBuffer[2],
+                           pdControl->cc_SourcePDONum * 4);
                     // debug_log("cc source cap\r\n");
                     break;
                 }
@@ -774,7 +803,8 @@ void USBPD_IRQHandler(void)
         
         if( ( USBPD->STATUS & MASK_PD_STAT ) == PD_RX_SOP0 )
         {
-            if( USBPD->BMC_BYTE_CNT >= 6 )
+            if( USBPD->BMC_BYTE_CNT >=
+                6u + 4u * messageHeader.MessageHeader.NumberOfDataObjects )
             {
                 usbpd_sink_protocol_analysis(&messageHeader, &pdControl_g);
             }
@@ -876,6 +906,7 @@ void TIM3_IRQHandler(void)
                 sourceCapabilityCount = 0;
                 negotiatedVoltage = 0;
                 negotiatedCurrent = 0;
+                requestPending = requestConfigured;
                 apiStatus = connected ? USBPD_STATUS_DISCONNECTED :
                             USBPD_STATUS_NO_SOURCE;
                 connected = 0;

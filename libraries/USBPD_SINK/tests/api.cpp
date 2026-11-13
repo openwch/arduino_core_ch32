@@ -17,7 +17,7 @@ HardwareTimer::HardwareTimer(int) {}
 void HardwareTimer::setOverflow(uint32_t, int) {}
 void HardwareTimer::attachInterrupt(void (*)()) { ++timerAttaches; }
 void HardwareTimer::detachInterrupt() { ++timerDetaches; }
-void HardwareTimer::pause() { ++timerPauses; }
+void HardwareTimer::pause() { assert(timerDetaches == timerPauses + 1); ++timerPauses; }
 void HardwareTimer::resume() { ++timerResumes; }
 extern "C" void USBPD_Timer_Callback() {}
 #endif

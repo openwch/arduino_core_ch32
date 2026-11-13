@@ -33,8 +33,8 @@ void USBPDClass::end()
         return;
 
 #if defined(TIM_MODULE_ENABLED)
-    usbpdTimer.pause();
     usbpdTimer.detachInterrupt();
+    usbpdTimer.pause();
 #endif
     usbpd_sink_end();
     _begun = false;

@@ -47,8 +47,8 @@ struct USBPDCapability
 /**
  * @brief Simple Arduino interface to USB Power Delivery.
  *
- * A power request is asynchronous. Call isReady() to know when the source
- * has accepted the request and completed the change.
+ * A power request is asynchronous. isReady() reports the driver's view of
+ * the contract; it is not an electrical measurement of VBUS.
  */
 class USBPDClass
 {
