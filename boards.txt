@@ -880,3 +880,91 @@ CH32L10x_EVT.menu.rtlib.nanofps.build.flags.ldflags=--specs=nano.specs --specs=n
 CH32L10x_EVT.menu.rtlib.full=Newlib Standard
 CH32L10x_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
+##############################################################################
+##CH32V4x7_EVT Board   
+
+CH32V4x7_EVT.name=CH32V4x7
+CH32V4x7_EVT.build.core=arduino
+CH32V4x7_EVT.build.board=CH32V4x7_EVT
+CH32V4x7_EVT.upload.maximum_size=0
+CH32V4x7_EVT.upload.maximum_data_size=0
+CH32V4x7_EVT.build.variant_h=variant_{build.board}.h
+CH32V4x7_EVT.debug.tool=gdb-WCH_LinkE
+
+
+#CH32V407VET6 EVT Board
+CH32V4x7_EVT.menu.pnum.CH32V407VET6=CH32V407VET6 EVT
+CH32V4x7_EVT.menu.pnum.CH32V407VET6.node=NODE_V407VET6
+CH32V4x7_EVT.menu.pnum.CH32V407VET6.upload.maximum_size=524288
+CH32V4x7_EVT.menu.pnum.CH32V407VET6.upload.maximum_data_size=204800
+CH32V4x7_EVT.menu.pnum.CH32V407VET6.build.mcu=QingKe-V5F
+CH32V4x7_EVT.menu.pnum.CH32V407VET6.build.board=CH32V407VET6
+CH32V4x7_EVT.menu.pnum.CH32V407VET6.build.series=CH32V4x7
+CH32V4x7_EVT.menu.pnum.CH32V407VET6.build.variant=CH32V4x7/CH32V407VET6
+CH32V4x7_EVT.menu.pnum.CH32V407VET6.build.chip=CH32V407VET
+CH32V4x7_EVT.menu.pnum.CH32V407VET6.build.march=rv32imac_zba_zbb_zbc_zbs_zve64x_zvl64b_zvbb_xw
+CH32V4x7_EVT.menu.pnum.CH32V407VET6.build.mabi=ilp32
+CH32V4x7_EVT.menu.pnum.CH32V407VET6.build.math_lib_gcc=-lm
+CH32V4x7_EVT.menu.pnum.CH32V407VET6.build.IQ_math_RV32=
+CH32V4x7_EVT.menu.pnum.CH32V407VET6.build.ch_extra_lib=-lm
+
+
+# Upload menu
+CH32V4x7_EVT.menu.upload_method.swdMethod=WCH-SWD
+CH32V4x7_EVT.menu.upload_method.swdMethod.upload.protocol=
+CH32V4x7_EVT.menu.upload_method.swdMethod.upload.options=
+CH32V4x7_EVT.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+CH32V4x7_EVT.menu.upload_method.ispMethod=WCH-ISP
+CH32V4x7_EVT.menu.upload_method.ispMethod.upload.protocol=
+CH32V4x7_EVT.menu.upload_method.ispMethod.upload.options=
+CH32V4x7_EVT.menu.upload_method.ispMethod.upload.tool=wchisp
+
+
+# Clock Select
+
+
+# Optimizations
+CH32V4x7_EVT.menu.opt.osstd=Smallest (-Os default)
+CH32V4x7_EVT.menu.opt.osstd.build.flags.optimize=-Os
+CH32V4x7_EVT.menu.opt.oslto=Smallest (-Os) with LTO
+CH32V4x7_EVT.menu.opt.oslto.build.flags.optimize=-Os -flto
+CH32V4x7_EVT.menu.opt.o1std=Fast (-O1)
+CH32V4x7_EVT.menu.opt.o1std.build.flags.optimize=-O1
+CH32V4x7_EVT.menu.opt.o1lto=Fast (-O1) with LTO
+CH32V4x7_EVT.menu.opt.o1lto.build.flags.optimize=-O1 -flto
+CH32V4x7_EVT.menu.opt.o2std=Faster (-O2)
+CH32V4x7_EVT.menu.opt.o2std.build.flags.optimize=-O2
+CH32V4x7_EVT.menu.opt.o2lto=Faster (-O2) with LTO
+CH32V4x7_EVT.menu.opt.o2lto.build.flags.optimize=-O2 -flto
+CH32V4x7_EVT.menu.opt.o3std=Fastest (-O3)
+CH32V4x7_EVT.menu.opt.o3std.build.flags.optimize=-O3
+CH32V4x7_EVT.menu.opt.o3lto=Fastest (-O3) with LTO
+CH32V4x7_EVT.menu.opt.o3lto.build.flags.optimize=-O3 -flto
+CH32V4x7_EVT.menu.opt.ogstd=Debug (-Og)
+CH32V4x7_EVT.menu.opt.ogstd.build.flags.optimize=-Og
+CH32V4x7_EVT.menu.opt.o0std=No Optimization (-O0)
+CH32V4x7_EVT.menu.opt.o0std.build.flags.optimize=-O0
+
+
+# Debug information
+CH32V4x7_EVT.menu.dbg.none=None
+CH32V4x7_EVT.menu.dbg.none.build.flags.debug=-DNDEBUG
+CH32V4x7_EVT.menu.dbg.enable_sym=Symbols Enabled (-g)
+CH32V4x7_EVT.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
+CH32V4x7_EVT.menu.dbg.enable_log=Core logs Enabled
+CH32V4x7_EVT.menu.dbg.enable_log.build.flags.debug=
+CH32V4x7_EVT.menu.dbg.enable_all=Core Logs and Symbols Enabled (-g)
+CH32V4x7_EVT.menu.dbg.enable_all.build.flags.debug=-g
+
+
+# C Runtime Library
+CH32V4x7_EVT.menu.rtlib.nano=Newlib Nano (default)
+CH32V4x7_EVT.menu.rtlib.nano.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs
+CH32V4x7_EVT.menu.rtlib.nanofp=Newlib Nano + Float Printf
+CH32V4x7_EVT.menu.rtlib.nanofp.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float
+CH32V4x7_EVT.menu.rtlib.nanofs=Newlib Nano + Float Scanf
+CH32V4x7_EVT.menu.rtlib.nanofs.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _scanf_float
+CH32V4x7_EVT.menu.rtlib.nanofps=Newlib Nano + Float Printf/Scanf
+CH32V4x7_EVT.menu.rtlib.nanofps.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
+CH32V4x7_EVT.menu.rtlib.full=Newlib Standard
+CH32V4x7_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs

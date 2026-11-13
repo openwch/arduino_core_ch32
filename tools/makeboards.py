@@ -9,6 +9,7 @@ mcu_list = {
     'QingKe-V4B': {'march': 'rv32imacxw', 'mabi': 'ilp32', 'ch_extra_lib': '-lprintf'},
     'QingKe-V4C': {'march': 'rv32imacxw', 'mabi': 'ilp32', 'ch_extra_lib': '-lprintf'},
     'QingKe-V4F': {'march': 'rv32imafcxw', 'mabi': 'ilp32f', 'ch_extra_lib': '-lprintfloat'},
+    'QingKe-V5F': {'march': 'rv32imac_zba_zbb_zbc_zbs_zve64x_zvl64b_zvbb_xw', 'mabi': 'ilp32', 'ch_extra_lib': '-lm'},
 }
 
 usb_list = {
@@ -101,6 +102,17 @@ board_list = {
         'hse': [96, 72, 56, 48, 0],
         'pnums': {
             'CH32L103C8T6': {'name': 'CH32L103C8T6 EVT', 'maximum_size': 65536, 'maximum_data_size': 20480, 'mcu': 'QingKe-V4C', 'chip': 'CH32L10x'},
+        }
+    }
+,
+    'CH32V4x7': {
+        'name': 'CH32V4x7_EVT',
+        'info': '',
+        'usb': [],
+        'hsi': [],
+        'hse': [],
+        'pnums': {
+            'CH32V407VET6': {'name': 'CH32V407VET6 EVT', 'maximum_size': 524288, 'maximum_data_size': 204800, 'mcu': 'QingKe-V5F', 'chip': 'CH32V407VET'},
         }
     }
 }
