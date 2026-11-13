@@ -2,6 +2,20 @@
 
 All releases are installable from the Arduino Boards Manager (`package_ch32v_index.json`); older versions stay available there.
 
+## 1.0.7 (2026-11-13)
+
+### New
+
+- **CH32V4x7** series, CH32V407VET6 EVT board
+- **macOS on Apple silicon** (macOS 14 or newer): GCC 15.2 and OpenOCD 2.12 from the Boards Manager. Intel Macs keep 1.0.4, as WCH's macOS toolchain is Apple silicon only
+- OpenOCD 2.12 on Windows, Linux and macOS
+
+### Fixed
+
+- `SPI.setClockDivider()`, `setDataMode()` and `setBitOrder()` called before `SPI.begin()` were ignored ([#42](https://github.com/openwch/arduino_core_ch32/issues/42))
+- `analogWrite()` on the V003's PD0, PA2 and PD1 (TIM1 complementary outputs) ([#183](https://github.com/openwch/arduino_core_ch32/issues/183))
+- `DEBUG` was defined in every sketch ([#125](https://github.com/openwch/arduino_core_ch32/issues/125))
+
 ## 1.0.6 (2026-11-07)
 
 The Boards Manager package includes the Adafruit TinyUSB library again (Tools → USB support).
