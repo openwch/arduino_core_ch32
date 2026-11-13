@@ -140,6 +140,8 @@ void ch32_interrupt_enable(GPIO_TypeDef *port, GPIOMode_TypeDef io_mode,uint32_t
     GPIO_InitStruct.GPIO_Mode = io_mode;
     #if defined (CH32VM00X)
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_30MHz;      
+    #elif defined(CH32V4x7)
+    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_High;
     #else
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;  
     #endif
@@ -170,6 +172,9 @@ void ch32_interrupt_enable(GPIO_TypeDef *port, GPIOMode_TypeDef io_mode,uint32_t
     if(port == GPIOH)  gpio_port_souce = GPIO_PortSourceGPIOH;
     #endif
 
+    #if defined(CH32V4x7)
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);   // EXTICR is in AFIO
+    #endif
     GPIO_EXTILineConfig(gpio_port_souce, id);
     EXTI_InitStruct.EXTI_Line = exti_lines[id];
     EXTI_InitStruct.EXTI_LineCmd = ENABLE;

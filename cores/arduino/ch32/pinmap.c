@@ -21,7 +21,7 @@ typedef struct {
 } PinAnalogSwitch;
 
 
-#if defined(CH32V10x) || defined(CH32V20x) || defined(CH32V30x) || defined(CH32V30x_C) || defined(CH32L10x)
+#if defined(CH32V10x) || defined(CH32V20x) || defined(CH32V30x) || defined(CH32V30x_C) || defined(CH32L10x) || defined(CH32V4x7)
 const uint32_t pin_map[16] = {
   GPIO_Pin_0,
   GPIO_Pin_1,

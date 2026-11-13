@@ -86,7 +86,7 @@ HardwareTimer::HardwareTimer(TIM_TypeDef *instance)
   NVIC_EnableIRQ(TIM4_IRQn);
 #endif
 
-#ifdef CH32V30x
+#if defined(CH32V30x) || defined(CH32V4x7)
 
 #ifdef TIM5_BASE
   NVIC_EnableIRQ(TIM5_IRQn);

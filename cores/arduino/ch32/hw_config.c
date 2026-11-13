@@ -3,6 +3,10 @@
 #include "clock.h"
 #include "core_riscv_ch32yyxx.h"
 
+#if defined(CH32V4x7)
+#define SysTicK_IRQn SysTick_IRQn
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif

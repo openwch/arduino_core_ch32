@@ -73,6 +73,15 @@ typedef enum {
 #if defined(UART8_BASE) 
   UART8_INDEX,
 #endif
+#if defined(CH32V4x7)
+  USART4_INDEX,
+  USART5_INDEX,
+  USART6_INDEX,
+  USART7_INDEX,
+  USART8_INDEX,
+  USART9_INDEX,
+  USART10_INDEX,
+#endif
   UART_NUM
 } uart_index_t;
 
@@ -247,6 +256,50 @@ void uart_init(serial_t *obj, uint32_t baudrate, uint32_t databits, uint32_t par
     obj->irq = UART8_IRQn;
   }
 #endif
+#if defined(CH32V4x7)
+  else if (obj->uart == USART4)
+  {
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART4, ENABLE);
+    obj->index = USART4_INDEX;
+    obj->irq = USART4_IRQn;
+  }
+  else if (obj->uart == USART5)
+  {
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART5, ENABLE);
+    obj->index = USART5_INDEX;
+    obj->irq = USART5_IRQn;
+  }
+  else if (obj->uart == USART6)
+  {
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART6, ENABLE);
+    obj->index = USART6_INDEX;
+    obj->irq = USART6_IRQn;
+  }
+  else if (obj->uart == USART7)
+  {
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART7, ENABLE);
+    obj->index = USART7_INDEX;
+    obj->irq = USART7_IRQn;
+  }
+  else if (obj->uart == USART8)
+  {
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART8, ENABLE);
+    obj->index = USART8_INDEX;
+    obj->irq = USART8_IRQn;
+  }
+  else if (obj->uart == USART9)
+  {
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART9, ENABLE);
+    obj->index = USART9_INDEX;
+    obj->irq = USART9_IRQn;
+  }
+  else if (obj->uart == USART10)
+  {
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART10, ENABLE);
+    obj->index = USART10_INDEX;
+    obj->irq = USART10_IRQn;
+  }
+#endif
 
   /* Configure UART GPIO pins */
   pinmap_pinout(obj->pin_tx, PinMap_UART_TX);
@@ -395,6 +448,36 @@ void uart_deinit(serial_t *obj)
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART8, ENABLE);
       RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART8, DISABLE);
       #endif
+      break;
+#endif
+#if defined(CH32V4x7)
+    case USART4_INDEX:
+      RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART4, ENABLE);
+      RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART4, DISABLE);
+      break;
+    case USART5_INDEX:
+      RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART5, ENABLE);
+      RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART5, DISABLE);
+      break;
+    case USART6_INDEX:
+      RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART6, ENABLE);
+      RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART6, DISABLE);
+      break;
+    case USART7_INDEX:
+      RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART7, ENABLE);
+      RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART7, DISABLE);
+      break;
+    case USART8_INDEX:
+      RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART8, ENABLE);
+      RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART8, DISABLE);
+      break;
+    case USART9_INDEX:
+      RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART9, ENABLE);
+      RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART9, DISABLE);
+      break;
+    case USART10_INDEX:
+      RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART10, ENABLE);
+      RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART10, DISABLE);
       break;
 #endif
   }
