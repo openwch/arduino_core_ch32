@@ -28,6 +28,7 @@ USBPDStatus KEYWORD1
 #######################################
 USBPD KEYWORD2
 begin KEYWORD2
+end KEYWORD2
 requestVoltage KEYWORD2
 requestCapability KEYWORD2
 isReady KEYWORD2

@@ -191,6 +191,8 @@ typedef struct
 
 
 void usbpd_sink_init(void);
+/* When using an external timer, stop its PD callback before calling this. */
+void usbpd_sink_end(void);
 void usbpd_sink_process(void);
 
 uint8_t usbpd_sink_get_ready(void);
@@ -208,4 +210,3 @@ void USBPD_Timer_Callback(void);
 #endif /* end of __cplusplus */
 
 #endif /* end of usbpd_sink.h */
-

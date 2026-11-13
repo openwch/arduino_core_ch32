@@ -18,13 +18,26 @@ void USBPDClass::begin()
     if (_begun)
         return;
 
-    usbpd_sink_init();
+    usbpd_api_begin();
 #if defined(TIM_MODULE_ENABLED)
     usbpdTimer.setOverflow(5000, MICROSEC_FORMAT);
     usbpdTimer.attachInterrupt(usbpdTimerCallback);
     usbpdTimer.resume();
 #endif
     _begun = true;
+}
+
+void USBPDClass::end()
+{
+    if (!_begun)
+        return;
+
+#if defined(TIM_MODULE_ENABLED)
+    usbpdTimer.pause();
+    usbpdTimer.detachInterrupt();
+#endif
+    usbpd_sink_end();
+    _begun = false;
 }
 
 bool USBPDClass::requestVoltage(uint16_t voltage, float current)

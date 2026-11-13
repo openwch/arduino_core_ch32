@@ -370,6 +370,46 @@ void usbpd_sink_init(void)
     timer3_init(5000-1,48-1); // 5ms
 }
 
+void usbpd_sink_end(void)
+{
+#if !defined(TIM_MODULE_ENABLED)
+    TIM_ITConfig(TIM3, TIM_IT_Update, DISABLE);
+    TIM_Cmd(TIM3, DISABLE);
+    NVIC_DisableIRQ(TIM3_IRQn);
+    TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
+    NVIC_ClearPendingIRQ(TIM3_IRQn);
+#endif
+    NVIC_DisableIRQ(USBPD_IRQn);
+    USBPD->CONFIG = 0;
+    USBPD->CONTROL &= ~(BMC_START | PD_TX_EN);
+    USBPD->PORT_CC1 = 0;
+    USBPD->PORT_CC2 = 0;
+    USBPD->STATUS = BUF_ERR | IF_RX_BIT | IF_RX_BYTE | IF_RX_ACT |
+                    IF_RX_RESET | IF_TX_END;
+    NVIC_ClearPendingIRQ(USBPD_IRQn);
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_USBPD, DISABLE);
+
+    memset(&pdControl_g, 0, sizeof(pdControl_g));
+    memset(sourceCapabilities, 0, sizeof(sourceCapabilities));
+    memset(fixedSourceCap, 0, sizeof(fixedSourceCap));
+    memset(ppsSourceCap, 0, sizeof(ppsSourceCap));
+    memset(storageSourceCap, 0, sizeof(storageSourceCap));
+    sourceCapabilityCount = 0;
+    sourceCapabilitiesReady = 0;
+    apiManaged = 0;
+    requestPending = 0;
+    requestByVoltage = 0;
+    requestedCapability = 0;
+    requestedVoltage = 0;
+    requestedCurrent = 0;
+    negotiatedVoltage = 0;
+    negotiatedCurrent = 0;
+    apiStatus = USBPD_STATUS_IDLE;
+    connected = 0;
+    negotiationWait = 0;
+    sourceWait = 0;
+}
+
 void usbpd_sink_phy_send_data(uint8_t* pBuf, uint8_t length, uint8_t sop)
 {
     // pdControl_g.cc_SourceGoodCRCOver = 0;

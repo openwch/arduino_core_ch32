@@ -2,7 +2,7 @@
 
 void setup() {
   // Ask the USB-C source for 9 V and at least 1 A.
-  USBPD.requestVoltage(9, 1.0);
+  USBPD.requestVoltage(9 ,0.2);
 }
 
 void loop() {

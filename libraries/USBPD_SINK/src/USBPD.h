@@ -57,6 +57,15 @@ public:
     void begin();
 
     /**
+     * Stop PD processing and clear the reported contract and capabilities.
+     * This does not disconnect the cable or guarantee that VBUS returns to 5 V.
+     * Call from the main program, not an interrupt. Reconnecting the source
+     * may be necessary before starting PD again. A request automatically
+     * starts PD again.
+     */
+    void end();
+
+    /**
      * Request a whole-number voltage and minimum available current.
      * Returns false only when the request values are invalid. Use getStatus()
      * to check whether the source can provide the requested power.
