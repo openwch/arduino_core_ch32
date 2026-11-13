@@ -149,8 +149,14 @@
     #define SERIAL_PORT_MONITOR   Serial
   #endif
   #ifndef SERIAL_PORT_HARDWARE
-    #define SERIAL_PORT_HARDWARE  Serial
+    #if defined(CH32X035_USB_CDC)
+      #define SERIAL_PORT_HARDWARE Serial1
+    #else
+      #define SERIAL_PORT_HARDWARE Serial
+    #endif
+  #endif
+  #if defined(CH32X035_USB_CDC) && !defined(SERIAL_PORT_USBVIRTUAL)
+    #define SERIAL_PORT_USBVIRTUAL SerialUSB
   #endif
 #endif
-
 
