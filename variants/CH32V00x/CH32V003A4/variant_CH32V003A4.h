@@ -21,7 +21,7 @@
 #define                         TIM_MODULE_ENABLED
 #endif
 
-/* CH32V003F4 Pins */
+/* CH32V003A4 Pins */
 #define PA1                     0 //PIN_A1
 #define PA2                     1 //PIN_A0
 #define PC0                     2
@@ -36,6 +36,11 @@
 #define PD5                     11 //PIN_A5
 #define PD6                     12 //PIN_A6
 #define PD7                     13
+
+// Make sure A3/A4 are unknown enums, to generate errors when used.
+// (see analogInputPin[] in variant_...cpp and pins_arduino_analog.h)
+#define VARIANT_NO_ANALOG_A3
+#define VARIANT_NO_ANALOG_A4
 
 // Alternate pin numbers
 #define PC0_ALT1                (PC0  | ALT1)
@@ -194,5 +199,3 @@
     #define SERIAL_PORT_HARDWARE  Serial
   #endif
 #endif
-
-

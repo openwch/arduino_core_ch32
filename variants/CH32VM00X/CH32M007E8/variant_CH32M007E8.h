@@ -49,6 +49,9 @@
 #define PD6                     PIN_A6 
 #define PD7                     3
 
+// Make sure A0 is unknown enum, to generate errors when used.
+// (see analogInputPin[] in variant_...cpp and pins_arduino_analog.h)
+#define VARIANT_NO_ANALOG_A0
 
 // Alternate pins number
 //#define PD5_ALT1                (PD5  | ALT1)
@@ -85,6 +88,11 @@
   #define BOARD_DEFAULT_SERIAL 1
 #endif
 
+#if SERIAL_UART_INSTANCE==1 && defined(SERIAL_UART_PINMAP) && SERIAL_UART_PINMAP==3
+  #error "CH32M007E8 Serial1_3 is not available"
+#endif
+
+
 // Default pins for each hardware serial port.
 #ifndef PIN_SERIAL1_RX
   #define PIN_SERIAL1_RX     PD6  /* UART1 default RX pin */
@@ -98,6 +106,21 @@
 #endif
 #ifndef PIN_SERIAL2_TX
   #define PIN_SERIAL2_TX     PA4  /* UART2 default TX pin */
+#endif
+
+// Mapped serial pins
+// The VM00X datasheet shows 9 mappings for USART1 and 6 for USART2. To keep is short only a few are offered by the menu.
+#ifndef PIN_SERIAL1_1_RX
+  #define PIN_SERIAL1_1_RX     PD5  // UART1_1 pinmap RX pin
+#endif
+#ifndef PIN_SERIAL1_1_TX
+  #define PIN_SERIAL1_1_TX     PD6  // UART1_1 pinmap TX pin 
+#endif
+#ifndef PIN_SERIAL1_3_RX
+  #define PIN_SERIAL1_3_RX     PC1  // UART1_3 pinmap RX pin
+#endif
+#ifndef PIN_SERIAL1_3_TX
+  #define PIN_SERIAL1_3_TX     PC0  // UART1_3 pinmap TX pin 
 #endif
 
 
@@ -157,5 +180,3 @@
     #define SERIAL_PORT_HARDWARE  Serial
   #endif
 #endif
-
-

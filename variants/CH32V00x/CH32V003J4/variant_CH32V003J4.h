@@ -13,14 +13,6 @@
 #pragma once
 
 /* ENABLE Peripherals */
-/*
-#define                         ADC_MODULE_ENABLED
-#define                         I2C_MODULE_ENABLED
-#ifndef IDE_MENU_PERIPHERALS   // MMOLE: defined when peripherals are enabled/disabled via the IDE menu
-#define                         UART_MODULE_ENABLED
-#define                         TIM_MODULE_ENABLED
-#endif
-*/
 #ifndef IDE_MENU_PERIPHERALS   // MxRD: defined when peripherals are enabled/disabled via the IDE menu
 #define                         ADC_MODULE_ENABLED
 #define                         UART_MODULE_ENABLED
@@ -40,6 +32,10 @@
 #define PD5                     PIN_A5	// D7
 #define PD6                     PIN_A6	// D8/TX'
 
+// Make sure A3/A4 are unknown enums, to generate errors when used.
+// (see analogInputPin[] in variant_...cpp and pins_arduino_analog.h)
+#define VARIANT_NO_ANALOG_A3
+#define VARIANT_NO_ANALOG_A4
 
 // Alternate pin numbers
 #define PC4_ALT1              (PC4  | ALT1)
@@ -118,22 +114,14 @@
   #define PIN_SERIAL1_TX         PD5
 #endif
 
-// Useful mapped pins for each hardware serial port.
+// Mapped serial pins. 
+// For V003J4 (and V002J4) these alternate pins allow using TX without blocking SWIO.
 #ifndef PIN_SERIAL1_2_RX
   #define PIN_SERIAL1_2_RX     PD5  // UART1_2 pinmap RX pin
 #endif
 #ifndef PIN_SERIAL1_2_TX
   #define PIN_SERIAL1_2_TX     PD6  // UART1_2 pinmap TX pin 
 #endif
-
-/*
-#ifndef PIN_SERIAL1_3_RX
-  #define PIN_SERIAL1_3_RX     PC1  // UART1_3 pinmap RX pin
-#endif
-#ifndef PIN_SERIAL1_3_TX
-  #define PIN_SERIAL1_3_TX     PC0  // UART1_3 pinmap TX pin
-#endif
-*/
 
 // SPI definitions (CH32V003J4 has no pins for SPI so it's not available)
 #if defined(SPI_MODULE_ENABLED)
@@ -184,5 +172,3 @@
     #define SERIAL_PORT_HARDWARE  Serial
   #endif
 #endif
-
-

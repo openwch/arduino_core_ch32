@@ -21,7 +21,7 @@
 #define                         TIM_MODULE_ENABLED
 #endif
 
-/* CH32V002F4 Pins - same as CH32V003F4 TSSOP20 (18x GPIO, 8+3 ADC, 1xSER, no OPA */
+/* CH32V002F4 Pins - same as CH32V003F4 TSSOP20 (18x GPIO, 8+3 ADC, 1xSER, no OPA) */
 #define PA1                     PIN_A1
 #define PA2                     PIN_A0
 #define PC0                     2
@@ -127,6 +127,20 @@
   #define PIN_SERIAL1_TX     PD5  /* UART1 default TX pin */
 #endif
 
+// Mapped serial pins
+// The VM00X datasheet shows 9 mappings for USART1 and 6 for USART2. To keep is short only a few are offered by the menu.
+#ifndef PIN_SERIAL1_1_RX
+  #define PIN_SERIAL1_1_RX     PD5  // UART1_1 pinmap RX pin
+#endif
+#ifndef PIN_SERIAL1_1_TX
+  #define PIN_SERIAL1_1_TX     PD6  // UART1_1 pinmap TX pin 
+#endif
+#ifndef PIN_SERIAL1_3_RX
+  #define PIN_SERIAL1_3_RX     PC1  // UART1_3 pinmap RX pin
+#endif
+#ifndef PIN_SERIAL1_3_TX
+  #define PIN_SERIAL1_3_TX     PC0  // UART1_3 pinmap TX pin 
+#endif
 
 
 // SPI definitions
@@ -186,5 +200,3 @@
     #define SERIAL_PORT_HARDWARE  Serial
   #endif
 #endif
-
-

@@ -37,11 +37,11 @@ Shared pinout for CH32V003F4P6 / CH32V002F4P6 / CH32V006F8P6.
 - Note ': PC4 is the default software chip-select pin (PIN_SPI_SS). Control this pin as a GPIO. Hardware SPI NSS/SSEL uses PC1, which is also the default I2C SDA pin. These two peripheral functions cannot use PC1 at the same time. Do not pass PC4 as the hardware SSEL argument to SPIClass. Using alternative pin mappings now requires changing PeripheralPins.c, but may get core API support in a future release. See issue #61.
 
 #### More pinout diagrams
-|  |  |  |
-| -- | -- | -- |
-| V002 | [A4M6 SOP16](./CH32V002A4#pinout) | [D4U6 QFN12->DIP14](./CH32V002D4#pinout) |
-| V006 | [E8R6 QSOP24](./CH32V006E8#ch32v006e8r6-qsop24-pinout) | [F8P6 TSSOP20](./CH32V006F8#ch32v006f8p6-tssop20-pinout) |
-| VM007 | [M007E8R6 QSOP24](./CH32M007E8) | |
+|  |  |  |  |
+| -- | -- | -- | -- |
+| V002 | [A4M6 SOP16](./CH32V002A4/README.md#pinout) | [D4U6 QFN12->DIP14](./CH32V002D4/README.md#pinout) | [J4M6 SOP8](./CH32V002J4/README.md#pinout)  |
+| V006 | [E8R6 QSOP24](./CH32V006E8/README.md#ch32v006e8r6-qsop24-pinout) | [F8P6 TSSOP20](./CH32V006F8/README.md#ch32v006f8p6-tssop20-pinout) | |
+| VM007 | [M007E8R6 QSOP24](./CH32M007E8/README.md#qsop24-pinout) | | |
 
 ### Feature comparison with V003 (TSSOP20) ###
 

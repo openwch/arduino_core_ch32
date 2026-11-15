@@ -92,17 +92,51 @@ extern const uint32_t analogInputPin[];
 #define NOT_AN_INTERRUPT            (uint32_t)NC
 
 /* Convert a digital pin number Dxx to a PinName PX_n */
+#if 0  // optimized macro to use inline function instead
 #if NUM_ANALOG_INPUTS > 0
 /* Note: Analog pin is also a digital pin */
+/*
 #define digitalPinToPinName(p)      ((((uint32_t)(p) & PNUM_MASK) < NUM_DIGITAL_PINS) ? \
             (PinName)(digitalPin[(uint32_t)(p) & PNUM_MASK] | ((p) & ALTX_MASK)) : \
             (((uint32_t)(p) & PNUM_ANALOG_BASE) == PNUM_ANALOG_BASE) && \
             (((uint32_t)(p) & PNUM_MASK) < NUM_ANALOG_INTERNAL_FIRST) ? \
             (PinName)(digitalPin[analogInputPin[(p) & PNUM_ANALOG_INDEX]] | ((p) & ALTX_MASK)) : NC)
+*/
+// Fix issue #144: Guard unavailable analog mappings
+#define digitalPinToPinName(p)      ((((uint32_t)(p) & PNUM_MASK) < NUM_DIGITAL_PINS) ? \
+            (PinName)(digitalPin[(uint32_t)(p) & PNUM_MASK] | ((p) & ALTX_MASK)) : \
+            ((((uint32_t)(p) & PNUM_ANALOG_BASE) == PNUM_ANALOG_BASE) && \
+            (((uint32_t)(p) & PNUM_MASK) < NUM_ANALOG_INTERNAL_FIRST) && \
+            (analogInputPin[(uint32_t)(p) & PNUM_ANALOG_INDEX] < NUM_DIGITAL_PINS)) ? \
+            (PinName)(digitalPin[analogInputPin[(uint32_t)(p) & PNUM_ANALOG_INDEX]] | ((p) & ALTX_MASK)) : NC)
 #else
 #define digitalPinToPinName(p)      ((((uint32_t)(p) & PNUM_MASK) < NUM_DIGITAL_PINS) ? \
             (PinName)(digitalPin[(uint32_t)(p) & PNUM_MASK] | ((p) & ALTX_MASK)) : NC)
 #endif /* NUM_ANALOG_INPUTS > 0 */
+#else // if 0
+
+// inline implementation instead of macro to save some flash (-Od: 13972->13780, -Os: 11652->11536, LTO: 8564/764->8452/764)
+static inline PinName digitalPinToPinNameImpl(uint32_t pin)
+{
+  uint32_t index = pin & PNUM_MASK;
+
+#if NUM_ANALOG_INPUTS > 0
+  if (index >= NUM_DIGITAL_PINS &&
+      (index & PNUM_ANALOG_BASE) == PNUM_ANALOG_BASE &&
+      index < NUM_ANALOG_INTERNAL_FIRST) {
+    index = analogInputPin[index & PNUM_ANALOG_INDEX];
+  }
+#endif
+
+  if (index >= NUM_DIGITAL_PINS) {
+    return NC;
+  }
+
+  return (PinName)(digitalPin[index] | (pin & ALTX_MASK));
+}
+#define digitalPinToPinName(p) digitalPinToPinNameImpl((uint32_t)(p))
+#endif // if 0
+
 /* Convert a PinName PX_n to a digital pin number */
 uint32_t pinNametoDigitalPin(PinName p);
 

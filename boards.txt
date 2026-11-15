@@ -84,8 +84,6 @@ CH32V00x_EVT.menu.pnum.CH32V003J4.build.ch_extra_lib=-lprintf
 CH32V00x_EVT.menu.pnum.CH32V003J4.build.spi_default=
 
 
-
-
 # Upload menu
 CH32V00x_EVT.menu.upload_method.swdMethod=WCH-SWD
 CH32V00x_EVT.menu.upload_method.swdMethod.upload.protocol=
@@ -197,11 +195,6 @@ CH32V00x_EVT.menu.YperiSPI.enable.build.periSPI=-DSPI_MODULE_ENABLED
 CH32V00x_EVT.menu.YperiSPI.disable=disabled
 CH32V00x_EVT.menu.YperiSPI.disable.build.periSPI=
 
-#CH32V00x_EVT.menu.YperiSPI.enable=enabled (default)
-#CH32V00x_EVT.menu.YperiSPI.enable.build.periSPI=-DSPI_MODULE_ENABLED
-#CH32V00x_EVT.menu.YperiSPI.disable=disabled
-#CH32V00x_EVT.menu.YperiSPI.disable.build.periSPI=
-
 CH32V00x_EVT.menu.YperiI2C.enable=enabled (default)
 CH32V00x_EVT.menu.YperiI2C.enable.build.periI2C=-DI2C_MODULE_ENABLED -DOPT_I2C_SLAVE=1
 CH32V00x_EVT.menu.YperiI2C.disableslave=I2C slave disabled
@@ -243,8 +236,10 @@ CH32VM00X_EVT.menu.pnum.CH32V002F4.build.math_lib_gcc=-lm
 CH32VM00X_EVT.menu.pnum.CH32V002F4.build.IQ_math_RV32=
 CH32VM00X_EVT.menu.pnum.CH32V002F4.build.ch_extra_lib=-lprintf
 CH32VM00X_EVT.menu.pnum.CH32V002F4.build.ldscript=LinkV002.ld
+CH32VM00X_EVT.menu.pnum.CH32V002F4.build.spi_default=-DSPI_MODULE_ENABLED
 
 #CH32V002A4 SOP16 Board
+#CH32V002A4 cannot have SPI enabled with I2C and UART, so board default is SPI disabled
 CH32VM00X_EVT.menu.pnum.CH32V002A4=CH32V002A4 SOP16
 CH32VM00X_EVT.menu.pnum.CH32V002A4.node=NODE_V002A4
 CH32VM00X_EVT.menu.pnum.CH32V002A4.upload.maximum_size=16384
@@ -260,6 +255,7 @@ CH32VM00X_EVT.menu.pnum.CH32V002A4.build.math_lib_gcc=-lm
 CH32VM00X_EVT.menu.pnum.CH32V002A4.build.IQ_math_RV32=
 CH32VM00X_EVT.menu.pnum.CH32V002A4.build.ch_extra_lib=-lprintf
 CH32VM00X_EVT.menu.pnum.CH32V002A4.build.ldscript=LinkV002.ld
+CH32VM00X_EVT.menu.pnum.CH32V002A4.build.spi_default=
 
 #CH32V002D4 QFN12 Board
 CH32VM00X_EVT.menu.pnum.CH32V002D4=CH32V002D4 QFN12
@@ -277,6 +273,25 @@ CH32VM00X_EVT.menu.pnum.CH32V002D4.build.math_lib_gcc=-lm
 CH32VM00X_EVT.menu.pnum.CH32V002D4.build.IQ_math_RV32=
 CH32VM00X_EVT.menu.pnum.CH32V002D4.build.ch_extra_lib=-lprintf
 CH32VM00X_EVT.menu.pnum.CH32V002D4.build.ldscript=LinkV002.ld
+CH32VM00X_EVT.menu.pnum.CH32V002D4.build.spi_default=
+
+#CH32V002J4 SOP8 Board
+CH32VM00X_EVT.menu.pnum.CH32V002J4=CH32V002J4 SOP8
+CH32VM00X_EVT.menu.pnum.CH32V002J4.node=NODE_V002D4
+CH32VM00X_EVT.menu.pnum.CH32V002J4.upload.maximum_size=16384
+CH32VM00X_EVT.menu.pnum.CH32V002J4.upload.maximum_data_size=4096
+CH32VM00X_EVT.menu.pnum.CH32V002J4.build.mcu=QingKe-V2C
+CH32VM00X_EVT.menu.pnum.CH32V002J4.build.board=CH32V002J4
+CH32VM00X_EVT.menu.pnum.CH32V002J4.build.series=CH32VM00X
+CH32VM00X_EVT.menu.pnum.CH32V002J4.build.variant=CH32VM00X/CH32V002J4
+CH32VM00X_EVT.menu.pnum.CH32V002J4.build.chip=CH32V002J4
+CH32VM00X_EVT.menu.pnum.CH32V002J4.build.march=rv32ecxw
+CH32VM00X_EVT.menu.pnum.CH32V002J4.build.mabi=ilp32e
+CH32VM00X_EVT.menu.pnum.CH32V002J4.build.math_lib_gcc=-lm
+CH32VM00X_EVT.menu.pnum.CH32V002J4.build.IQ_math_RV32=
+CH32VM00X_EVT.menu.pnum.CH32V002J4.build.ch_extra_lib=-lprintf
+CH32VM00X_EVT.menu.pnum.CH32V002J4.build.ldscript=LinkV002.ld
+CH32VM00X_EVT.menu.pnum.CH32V002J4.build.spi_default=
 
 #CH32V006K8 QFN32 EVT Board
 CH32VM00X_EVT.menu.pnum.CH32V006K8=CH32V006K8 QFN32 EVT
@@ -294,6 +309,7 @@ CH32VM00X_EVT.menu.pnum.CH32V006K8.build.math_lib_gcc=-lm
 CH32VM00X_EVT.menu.pnum.CH32V006K8.build.IQ_math_RV32=
 CH32VM00X_EVT.menu.pnum.CH32V006K8.build.ch_extra_lib=-lprintf
 CH32VM00X_EVT.menu.pnum.CH32V006K8.build.ldscript=Link.ld
+CH32VM00X_EVT.menu.pnum.CH32V006K8.build.spi_default=-DSPI_MODULE_ENABLED
 
 #CH32V006F8 QFN20/TSSOP20 Board
 CH32VM00X_EVT.menu.pnum.CH32V006F8=CH32V006F8 TSSOP20/QFN20
@@ -311,6 +327,7 @@ CH32VM00X_EVT.menu.pnum.CH32V006F8.build.math_lib_gcc=-lm
 CH32VM00X_EVT.menu.pnum.CH32V006F8.build.IQ_math_RV32=
 CH32VM00X_EVT.menu.pnum.CH32V006F8.build.ch_extra_lib=-lprintf
 CH32VM00X_EVT.menu.pnum.CH32V006F8.build.ldscript=Link.ld
+CH32VM00X_EVT.menu.pnum.CH32V006F8.build.spi_default=-DSPI_MODULE_ENABLED
 
 #CH32V006E8 QSOP24 Board
 CH32VM00X_EVT.menu.pnum.CH32V006E8=CH32V006E8 QSOP24
@@ -328,6 +345,7 @@ CH32VM00X_EVT.menu.pnum.CH32V006E8.build.math_lib_gcc=-lm
 CH32VM00X_EVT.menu.pnum.CH32V006E8.build.IQ_math_RV32=
 CH32VM00X_EVT.menu.pnum.CH32V006E8.build.ch_extra_lib=-lprintf
 CH32VM00X_EVT.menu.pnum.CH32V006E8.build.ldscript=Link.ld
+CH32VM00X_EVT.menu.pnum.CH32V006E8.build.spi_default=-DSPI_MODULE_ENABLED
 
 #CH32M007E8 QSOP24 Board
 CH32VM00X_EVT.menu.pnum.CH32M007E8=CH32M007E8 QSOP24
@@ -345,6 +363,7 @@ CH32VM00X_EVT.menu.pnum.CH32M007E8.build.math_lib_gcc=-lm
 CH32VM00X_EVT.menu.pnum.CH32M007E8.build.IQ_math_RV32=
 CH32VM00X_EVT.menu.pnum.CH32M007E8.build.ch_extra_lib=-lprintf
 CH32VM00X_EVT.menu.pnum.CH32M007E8.build.ldscript=Link.ld
+CH32VM00X_EVT.menu.pnum.CH32M007E8.build.spi_default=-DSPI_MODULE_ENABLED
 
 
 # Upload menu
@@ -420,15 +439,25 @@ CH32VM00X_EVT.menu.rtlib.full=Newlib Standard
 CH32VM00X_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
 
-# Serial port selection
+# Serial port and pinmap selection
+# VM00X USART1 pinmaps TX/RX: 0=PD5/PD6 _1=PD6/PD5 _2=PD0/PD1 _3=PC0/PC1 _4=PD1/PB3 _5=PB3/PD1 _6=PC5/PC6, _7=PB5/PB6, _8=PA0/PA1 _9=PA0/PC4
+# V002/V004: no port B => 0/1/2/3/8/9
+# Using SERIAL_UART_INSTANCE=0 means board default; SERIAL_UART_INSTANCE=1 means Serial1.
+# Using SERIAL_UART_PINMAP=2 means use second pinmap, eg. PIN_RX1_2.
+# The Board default pinmap is used when SERIAL_UART_PINMAP=0 or undefined.
+# Negative value -1 means no pinmap and don't use the board default pinmap. 
 CH32VM00X_EVT.menu.xserial.boardDefault=Serial=Board Default
 CH32VM00X_EVT.menu.xserial.boardDefault.build.serial_flags=-DSERIAL_UART_INSTANCE=0
-CH32VM00X_EVT.menu.xserial.serial1=Serial=Serial1
-CH32VM00X_EVT.menu.xserial.serial1.build.serial_flags=-DSERIAL_UART_INSTANCE=1
+CH32VM00X_EVT.menu.xserial.serial1=Serial=Serial1 (TX/RX=PD5/PD6)
+CH32VM00X_EVT.menu.xserial.serial1.build.serial_flags=-DSERIAL_UART_INSTANCE=1 -DSERIAL_UART_PINMAP=-1
+CH32VM00X_EVT.menu.xserial.serial1_2=Serial=Serial1_1 (TX/RX=PD6/PD5)
+CH32VM00X_EVT.menu.xserial.serial1_2.build.serial_flags=-DSERIAL_UART_INSTANCE=1 -DSERIAL_UART_PINMAP=1
+CH32VM00X_EVT.menu.xserial.serial1_3=Serial=Serial1_3 (TX/RX=PC0/PC1)
+CH32VM00X_EVT.menu.xserial.serial1_3.build.serial_flags=-DSERIAL_UART_INSTANCE=1 -DSERIAL_UART_PINMAP=3
 CH32VM00X_EVT.menu.xserial.serial2=Serial=Serial2 (V005/6/7)
-CH32VM00X_EVT.menu.xserial.serial2.build.serial_flags=-DSERIAL_UART_INSTANCE=2
+CH32VM00X_EVT.menu.xserial.serial2.build.serial_flags=-DSERIAL_UART_INSTANCE=2 -DSERIAL_UART_PINMAP=-1
 CH32VM00X_EVT.menu.xserial.serialMulti=Dual Serial1-Serial2 (V005/6/7)
-CH32VM00X_EVT.menu.xserial.serialMulti.build.serial_flags=-DSERIAL_UART_ENABLE_ALL=1
+CH32VM00X_EVT.menu.xserial.serialMulti.build.serial_flags=-DSERIAL_UART_ENABLE_ALL=1 -DSERIAL_UART_PINMAP=-1
 CH32VM00X_EVT.menu.xserial.none=No Serial (smallest sketch)
 CH32VM00X_EVT.menu.xserial.none.build.serial_flags=-DHWSERIAL_NONE
 
@@ -440,20 +469,27 @@ CH32VM00X_EVT.menu.YperiADC.enable=enabled (default)
 CH32VM00X_EVT.menu.YperiADC.enable.build.periADC=-DADC_MODULE_ENABLED
 CH32VM00X_EVT.menu.YperiADC.disable=disabled
 CH32VM00X_EVT.menu.YperiADC.disable.build.periADC=
+
 CH32VM00X_EVT.menu.YperiUART.enable=enabled (default)
 CH32VM00X_EVT.menu.YperiUART.enable.build.periUART=-DUART_MODULE_ENABLED
 CH32VM00X_EVT.menu.YperiUART.disable=disabled
 CH32VM00X_EVT.menu.YperiUART.disable.build.periUART=
-CH32VM00X_EVT.menu.YperiSPI.enable=enabled (default)
+
+CH32VM00X_EVT.menu.YperiSPI.auto=Board default
+# (F4/A4 enabled; D4/J4 disabled)
+CH32VM00X_EVT.menu.YperiSPI.auto.build.periSPI={build.spi_default}
+CH32VM00X_EVT.menu.YperiSPI.enable=enabled (F4/A4 only)
 CH32VM00X_EVT.menu.YperiSPI.enable.build.periSPI=-DSPI_MODULE_ENABLED
 CH32VM00X_EVT.menu.YperiSPI.disable=disabled
 CH32VM00X_EVT.menu.YperiSPI.disable.build.periSPI=
+
 CH32VM00X_EVT.menu.YperiI2C.enable=enabled (default)
 CH32VM00X_EVT.menu.YperiI2C.enable.build.periI2C=-DI2C_MODULE_ENABLED -DOPT_I2C_SLAVE=1
 CH32VM00X_EVT.menu.YperiI2C.disableslave=I2C slave disabled
 CH32VM00X_EVT.menu.YperiI2C.disableslave.build.periI2C=-DI2C_MODULE_ENABLED -DOPT_I2C_SLAVE=0
 CH32VM00X_EVT.menu.YperiI2C.disable=I2C disabled
 CH32VM00X_EVT.menu.YperiI2C.disable.build.periI2C=
+
 CH32VM00X_EVT.menu.YperiTimer.enable=enabled (default)
 CH32VM00X_EVT.menu.YperiTimer.enable.build.periTimer=-DTIM_MODULE_ENABLED
 CH32VM00X_EVT.menu.YperiTimer.disable=disabled

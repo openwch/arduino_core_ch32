@@ -100,6 +100,20 @@
   #define PIN_SERIAL2_TX     PA4  /* UART2 default TX pin */
 #endif
 
+// Mapped serial pins
+// The VM00X datasheet shows 9 mappings for USART1 and 6 for USART2. To keep is short only a few are offered by the menu.
+#ifndef PIN_SERIAL1_1_RX
+  #define PIN_SERIAL1_1_RX     PD5  // UART1_1 pinmap RX pin
+#endif
+#ifndef PIN_SERIAL1_1_TX
+  #define PIN_SERIAL1_1_TX     PD6  // UART1_1 pinmap TX pin 
+#endif
+#ifndef PIN_SERIAL1_3_RX
+  #define PIN_SERIAL1_3_RX     PC1  // UART1_3 pinmap RX pin
+#endif
+#ifndef PIN_SERIAL1_3_TX
+  #define PIN_SERIAL1_3_TX     PC0  // UART1_3 pinmap TX pin 
+#endif
 
 
 // SPI definitions
@@ -158,5 +172,3 @@
     #define SERIAL_PORT_HARDWARE  Serial
   #endif
 #endif
-
-

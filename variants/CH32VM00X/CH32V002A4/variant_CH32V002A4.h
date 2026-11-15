@@ -16,12 +16,13 @@
 #ifndef IDE_MENU_PERIPHERALS   // defined when peripherals are enabled/disabled via the IDE menu
 #define                         ADC_MODULE_ENABLED
 #define                         UART_MODULE_ENABLED
-#define                         SPI_MODULE_ENABLED
+//#define                         SPI_MODULE_ENABLED  // Board default is SPI disabled
 #define                         I2C_MODULE_ENABLED
 #define                         TIM_MODULE_ENABLED
 #endif  // IDE_MENU_PERIPHERALS  
 
-/* CH32V002F4 Pins - same as CH32V003F4 TSSOP20 (18x GPIO, 8+3 ADC, 1xSER, no OPA */
+/* CH32V002A4 Pins - for now same pins as V003F4 (TSSOP20) (18x GPIO, 8+3 ADC, 1xSER, no OPA) */
+// TODO: Avoid having unavailable pins and use same pins as CH32V003A4 SOP16. 
 #define PA1                     PIN_A1
 #define PA2                     PIN_A0
 #define PC0                     2
@@ -40,40 +41,6 @@
 #define PD5                     PIN_A5
 #define PD6                     PIN_A6 
 #define PD7                     17
-
-/*
-#define PA0                     0         // N/A
-#define PA1                     PIN_A1
-#define PA2                     PIN_A0
-#define PA3                     3         // N/A
-#define PA4                     4          // N/A
-#define PA5                     5         // N/A
-#define PA6                     6         // N/A
-#define PA7                     7          // N/A
-#define PB0                     8             // N/A
-#define PB1                     9         // N/A
-#define PB2                     10         // N/A
-#define PB3                     11          // N/A
-#define PB4                     12          // N/A
-#define PB5                     13         // N/A
-#define PB6                     14          // N/A
-#define PC0                     15
-#define PC1                     16
-#define PC2                     17
-#define PC3                     18
-#define PC4                     PIN_A2
-#define PC5                     20
-#define PC6                     21
-#define PC7                     22
-#define PD0                     23
-#define PD1                     24
-#define PD2                     PIN_A3
-#define PD3                     PIN_A4 
-#define PD4                     PIN_A7
-#define PD5                     PIN_A5
-#define PD6                     PIN_A6 
-#define PD7                     30
-*/
 
 // Alternate pins number
 #define PD5_ALT1                (PD5  | ALT1)
@@ -101,7 +68,16 @@
 #endif
 
 
-
+// Peripheral Selection: SPI cannot be used with both I2C and UART
+// Board default is that SPI is not enabled. 
+// When SPI is enabled, the I2C and UART cannot both be used. UART1_3 is the only usable pinout
+#if defined(SPI_MODULE_ENABLED) && defined(I2C_MODULE_ENABLED) && defined(UART_MODULE_ENABLED) 
+  #error "CH32V002A4 cannot have SPI enabled with both I2C and UART."
+#elif (defined(SPI_MODULE_ENABLED) && defined(UART_MODULE_ENABLED) && SERIAL_UART_PINMAP!=3)
+  #error "CH32V002A4 select Serial1_3 when having SPI enabled."
+  #define BOARD_DEFAULT_SERIALMAP 3   
+  // Defined BOARD_DEFAULT_SERIALMAP to prevent further errors. User still needs to choose.
+#endif
 
 
 // UART Definitions
@@ -110,8 +86,7 @@
 //    TX: PD5=TX1=MISO
 // CH32V002A4M6 SOP16 has RX1/TX1, but it is shared with SPI. 
 // When SPI is enabled alternative pins UART_3 (RX'/TX'=PC1/PC0) are used, but these conflict with I2C
-// If I2C is enabled we cannot use these alternatives but there are no other combinations available.
-// Using both I2C/SPI and UART is too much (but flash gets limited then also)
+// If I2C is enabled the default UART pins are used as board default, but user can override this. 
 #if defined(SERIAL_UART_ENABLE_ALL)
   #error "CH32V002A4 only supports Serial1; Dual Serial is unavailable"
 #endif
@@ -122,23 +97,36 @@
 #ifndef BOARD_DEFAULT_SERIAL
   #define BOARD_DEFAULT_SERIAL 1
 #endif
+#ifndef BOARD_DEFAULT_SERIALMAP
+  #if defined(I2C_MODULE_ENABLED)
+    #define BOARD_DEFAULT_SERIALMAP 0
+  #else
+    #define BOARD_DEFAULT_SERIALMAP 3   // use pin-remap UART_3
+  #endif
+#endif
 
 // Default pins for each hardware serial port.
 #ifndef PIN_SERIAL1_RX
-  #if defined(I2C_MODULE_ENABLED)
-    #define PIN_SERIAL1_RX         PD6
-  #else  
-    #define PIN_SERIAL1_RX         PC1   // use pin-remap UART_3
-  #endif // I2C_MODULE_ENABLED
-  #endif
-  #ifndef PIN_SERIAL1_TX
-  #if defined(I2C_MODULE_ENABLED)
-    #define PIN_SERIAL1_TX         PD5
-  #else  
-    #define PIN_SERIAL1_TX         PC0   // use pin-remap UART_3
-  #endif // I2C_MODULE_ENABLED
-  #endif
+  #define PIN_SERIAL1_RX         PD6
+#endif
+#ifndef PIN_SERIAL1_TX
+  #define PIN_SERIAL1_TX         PD5
+#endif
 
+// Mapped serial pins
+// The VM00X datasheet shows 9 mappings for USART1 and 6 for USART2. To keep is short only a few are offered by the menu.
+#ifndef PIN_SERIAL1_1_RX
+  #define PIN_SERIAL1_1_RX     PD5  // UART1_1 pinmap RX pin
+#endif
+#ifndef PIN_SERIAL1_1_TX
+  #define PIN_SERIAL1_1_TX     PD6  // UART1_1 pinmap TX pin 
+#endif
+#ifndef PIN_SERIAL1_3_RX
+  #define PIN_SERIAL1_3_RX     PC1  // UART1_3 pinmap RX pin
+#endif
+#ifndef PIN_SERIAL1_3_TX
+  #define PIN_SERIAL1_3_TX     PC0  // UART1_3 pinmap TX pin 
+#endif
 
 
 // SPI definitions
@@ -202,5 +190,3 @@
     #define SERIAL_PORT_HARDWARE  Serial
   #endif
 #endif
-
-
