@@ -46,6 +46,10 @@ jobs:
         if: '!cancelled()'
         run: python3 ./arduino_core_ch32/tools/build_examples.py CH32V30x
 
+      - name: CH32V4x7 - Compile Sketches
+        if: '!cancelled()'
+        run: python3 ./arduino_core_ch32/tools/build_examples.py CH32V4x7
+
       - name: CH32VM00X - Compile Sketches
         if: '!cancelled()'
         run: python3 ./arduino_core_ch32/tools/build_examples.py CH32VM00X

@@ -22,6 +22,10 @@ CORE_INSTALL_CMD = (
     'rsync -a --exclude=.git --exclude=build ./ "$CORE_DIR/0.0.0/"'
 )
 
+# Both MemBrowse workflows install Python before building a checkout. Select it
+# explicitly because the synthetic 0.0.0 platform has no package dependencies.
+UF2_PYTHON_OPTION = "--build-property tools.uf2.python=python3"
+
 
 def example_is_skipped(example: str, skip_keys: list[str]) -> bool:
     sketch_dir = ROOT / example
@@ -80,6 +84,7 @@ def generate_targets(config: dict) -> list[dict]:
             build_cmd = (
                 CORE_INSTALL_CMD + ' && '
                 f'arduino-cli compile --fqbn {mcu["fqbn"]} '
+                f'{UF2_PYTHON_OPTION} '
                 f'--build-path "$PWD/{build_dir}" {compile_path}'
             )
             targets.append(
@@ -97,7 +102,8 @@ def generate_targets(config: dict) -> list[dict]:
     for case in miscellaneous_builds('ch32-community:ch32v'):
         sketch = Path(case['sketch']).name
         configuration = case['name'].removesuffix('-' + sketch)
-        compile_args = ['arduino-cli', 'compile', '--fqbn', case['fqbn']]
+        compile_args = ['arduino-cli', 'compile', '--fqbn', case['fqbn'],
+                        *shlex.split(UF2_PYTHON_OPTION)]
         for key, value in case['build_properties'].items():
             compile_args.extend(['--build-property', f'{key}={value}'])
         build_dir = case['build_dir']

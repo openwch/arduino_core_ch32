@@ -4,8 +4,37 @@
 commit `84444ddb9d2914edf7f6d9e89a7ce41b53d64d98`. See `LICENSE.txt`.
 
 The platform provides optional UF2 conversion and upload recipes. Existing
-boards keep their current output formats and upload tools. Python 3 must be
-available as `python` on Windows or `python3` on other hosts.
+boards keep their current output formats and upload tools.
+
+## Python dependency
+
+Boards Manager installs the pinned `pqt-python3` tool
+(`1.0.1-base-3a57aed-1`) from the
+[CH32 package index](https://github.com/ch32-community/board_manager_files).
+It reuses the Python archives distributed by
+[Arduino-Pico](https://github.com/earlephilhower/arduino-pico):
+
+- **Windows and macOS:** a private Python interpreter is installed with the
+  board package. No separate Python installation or `PATH` change is needed.
+- **Linux:** the tool is a wrapper around the system's `python3`. Install
+  Python 3 with your distribution's package manager if it is missing.
+
+No additional Python packages are needed. Both UF2 recipes select the tool's
+interpreter explicitly and run it in isolated mode (`-I`). The upload wrapper
+uses the same interpreter and isolation for its converter subprocess.
+
+The core recipes and the package-index dependency must be updated together.
+After updating the index, reinstall the CH32 package in Boards Manager if an
+existing installation lacks the tool; copying core files alone does not install
+tool dependencies. Restart Arduino IDE after installation. For an older core
+that still reports `exec: "python": executable file not found`, installing
+Python 3 from [python.org](https://www.python.org/downloads/) with `python` on
+`PATH` remains a workaround.
+
+For a Git checkout, install the CH32 package's tool dependencies first, or
+override `tools.uf2.python` with an absolute Python 3 executable path in
+`platform.local.txt` or an Arduino CLI `--build-property` argument. The example
+build runner supplies the interpreter that is running `tools/build_examples.py`.
 
 ## Board configuration
 

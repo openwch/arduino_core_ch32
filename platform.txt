@@ -207,12 +207,12 @@ tools.wchisp.upload.pattern="{path}{cmd}" {upload.verbose} flash "{build.path}/{
 # UF2 is opt-in: boards supply the family ID and application flash offset.
 # Enter the bootloader first and select its mounted volume as the upload port.
 # Conversion-only mode avoids broadcasting firmware to every mounted UF2 drive.
-tools.uf2.python=python3
-tools.uf2.python.windows=python
-tools.uf2.convert.pattern="{tools.uf2.python}" "{runtime.platform.path}/tools/uf2/uf2conv.py" -c -f {build.uf2_family} -b {build.flash_offset} -o "{build.path}/{build.project_name}.uf2" "{build.path}/{build.project_name}.bin"
+# Installed by Boards Manager; local checkouts may override tools.uf2.python.
+tools.uf2.python={runtime.tools.pqt-python3-1.0.1-base-3a57aed-1.path}/python3
+tools.uf2.convert.pattern="{tools.uf2.python}" -I "{runtime.platform.path}/tools/uf2/uf2conv.py" -c -f {build.uf2_family} -b {build.flash_offset} -o "{build.path}/{build.project_name}.uf2" "{build.path}/{build.project_name}.bin"
 tools.uf2.upload.params.verbose=
 tools.uf2.upload.params.quiet=
-tools.uf2.upload.pattern="{tools.uf2.python}" "{runtime.platform.path}/tools/uf2/upload.py" --volume "{serial.port}" --family {build.uf2_family} --base {build.flash_offset} "{build.path}/{build.project_name}.bin"
+tools.uf2.upload.pattern="{tools.uf2.python}" -I "{runtime.platform.path}/tools/uf2/upload.py" --volume "{serial.port}" --family {build.uf2_family} --base {build.flash_offset} "{build.path}/{build.project_name}.bin"
 
 
 # Debugger configuration (general options)

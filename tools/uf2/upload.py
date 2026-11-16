@@ -31,7 +31,7 @@ def main(argv=None):
 
     # Conversion-only mode writes exclusively to the explicitly selected volume.
     return subprocess.run([
-        sys.executable, str(Path(__file__).with_name('uf2conv.py')),
+        sys.executable, '-I', str(Path(__file__).with_name('uf2conv.py')),
         '-c', '-f', args.family, '-b', args.base,
         '-o', str(volume / 'NEW.UF2'), args.input,
     ]).returncode

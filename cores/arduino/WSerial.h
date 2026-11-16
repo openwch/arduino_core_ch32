@@ -5,12 +5,28 @@
 //#include "HardwareSerial.h"   // MxRD 261013: moved to below to allow guards for HAVE_HWSERIALx
 
 #if defined(USE_TINYUSB)
-// Discover the library for ordinary Serial sketches. Core compilation uses
-// the internal header because Arduino omits library include paths for the core.
+// Discover the library for ordinary Serial sketches. Use the selected library's
+// headers when available; Arduino omits library include paths for core sources.
 #if CH32_LIB_DISCOVERY_PHASE
 #include <Adafruit_TinyUSB.h>
+#elif __has_include(<arduino/Adafruit_USBD_CDC.h>)
+#include <arduino/Adafruit_USBD_CDC.h>
+#include <tusb_option.h>
 #else
 #include "Adafruit_USBD_CDC.h"
+#endif
+// Core sources use the bundled declarations. An external library must preserve
+// their ABI; TinyUSB increments this version when its core-facing API changes.
+#if !defined(TINYUSB_API_VERSION) || TINYUSB_API_VERSION != 30000
+#error                                                                         \
+    "Incompatible Adafruit TinyUSB API: use a library with API version 30000, update the CH32 board package, or remove the sketchbook TinyUSB library to use the bundled default."
+#endif
+#if defined(CH32V4x7) && __has_include(<tusb_option.h>)
+#if !defined(OPT_MCU_CH32V4X7) || !defined(CFG_TUSB_MCU) ||                    \
+    CFG_TUSB_MCU != OPT_MCU_CH32V4X7
+#error                                                                         \
+    "Adafruit TinyUSB is too old for Metro CH32V407/467: install an update with CH32V4x7 support, or remove the sketchbook TinyUSB library to use the bundled default."
+#endif
 #endif
 #if defined(Serial)
   #undef Serial   // MxRD: undef Serial defined when Multiple Serial was selected

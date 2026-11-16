@@ -75,6 +75,22 @@
       "skip_keys": ["CH32V30x"]
     },
     {
+      "name": "ch32v4x7-metro-v407",
+      "fqbn": "ch32-community:ch32v:CH32V4x7_BOARDS:pnum=ADAFRUIT_METRO_CH32V407",
+      "build_dir": "build/CH32V4x7_Metro_V407",
+      "ld": "system/CH32V4x7/SRC/Ld/Link.ld",
+      "linker_vars": "__FLASH_SIZE=491520 __RAM_SIZE=203776 __FLASH_ORIGIN=0x8000",
+      "skip_keys": ["CH32V4x7", "CH32V4x7-ADAFRUIT_METRO_CH32V407"]
+    },
+    {
+      "name": "ch32v4x7-metro-v467",
+      "fqbn": "ch32-community:ch32v:CH32V4x7_BOARDS:pnum=ADAFRUIT_METRO_CH32V467",
+      "build_dir": "build/CH32V4x7_Metro_V467",
+      "ld": "system/CH32V4x7/SRC/Ld/Link.ld",
+      "linker_vars": "__FLASH_SIZE=491520 __RAM_SIZE=203776 __FLASH_ORIGIN=0x8000",
+      "skip_keys": ["CH32V4x7", "CH32V4x7-ADAFRUIT_METRO_CH32V467"]
+    },
+    {
       "name": "ch32x035",
       "fqbn": "ch32-community:ch32v:CH32X035_EVT:dbg=enable_sym",
       "build_dir": "build/CH32X035",

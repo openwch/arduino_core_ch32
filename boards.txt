@@ -1286,3 +1286,69 @@ CH32L10x_EVT.menu.xserial.serialMulti=Multiple (Serial1-Serial4)
 CH32L10x_EVT.menu.xserial.serialMulti.build.serial_flags=-DSERIAL_UART_ENABLE_ALL=1
 CH32L10x_EVT.menu.xserial.none=No Serial (smallest sketch)
 CH32L10x_EVT.menu.xserial.none.build.serial_flags=-DHWSERIAL_NONE
+
+##############################################################################
+##CH32V4x7 Board series
+
+CH32V4x7_BOARDS.name=CH32V4x7
+CH32V4x7_BOARDS.build.board=CH32V4x7_BOARDS
+CH32V4x7_BOARDS.debug.tool=
+
+# Shared Metro configuration: preserve the installed 32 KiB TinyUF2 bootloader.
+CH32V4x7_BOARDS.build.core=arduino
+CH32V4x7_BOARDS.build.series=CH32V4x7
+CH32V4x7_BOARDS.build.variant=CH32V4x7/ADAFRUIT_METRO
+CH32V4x7_BOARDS.build.variant_h=variant_ADAFRUIT_METRO.h
+CH32V4x7_BOARDS.build.mcu=QingKe-V3V
+CH32V4x7_BOARDS.build.march=rv32imac
+CH32V4x7_BOARDS.build.mabi=ilp32
+CH32V4x7_BOARDS.build.f_cpu=100000000
+CH32V4x7_BOARDS.build.flags.clock=-DF_CPU=100000000 -DHSE_VALUE=25000000
+CH32V4x7_BOARDS.build.flags.optimize=-Os
+CH32V4x7_BOARDS.build.flags.debug=-DNDEBUG
+CH32V4x7_BOARDS.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -Wl,--defsym=__FLASH_ORIGIN=0x8000
+CH32V4x7_BOARDS.build.math_lib_gcc=-lm
+CH32V4x7_BOARDS.build.ch_extra_lib=
+CH32V4x7_BOARDS.build.IQ_math_RV32=
+CH32V4x7_BOARDS.build.serial_flags=-DSERIAL_UART_INSTANCE=1
+CH32V4x7_BOARDS.build.extra_flags=-DWIRE_I3C -DOPT_I2C_SLAVE=0
+CH32V4x7_BOARDS.build.vid=0x239A
+CH32V4x7_BOARDS.build.usb_flags=-DUSBCON -DUSE_TINYUSB -DUSB_VID={build.vid} -DUSB_PID={build.pid} "-I{runtime.platform.path}/libraries/Adafruit_TinyUSB_Arduino/src/arduino"
+CH32V4x7_BOARDS.build.flash_offset=0x8000
+CH32V4x7_BOARDS.build.uf2_family=0x7b8c32a7
+CH32V4x7_BOARDS.build.preferred_out_format=uf2
+CH32V4x7_BOARDS.upload.maximum_size=491520
+CH32V4x7_BOARDS.upload.maximum_data_size=203776
+
+# USB discovery identifies the family; choose the fitted chip in Board select.
+CH32V4x7_BOARDS.vid.0=0x239A
+CH32V4x7_BOARDS.pid.0=0x817D
+CH32V4x7_BOARDS.vid.1=0x239A
+CH32V4x7_BOARDS.pid.1=0x817F
+
+# Clock Select
+CH32V4x7_BOARDS.menu.clock.100MHz=100 MHz (hardware I2C)
+CH32V4x7_BOARDS.menu.clock.100MHz.build.f_cpu=100000000
+CH32V4x7_BOARDS.menu.clock.100MHz.build.flags.clock=-DF_CPU=100000000 -DHSE_VALUE=25000000
+CH32V4x7_BOARDS.menu.clock.200MHz=200 MHz (I3C Wire unavailable)
+CH32V4x7_BOARDS.menu.clock.200MHz.build.f_cpu=200000000
+CH32V4x7_BOARDS.menu.clock.200MHz.build.flags.clock=-DF_CPU=200000000 -DHSE_VALUE=25000000
+
+# Upload menu
+CH32V4x7_BOARDS.menu.upload_method.uf2=TinyUF2 (USB drive)
+CH32V4x7_BOARDS.menu.upload_method.uf2.upload.tool=uf2
+CH32V4x7_BOARDS.menu.upload_method.uf2.upload.tool.default=uf2
+CH32V4x7_BOARDS.menu.upload_method.uf2.upload.protocol=
+CH32V4x7_BOARDS.menu.upload_method.uf2.recipe.objcopy.uf2.pattern={tools.uf2.convert.pattern}
+
+# Adafruit Metro CH32V407
+CH32V4x7_BOARDS.menu.pnum.ADAFRUIT_METRO_CH32V407=Adafruit Metro CH32V407
+CH32V4x7_BOARDS.menu.pnum.ADAFRUIT_METRO_CH32V407.build.board=ADAFRUIT_METRO_CH32V407
+CH32V4x7_BOARDS.menu.pnum.ADAFRUIT_METRO_CH32V407.build.chip=CH32V407
+CH32V4x7_BOARDS.menu.pnum.ADAFRUIT_METRO_CH32V407.build.pid=0x817D
+
+# Adafruit Metro CH32V467
+CH32V4x7_BOARDS.menu.pnum.ADAFRUIT_METRO_CH32V467=Adafruit Metro CH32V467
+CH32V4x7_BOARDS.menu.pnum.ADAFRUIT_METRO_CH32V467.build.board=ADAFRUIT_METRO_CH32V467
+CH32V4x7_BOARDS.menu.pnum.ADAFRUIT_METRO_CH32V467.build.chip=CH32V467
+CH32V4x7_BOARDS.menu.pnum.ADAFRUIT_METRO_CH32V467.build.pid=0x817F
