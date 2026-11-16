@@ -2,6 +2,12 @@
 
 ### MemBrowse
 
+The report workflow uploads reports with `MEMBROWSE_API_KEY` for same-repository
+PRs and pushes. Fork PRs upload without an API key using MemBrowse's tokenless
+GitHub mode, which requires the project to be marked as open source in the
+MemBrowse Portal. The separate `workflow_run` comment workflow uses the base
+repository's secrets and permissions to fetch the summary and post the PR comment.
+
 [MemBrowse](https://membrowse.com/public/ch32-community/arduino_core_ch32) is a handy tool to track changes in used flash/ram memory as result of a PR.
 - For each board the i2c_scanner example is used as basis for the report.
 - To add new boards or variants, edit the targets configuration: /.github/membrowse-targets.json

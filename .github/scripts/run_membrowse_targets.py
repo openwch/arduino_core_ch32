@@ -61,27 +61,24 @@ def main() -> int:
             target["ld"],
             "--map-file",
             target["map_file"],
+            # Fork PRs have no repository secrets. In GitHub mode, MemBrowse
+            # supports tokenless uploads for projects marked as open source.
+            "--upload",
+            "--github",
+            "--target-name",
+            target["target_name"],
         ]
 
         if api_key:
-            report_command.extend(
-                [
-                    "--upload",
-                    "--github",
-                    "--target-name",
-                    target["target_name"],
-                    "--api-key",
-                    api_key,
-                ]
-            )
-            api_url = os.environ.get("MEMBROWSE_API_URL", "").strip()
-            if api_url:
-                report_command.extend(["--api-url", api_url])
+            report_command.extend(["--api-key", api_key])
+        api_url = os.environ.get("MEMBROWSE_API_URL", "").strip()
+        if api_url:
+            report_command.extend(["--api-url", api_url])
 
         for definition in shlex.split(target["linker_vars"]):
             report_command.extend(["--def", definition])
 
-        action = "uploading report" if api_key else "analyzing locally (no API key available)"
+        action = "uploading report" if api_key else "uploading report (tokenless)"
         print(f"[{index}/{len(targets)}] {target['target_name']}: {action}")
         if run(report_command) != 0:
             failures.append((target["target_name"], "MemBrowse analysis/upload failed"))
@@ -92,8 +89,7 @@ def main() -> int:
             print(f"- {target_name}: {reason}", file=sys.stderr)
         return 1
 
-    result = "built and uploaded" if api_key else "built and analyzed locally"
-    print(f"\nSuccessfully {result} {len(targets)} targets for {args.mcu}.")
+    print(f"\nSuccessfully built and uploaded {len(targets)} targets for {args.mcu}.")
     return 0
 
 
