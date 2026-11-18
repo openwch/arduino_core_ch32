@@ -41,6 +41,15 @@ WEAK const PinMap PinMap_ADC[] = {
 };
 #endif
 
+//*** DAC ***
+#ifdef DAC_MODULE_ENABLED
+WEAK const PinMap PinMap_DAC[] = {
+  {PA_4_ALT2, DAC, CH_PIN_DATA_EXT(CH_MODE_INPUT, CH_CNF_INPUT_ANALOG, 0, AFIO_NONE, 1)}, // DAC_Channel1
+  {PA_5_ALT2, DAC, CH_PIN_DATA_EXT(CH_MODE_INPUT, CH_CNF_INPUT_ANALOG, 0, AFIO_NONE, 2)}, // DAC_Channel2
+  {NC,    NP,   0}
+};
+#endif
+
 //*** TIM (PWM) ***
 // Default (no remap) timer pins, last number = channel. PA0-PA3 use TIM2
 // (TIM5 shares them); PA9/PA10 are left out for Serial.

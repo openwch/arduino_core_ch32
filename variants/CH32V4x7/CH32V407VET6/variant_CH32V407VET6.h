@@ -18,6 +18,7 @@
 #define                         I2C_MODULE_ENABLED
 #define                         ADC_MODULE_ENABLED
 #define                         TIM_MODULE_ENABLED
+#define                         DAC_MODULE_ENABLED
 
 /*
  * CH32V407VET6 (LQFP100). D0-D21 follow the CH32V307VCT6 variant, the other
@@ -99,6 +100,10 @@
 #define PE10                    72
 #define PE11                    73
 #define PE12                    74  // BOOT0
+
+// analogWrite on these gives a DAC voltage (0-3.3 V) instead of PWM
+#define PA4_ALT2                (PA4  | ALT2) // DAC_Channel1
+#define PA5_ALT2                (PA5  | ALT2) // DAC_Channel2
 
 #define NUM_DIGITAL_PINS        75
 #define NUM_ANALOG_INPUTS       16
