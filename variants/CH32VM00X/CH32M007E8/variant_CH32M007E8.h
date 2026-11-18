@@ -88,6 +88,17 @@
   #define BOARD_DEFAULT_SERIAL 1
 #endif
 
+// This core takes the default Serial from SERIAL_UART_INSTANCE and PIN_SERIAL_RX/TX
+#ifndef SERIAL_UART_INSTANCE
+  #define SERIAL_UART_INSTANCE  BOARD_DEFAULT_SERIAL
+#endif
+#ifndef PIN_SERIAL_RX
+  #define PIN_SERIAL_RX         PD6
+#endif
+#ifndef PIN_SERIAL_TX
+  #define PIN_SERIAL_TX         PD5
+#endif
+
 #if SERIAL_UART_INSTANCE==1 && defined(SERIAL_UART_PINMAP) && SERIAL_UART_PINMAP==3
   #error "CH32M007E8 Serial1_3 is not available"
 #endif

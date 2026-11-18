@@ -98,6 +98,17 @@
 #ifndef BOARD_DEFAULT_SERIAL
   #define BOARD_DEFAULT_SERIAL 1
 #endif
+
+// This core takes the default Serial from SERIAL_UART_INSTANCE and PIN_SERIAL_RX/TX
+#ifndef SERIAL_UART_INSTANCE
+  #define SERIAL_UART_INSTANCE  BOARD_DEFAULT_SERIAL
+#endif
+#ifndef PIN_SERIAL_RX
+  #define PIN_SERIAL_RX         PD6
+#endif
+#ifndef PIN_SERIAL_TX
+  #define PIN_SERIAL_TX         PD5
+#endif
 #ifndef BOARD_DEFAULT_SERIALMAP
   #define BOARD_DEFAULT_SERIALMAP 2
 #endif
