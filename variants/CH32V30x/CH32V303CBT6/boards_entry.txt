@@ -1,0 +1,12 @@
+# This file help to add generic board entry.
+
+
+
+# CH32V303CBT6
+CH32V30x_EVT.menu.pnum.CH32V303CBT6=CH32V303CBT6 Generic board
+CH32V30x_EVT.menu.pnum.CH32V303CBT6.upload.maximum_size=131072
+CH32V30x_EVT.menu.pnum.CH32V303CBT6.upload.maximum_data_size=32768
+CH32V30x_EVT.menu.pnum.CH32V303CBT6.build.board=CH32V303CBT6
+CH32V30x_EVT.menu.pnum.CH32V303CBT6.build.product_line=CH32V303
+CH32V30x_EVT.menu.pnum.CH32V303CBT6.build.variant=CH32V30x/CH32V303CBT6
+
