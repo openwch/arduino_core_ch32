@@ -4,6 +4,14 @@
 #include "variant.h"
 #include "HardwareSerial.h"
 
+#if defined(CH32X035) && defined(CH32X035_USB_CDC)
+#if defined(USE_TINYUSB)
+#error "CH32X035 USB CDC Serial cannot be used with TinyUSB."
+#endif
+#include "USBSerial.h"
+#define Serial SerialUSB
+#endif
+
 #if defined(USE_TINYUSB)
 #include "Adafruit_USBD_CDC.h"
 #define Serial SerialTinyUSB

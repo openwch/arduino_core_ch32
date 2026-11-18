@@ -136,6 +136,21 @@ void loop() {
 
 Analog inputs are also `A0`, `A1`, ... The default `Serial` is the USART wired to the WCH-Link on the EVT board. Other UARTs: `HardwareSerial Serial2(USART2);`, with the pins from the variant's pin map (USART2 on PA2/PA3 for the V20x and X035 boards; the other variants list only the `Serial` UART so far).
 
+On CH32X035, select **Tools → USB support → USB CDC Serial** and the **48 MHz**
+clock to use `Serial` over the native USB port. The default option keeps
+`Serial` on the hardware UART; in USB mode that UART remains available as
+`Serial1`. `Serial.begin(115200)` starts USB CDC (the baud value does not set
+USB speed). `if (Serial)` indicates that the host has opened the port. The
+receive buffer holds one 64-byte packet; USB flow control pauses the host
+until the sketch reads it. Writes can return fewer bytes and set
+`Serial.getWriteError()` when the host disconnects or does not accept data
+within 250 ms. Use USB serial from the main program, not an interrupt.
+See [USBSerial.ino](examples/USBSerial/USBSerial.ino). The USB descriptors
+retain WCH's example VID/PID (`1a86:fe0c`); check their suitability before
+distributing a product. Native USB serial and USB-PD together have not been
+tested. A PlatformIO-built USB firmware image compiled and passed flash
+readback, but did not enumerate in the latest hardware test.
+
 Library examples are under **File → Examples → (Examples for CH32 MCU EVT Boards)**: EEPROM, SPI (SPI flash), Wire (I2C scanner, AT24C02, I2C slave), USBPD_SINK.
 
 ### Using the WCH peripheral drivers
