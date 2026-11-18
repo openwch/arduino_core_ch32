@@ -1,0 +1,59 @@
+
+// Alternate pin names
+#define PC_0_ALT1                (PC_0  | ALT1)
+#define PC_1_ALT1                (PC_1  | ALT1)
+#define PC_2_ALT1                (PC_2  | ALT1)
+#define PC_3_ALT1                (PC_3  | ALT1)
+#define PC_4_ALT1                (PC_4  | ALT1)
+#define PC_6_ALT1                (PC_6  | ALT1)
+#define PC_7_ALT1                (PC_7  | ALT1)
+#define PD_1_ALT1                (PD_1  | ALT1)
+
+#define PA_1_ALT2                (PA_1  | ALT2)
+#define PA_2_ALT2                (PA_2  | ALT2)
+#define PC_0_ALT2                (PC_0  | ALT2)
+#define PC_1_ALT2                (PC_1  | ALT2)
+#define PC_3_ALT2                (PC_3  | ALT2)
+#define PC_4_ALT2                (PC_4  | ALT2)
+#define PD_1_ALT2                (PD_1  | ALT2)
+#define PD_7_ALT2                (PD_7  | ALT2)
+
+#define PC_1_ALT3                (PC_1  | ALT3)
+#define PC_3_ALT3                (PC_3  | ALT3)
+#define PC_4_ALT3                (PC_4  | ALT3)
+#define PC_6_ALT3                (PC_6  | ALT3)
+#define PC_7_ALT3                (PC_7  | ALT3)
+#define PD_4_ALT3                (PD_4  | ALT3)
+#define PD_5_ALT3                (PD_5  | ALT3)
+#define PD_6_ALT3                (PD_6  | ALT3)
+
+#define PC_7_ALT4                (PC_7  | ALT4)
+
+
+/* SYS_WKUP */
+#ifdef PWR_WAKEUP_PIN1
+  SYS_WKUP1 = PA_0,
+#endif
+#ifdef PWR_WAKEUP_PIN2
+  SYS_WKUP2 = NC,
+#endif
+#ifdef PWR_WAKEUP_PIN3
+  SYS_WKUP3 = NC,
+#endif
+#ifdef PWR_WAKEUP_PIN4
+  SYS_WKUP4 = NC,
+#endif
+#ifdef PWR_WAKEUP_PIN5
+  SYS_WKUP5 = NC,
+#endif
+#ifdef PWR_WAKEUP_PIN6
+  SYS_WKUP6 = NC,
+#endif
+#ifdef PWR_WAKEUP_PIN7
+  SYS_WKUP7 = NC,
+#endif
+#ifdef PWR_WAKEUP_PIN8
+  SYS_WKUP8 = NC,
+#endif
+
+

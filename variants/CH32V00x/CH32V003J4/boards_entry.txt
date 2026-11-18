@@ -1,0 +1,11 @@
+# This file help to add generic board entry.
+
+
+
+# CH32V003J4
+CH32V003J4.menu.pnum.CH32V003J4=CH32V003J4 SOP8
+CH32V003J4.menu.pnum.CH32V003J4.upload.maximum_size=16384
+CH32V003J4.menu.pnum.CH32V003J4.upload.maximum_data_size=2048
+CH32V003J4.menu.pnum.CH32V003J4.build.board=CH32V003J4
+CH32V003J4.menu.pnum.CH32V003J4.build.variant=CH32V00x/CH32V003J4
+
