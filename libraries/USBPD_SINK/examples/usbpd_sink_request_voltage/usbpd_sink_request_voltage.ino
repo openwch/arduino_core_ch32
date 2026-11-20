@@ -40,7 +40,7 @@ void setup() {
 
 #if defined(TIM_MODULE_ENABLED)
     // Attach process to the HardwareTimer instance for Timer 3, could also be set to another timer
-    USBPD_Timer->setOverflow(5000, HERTZ_FORMAT); // 5ms
+    USBPD_Timer->setOverflow(5000, MICROSEC_FORMAT); // 5ms
     USBPD_Timer->attachInterrupt(USBPD_HWTIM_Callback);
     USBPD_Timer->resume();
 #endif
