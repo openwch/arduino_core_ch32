@@ -1,0 +1,142 @@
+name: Dev build
+
+# Builds main as a dev version (1.0.8-dev.1, ...) for the Boards Manager. Run it by hand from Actions;
+# enter a version in "remove" to take that build out instead.
+
+on:
+  workflow_dispatch:
+    inputs:
+      remove:
+        description: Dev version to remove (leave empty to build main)
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dev-index
+  cancel-in-progress: false
+
+env:
+  STABLE_INDEX_REPO: openwch/board_manager_files
+  STABLE_INDEX_REF: main
+  STABLE_INDEX_PATH: package_ch32v_index.json
+  DEV_INDEX: package_ch32v_dev_index.json
+  KEEP: "10"
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  build:
+    if: ${{ inputs.remove == '' }}
+    runs-on: ubuntu-latest
+    steps:
+      # GitHub's tag archives omit submodules such as libraries/Adafruit_TinyUSB_Arduino
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          path: core
+
+      - name: Pick the version
+        run: |
+          # through the API, raw.githubusercontent.com can be a few minutes old
+          gh api -H "Accept: application/vnd.github.raw" \
+            "repos/$STABLE_INDEX_REPO/contents/$STABLE_INDEX_PATH?ref=$STABLE_INDEX_REF" > stable.json \
+            || { echo "::error::Can't read the stable index $STABLE_INDEX_REPO/$STABLE_INDEX_PATH"; exit 1; }
+          git -C core fetch -q origin dev-index && git -C core show "FETCH_HEAD:$DEV_INDEX" > dev.json || rm -f dev.json
+          git -C core tag -l 'dev-*' > dev_tags.txt
+          VERSION=$(python3 core/.github/scripts/dev_index.py version stable.json core/platform.txt dev.json dev_tags.txt)
+          {
+            echo "VERSION=$VERSION"
+            echo "NAME=arduino_core_ch32-$VERSION"
+            echo "TAG=dev-$VERSION"
+            echo "DATE=$(date -u +%Y-%m-%d)"
+          } >> "$GITHUB_ENV"
+          echo "Dev version: $VERSION"
+
+      - name: Write the release notes
+        run: |
+          cd core
+          PREV=$(git tag -l --sort=-creatordate | grep -E '^(dev-)?[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+          CHANGES=$(git log --no-merges --format='- %s' ${PREV:+$PREV..}"$GITHUB_SHA")
+          {
+            echo "Dev build of \`main\` from $DATE (commit ${GITHUB_SHA::7})."
+            echo
+            echo "It has the fixes merged since the last release, before they are tested on every board,"
+            echo "so it may still have problems. For normal use, stay on the latest release."
+            echo
+            echo "**What changed${PREV:+ since $PREV}:**"
+            echo "${CHANGES:-- nothing new since $PREV}"
+            echo
+            echo "**To install it:** add this URL under File > Preferences > Additional boards manager URLs,"
+            echo "next to the stable one, then pick $VERSION for CH32 MCU EVT Boards in the Boards Manager:"
+            echo
+            echo "    https://raw.githubusercontent.com/$GITHUB_REPOSITORY/dev-index/$DEV_INDEX"
+          } > ../notes.md
+          cat ../notes.md
+
+      - name: Build the zip
+        run: |
+          sed -i -e "s/^version=.*/version=$VERSION/" -e "s/^name=\(.*\)/name=\1 (dev)/" core/platform.txt
+          # copy, not move: checkout keeps its credentials for the core folder only
+          cp -r core "$NAME"
+          zip -qrXy "$NAME.zip" "$NAME" -x '*/.git' '*/.git/*' '*/.github/*'
+          unzip -l "$NAME.zip" | grep -q "$NAME/libraries/Adafruit_TinyUSB_Arduino/src/" \
+            || { echo "::error::Adafruit_TinyUSB_Arduino is missing from $NAME.zip"; exit 1; }
+
+      - name: Publish the prerelease
+        run: |
+          gh release create "$TAG" "$NAME.zip" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --prerelease --title "Dev build $VERSION ($DATE)" --notes-file notes.md
+
+      - name: Update the dev index
+        run: |
+          REMOTE="https://x-access-token:${GH_TOKEN}@github.com/$GITHUB_REPOSITORY.git"
+          if git -C core fetch -q "$REMOTE" dev-index; then
+            git -C core worktree add -q ../index FETCH_HEAD
+          else
+            git -C core worktree add -q --orphan -b dev-index ../index
+          fi
+          URL="https://github.com/$GITHUB_REPOSITORY/releases/download/$TAG/$NAME.zip"
+          RELEASE="https://github.com/$GITHUB_REPOSITORY/releases/tag/$TAG"
+          python3 core/.github/scripts/dev_index.py add "index/$DEV_INDEX" "$VERSION" "$NAME.zip" \
+            "$URL" "$RELEASE" "$KEEP" core/boards.txt stable.json > dropped.txt
+          # the tags stay, so their numbers are not used again
+          while read -r old; do
+            gh release delete "dev-$old" --repo "$GITHUB_REPOSITORY" --yes || true
+          done < dropped.txt
+          cd index
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$DEV_INDEX"
+          git commit -qm "Added dev build $VERSION"
+          git push -q "$REMOTE" HEAD:refs/heads/dev-index
+          echo "Published dev build **$VERSION**." >> "$GITHUB_STEP_SUMMARY"
+
+  remove:
+    if: ${{ inputs.remove != '' }}
+    runs-on: ubuntu-latest
+    env:
+      OLD: ${{ inputs.remove }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github/scripts
+          path: core
+
+      - uses: actions/checkout@v7
+        with:
+          ref: dev-index
+          path: index
+
+      - name: Remove the dev build
+        run: |
+          python3 core/.github/scripts/dev_index.py remove "index/$DEV_INDEX" "$OLD"
+          gh release delete "dev-$OLD" --repo "$GITHUB_REPOSITORY" --yes || true
+          cd index
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -qam "Removed dev build $OLD"
+          git push -q origin HEAD:refs/heads/dev-index
+          echo "Removed dev build **$OLD**." >> "$GITHUB_STEP_SUMMARY"

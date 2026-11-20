@@ -9,6 +9,8 @@ permissions:
 
 jobs:
   package:
+    # dev builds are prereleases, see dev-build.yml
+    if: ${{ !github.event.release.prerelease }}
     runs-on: ubuntu-latest
     env:
       TAG: ${{ github.event.release.tag_name }}
