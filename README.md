@@ -46,6 +46,16 @@ arduino-cli core install WCH:ch32v
 arduino-cli compile -b WCH:ch32v:CH32V20x_EVT:pnum=CH32V203C8 MySketch
 ```
 
+### Dev builds (Boards Manager)
+
+To try fixes before the next release, add the dev index as a second URL, next to the stable one:
+
+```
+https://raw.githubusercontent.com/openwch/arduino_core_ch32/dev-index/package_ch32v_dev_index.json
+```
+
+**CH32 MCU EVT Boards** then also lists versions like `1.0.8-dev.2`: builds of `main` that are not yet tested on every board. Install one like any other version; only one version is installed at a time, so going back to the stable one is a click away. A dev build shows "(dev)" in the board menu, and its release notes on the [Releases](https://github.com/openwch/arduino_core_ch32/releases) page list what changed.
+
 ### Development version (git)
 
 Clone into your sketchbook to use the latest `main`:
