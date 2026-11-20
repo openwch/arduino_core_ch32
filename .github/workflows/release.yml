@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   package:
-    # dev builds are prereleases with their own workflow (dev-build.yml)
+    # dev builds are prereleases, see dev-build.yml
     if: ${{ !github.event.release.prerelease }}
     runs-on: ubuntu-latest
     env:

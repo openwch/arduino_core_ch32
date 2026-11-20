@@ -1,19 +1,8 @@
-"""Keeps the dev Boards Manager index (package_ch32v_dev_index.json) for the Dev build workflow.
+"""Dev index for the Dev build workflow (.github/workflows/dev-build.yml).
 
-Dev builds are versions like 1.0.8-dev.1, 1.0.8-dev.2, ...: one patch above the newest stable release,
-numbered on from the last dev build. They use the same package and name as the stable index, so the
-Arduino IDE shows them as extra versions of "CH32 MCU EVT Boards". The stable index itself is never
-written here; it is only read for the version, the package details and the tools.
-
-  dev_index.py version <stable index> <platform.txt> <dev index> <file with the dev-* tags>
-      prints the next dev version. A number is never used twice: removed builds keep their tag.
-
+  dev_index.py version <stable index> <platform.txt> <dev index> <dev tags file>
   dev_index.py add <dev index> <version> <zip> <url> <release url> <keep> <boards.txt> <stable index>
-      adds the build (the dev index is created if missing), keeps the newest <keep> builds and
-      prints the versions it dropped, one per line.
-
   dev_index.py remove <dev index> <version>
-      takes one build out of the dev index.
 """
 import hashlib
 import json
@@ -79,7 +68,6 @@ def cmd_add(dev_path, version, zip_path, url, release_url, keep, boards_txt, sta
         index = {"packages": [{k: v for k, v in stable.items() if k not in ("platforms", "tools")}]}
         index["packages"][0].update(platforms=[], tools=[])
     package = index["packages"][0]
-    # the tools the build needs, so the dev index also works without the stable one
     have = {(t["name"], t["version"]) for t in package["tools"]}
     package["tools"] += [t for t in stable["tools"]
                          if (t["name"], t["version"]) in needed and (t["name"], t["version"]) not in have]

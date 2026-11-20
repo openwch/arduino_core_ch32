@@ -1,18 +1,7 @@
 name: Dev build
 
-# Publishes the current main as a dev build that the Boards Manager can install, for trying fixes
-# before the next release. It runs only by hand: Actions > Dev build > Run workflow.
-#
-# - Leave "remove" empty to build main as the next dev version (1.0.8-dev.1, 1.0.8-dev.2, ...).
-#   It becomes a prerelease with the core zip and an entry in package_ch32v_dev_index.json
-#   on the dev-index branch. The newest KEEP builds stay listed; older ones are dropped.
-# - Enter a version (e.g. 1.0.8-dev.2) to take that build out of the index and delete its release.
-#
-# The stable index in openwch/board_manager_files is only read here (for the version number, the
-# package name and the tools); it is still updated by hand at each release.
-#
-# Dev index URL for the IDE (File > Preferences > Additional boards manager URLs, next to the stable one):
-#   https://raw.githubusercontent.com/openwch/arduino_core_ch32/dev-index/package_ch32v_dev_index.json
+# Builds main as a dev version (1.0.8-dev.1, ...) for the Boards Manager. Run it by hand from Actions;
+# enter a version in "remove" to take that build out instead.
 
 on:
   workflow_dispatch:
@@ -25,7 +14,6 @@ on:
 permissions:
   contents: write
 
-# builds and removals take turns, so two runs never write the dev index at once
 concurrency:
   group: dev-index
   cancel-in-progress: false
@@ -36,7 +24,6 @@ env:
   STABLE_INDEX_PATH: package_ch32v_index.json
   DEV_INDEX: package_ch32v_dev_index.json
   KEEP: "10"
-  # GitHub's token for this run, limited to this repo; gh and git use it
   GH_TOKEN: ${{ github.token }}
 
 jobs:
@@ -53,7 +40,7 @@ jobs:
 
       - name: Pick the version
         run: |
-          # read through the API: raw.githubusercontent.com can serve a copy that is minutes old
+          # through the API, raw.githubusercontent.com can be a few minutes old
           gh api -H "Accept: application/vnd.github.raw" \
             "repos/$STABLE_INDEX_REPO/contents/$STABLE_INDEX_PATH?ref=$STABLE_INDEX_REF" > stable.json \
             || { echo "::error::Can't read the stable index $STABLE_INDEX_REPO/$STABLE_INDEX_PATH"; exit 1; }
@@ -71,7 +58,6 @@ jobs:
       - name: Write the release notes
         run: |
           cd core
-          # the commits since the previous dev build or release, whichever is newer
           PREV=$(git tag -l --sort=-creatordate | grep -E '^(dev-)?[0-9]+\.[0-9]+\.[0-9]+' | head -1)
           CHANGES=$(git log --no-merges --format='- %s' ${PREV:+$PREV..}"$GITHUB_SHA")
           {
@@ -92,7 +78,6 @@ jobs:
 
       - name: Build the zip
         run: |
-          # the version, and "(dev)" in the board menu so a dev install is easy to tell apart
           sed -i -e "s/^version=.*/version=$VERSION/" -e "s/^name=\(.*\)/name=\1 (dev)/" core/platform.txt
           # copy, not move: checkout keeps its credentials for the core folder only
           cp -r core "$NAME"
@@ -117,7 +102,7 @@ jobs:
           RELEASE="https://github.com/$GITHUB_REPOSITORY/releases/tag/$TAG"
           python3 core/.github/scripts/dev_index.py add "index/$DEV_INDEX" "$VERSION" "$NAME.zip" \
             "$URL" "$RELEASE" "$KEEP" core/boards.txt stable.json > dropped.txt
-          # dropped builds lose their release; the tag stays, so the number is not used again
+          # the tags stay, so their numbers are not used again
           while read -r old; do
             gh release delete "dev-$old" --repo "$GITHUB_REPOSITORY" --yes || true
           done < dropped.txt
@@ -148,7 +133,6 @@ jobs:
       - name: Remove the dev build
         run: |
           python3 core/.github/scripts/dev_index.py remove "index/$DEV_INDEX" "$OLD"
-          # the tag stays, so the number is not used again
           gh release delete "dev-$OLD" --repo "$GITHUB_REPOSITORY" --yes || true
           cd index
           git config user.name "github-actions[bot]"
