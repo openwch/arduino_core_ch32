@@ -76,8 +76,11 @@ static void usbpd_start_requested_contract(void)
                 continue;
 
             currentMatch = 1;
+            // a fixed entry at this voltage before a PPS range, then the lowest current
             if (selected == 0xff ||
-                cap->current < sourceCapabilities[selected].current)
+                (sourceCapabilities[selected].programmable && !cap->programmable) ||
+                (sourceCapabilities[selected].programmable == cap->programmable &&
+                 cap->current < sourceCapabilities[selected].current))
                 selected = i;
         }
     }
