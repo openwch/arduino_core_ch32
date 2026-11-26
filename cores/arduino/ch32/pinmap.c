@@ -119,6 +119,10 @@ void pin_function(PinName pin, int function)
 
   /* Enable GPIO clock */
   GPIO_TypeDef *gpio = set_GPIO_Port_Clock(port);
+  /* Release the pin from the debug interface (e.g. SDI on PC_18/PC_19 of
+   * CH32X035, which shares them with the remapped I2C1) before it is
+   * handed to the alternate function. */
+  pin_DisconnectDebug(pin);
   /* if have afnum, initial */
   if(afnum) pin_SetV32AFPin(afnum);
 
