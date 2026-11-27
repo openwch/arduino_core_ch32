@@ -39,6 +39,7 @@
 #include "core_debug.h"
 #include "utility/twi.h"
 #include "PinAF_ch32yyxx.h"
+#include "clock.h"
 
 #ifdef __cplusplus
 extern "C" {
