@@ -112,6 +112,7 @@ build.flags.optimize=
 build.flags.debug=
 build.flags.ldspecs=
 build.flash_offset=0
+build.uf2_family=0
 
 # Pre and post build hooks
 ##build.opt.name=build_opt.h
@@ -188,6 +189,22 @@ tools.wchisp.cmd=wchisp
 tools.wchisp.upload.params.verbose=
 tools.wchisp.upload.params.quiet=
 tools.wchisp.upload.pattern="{path}{cmd}" {upload.verbose} flash "{build.path}/{build.project_name}.elf"
+
+# UF2 upload via a TinyUF2-class bootloader: uf2conv.py converts the .bin
+# (linked at the app base address) to UF2 and copies it to any mounted UF2
+# drive. Board-level parameters, so any board can adopt the method by
+# setting them plus upload.tool=uf2conv (see XIAO_CH32X035 in boards.txt):
+#   build.flash_offset - app base address the .bin is linked at (0x0 default)
+#   build.uf2_family   - UF2 family id of the bootloader port (0x0 default)
+# No -c/-o/-D flags: bare .bin input makes the script convert AND deploy.
+# Requires python (python3 on linux/macOS) in PATH.
+tools.uf2conv.path={runtime.platform.path}/tools/uf2conv/
+tools.uf2conv.cmd=python
+tools.uf2conv.cmd.linux=python3
+tools.uf2conv.cmd.macosx=python3
+tools.uf2conv.upload.params.verbose=
+tools.uf2conv.upload.params.quiet=
+tools.uf2conv.upload.pattern="{cmd}" "{path}uf2conv.py" {upload.verbose} -f {build.uf2_family} -b {build.flash_offset} "{build.path}/{build.project_name}.bin"
 
 
 # Debugger configuration (general options)
