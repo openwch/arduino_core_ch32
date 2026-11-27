@@ -86,6 +86,8 @@
   #define RCC_APB1Periph_TIM5      RCC_PB1Periph_TIM5
   #define RCC_APB1Periph_TIM6      RCC_PB1Periph_TIM6
   #define RCC_APB1Periph_TIM7      RCC_PB1Periph_TIM7
+  #define RCC_APB1Periph_DAC       RCC_PB1Periph_DAC
+  #define RCC_APB1Periph_CAN1      RCC_PB1Periph_CAN1
 #endif
 
 // Here define some compatibility
