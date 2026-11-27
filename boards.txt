@@ -354,11 +354,14 @@ XIAO_CH32X035.debug.tool=gdb-WCH_LinkE
 # identify the board on the port list (the bootloader MSC uses 0x2886/0x0035).
 XIAO_CH32X035.build.vid=0x2886
 XIAO_CH32X035.build.pid=0x8035
+# UF2 family of this chip's TinyUF2 port (see tools/uf2conv/uf2families.json).
+XIAO_CH32X035.build.uf2_family=0x699B62EC
 
 # Flash layout: the board ships with a 16K TinyUF2 bootloader (app at 0x4000).
 XIAO_CH32X035.menu.flash.uf2=16K Bootloader (app at 0x4000, default)
 XIAO_CH32X035.menu.flash.uf2.upload.maximum_size=47104
 XIAO_CH32X035.menu.flash.uf2.build.ldscript=Link_app_0x4000.ld
+XIAO_CH32X035.menu.flash.uf2.build.flash_offset=0x4000
 XIAO_CH32X035.menu.flash.bare=Bare Chip (app at 0x0000)
 XIAO_CH32X035.menu.flash.bare.upload.maximum_size=63488
 XIAO_CH32X035.menu.flash.bare.build.ldscript=Link.ld
@@ -369,7 +372,12 @@ XIAO_CH32X035.menu.usb.uart=Hardware UART
 XIAO_CH32X035.menu.usb.uart.build.usb_flags=
 
 
-# Upload menu
+# Upload menu: UF2 first so it is the default - the board ships with the
+# bootloader and end users do not need a WCH-LinkE.
+XIAO_CH32X035.menu.upload_method.uf2Method=UF2 (TinyUF2 bootloader, app at 0x4000)
+XIAO_CH32X035.menu.upload_method.uf2Method.upload.protocol=
+XIAO_CH32X035.menu.upload_method.uf2Method.upload.options=
+XIAO_CH32X035.menu.upload_method.uf2Method.upload.tool=uf2conv
 XIAO_CH32X035.menu.upload_method.swdMethod=WCH-SWD
 XIAO_CH32X035.menu.upload_method.swdMethod.upload.protocol=
 XIAO_CH32X035.menu.upload_method.swdMethod.upload.options=
