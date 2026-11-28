@@ -11,6 +11,7 @@ menu.opt=Optimize
 menu.dbg=Debug symbols and core logs
 menu.rtlib=C Runtime Library
 menu.upload_method=Upload method
+menu.flash=Flash layout
 
 
 
@@ -328,6 +329,123 @@ CH32X035_EVT.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
 
 
+
+##############################################################################
+##Seeed Studio XIAO CH32X035 Board
+
+XIAO_CH32X035.name=Seeed Studio XIAO CH32X035
+XIAO_CH32X035.build.core=arduino
+XIAO_CH32X035.build.board=XIAO_CH32X035
+XIAO_CH32X035.node=NODE_X035G8U
+XIAO_CH32X035.upload.maximum_data_size=20480
+XIAO_CH32X035.build.mcu=QingKe-V4C
+XIAO_CH32X035.build.series=CH32X035
+XIAO_CH32X035.build.variant=CH32X035/XIAO_CH32X035
+XIAO_CH32X035.build.chip=CH32X035G8U
+XIAO_CH32X035.build.march=rv32imacxw
+XIAO_CH32X035.build.mabi=ilp32
+XIAO_CH32X035.build.math_lib_gcc=-lm
+XIAO_CH32X035.build.IQ_math_RV32=
+XIAO_CH32X035.build.ch_extra_lib=-lprintf
+XIAO_CH32X035.build.variant_h=variant_{build.board}.h
+XIAO_CH32X035.debug.tool=gdb-WCH_LinkE
+
+# USB identity: the CDC port enumerates with Seeed's VID/PID so the IDE can
+# identify the board on the port list (the bootloader MSC uses 0x2886/0x0035).
+XIAO_CH32X035.build.vid=0x2886
+XIAO_CH32X035.build.pid=0x8035
+# UF2 family of this chip's TinyUF2 port (see tools/uf2conv/uf2families.json).
+XIAO_CH32X035.build.uf2_family=0x699B62EC
+
+# Flash layout: the board ships with a 16K TinyUF2 bootloader (app at 0x4000).
+XIAO_CH32X035.menu.flash.uf2=16K Bootloader (app at 0x4000, default)
+XIAO_CH32X035.menu.flash.uf2.upload.maximum_size=47104
+XIAO_CH32X035.menu.flash.uf2.build.ldscript=Link_app_0x4000.ld
+XIAO_CH32X035.menu.flash.uf2.build.flash_offset=0x4000
+XIAO_CH32X035.menu.flash.bare=Bare Chip (app at 0x0000)
+XIAO_CH32X035.menu.flash.bare.upload.maximum_size=63488
+XIAO_CH32X035.menu.flash.bare.build.ldscript=Link.ld
+
+XIAO_CH32X035.menu.usb.cdc=USB CDC Serial (default)
+XIAO_CH32X035.menu.usb.cdc.build.usb_flags=-DCH32X035_USB_CDC -DUSB_VID={build.vid} -DUSB_PID={build.pid}
+XIAO_CH32X035.menu.usb.uart=Hardware UART
+XIAO_CH32X035.menu.usb.uart.build.usb_flags=
+
+
+# Upload menu: UF2 first so it is the default - the board ships with the
+# bootloader and end users do not need a WCH-LinkE.
+XIAO_CH32X035.menu.upload_method.uf2Method=UF2 (TinyUF2 bootloader, app at 0x4000)
+XIAO_CH32X035.menu.upload_method.uf2Method.upload.protocol=
+XIAO_CH32X035.menu.upload_method.uf2Method.upload.options=
+XIAO_CH32X035.menu.upload_method.uf2Method.upload.tool=uf2conv
+XIAO_CH32X035.menu.upload_method.swdMethod=WCH-SWD
+XIAO_CH32X035.menu.upload_method.swdMethod.upload.protocol=
+XIAO_CH32X035.menu.upload_method.swdMethod.upload.options=
+XIAO_CH32X035.menu.upload_method.swdMethod.upload.tool=WCH_linkE
+XIAO_CH32X035.menu.upload_method.ispMethod=WCH-ISP
+XIAO_CH32X035.menu.upload_method.ispMethod.upload.protocol=
+XIAO_CH32X035.menu.upload_method.ispMethod.upload.options=
+XIAO_CH32X035.menu.upload_method.ispMethod.upload.tool=wchisp
+
+
+# Clock Select
+XIAO_CH32X035.menu.clock.48MHz_HSI=48MHz Internal
+XIAO_CH32X035.menu.clock.48MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_48MHz_HSI=48000000 -DF_CPU=48000000
+XIAO_CH32X035.menu.clock.24MHz_HSI=24MHz Internal
+XIAO_CH32X035.menu.clock.24MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_24MHz_HSI=24000000 -DF_CPU=24000000
+XIAO_CH32X035.menu.clock.16MHz_HSI=16MHz Internal
+XIAO_CH32X035.menu.clock.16MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_16MHz_HSI=16000000 -DF_CPU=16000000
+XIAO_CH32X035.menu.clock.12MHz_HSI=12MHz Internal
+XIAO_CH32X035.menu.clock.12MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_12MHz_HSI=12000000 -DF_CPU=12000000
+XIAO_CH32X035.menu.clock.8MHz_HSI=8MHz Internal
+XIAO_CH32X035.menu.clock.8MHz_HSI.build.flags.clock=-DSYSCLK_FREQ_8MHz_HSI=8000000 -DF_CPU=8000000
+
+
+# Optimizations
+XIAO_CH32X035.menu.opt.osstd=Smallest (-Os default)
+XIAO_CH32X035.menu.opt.osstd.build.flags.optimize=-Os
+XIAO_CH32X035.menu.opt.oslto=Smallest (-Os) with LTO
+XIAO_CH32X035.menu.opt.oslto.build.flags.optimize=-Os -flto
+XIAO_CH32X035.menu.opt.o1std=Fast (-O1)
+XIAO_CH32X035.menu.opt.o1std.build.flags.optimize=-O1
+XIAO_CH32X035.menu.opt.o1lto=Fast (-O1) with LTO
+XIAO_CH32X035.menu.opt.o1lto.build.flags.optimize=-O1 -flto
+XIAO_CH32X035.menu.opt.o2std=Faster (-O2)
+XIAO_CH32X035.menu.opt.o2std.build.flags.optimize=-O2
+XIAO_CH32X035.menu.opt.o2lto=Faster (-O2) with LTO
+XIAO_CH32X035.menu.opt.o2lto.build.flags.optimize=-O2 -flto
+XIAO_CH32X035.menu.opt.o3std=Fastest (-O3)
+XIAO_CH32X035.menu.opt.o3std.build.flags.optimize=-O3
+XIAO_CH32X035.menu.opt.o3lto=Fastest (-O3) with LTO
+XIAO_CH32X035.menu.opt.o3lto.build.flags.optimize=-O3 -flto
+XIAO_CH32X035.menu.opt.ogstd=Debug (-Og)
+XIAO_CH32X035.menu.opt.ogstd.build.flags.optimize=-Og
+XIAO_CH32X035.menu.opt.o0std=No Optimization (-O0)
+XIAO_CH32X035.menu.opt.o0std.build.flags.optimize=-O0
+
+
+# Debug information
+XIAO_CH32X035.menu.dbg.none=None
+XIAO_CH32X035.menu.dbg.none.build.flags.debug=-DNDEBUG
+XIAO_CH32X035.menu.dbg.enable_sym=Symbols Enabled (-g)
+XIAO_CH32X035.menu.dbg.enable_sym.build.flags.debug=-g -DNDEBUG
+XIAO_CH32X035.menu.dbg.enable_log=Core logs Enabled
+XIAO_CH32X035.menu.dbg.enable_log.build.flags.debug=
+XIAO_CH32X035.menu.dbg.enable_all=Core Logs and Symbols Enabled (-g)
+XIAO_CH32X035.menu.dbg.enable_all.build.flags.debug=-g
+
+
+# C Runtime Library
+XIAO_CH32X035.menu.rtlib.nano=Newlib Nano (default)
+XIAO_CH32X035.menu.rtlib.nano.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs
+XIAO_CH32X035.menu.rtlib.nanofp=Newlib Nano + Float Printf
+XIAO_CH32X035.menu.rtlib.nanofp.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float
+XIAO_CH32X035.menu.rtlib.nanofs=Newlib Nano + Float Scanf
+XIAO_CH32X035.menu.rtlib.nanofs.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _scanf_float
+XIAO_CH32X035.menu.rtlib.nanofps=Newlib Nano + Float Printf/Scanf
+XIAO_CH32X035.menu.rtlib.nanofps.build.flags.ldflags=--specs=nano.specs --specs=nosys.specs -u _printf_float -u _scanf_float
+XIAO_CH32X035.menu.rtlib.full=Newlib Standard
+XIAO_CH32X035.menu.rtlib.full.build.flags.ldflags=--specs=nosys.specs
 
 ##############################################################################
 ##CH32V10x_EVT Board   -lprintf, CH32V10x_3V3: 3.3V power supply  CH32V10x_5V: 5V power supply
