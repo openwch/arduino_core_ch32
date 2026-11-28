@@ -20,8 +20,16 @@
 /* file version */
 #define DEF_FILE_VERSION             0x01
 /* usb device info define  */
-#define DEF_USB_VID                  0x1A86
-#define DEF_USB_PID                  0xFE0C
+/* A board can carry its own VID/PID via -DUSB_VID/-DUSB_PID (boards.txt),
+ * e.g. a vendor ID from the board manufacturer instead of WCH's. */
+#ifndef USB_VID
+#define USB_VID                      0x1A86
+#endif
+#ifndef USB_PID
+#define USB_PID                      0xFE0C
+#endif
+#define DEF_USB_VID                  USB_VID
+#define DEF_USB_PID                  USB_PID
 /* USB device descriptor, device serial number(bcdDevice) */
 #define DEF_IC_PRG_VER               DEF_FILE_VERSION
 
